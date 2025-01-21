@@ -1,0 +1,86 @@
+server:
+   servlet:
+      context-path: /empleadores
+   port: 8400
+spring:
+   datasource:
+      url: jdbc:postgresql://${DATABASE_IP_PORT:localhost:5432}/${DATABASE_SCHEMA:portalempresasV2}
+      username: ${DATABASE_USER:postgres}
+      password: ${DATABASE_PASS:Local123}
+      driverClassName: org.postgresql.Driver
+   jpa:
+      properties:
+         hibernate:
+            format_sql: true
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true
+   jackson:
+      default-property-inclusion: always
+      deserialization:
+         fail-on-unknown-properties: true
+   mail:
+      default-encoding: UTF-8
+      host: smtp.gmail.com
+      port: 587
+      #username: bueno.diego.sc@gmail.com
+      #password: bvgfwlhaygfnuxmw
+      username: noresponder@uoma.org.ar      
+      password: ecvtpakrnwtmdfys
+      protocol: smtp
+      test-connection: false
+      properties:
+         mail:
+            smtp:
+               auth: true
+               starttls:
+                  enable: true
+      
+      
+      #host: smtp.mailgun.org
+      #port: 587
+      #username: postmaster@sandboxa20e26a76988481fba5fc56e2c7d49b1.mailgun.org
+      #password: 6e56a9d7e43d92005a5a866044db33b8-a2dd40a3-b32c9e61 
+      #password: eb4a196d194284a6c12533d89e8121a9-7a3af442-ee58b714 
+
+
+#Grab your SMTP credentials:
+#https://app.mailgun.com/
+#SMTP hostname: smtp.mailgun.org
+#Port: 587 (recommended)
+#Username: postmaster@sandboxa20e26a76988481fba5fc56e2c7d49b1.mailgun.org
+#Default password: 6e56a9d7e43d92005a5a866044db33b8-a2dd40a3-b32c9e61
+
+      
+logging:
+   file:
+      name: /logs/empleadores.log
+   level:
+      org: DEBUG 
+   logback:
+      rollingpolicy:
+         max-file-size: 5MB # by size       
+app:
+   seguridad:
+      activacion-cuenta:
+         jwt-secret: SECRETO-activacion
+      perfilEmpleador: 4
+      usuario:
+         validar-mail-duplicado: false
+   default:
+      language: ${DEFAULT_LANGUAGE:es}
+   other:
+      languages: ${OTHER_LANGUAGES:en-US}
+   http:
+      client:
+         trustInvalidCertificate: false
+         timeout: 3000
+         #proxy: http://127.0.0.1:3128
+   #auth:
+    #  domain: ${AUTH_DOMAIN:localhost}
+     # secure: ${AUTH_SECURE:true}
+   contacto:
+      whatsap: 15-4569-4545
+      tel: 011-4502-2075
+      mail: mesadeayuda@ospim.com.ar
+   publicaciones:
+      file-path: C:\empleadores\publicaciones

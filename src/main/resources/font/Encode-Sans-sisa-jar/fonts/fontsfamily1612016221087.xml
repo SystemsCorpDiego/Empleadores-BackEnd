@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+	<fontFamily name="EncodeSans-Sisa-SemiBold">
+		<normal><![CDATA[fonts/EncodeSans_Sisa/EncodeSans-SemiBold.ttf]]></normal>
+		<exportFonts/>
+	</fontFamily>
+	<fontFamily name="EncodeSans-Sisa">
+		<normal><![CDATA[fonts/EncodeSans_Sisa/EncodeSans-Regular.ttf]]></normal>
+		<exportFonts/>
+	</fontFamily>
+</fontFamilies>

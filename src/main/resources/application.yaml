@@ -1,0 +1,156 @@
+server:
+   servlet:
+      context-path: /empleadores
+   port: 8400   
+spring:
+   servlet:
+      multipart:
+         max-file-size: 20MB
+         max-request-size: 20MB
+   profiles:
+      include:
+         - auth
+   datasource:
+      url: jdbc:postgresql://localhost:5432/portalempresasV2
+      username: tecnicos
+      password: Valkyria01
+      driverClassName: org.postgresql.Driver
+   jpa:
+      properties:
+         hibernate:
+            format_sql: true
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true
+   jackson:
+      default-property-inclusion: always
+      deserialization:
+         fail-on-unknown-properties: true
+   mail:
+      default-encoding: UTF-8
+      host: smtp.gmail.com
+#      host: 12.20.1.16
+      port: 587
+      #username: bueno.diego.sc@gmail.com
+      #password: bvgfwlhaygfnuxmw
+      username: noresponder@uoma.org.ar      
+      password: ecvtpakrnwtmdfys
+#      username: mailprueba038@gmail.com
+#      password: hlzcllevrqvrxqhp
+      protocol: smtp
+      test-connection: false
+      properties:
+         mail:
+            smtp:
+               auth: false
+               starttls:
+                  enable: true
+logging:
+   file:
+      name: /logs/empleadores.log
+   level:
+      org: DEBUG
+      ar: DEBUG
+   logback:
+      rollingpolicy:
+         max-file-size: 5MB # by size       
+      #file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz # by date
+#         springframework:
+#            transaction:
+#               interceptor: TRACE
+#         hibernate:
+#            stat: DEBUG
+#            SQL: DEBUG
+#            cache: TRACE
+   pattern:
+      #console: "%d{HH:mm:ss.SSS} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]) %-40.40logger{0}  %clr(:) %clr(%m){faint}%n"
+      #console: "%clr(%d{HH:mm:ss.SSS}){yellow} %clr(%-5level) ${PID} %clr(%logger{0}.%method[:%line]) %msg %n"
+      #console: "%clr(%d{mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%logger{0}.%method[:%line]) %msg %n"
+      console: "%clr(%d{mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%-35.35logger{0}) %msg %n"
+app:
+   seguridad:
+      activacion-cuenta:
+         jwt-secret: SECRETO-activacion
+      perfilEmpleador: 4
+      usuario:
+         validar-mail-duplicado: false
+      dfa:
+         issuer: EMPLEADORES
+         empleador: true
+   other:
+      languages: en-US
+   http:
+      client:
+         trustInvalidCertificate: false
+         timeout: 9999999
+         #proxy: http://127.0.0.1:3128
+   #auth:
+    #  domain: ${AUTH_DOMAIN:localhost}
+     # secure: ${AUTH_SECURE:true}
+   contacto:
+      whatsap: 15-4569-4545
+      tel: 5238-3992
+      mail: empleadores@uoma.org.ar
+      diasHorarios: Lunes a Viernes en los horarios de 10 a 12 y de 14 a 17. 
+   publicaciones:
+      file-path: /opt/publicaciones/img
+      #file-path: /Users/ferminpaez/empleadores/publicaciones
+      #file-path: \empleadores\publicaciones
+   mail:
+      cambio-clave:
+         titulo: Portal de Empleadores - Gestión de Clave
+         cuerpo: "La clave de su usuario fue asignada. <br><b>Usuario:</b> %s<br><b>Clave:</b> %s<br><br>Por favor ingrese al sistema con el usuario y contraseña asignado y una vez logueado, cambiar la clave por una que solo usted conozca."
+      activacion-cuenta:
+         titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
+         cuerpo: "Bienvenido al Portal de Empleadores.<br><br>Su Cuenta de Usuario <b>'%s'</b> fue creada con éxito.<br><br>Utilice el siguiente <a href='%s'>link</a> para activarla.<br><br><br>Gracias"
+         cuerpo-dfa: "Bienvenido al Portal de Empleadores.<br><br>Su Cuenta de Usuario <b>'%s'</b> fue creada con éxito.<br><br>Utilice el siguiente <a href='%s'>link</a> para activarla.<br><br>Para loguearse debe registrar el siguiente Token de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br><br>Gracias"
+      cuenta-empresa-nueva:
+         titulo: Portal empleadores - Aviso de nuevo registro
+         cuerpo: "La empresa <b>%s</b>, se ha registrado como usuario en el sistema empleadores.<br><br><b>Contacto:</b><br><b>Mail:</b> %s<br><b>Teléfono.:</b>%s"
+      recupero-clave:
+         titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
+         cuerpo: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso. "
+         cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar el siguiente Token de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br><br>Gracias"
+getwayPago:
+   pagoMisCuentas:
+      habilitado: false
+      #TEST: host: https://recaudaciones-homo.prismamp.com/recaudaciones-api/v1/
+      #PROD PRISMA: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
+      #Conf. en proxy para conectar con PRISMA:
+      host: http://12.1.1.243/recaudaciones-api/v1/
+      method: add_invoice
+      token: UVmyCCrti4kLbaFhaSfkqA2DxbhmjUpQTxjMLm5q
+      tokenAmtima: UVmyCCrti4kLbaFhaSfkqA2DxbhmjUpQTxjMLm5q
+      currency: 032
+      dateHour: 23:59:59
+   redlink:
+      habilitado: true
+      testIdDeuda: 24119
+      wsseSecurity:
+         amtima:
+            usuario: PAGOSSERVICES_DK2 # getwayPago.redlink.wsseSecurity.amtima.usuario
+            clave: Y8*S3h-J
+         uoma:
+            usuario: PAGOSSERVICES_DJU
+            clave: i-5me*P1
+      requestBody:
+         ente:
+            amtima: DK2 
+            uoma: DJU #getwayPago.redlink.requestBody.ente.uoma
+      requestHeader:
+         ipCliente: 181.168.85.133 #getwayPago.redlink.requestHeader.ipCliente
+         canal: SITIO WEB   
+      conceptos:
+         UOMACS: "001"
+         UOMAAS: "002"
+         UOMACU: "003"
+         ART46: "004"
+         AMTIMACS: "001"
+ 
+   
+#   UOMAAS: '002'
+#   UOMACU: '003'
+#   ART46:  '004'
+
+
+
+      

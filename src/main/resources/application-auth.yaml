@@ -1,0 +1,41 @@
+token:
+   header: Authorization
+   secret: ${TOKEN_SECRET:ultra_secret_token} ## Clave secreta Ãºnica por dominio/ambiente
+   expiration: ${TOKEN_EXPIRATION:30m}        ## Vencimientos de tokens: s for seconds, m for minutes, h for hours, d for days
+refreshToken:
+   expiration: ${REFRESHTOKEN_EXPIRATION:1h}   
+validationToken:
+   expiration: ${VALIDTOKEN_EXPIRATION:30m}
+api-key:
+   header: api-key
+app:
+   auth:
+      domain: ${AUTH_DOMAIN:localhost}
+      secure: ${AUTH_SECURE:true}
+   default:
+      language: es
+
+# Tiempo de expiracion de password reset token
+password:
+   reset:
+      token:
+         expiration: 2d
+
+authentication:
+   username:
+      pattern: .+ #cualquier texto hasta un Enter
+               
+# ===============================
+# reCaptcha Google
+# ===============================
+
+google:
+   recaptcha:
+      secret:
+         key: ${RECAPTCHA_SECRET_KEY:test-key}
+      site:
+         key: ${RECAPTCHA_PUBLIC_KEY:test-key}
+      validator:
+         url: https://www.google.com/recaptcha/api/siteverify
+      enable: ${RECAPTCHA_ENABLE:false}
+         

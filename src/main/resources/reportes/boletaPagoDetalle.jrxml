@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletaPagoDetalle" pageWidth="595" pageHeight="842" orientation="Landscape" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ab77b1c5-7f5a-4a0e-a8ff-bd0f3309724b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="EMPLEADORES_JDBC"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="boletaId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[32]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaVencimiento" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[select e.cuit, e.razon_social, 
+	   b.secuencia as boleta_nro, 
+	   ap.entidad || ' - ' || ap.descripcion  as tipo,
+	   TO_CHAR(b.intencion_pago, 'DD/MM/YYYY') intencion_pago, b.interes,
+	   (select sum(importe) from boleta_pago_ajuste bpa 
+	    where bpa.boleta_pago_id = b.id) as ajuste,
+	   d.secuencia as ddjj_nro, TO_CHAR(d.periodo, 'MM/YYYY') periodo,  TO_CHAR(d.presentada_fecha, 'DD/MM/YYYY') presentada_fecha,
+	   a.cuil, a.apellido, a.nombre, 
+	   dd.remunerativo, da.importe as Capita
+from  boleta_pago b
+	  join ddjj_deta dd on b.ddjj_id = dd.ddjj_id
+	  join ddjj_deta_aporte da on da.ddjj_deta_id = dd.id and da.aporte = b.aporte
+	  join ddjj d on d.id = b.ddjj_id
+	  join afiliado a on a.cuil_titular = dd.afiliado_cuil_titular
+	  join empresa e on e.id = b.empresa_id
+	  join aporte ap on ap.codigo = b.aporte
+where b.id = cast($P{boletaId} as integer)]]>
+	</queryString>
+	<field name="cuit" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cuit"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="razon_social" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="razon_social"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="boleta_nro" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="boleta_nro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="boleta_pago"/>
+	</field>
+	<field name="tipo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo"/>
+	</field>
+	<field name="intencion_pago" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="intencion_pago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="boleta_pago"/>
+	</field>
+	<field name="interes" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="interes"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="boleta_pago"/>
+	</field>
+	<field name="ajuste" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="ajuste"/>
+	</field>
+	<field name="ddjj_nro" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="ddjj_nro"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ddjj"/>
+	</field>
+	<field name="periodo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="periodo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ddjj"/>
+	</field>
+	<field name="presentada_fecha" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="presentada_fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ddjj"/>
+	</field>
+	<field name="cuil" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cuil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="afiliado"/>
+	</field>
+	<field name="apellido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="apellido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="afiliado"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="afiliado"/>
+	</field>
+	<field name="remunerativo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="remunerativo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ddjj_deta"/>
+	</field>
+	<field name="capita" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="capita"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ddjj_deta_aporte"/>
+	</field>
+	<variable name="cuit1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{cuit}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="185" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<staticText>
+				<reportElement x="81" y="6" width="439" height="14" uuid="06ddcef8-39d2-4c03-ae20-4c36252cbc95"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[UNION OBRERA MOLINERA ARGENTINA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="26" width="439" height="14" uuid="8ad07a89-f34f-443f-94ea-0f1dc277f77c"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[ASOCIACION MUTUAL DE TRABAJADORES DE LA INDUSTRIA MOLINERA ARGENTINA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="85" width="50" height="20" uuid="fd0586b4-863f-45bb-a94b-b409ed4669e6"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="367" y="85" width="100" height="20" uuid="2bc39df7-63ba-4b24-9a09-f0aeadcda092"/>
+				<textFieldExpression><![CDATA[$F{cuit}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="85" width="90" height="20" uuid="a1749000-d259-4c20-a33e-4a3cd112ea64"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Social:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="97" y="85" width="210" height="20" uuid="5719cc2a-cacc-4125-b2b4-8e4d63384bb9"/>
+				<textFieldExpression><![CDATA[$F{razon_social}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="130" width="81" height="20" uuid="70f68170-0bd2-427e-a904-c5ff2bac4b32"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Boleta Nro.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="88" y="130" width="100" height="20" uuid="c14408fc-8dc1-4e97-a474-07a4c660dd70"/>
+				<textFieldExpression><![CDATA[$F{boleta_nro}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="150" width="81" height="20" uuid="4677c84c-6ade-45a5-873d-04ff4141dbff"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="150" width="100" height="20" uuid="62fa4156-5c40-47a2-8cb8-d39c8cb538ef"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intención Pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="387" y="150" width="115" height="20" uuid="3fa2ef39-2d8e-4ca7-8c45-000d84c7d7f6"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Pago:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="130" width="100" height="20" uuid="1c15f7ec-1c85-404a-9cf9-ba1111f06b57"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Boleta:]]></text>
+			</staticText>
+			<image scaleImage="RetainShape">
+				<reportElement x="1" y="0" width="80" height="80" uuid="d03738ae-133b-4215-8b8b-83791a515eea">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="7" y="105" width="81" height="20" uuid="7f695f4b-5df0-4fa8-80eb-b74cb4480e3a"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DDJJ - Tipo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="105" width="50" height="20" uuid="548ced3b-1ee0-48be-9ee1-df7efd02bbc8"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="227" y="105" width="100" height="20" uuid="eb863acf-49fa-4704-923c-8f4d031a4f4e"/>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="88" y="105" width="69" height="20" uuid="7ad95bec-06c7-4409-8591-4b4eabe00fef"/>
+				<textFieldExpression><![CDATA[$F{ddjj_nro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="130" width="190" height="20" uuid="1d42afc9-bd4e-4b5b-9898-1589e3cbee50"/>
+				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="49" width="439" height="14" uuid="03738b11-83e3-4117-a2a9-53c6d5daedf5"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[DETALLE DE BOLETA DE PAGO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="88" y="150" width="100" height="20" uuid="a0b1573b-de8d-4ad8-b397-d4f8ed341aba"/>
+				<textFieldExpression><![CDATA[$P{fechaVencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="150" width="98" height="20" uuid="2d7e9190-0554-4423-82e6-852f2287a10d"/>
+				<textFieldExpression><![CDATA[$F{intencion_pago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="20" y="1" width="524" height="17" backcolor="#CCCCCC" uuid="5f84b7e7-a6e1-4713-884b-5c6d323422d3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="50" y="0" width="81" height="18" uuid="a6ea38d2-2195-4146-be4d-8b3f1bd6e9d1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f6d3139-3cfc-43a0-b722-0a7cb89da4a9"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="-1" width="138" height="18" uuid="cea4b1ce-1139-4352-96be-e2c3eb596ff6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c05afa-ef35-4317-99e1-6c4e882ba8fc"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="279" y="0" width="138" height="18" uuid="dbc0fbb0-66d8-4325-a5ad-c0d846bfae2e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6ab344c6-e13f-4cd3-8c71-f73e086ab732"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="0" width="100" height="18" uuid="66c51349-f642-479d-8f8d-59ad4afe6ed4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9c28ecd-5607-40fa-84c8-6a2a6ae5008c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Capital]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="50" y="0" width="81" height="18" uuid="3710e72f-7e4e-4f0b-8200-34247711fb58">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5f6d3139-3cfc-43a0-b722-0a7cb89da4a9"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{cuil}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="138" height="18" uuid="9c694341-188b-4ca2-91fa-cf66b30befa4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f0c05afa-ef35-4317-99e1-6c4e882ba8fc"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="138" height="18" uuid="e1a54257-6b44-4771-a872-06a23b3926b8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6ab344c6-e13f-4cd3-8c71-f73e086ab732"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="430" y="0" width="100" height="18" uuid="039103f7-b8e1-4a06-9457-7e310628ec5b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a9c28ecd-5607-40fa-84c8-6a2a6ae5008c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{capita}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

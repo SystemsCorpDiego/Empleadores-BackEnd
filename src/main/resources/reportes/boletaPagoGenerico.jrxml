@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="842" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b6fec045-c69d-493f-9de7-72c4f02c4d49">
+	<property name="ireport.zoom" value="1.128947860107568"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Table Dataset 1" uuid="f5225db7-2251-4e5a-9056-b3f4d630e276"/>
+	<parameter name="codigoBarra" class="java.lang.Object"/>
+	<parameter name="boletaId" class="java.lang.String"/>
+	<parameter name="bancoDescrip" class="java.lang.String"/>
+	<parameter name="cuentaNro" class="java.lang.String"/>
+	<parameter name="sucursalDescrip" class="java.lang.String"/>
+	<parameter name="boletaNro" class="java.lang.String"/>
+	<parameter name="entidadDescrip" class="java.lang.String"/>
+	<parameter name="empleadorRazonSocial" class="java.lang.String"/>
+	<parameter name="empleadorCUIT" class="java.lang.String"/>
+	<parameter name="fechaImpresion" class="java.lang.String"/>
+	<parameter name="fechaIntencionPago" class="java.lang.String"/>
+	<parameter name="motivoPagoDescrip" class="java.lang.String"/>
+	<parameter name="importe" class="java.math.BigDecimal"/>
+	<parameter name="sucursalCodigo" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="codigoBarraNro" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 1 contador]]>
+	</queryString>
+	<field name="contador" class="java.lang.Integer"/>
+	<background>
+		<band height="50"/>
+	</background>
+	<detail>
+		<band height="595" splitType="Stretch">
+			<rectangle>
+				<reportElement x="8" y="9" width="826" height="572" uuid="04b9a74c-a90b-484e-8d20-4341de74b2cf"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="428" y="206" width="392" height="20" backcolor="#CCCCCC" uuid="d788c3f6-4ae6-431d-b3c1-b36ca063bcf5"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="240" y="177" width="94" height="15" uuid="b4c4da23-29a0-41e4-affb-a653cc0e19f7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Impreso el:]]></text>
+			</staticText>
+			<image scaleImage="RetainShape">
+				<reportElement x="20" y="463" width="387" height="56" uuid="27151dde-53a9-4fba-a210-711ab2f0b585"/>
+				<imageExpression><![CDATA[$P{codigoBarra}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="29" y="137" width="62" height="15" uuid="453cbaca-898a-42a7-b10e-087a338eaa23"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empleador: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="158" width="34" height="15" uuid="99297a92-a5dc-49b8-bd99-6012f98587c3"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="13" y="206" width="393" height="20" backcolor="#CCCCCC" uuid="f840c114-60ea-4bec-bd35-ca6fcc20e7d2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="13" y="226" width="393" height="20" uuid="304f9a5a-5032-4a56-ab0f-9f3a7e96b9cc"/>
+			</rectangle>
+			<line>
+				<reportElement x="288" y="206" width="1" height="40" uuid="6d87fce7-4484-44a7-afbd-0b039d6e907d"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="20" y="553" width="175" height="14" uuid="6e7924b0-b4bf-4474-a878-3945d54043a5"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8"/>
+				</textElement>
+				<text><![CDATA[RECIBIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="250" y="553" width="166" height="14" uuid="7cc1761f-8bbc-45d1-8f32-2feaebacc937"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8"/>
+				</textElement>
+				<text><![CDATA[(Fecha - firma - Sellar al dorso)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="662" y="553" width="166" height="14" uuid="38533ffb-369b-46fe-b48a-e32d01447f59"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8"/>
+				</textElement>
+				<text><![CDATA[(Fecha - firma - Sellar al dorso)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="553" width="175" height="14" uuid="406953e5-177e-4d69-a468-206e0ccc7a34"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8"/>
+				</textElement>
+				<text><![CDATA[RECIBIDO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="428" y="226" width="392" height="20" uuid="35deb9fc-a38f-4bd3-85e2-f0fc7abf7979"/>
+			</rectangle>
+			<line>
+				<reportElement x="702" y="206" width="1" height="40" uuid="b1776250-cd66-4df4-9c01-44879693b63a"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="9" y="-69" width="820" height="3" uuid="dd5f8d30-4ba0-4b39-bbff-0a59ff731a0d"/>
+			</line>
+			<staticText>
+				<reportElement x="15" y="209" width="262" height="15" uuid="9f8a21f2-86b7-4098-adea-2ea9bc89536d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="209" width="103" height="15" uuid="f6b6ed9d-e0c5-4c89-9fe6-7870fbff4862"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="703" y="209" width="110" height="15" uuid="35b59c35-4737-4439-a107-9262f4713864"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="288" y="246" width="118" height="20" uuid="4639e708-bc4b-4d93-b960-3dd3c1348040"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="702" y="246" width="118" height="20" uuid="d379ea62-d24a-40ec-b212-a28e862b42dc"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="227" y="246" width="52" height="20" uuid="bb231303-be6c-46c7-827e-d7d9be10cf78"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="645" y="246" width="52" height="20" uuid="e7ec1dda-40ce-43b1-a368-57dc9058e03b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="10" y="84" width="819" height="1" uuid="513feda7-4dcc-426e-bfeb-ab3f2df71f96"/>
+			</line>
+			<image scaleImage="RetainShape">
+				<reportElement x="430" y="463" width="387" height="56" uuid="8e7b72d3-ee50-4d33-b5ad-8c1e0af87b44"/>
+				<imageExpression><![CDATA[$P{codigoBarra}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="435" y="209" width="255" height="15" uuid="272ab3ff-0a75-4710-8bd1-3f14eb511adc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razón Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="29" y="177" width="118" height="15" uuid="0744fdfb-a3bb-4164-9268-dce8a74cfc03"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intención de Pago:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="537" width="403" height="14" uuid="c4b348e4-b6dd-4446-a381-6a09b680ac5d"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bancoDescrip}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="20" y="228" width="264" height="15" uuid="3f7c5231-14cb-426b-8c79-9615e4dafe5a"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{motivoPagoDescrip}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="228" width="264" height="15" uuid="d0a1b073-5700-4ce9-9e65-a866c6f1411e"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{motivoPagoDescrip}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;(#,##0.00#-)">
+				<reportElement x="296" y="228" width="98" height="15" uuid="0a0ed54e-7a74-4ffb-a185-66242ba4a3d4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{importe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;(#,##0.00#-)">
+				<reportElement x="714" y="228" width="93" height="15" uuid="e8ff2c45-2e83-4580-a2c7-e6e1881e6086"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{importe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="89" y="137" width="318" height="15" isPrintWhenDetailOverflows="true" uuid="ed0d307e-0597-4f4a-9cec-7d00e946ffc2"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empleadorRazonSocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="338" y="176" width="74" height="15" uuid="6dc6bcb6-c8f5-4a3f-903a-057ef9d2436f"/>
+				<textFieldExpression><![CDATA[$P{fechaImpresion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="176" width="101" height="15" uuid="cbf6c171-a359-429e-b46d-f8e670cebe68"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{fechaIntencionPago}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;(#,##0.00#-)">
+				<reportElement x="296" y="246" width="98" height="20" uuid="882a6ada-eafd-4c35-b9a1-3f2802b253db"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{importe}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="9" y="10" width="824" height="89" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="f570832b-ed10-44f2-b24a-db088c3e294e"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement x="66" y="158" width="87" height="15" uuid="84212bb8-c6fc-4df4-b0d9-0bb15818e9bd"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empleadorCUIT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="9" y="80" width="411" height="19" uuid="5c7be08b-3c1a-4a68-975d-8764282a8ff5"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{entidadDescrip}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="229" y="21" width="105" height="15" uuid="a69ab6da-b9b7-4cbf-a49e-4cea51f58370"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Boleta Nro:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="66" width="411" height="14" uuid="ccf63cbc-c31e-4919-81bf-c98062ae38b9"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[Nota de Crédito para la cuenta de:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="9" y="49" width="411" height="14" uuid="4810b137-f1ef-4623-aa8b-41da3a1da5e4"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bancoDescrip}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#;(#,##0.00#-)">
+				<reportElement x="714" y="246" width="93" height="20" uuid="f2b713eb-d142-4b2d-8b57-03c2fb0880d0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{importe}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="8" y="99" width="825" height="20" backcolor="#CCCCCC" uuid="31f0abd3-a488-480b-8ecb-a7ff5000da3d"/>
+			</rectangle>
+			<line>
+				<reportElement x="421" y="14" width="1" height="565" uuid="0eeb1cc4-986a-4899-b69b-6a428beb245b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="12" y="99" width="400" height="20" uuid="c10e309d-3733-4003-b34d-ce7856f5a839"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["CUENTA    N° " + $P{cuentaNro} + "/" + $P{sucursalCodigo} + " - " + $P{sucursalDescrip}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="336" y="16" width="70" height="21" uuid="21feac77-12b8-48c3-b0f3-3bc5465a8c21"/>
+			</rectangle>
+			<textField>
+				<reportElement x="339" y="19" width="63" height="15" uuid="b47db781-0a96-4834-a9eb-c8fda7faab04"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{boletaNro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="422" y="80" width="411" height="19" uuid="273c4cf3-0f90-42ca-8aab-ad729a2c3ff9"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{entidadDescrip}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="644" y="20" width="107" height="15" uuid="361e23be-699d-41cf-8b6b-230902421ea1"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Boleta Nro:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="422" y="49" width="411" height="14" uuid="e388c202-6155-46bc-9350-8e685123a8b2"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bancoDescrip}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="422" y="66" width="411" height="14" uuid="6d60be95-9f3e-4bd2-b02e-67a4a872959a"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<text><![CDATA[Nota de Crédito para la cuenta de:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="428" y="99" width="400" height="20" uuid="d7fb68da-a763-4700-abd4-2ba8a750cb51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["CUENTA    N° " + $P{cuentaNro} + "/" + $P{sucursalCodigo} + " - " + $P{sucursalDescrip}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="753" y="16" width="70" height="21" uuid="795019c6-d907-4d96-a622-e8ed7fbc5d30"/>
+			</rectangle>
+			<textField>
+				<reportElement x="756" y="19" width="63" height="15" uuid="96b7a0a3-49ff-4d13-be5b-cdb2c0654ee4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans Mono" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{boletaNro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="545" y="176" width="99" height="15" uuid="7b44ef3c-01ed-4732-8e54-99435e4b28cc"/>
+				<textFieldExpression><![CDATA[$P{fechaIntencionPago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="158" width="87" height="15" uuid="1b647584-9e18-4ab2-867b-0f9e4df5e51d"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empleadorCUIT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="437" y="137" width="62" height="15" uuid="3155707f-4f2c-4d05-9649-635ae0509d5e"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empleador: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="753" y="176" width="66" height="15" uuid="438e63e5-af52-43c1-9d75-4381f1e2a3c3"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{fechaImpresion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="644" y="177" width="107" height="15" uuid="c62f0c14-6d00-4a0d-8a8e-1b528aeaa2ed">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Impreso el:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="497" y="137" width="318" height="15" isPrintWhenDetailOverflows="true" uuid="906e7c62-3e3d-4a26-a810-bdc3352f9c55"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empleadorRazonSocial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="437" y="158" width="34" height="15" uuid="6716b7b7-bda4-44af-ad9e-2af4cb795168"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="177" width="118" height="15" uuid="d87ce7bd-74a6-4b6c-a6f0-2faea3939a50"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intención de Pago:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="431" y="537" width="403" height="14" uuid="08bb6e2a-7bcf-41de-a804-540125296f4c"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bancoDescrip}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<image scaleImage="RetainShape">
+				<reportElement x="17" y="13" width="80" height="83" uuid="da2a3943-99f5-4cf0-87b5-56a4b9a1c338">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<image scaleImage="RetainShape">
+				<reportElement x="431" y="13" width="80" height="83" uuid="3ed7ad4b-49f9-44ca-a7a6-c3222ff4bcda">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="20" y="491" width="386" height="19" uuid="f971b38c-77eb-4b8e-a466-3261e54a4f2c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{codigoBarraNro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="491" width="386" height="19" uuid="a9a1f891-8ca7-4c62-9f22-20b2de0f12a3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{codigoBarraNro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

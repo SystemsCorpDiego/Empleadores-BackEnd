@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="WSAltaDeudaServices" targetNamespace="http://altadeuda.service.ws.linkpagos.redlink.com.ar/" xmlns:ns1="http://altadeuda.service.ws.linkpagos.redlink.com.ar/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <wsdl:types>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://response.ws.linkpagoservices.redlink.com.ar/" xmlns="http://response.ws.linkpagoservices.redlink.com.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:import namespace="http://altadeuda.service.ws.linkpagos.redlink.com.ar/"/>
+         <xs:element name="cabecera" type="ns1:wsHeaderResponse"/>
+         <xs:element name="cpe" type="xs:string"/>
+         <xs:element name="resultadoAlta" type="ns1:wsResultadoAlta"/>
+      </xs:schema>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://request.ws.linkpagoservices.redlink.com.ar/" xmlns="http://request.ws.linkpagoservices.redlink.com.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:import namespace="http://altadeuda.service.ws.linkpagos.redlink.com.ar/"/>
+         <xs:element name="cabecera" type="ns1:wsHeaderRequest"/>
+      </xs:schema>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://request.ws.altadeuda.linkpagoservices.redlink.com.ar/" xmlns="http://request.ws.altadeuda.linkpagoservices.redlink.com.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:import namespace="http://altadeuda.service.ws.linkpagos.redlink.com.ar/"/>
+         <xs:element name="abarcativa" type="ns1:wsAbarcativa"/>
+         <xs:element name="ente" type="xs:string"/>
+         <xs:element name="usuario" type="xs:string"/>
+      </xs:schema>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://altadeuda.service.ws.linkpagos.redlink.com.ar/" xmlns:ns1="http://request.ws.altadeuda.linkpagoservices.redlink.com.ar/" xmlns:ns2="http://request.ws.linkpagoservices.redlink.com.ar/" xmlns:ns3="http://response.ws.linkpagoservices.redlink.com.ar/" xmlns:tns="http://altadeuda.service.ws.linkpagos.redlink.com.ar/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         <xs:import namespace="http://request.ws.altadeuda.linkpagoservices.redlink.com.ar/"/>
+         <xs:import namespace="http://request.ws.linkpagoservices.redlink.com.ar/"/>
+         <xs:import namespace="http://response.ws.linkpagoservices.redlink.com.ar/"/>
+         <xs:element name="altaDeDeudas" type="tns:altaDeDeudas"/>
+         <xs:element name="altaDeDeudasResponse" type="tns:altaDeDeudasResponse"/>
+         <xs:complexType name="altaDeDeudas">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="requerimientoAltaDeDeudas" type="tns:wsAltaDeDeudasRequest"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsAltaDeDeudasRequest">
+            <xs:complexContent>
+               <xs:extension base="tns:wsAbstractRequest">
+                  <xs:sequence>
+                     <xs:element ref="ns1:ente"/>
+                     <xs:element ref="ns1:usuario"/>
+                     <xs:element name="datosDeuda">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element maxOccurs="unbounded" minOccurs="0" name="deuda" type="tns:wsDeuda"/>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType abstract="true" name="wsAbstractRequest">
+            <xs:sequence>
+               <xs:element ref="ns2:cabecera"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsDeuda">
+            <xs:sequence>
+               <xs:element name="idDeuda" type="xs:string"/>
+               <xs:element name="concepto" type="xs:string"/>
+               <xs:element minOccurs="0"  ref="ns1:abarcativa"/>
+               <xs:element name="vencimientos">
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="0" name="vencimiento" type="tns:wsVencimiento"/>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element minOccurs="0" name="importeMinimo" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="importeMaximo" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="discrecional" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsAbarcativa">
+            <xs:sequence>
+               <xs:element name="deudaAbarcativa" type="xs:string"/>
+               <xs:element name="periodo" type="xs:string"/>
+               <xs:element minOccurs="0" name="mascara" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsVencimiento">
+            <xs:sequence>
+               <xs:element name="ordenVencimiento" type="xs:string"/>
+               <xs:element name="fechaVencimiento" type="xs:string"/>
+               <xs:element name="importe" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsHeaderRequest">
+            <xs:sequence>
+               <xs:element name="idRequerimiento" type="xs:string"/>
+               <xs:element name="ipCliente" type="xs:string"/>
+               <xs:element name="timeStamp" type="xs:string"/>
+               <xs:element name="idEntidad" type="xs:string"/>
+               <xs:element name="canal" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="altaDeDeudasResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="respuestaAltaDeDeudas" type="tns:wsAltaDeDeudasResponse"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsAltaDeDeudasResponse">
+            <xs:complexContent>
+               <xs:extension base="tns:wsAbstractResponse">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" ref="ns3:cpe"/>
+                     <xs:element name="resultadoAltas">
+                        <xs:complexType>
+                           <xs:sequence>
+                              <xs:element maxOccurs="unbounded" minOccurs="0" ref="ns3:resultadoAlta"/>
+                           </xs:sequence>
+                        </xs:complexType>
+                     </xs:element>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="wsAbstractResponse">
+            <xs:sequence>
+               <xs:element ref="ns3:cabecera"/>
+               <xs:element name="codigoResultado" type="xs:string"/>
+               <xs:element name="descripcionResultado" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsResultadoAlta">
+            <xs:sequence>
+               <xs:element name="idDeuda" type="xs:string"/>
+               <xs:element name="concepto" type="xs:string"/>
+               <xs:element name="codigoResultadoAlta" type="xs:string"/>
+               <xs:element name="descripcionResultadoAlta" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="wsHeaderResponse">
+            <xs:sequence>
+               <xs:element name="timeStamp" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="altaDeDeudas">
+      <wsdl:part element="ns1:altaDeDeudas" name="parameters"/>
+   </wsdl:message>
+   <wsdl:message name="altaDeDeudasResponse">
+      <wsdl:part element="ns1:altaDeDeudasResponse" name="parameters"/>
+   </wsdl:message>
+   <wsdl:portType name="WSAltaDeudaServices">
+      <wsdl:operation name="altaDeDeudas">
+         <wsdl:input message="ns1:altaDeDeudas" name="altaDeDeudas"/>
+         <wsdl:output message="ns1:altaDeDeudasResponse" name="altaDeDeudasResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>
