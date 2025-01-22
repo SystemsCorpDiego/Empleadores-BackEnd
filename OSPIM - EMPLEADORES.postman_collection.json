@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "cab11855-af76-4d8a-b4ee-e7023285e7cf",
-		"name": "OSPIM - SIGECO",
+		"name": "OSPIM - EMPLEADORES",
 		"description": "La app tiene el siguienter formato json para las respuestas de error:\n\n{ \"codigo\": \"\", \"descripcion\": \"\", \"args\": {\"\",{}} }",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "10294843"
@@ -90,6 +90,88 @@
 									],
 									"path": [
 										"publicaciones"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Public-Upload File",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "archivo",
+											"type": "file",
+											"src": [
+												"/C:/Diego/clientes/OSPIM/tmp/20200710_201006.jpg",
+												"/C:/Diego/clientes/OSPIM/tmp/20200710_201006.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/publicaciones/:id/archivo",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"publicaciones",
+										":id",
+										"archivo"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Public-Download File",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/publicaciones/:id/archivo",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"publicaciones",
+										":id",
+										"archivo"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
 									]
 								}
 							},
@@ -185,13 +267,13 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/entidad/",
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/entidades/",
 							"protocol": "http",
 							"host": [
 								"{{Dom}}{{Puerto}}{{WSite}}"
 							],
 							"path": [
-								"entidad",
+								"entidades",
 								""
 							]
 						}
@@ -247,6 +329,30 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Forma de Pago",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/formas-pago",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"formas-pago"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -259,6 +365,160 @@
 						{
 							"name": "Auth-JWT",
 							"item": [
+								{
+									"name": "Recupero Clave",
+									"item": [
+										{
+											"name": "1 - Generar Token",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"mail\":\"buenodiegomartin@yahoo.com.ar\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token",
+													"protocol": "http",
+													"host": [
+														"{{Dom}}{{Puerto}}{{WSite}}"
+													],
+													"path": [
+														"auth",
+														"usuario",
+														"recupera-clave",
+														"token"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "2 - Consultar x Token",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token/:token",
+													"protocol": "http",
+													"host": [
+														"{{Dom}}{{Puerto}}{{WSite}}"
+													],
+													"path": [
+														"auth",
+														"usuario",
+														"recupera-clave",
+														"token",
+														":token"
+													],
+													"variable": [
+														{
+															"key": "token",
+															"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiYnVlbm9kaWVnb21hcnRpbkB5YWhvby5jb20uYXIiLCJ1c3VhcmlvIjoiNXVzdWFyaW8iLCJ1c3VhcmlvSWQiOjI1fQ.Yo-xlOtMgRDAYMbfi8gqoUbKex28ZNatkhEj3h6EpGY"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "3 - Clave Nueva Registrar",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"token\":\"FFF-5984-DELO-5988-FFFF\",\r\n    \"clave\":\"Prueba-123\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token/registrar-clave",
+													"protocol": "http",
+													"host": [
+														"{{Dom}}{{Puerto}}{{WSite}}"
+													],
+													"path": [
+														"auth",
+														"usuario",
+														"recupera-clave",
+														"token",
+														"registrar-clave"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Activar Usuario Empresa",
+									"item": [
+										{
+											"name": "Test - genera Token",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/:usuario/activar/token",
+													"protocol": "http",
+													"host": [
+														"{{Dom}}{{Puerto}}{{WSite}}"
+													],
+													"path": [
+														"auth",
+														"usuario",
+														":usuario",
+														"activar",
+														"token"
+													],
+													"variable": [
+														{
+															"key": "usuario",
+															"value": ""
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Test - genera Token Copy",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/activar/:token",
+													"protocol": "http",
+													"host": [
+														"{{Dom}}{{Puerto}}{{WSite}}"
+													],
+													"path": [
+														"auth",
+														"usuario",
+														"activar",
+														":token"
+													],
+													"variable": [
+														{
+															"key": "token",
+															"value": ""
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
 								{
 									"name": "login",
 									"event": [
@@ -299,7 +559,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    //\"usuario\": \"30604456475\",\r\n    //\"usuario\": \"30597264565\",\r\n    \"usuario\": \"30501126965\",\r\n    \"clave\": \"prueba123\"\r\n}",
+											"raw": "{\r\n    //\"usuario\": \"30712107894\",\r\n    //\"clave\": \"Prueba-123\"\r\n    //\"usuario\": \"30597264565\",\r\n    \"usuario\": \"ospim\",\r\n    \"clave\": \"prueba123\"\r\n    //\"usuario\": \"30501126965\",\r\n    //\"clave\": \"prueba123\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1020,6 +1280,52 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Usuario Interno Persona-Actualizar",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombre\": \"pepe NEW bbb\",\r\n    \"apellido\": \"Tomato\",\r\n    \"email\":\"pt@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/usuario/interno/persona/logueada",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"usuario",
+										"interno",
+										"persona",
+										"logueada"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -1044,7 +1350,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 23\",\r\n    \"cuit\": \"20233725006\",\r\n    \"clave\": \"Prueba123\",\r\n    \"email\": \"AgroNro1@gmail.com\",\r\n    \"telefono\": \"4567-9987\",\r\n    \"telefono_prefijo\": \"011\",\r\n    \"whatsapp\": \"111\",\r\n    \"whatsapp_prefijo\": \"111\",\r\n    \"ramoId\": 1,\r\n    \"telefonosAlternativos\": [\r\n        {\"prefijo\": \"003\", \"nro\":\"4333-7777\"},\r\n        {\"prefijo\": \"004\", \"nro\":\"4333-8888\"}\r\n    ],\r\n    \"emailAlternativos\": [\r\n        \"7777@gmial.com\",\r\n        \"8888@gmial.com\"\r\n    ],\r\n    \"domicilios\": [\r\n        {\r\n            \"tipo\": \"FISCAL\",\r\n            \"calle\": \"San Martin\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        },\r\n        {\r\n            \"tipo\": \"REAL\",\r\n            \"calle\": \"San Juan\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 23\",\r\n    \"cuit\": \"20233725006\",\r\n    \"clave\": \"Prueba123\",\r\n    \"email\": \"AgroNro1@gmail.com\",\r\n    \"telefono\": \"4567-9987\",\r\n    \"telefono_prefijo\": \"011\",\r\n    \"whatsapp\": \"111\",\r\n    \"whatsapp_prefijo\": \"111\",\r\n    \"telefonosAlternativos\": [\r\n        {\"prefijo\": \"003\", \"nro\":\"4333-7777\"},\r\n        {\"prefijo\": \"004\", \"nro\":\"4333-8888\"}\r\n    ],\r\n    \"emailAlternativos\": [\r\n        \"7777@gmial.com\",\r\n        \"8888@gmial.com\"\r\n    ],\r\n    \"domicilios\": [\r\n        {\r\n            \"tipo\": \"FISCAL\",\r\n            \"calle\": \"San Martin\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        },\r\n        {\r\n            \"tipo\": \"REAL\",\r\n            \"calle\": \"San Juan\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1086,7 +1392,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 2444\",\r\n    \"cuit\": \"20233725006\",\r\n    \"clave\": \"Prueba123\",\r\n    \"email\": \"AgroNro1@gmail.com\",\r\n    \"telefono\": \"4567-9987\",\r\n    \"telefono_prefijo\": \"011\",\r\n    \"whatsapp\": \"111\",\r\n    \"whatsapp_prefijo\": \"111\",\r\n    \"ramoId\": 1,\r\n    \"telefonosAlternativos\": [\r\n        {\"prefijo\": \"003\", \"nro\":\"4333-7777\"},\r\n        {\"prefijo\": \"004\", \"nro\":\"4333-8888\"}\r\n    ],\r\n    \"emailAlternativos\": [\r\n        \"7777@gmial.com\",\r\n        \"8888@gmial.com\"\r\n    ],\r\n    \"domicilios\": [\r\n        {\r\n            \"tipo\": \"FISCAL\",\r\n            \"calle\": \"San Martin\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        },\r\n        {\r\n            \"tipo\": \"REAL\",\r\n            \"calle\": \"San Juan\",\r\n            \"localidadId\": 3,\r\n            \"provinciaId\": 265\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 2444\",\r\n    \"cuit\": \"30715578936\",\r\n    \"clave\": \"Prueba-123\",\r\n    \"email\": \"AgroNro1@gmail.com\",\r\n    \"telefono\": \"45679987\",\r\n    \"telefono_prefijo\": \"11\",\r\n    \"whatsapp\": \"11\",\r\n    \"whatsapp_prefijo\": \"11145555\",\r\n    \"telefonosAlternativos\": [\r\n        {\"prefijo\": \"03\", \"nro\":\"43337777\"},\r\n        {\"prefijo\": \"04\", \"nro\":\"43338888\"}\r\n    ],\r\n    \"emailAlternativos\": [\r\n        \"7777@gmial.com\",\r\n        \"8888@gmial.com\"\r\n    ],\r\n    \"domicilios\": [\r\n        {\r\n            \"tipo\": \"FISCAL\",\r\n            \"calle\": \"San Martin\",\r\n            \"localidadId\": 265,\r\n            \"provinciaId\": 3,\r\n            \"numeroDomicilio\": \"150\",\r\n            \"cp\": \"1414\",\r\n            \"planta\": \"FISCAL\"\r\n        },\r\n        {\r\n            \"tipo\": \"REAL\",\r\n            \"calle\": \"San Juan\",\r\n            \"localidadId\": 265,\r\n            \"provinciaId\": 3,\r\n            \"numeroDomicilio\": \"150\",\r\n            \"cp\": \"1414\",\r\n            \"planta\": \"REAL 1\"\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1171,7 +1477,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 7\",\r\n    \"ramoId\": 2\r\n}",
+									"raw": "{\r\n    \"razonSocial\": \"Empresa de Agro Nro 7\",\r\n    \"actividadMolinera\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1230,7 +1536,7 @@
 									"variable": [
 										{
 											"key": "empresaId",
-											"value": "1"
+											"value": "32"
 										}
 									]
 								}
@@ -1261,6 +1567,38 @@
 									],
 									"path": [
 										"empresa",
+										"domicilio",
+										"tipo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4- EmpresaDomicilioTipo - Consulta Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/public/domicilio/tipo",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"empresa",
+										"public",
 										"domicilio",
 										"tipo"
 									]
@@ -1651,13 +1989,13 @@
 											}
 										],
 										"url": {
-											"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/funcionalidad/",
+											"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/funcionalidades/",
 											"protocol": "http",
 											"host": [
 												"{{Dom}}{{Puerto}}{{WSite}}"
 											],
 											"path": [
-												"funcionalidad",
+												"funcionalidades",
 												""
 											]
 										}
@@ -1681,15 +2019,15 @@
 											}
 										],
 										"url": {
-											"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/rol/:id/funcionalidad",
+											"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/roles/:id/funcionalidades",
 											"protocol": "http",
 											"host": [
 												"{{Dom}}{{Puerto}}{{WSite}}"
 											],
 											"path": [
-												"rol",
+												"roles",
 												":id",
-												"funcionalidad"
+												"funcionalidades"
 											],
 											"variable": [
 												{
@@ -1953,6 +2291,356 @@
 											"key": "id",
 											"value": "10"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Funcionalidades",
+					"item": [
+						{
+							"name": "Rol-Funcionalidad - 1",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/roles/funcionalidades/",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"roles",
+										"funcionalidades",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rol-Funcionalidad - 1 ORI",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/funcionalidades",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"funcionalidades"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rol-Funcionalidad - GRABA",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"descripcion\": \"EMPLEADOR\",\r\n    \"id\": 4,\r\n    \"funcionalidades\": [\r\n        {\r\n            \"id\": 1,\r\n            \"descripcion\": \"PUBLICACIONES\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"descripcion\": \"FERIADOS\",\r\n            \"activo\": false\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"descripcion\": \"DDJJ\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"descripcion\": \"DDJJ_CONSULTA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"descripcion\": \"BOLETAS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"descripcion\": \"PAGOS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"descripcion\": \"DATOS_EMPRESA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"descripcion\": \"BOLETA_BLANCA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"descripcion\": \"GESTION_ROLES\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"descripcion\": \"CUITS_RESTRINGIDOS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"descripcion\": \"ROLES\",\r\n            \"activo\": false\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"descripcion\": \"USUARIO_INTERNO\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"descripcion\": \"INTERESES_AFIP\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"descripcion\": \"AJUSTES\",\r\n            \"activo\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/roles/:rolId/funcionalidades",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"roles",
+										":rolId",
+										"funcionalidades"
+									],
+									"variable": [
+										{
+											"key": "rolId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rol-Funcionalidad - GRABA ORI",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"descripcion\": \"EMPLEADOR\",\r\n    \"id\": 4,\r\n    \"funcionalidades\": [\r\n        {\r\n            \"id\": 1,\r\n            \"descripcion\": \"PUBLICACIONES\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"descripcion\": \"FERIADOS\",\r\n            \"activo\": false\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"descripcion\": \"DDJJ\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 4,\r\n            \"descripcion\": \"DDJJ_CONSULTA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 5,\r\n            \"descripcion\": \"BOLETAS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"descripcion\": \"PAGOS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 7,\r\n            \"descripcion\": \"DATOS_EMPRESA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 8,\r\n            \"descripcion\": \"BOLETA_BLANCA\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 9,\r\n            \"descripcion\": \"GESTION_ROLES\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 10,\r\n            \"descripcion\": \"CUITS_RESTRINGIDOS\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 11,\r\n            \"descripcion\": \"ROLES\",\r\n            \"activo\": false\r\n        },\r\n        {\r\n            \"id\": 12,\r\n            \"descripcion\": \"USUARIO_INTERNO\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 13,\r\n            \"descripcion\": \"INTERESES_AFIP\",\r\n            \"activo\": true\r\n        },\r\n        {\r\n            \"id\": 14,\r\n            \"descripcion\": \"AJUSTES\",\r\n            \"activo\": false\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/funcionalidades/actualizar/:rolId",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"funcionalidades",
+										"actualizar",
+										":rolId"
+									],
+									"variable": [
+										{
+											"key": "rolId",
+											"value": "4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rol-Funcionalidad - 2",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/roles/funcionalidades/:rolDescrip",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"roles",
+										"funcionalidades",
+										":rolDescrip"
+									],
+									"variable": [
+										{
+											"key": "rolDescrip",
+											"value": "EMPLEADOR"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Rol-Funcionalidad - 2 ORI",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/roles/funcionalidades/:RolDescrip",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"roles",
+										"funcionalidades",
+										":RolDescrip"
+									],
+									"variable": [
+										{
+											"key": "RolDescrip",
+											"value": "EMPLEADOR"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Recuperar Clave",
+					"item": [
+						{
+							"name": "1-Generar-Token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Guardar token\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(pm.response.code).to.eql(200);\r",
+											"    pm.environment.set(\"token-recuperoClave\", jsonData.token);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"ERROR loguin\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(pm.response.code).greaterThan(299);\r",
+											"    pm.expect(pm.response.code).lessThan(200);\r",
+											"\r",
+											"    pm.environment.set(\"token-recuperoClave\", \"RECUPERO-CLAVE-MAIL-ERROR\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"mail\": \"buenodiegomartin@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"auth",
+										"usuario",
+										"recupera-clave",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2-GetInfo-token",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token/:token-recuperoClave",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"auth",
+										"usuario",
+										"recupera-clave",
+										"token",
+										":token-recuperoClave"
+									],
+									"variable": [
+										{
+											"key": "token-recuperoClave",
+											"value": "{{token-recuperoClave}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3-Registrar-Clave",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"token\":\"{{token-recuperoClave}}\",\r\n    \"clave\":\"Prueba-123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/auth/usuario/recupera-clave/token/registrar-clave",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"auth",
+										"usuario",
+										"recupera-clave",
+										"token",
+										"registrar-clave"
 									]
 								}
 							},
@@ -2259,6 +2947,11 @@
 									{
 										"key": "Origin",
 										"value": "{{origin}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "xxxxxxxxx",
 										"type": "text"
 									}
 								],
@@ -2805,7 +3498,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuit\": \"30501126965\",\r\n    \"periodo_original\": \"2023-01-01T03:00:00.000Z\",\r\n    \"importe\": 150000,\r\n    \"aporte\": \"UOMACS\",\r\n    \"vigencia\": \"2025-01-01T03:00:00.000Z\"\r\n}"
+									"raw": "{\r\n    \"cuit\": \"30501126965\",\r\n    \"periodo_original\": \"2023-02-01T03:00:00.000Z\",\r\n    \"importe\": 750000,\r\n    \"aporte\": \"UOMACS\",\r\n    \"motivo\": \"DPD\",\r\n    \"vigencia\": \"2024-03-01T03:00:00.000Z\"\r\n}"
 								},
 								"url": {
 									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/ajustes/",
@@ -2870,7 +3563,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"cuit\": \"30222349999\",\r\n    \"periodo_original\": \"2023-10-01T03:00:00.000Z\",\r\n    \"importe\": 78600.25,\r\n    \"aporte\": \"AMTIMACS\",\r\n    \"vigencia\": \"2024-02-01T03:00:00.000Z\"\r\n}",
+									"raw": "    {\r\n        \"cuit\": \"30501126965\",\r\n        \"periodo_original\": \"2023-08-01T03:00:00.000Z\",\r\n        \"importe\": 15000.00,\r\n        \"aporte\": \"ART46\",\r\n        \"motivo\": \"DI\",\r\n        \"vigencia\": \"2023-08-01T03:00:00.000Z\",\r\n        \"boleta\": null\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2890,7 +3583,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "11"
+											"value": "15"
 										}
 									]
 								}
@@ -2946,7 +3639,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"desde\": \"1870-01-01T03:00:00.000Z\", \r\n    \"indice\": 18,\r\n    \"hasta\": \"1870-12-31T03:00:00.000Z\"\r\n}"
+									"raw": "{\r\n    \"vigenciaDesde\": \"2024-08-01\", \r\n    \"vigenciaHasta\": null,\r\n    \"indice\": 0.020021\r\n}"
 								},
 								"url": {
 									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/afip/intereses/",
@@ -3013,7 +3706,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "    {\r\n        \"desde\": \"1870-01-01T03:00:00.000Z\",\r\n        \"hasta\": \"1870-12-31T03:00:00.000Z\",\r\n        \"indice\": 35\r\n    }",
+									"raw": "    {\r\n        \"vigenciaDesde\": \"2024-06-29\",\r\n        \"vigenciaHasta\": \"2024-07-31\",\r\n        \"indice\": 0.000447\r\n    }",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3034,8 +3727,63 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "16"
+											"value": "29"
 										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Aportes - Conceptos de pago",
+					"item": [
+						{
+							"name": "Aporte-Consulta",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Aporte-DDJJ - Consulta",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/ddjj",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										"ddjj"
 									]
 								}
 							},
@@ -3154,12 +3902,247 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Antiguedades",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/camara/antiguedad/",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"camara",
+										"antiguedad",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "EscalaSalarial",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/escala-salarial?camara=FAIM&categoria=D&antiguedad=0&vigencia=2023-01-01&tipo=PJ",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"escala-salarial"
+									],
+									"query": [
+										{
+											"key": "camara",
+											"value": "FAIM"
+										},
+										{
+											"key": "categoria",
+											"value": "D"
+										},
+										{
+											"key": "antiguedad",
+											"value": "0"
+										},
+										{
+											"key": "vigencia",
+											"value": "2023-01-01"
+										},
+										{
+											"key": "tipo",
+											"value": "PJ"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "Aportes",
 					"item": [
+						{
+							"name": "AporteSeteo-Vigentes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/seteos/vigentes",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										"seteos",
+										"vigentes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AporteSeteo-Alta",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"aporte\": \"AMTIMACS\",\r\n        \"desde\": \"2024-10-01\",\r\n        \"hasta\": null,\r\n        \"entidad\": \"AMTIMA\",\r\n        \"socio\": true,\r\n        \"calculoTipo\": \"EN\",\r\n        \"calculoValor\": 12500,\r\n        \"calculoBase\": null,\r\n        \"camara\": null,\r\n        \"camaraCategoria\": null,\r\n        \"camaraAntiguedad\": null\r\n    }"
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/seteos",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										"seteos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AporteSeteo-Modi",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n        \"aporte\": \"UOMACS\",\r\n        \"desde\": \"2024-10-01\",\r\n        \"hasta\": null,\r\n        \"entidad\": \"OSPIM\",\r\n        \"socio\": true,\r\n        \"calculoTipo\": \"EN\",\r\n        \"calculoValor\": 12500,\r\n        \"calculoBase\": null,\r\n        \"camara\": null,\r\n        \"camaraCategoria\": null,\r\n        \"camaraAntiguedad\": null\r\n    }"
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/seteos/:id",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										"seteos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AporteSeteo-Baja",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/aportes/seteos/:id",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"aportes",
+										"seteos",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "15"
+										}
+									]
+								}
+							},
+							"response": []
+						},
 						{
 							"name": "Aporte-Consulta",
 							"request": {
@@ -3537,6 +4520,73 @@
 					]
 				},
 				{
+					"name": "Planilla",
+					"item": [
+						{
+							"name": "DJ - Plantilla DownLoad",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/ddjj/public/plantilla_download",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"ddjj",
+										"public",
+										"plantilla_download"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DJ - Plantilla DownLoad Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									},
+									{
+										"key": "Origin",
+										"value": "{{origin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/ddjj/public/plantilla_download",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"ddjj",
+										"public",
+										"plantilla_download"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "DJ - Empresa Plantas Consulta",
 					"request": {
 						"method": "GET",
@@ -3615,6 +4665,68 @@
 				},
 				{
 					"name": "DJ - Consulta DDJJ",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"desde\": \"2000-01-01T00:00:00.000Z\",\r\n    \"hasta\": \"2025-01-01T00:00:00.000Z\",\r\n    \"cuit\": \"30501126965\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/ddjj/totales?desde=2000-01-01T00:00:00.000Z&hasta=2025-01-01T00:00:00.000Z",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"ddjj",
+								"totales"
+							],
+							"query": [
+								{
+									"key": "cuit",
+									"value": "30501126965",
+									"disabled": true
+								},
+								{
+									"key": "desde",
+									"value": "2000-01-01T00:00:00.000Z"
+								},
+								{
+									"key": "hasta",
+									"value": "2025-01-01T00:00:00.000Z"
+								},
+								{
+									"key": null,
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DJ - Periodo Info",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -3630,27 +4742,41 @@
 							}
 						],
 						"url": {
-							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/ddjj/totales?cuit=30501126965&desde=2023-01-01&hasta=2023-05-01",
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/ddjj/periodo/:periodo/info",
 							"protocol": "http",
 							"host": [
 								"{{Dom}}{{Puerto}}{{WSite}}"
 							],
 							"path": [
+								"empresa",
+								":empresaId",
 								"ddjj",
-								"totales"
+								"periodo",
+								":periodo",
+								"info"
 							],
 							"query": [
 								{
 									"key": "cuit",
-									"value": "30501126965"
+									"value": "30501126965",
+									"disabled": true
 								},
 								{
-									"key": "desde",
-									"value": "2023-01-01"
+									"key": null,
+									"value": "",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "",
+									"description": "21"
 								},
 								{
-									"key": "hasta",
-									"value": "2023-05-01"
+									"key": "periodo",
+									"value": "",
+									"description": "2024-01-01"
 								}
 							]
 						}
@@ -3692,7 +4818,7 @@
 								},
 								{
 									"key": "id",
-									"value": "37"
+									"value": "77"
 								}
 							]
 						}
@@ -3737,6 +4863,51 @@
 								{
 									"key": "periodo",
 									"value": "2024-02-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DJ - Consulta Periodo Anterior",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/ddjj/periodo-anterior/?periodo=2024-02-01T03:00:00.000",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"ddjj",
+								"periodo-anterior",
+								""
+							],
+							"query": [
+								{
+									"key": "periodo",
+									"value": "2024-02-01T03:00:00.000"
+								}
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
 								}
 							]
 						}
@@ -4206,6 +5377,74 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "EnvialMail-prueba",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/comun/sendMail",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"comun",
+								"sendMail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "token Activacion Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/public/usuario/:usuario/activar",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"public",
+								"usuario",
+								":usuario",
+								"activar"
+							],
+							"variable": [
+								{
+									"key": "usuario",
+									"value": "11111111111"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -4228,7 +5467,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[\r\n    {\r\n        \"codigo\": \"ART46\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"Ventanilla\"\r\n    },\r\n    {\r\n        \"codigo\": \"UOMACS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"Ventanilla\"\r\n    },\r\n    {\r\n        \"codigo\": \"UOMAAS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"Ventanilla\"\r\n    }, \r\n    {\r\n        \"codigo\": \"AMTIMACS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"Ventanilla\"\r\n    }, \r\n    {\r\n        \"codigo\": \"UOMACU\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"Ventanilla\"\r\n    }\r\n]\r\n",
+									"raw": "[\r\n    {\r\n        \"codigo\": \"ART46\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"VENTANILLA\"\r\n    },\r\n    {\r\n        \"codigo\": \"UOMACS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"VENTANILLA\"\r\n    },\r\n    {\r\n        \"codigo\": \"UOMAAS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"VENTANILLA\"\r\n    },\r\n    {\r\n        \"codigo\": \"AMTIMACS\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"VENTANILLA\"\r\n    },\r\n    {\r\n        \"codigo\": \"UOMACU\",\r\n        \"intencion_de_pago\": \"2024-04-20T03:00:00Z\",\r\n        \"forma_de_pago\": \"VENTANILLA\"\r\n    }\r\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4262,6 +5501,101 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Boleta-Cons x DDJJ",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/ddjj/:ddjjId/boletas/armar",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"empresa",
+										":empresaId",
+										"ddjj",
+										":ddjjId",
+										"boletas",
+										"armar"
+									],
+									"variable": [
+										{
+											"key": "empresaId",
+											"value": "21"
+										},
+										{
+											"key": "ddjjId",
+											"value": "77"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Boleta-Cons x DDJJ+Concepto",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"intencion_de_pago\": \"2024-05-15T00:00:00.000Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/ddjj/:ddjjId/boletas/:codigoAporte/armar",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"empresa",
+										":empresaId",
+										"ddjj",
+										":ddjjId",
+										"boletas",
+										":codigoAporte",
+										"armar"
+									],
+									"variable": [
+										{
+											"key": "empresaId",
+											"value": "21"
+										},
+										{
+											"key": "ddjjId",
+											"value": "77"
+										},
+										{
+											"key": "codigoAporte",
+											"value": "AMTIMACS"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -4278,7 +5612,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"actaNro\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionPago\": \"2024-05-10T03:00:00Z\",\r\n    \"descripcion\":\"Pago de Acta nueva cuota 1.\"\r\n}",
+							"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"nroActa\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionDePago\": \"2024-05-10T03:00:00Z\",\r\n    \"razon_de_pago\":\"Pago de Acta nueva cuota 1.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4286,7 +5620,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boleta/",
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/",
 							"protocol": "http",
 							"host": [
 								"{{Dom}}{{Puerto}}{{WSite}}"
@@ -4294,7 +5628,7 @@
 							"path": [
 								"empresa",
 								":empresaId",
-								"boleta",
+								"boletas",
 								""
 							],
 							"variable": [
@@ -4306,6 +5640,155 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Boleta-Alta-Imprimir",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"nroActa\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionDePago\": \"2024-05-10T03:00:00Z\",\r\n    \"razon_de_pago\":\"Pago de Acta nueva cuota 1.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/generar-boleta-sin-ddjj",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"generar-boleta-sin-ddjj"
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Boleta-Alta-Imprimir",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"nroActa\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionDePago\": \"2024-05-10T03:00:00Z\",\r\n    \"razon_de_pago\":\"Pago de Acta nueva cuota 1.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/generar-boleta-sin-ddjj",
+									"protocol": "http",
+									"host": [
+										"{{Dom}}{{Puerto}}{{WSite}}"
+									],
+									"path": [
+										"empresa",
+										":empresaId",
+										"generar-boleta-sin-ddjj"
+									],
+									"variable": [
+										{
+											"key": "empresaId",
+											"value": "21"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "raw",
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Disposition",
+									"value": "attachment; filename=\"ddjj_1.pdf\""
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "1; mode=block"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/octet-stream"
+								},
+								{
+									"key": "Content-Length",
+									"value": "39079"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 22 Apr 2024 09:55:35 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "%PDF-1.5\n%����\n4 0 obj\n<</ColorSpace/DeviceRGB/Subtype/Image/Height 39/Filter/DCTDecode/Type/XObject/Width 792/BitsPerComponent 8/Length 7155>>stream\n����\u0000\u0010JFIF\u0000\u0001\u0002\u0000\u0000\u0001\u0000\u0001\u0000\u0000��\u0000C\u0000\b\u0006\u0006\u0007\u0006\u0005\b\u0007\u0007\u0007\t\t\b\n\f\u0014\r\f\u000b\u000b\f\u0019\u0012\u0013\u000f\u0014\u001d\u001a\u001f\u001e\u001d\u001a\u001c\u001c $.' \",#\u001c\u001c(7),01444\u001f'9=82<.342��\u0000C\u0001\t\t\t\f\u000b\f\u0018\r\r\u00182!\u001c!22222222222222222222222222222222222222222222222222��\u0000\u0011\b\u0000'\u0003\u0018\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001��\u0000\u001f\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b��\u0000�\u0010\u0000\u0002\u0001\u0003\u0003\u0002\u0004\u0003\u0005\u0005\u0004\u0004\u0000\u0000\u0001}\u0001\u0002\u0003\u0000\u0004\u0011\u0005\u0012!1A\u0006\u0013Qa\u0007\"q\u00142���\b#B��\u0015R��$3br�\t\n\u0016\u0017\u0018\u0019\u001a%&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������\u0000\u001f\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b��\u0000�\u0011\u0000\u0002\u0001\u0002\u0004\u0004\u0003\u0004\u0007\u0005\u0004\u0004\u0000\u0001\u0002w\u0000\u0001\u0002\u0003\u0011\u0004\u0005!1\u0006\u0012AQ\u0007aq\u0013\"2�\b\u0014B����\t#3R�\u0015br�\n\u0016$4�%�\u0017\u0018\u0019\u001a&'()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz��������������������������������������������������������������������������\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000��(��>����V�\u0000����^��/�+�\u0011?�\u0019�\u0000��^�M̭�\u0000o�F�\u0003�_�W�\"�3�\u0000Iڀ\u000f��H�/�x�\u0000҉+��\u0000��?���W�|\u0013�\u0000�E�����I^�\u00007y��8\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u000f\u0000�'�\u0000%wB�\u0000���'��\t�!���\u0000p��(j>\t�\u0000�]п���\u0000I��_�H~\"�3�\u0000J\u001a�\u000f\t�!���\u0000p��(j<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�;�\u0000�k�eo�{�\u0000�4~�_�+���ѣ���\u0000�[���\u0000��\u001f��������\u0000�h\u0003�<[�\u0000%{�����\u0000��k�>\t�\u0000�]п���\u0000I��o����\u0013�\u0000�u�\u0000�'�\u0000%wB�\u0000���'��;�\u0000�����\u0000>\u0014|@�\u0000���\u0000p_��������\u0000>\u0014|@�\u0000���\u0000p_���\u000fٗ�f��t�\u0000��͡�\u0000���\u0000��e�\u0000����?��\u001f�h���\u0003����\u001f���\f�\u0000҆��\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000��?��\u0000?��x��I\u000fÿ���\u0000�B��\u00006�����=\u0003ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x�\u0003��\u0000���\u0000?��^��/�+�\u0011?�\u0019�\u0000��^�\u00007y��½\u0003�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J��\u0000��?���W\u0001�O�J��\u0000o\u001f�O%w�\u0000�w���|(\u0000�\u0000�C�\u0000?��\u0000G���\u00003O���j?���\u0000���\u0000��2�\u0000���\u0000n��Z�8\u000f\t�!���\u0000p��(j��\u0000���\u0000���\u0000�\u0001�/�$?\u0011?�\u0019�\u0000�\r]�\u0000��\u001f��\u0000��\u0000?f_�����\u0000kW\u0001���$?\u000e�\u0000�'�\u0000�\u000b]�\u0000���\u00003O���j�<[�\u0000$������\u0000��h\u0003�����V�\u0000����G��\u0000����\u001a�\u0000٨����V�\u0000����G��\u0000����\u001a�\u0000٨\u0003����\u0000%w]�\u0000��'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000��\u0000ٗ�f��t�\u0000��~̿�4�\u0000ۧ�֣�e�\u0000����?��\u001f�/��?���\u0000��\u0003��'�\u0000%wB�\u0000���'���\u0000��?��\u0000?��|\u0013�\u0000��������]�\u0000��\u001f��\u0000��\u0000�<[�\u0000$������\u0000��k��\u0000�C�\u0000?��\u0000\\\u0007���;�\u0000����-w�\u0000�h���\u0003�<[�\u0000%{�����\u0000��k�>6�]����\u0000I��o����\u0013�\u0000�u�\u0000���\u0000%w]�\u0000��'��;�\u0000�����\u0000>\u0015�\u001e\u0012�\u0000���\u0013���N���\u0000�w���|+�<%�\u0000%{�'��?���\u0003�>\t�\u0000�]п���\u0000I��\u0000�n���\u0000υp\u001f\u0004�\u0000��_���\u0000��W�\u00007y��\u000f��?��\u0000?�~̿�4�\u0000ۧ�֣�m\u000f��\u0000��\u001f�/��?���\u0000��\u0003����\u001f���\f�\u0000҆��\u0000�e�\u0000����?��p\u001e\u0012�\u0000�C�\u0013���P���̿�4�\u0000ۧ�֠\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iր<\u0003�g���w���\u0000��:��\u0000��?���W\u0001��J��\u0000n�\u0000�O\u001dw�\u0000�w���|(\u0003�<%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'��;�\u0000ٗ�f��t�\u0000��͡�\u0000���\u0000��e�\u0000����?��\u001f�h���\u0003����\u001f���\f�\u0000҆��\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003���\u0000�[���\u0000��p\u001e-�\u0000�C�����P����_�+���Ѯ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016�=�\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x�\u0003��\u0000���\u0000?��^��/�+�\u0011?�\u0019�\u0000��^�\u00007y��½\u0003�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J��\u0000f_�����\u0000kW\u0001�O�J��\u0000o\u001f�O%w�\u0000�/��?���\u0000��\u0000�\u0000�C�\u0000?��\u0000\\\u0007����D�\u0000�g��5w�\u0000�h������\u001f���\f�\u0000҆�\u000e�\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�;�\u0000�k�eo�{�\u0000�5�\u001e-�\u0000�������N���\u0000��������\u0000�k�<[�\u0000%{�����\u0000��h\u0003�>6�]����\u0000I��\u0000�n���\u0000υp\u001f\u001b?�����\u0000����\u00007y��=\u0003�_�W�\"�3�\u0000Iڼ\u0003�����\u000b��?��J��\u0000\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y(\u0003����i�\u0000�O��\\\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֮\u0003�����\u000b��?��J\u0000<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j\u0000��\u0000���\u0000���\u0000��M̭�\u0000o�F���?��\u0000?�~�_�+���Ѡ\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iր<\u0003�g���w���\u0000��:��\u0000��?���W\u0001��J��\u0000n�\u0000�O\u001dw�\u0000�w���|(\u0000����V�\u0000����G��\u0000����\u001a�\u0000٨����V�\u0000����G��\u0000����\u001a�\u0000٨\u0000���i�\u0000�O��_@W��\u0000�/��?���\u0000���\n\u0000(��\u0000(��\u0000��\u0000���\u0000�[���\u0000��z\u0007���|D�\u0000�g���y�\u0000�5�\u00002����\u0000�\u001a�\u000f\t�^���\u0000p��'j\u0000>\t�\u0000�\"п���\u0000J$�?�\u0000���\u0000?��^��O�I\u0016��\u0000o\u001f�Q%y�\u0000�����\u0000�\n\u0000�>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'���\u0000�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J<%�\u0000$��'��?����'�\u0000%wB�\u0000���'��\t�!���\u0000p��(j\u0000<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j\u0000��\u0000i�������\u0000h��M̭�\u0000o�F��k�eo�{�\u0000�4~�_�+���Ѡ\u000f@�o����\u0013�\u0000�u�\u0000�'�\u0000%wB�\u0000���'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�����\u000b��?��J\u0000��\u0000��?���Q�\u0003�k\u000f���Z?��?���Q�\u0003�k\u000f���Z\u0000?f_�����\u0000kQ�\u00006�����ٗ�f��t�\u0000��͡�\u0000���\u0000�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000���\u0000���\u0000�\u0001���$?\u000e�\u0000�'�\u0000�\u000b]�\u0000��\u001f��\u0000��\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��k�>6�]����\u0000I�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���y�\u0000�����\u0000�\n�\u000f\t�^���\u0000p��'j\u0000�\u000f��Wt/�x�\u0000�y+��\u0000���\u0000?��\\\u0007�?�+�\u0017���<���\u0000�����\u0003�m\u000f��\u0000��\u001f�/��?���\u0000���\u0000�C�\u0000?��\u0000G���\u00003O���j\u0000�<%�\u0000$��'��?�����\u0000�C�\u0000?��\u0000\\\u0007����D�\u0000�g��5w�\u0000�h���\u0000���i�\u0000�O��\\\u0007���;�\u0000����-w�\u0000�/��?���\u0000����o��\u001f��\u0013�\u0000҅�\u000e�\u0000���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f����\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f�\u000e\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��h\u0003��\u0000f_�����\u0000kQ�2�\u0000���\u0000n��Z�ٗ�f��t�\u0000��~̿�4�\u0000ۧ�֠\u000e\u0003�����\u000b��?��J��\u0000���\u0000���\u0000�\u0001�O�J��\u0000o\u001f�O%w�\u0000�h���\u0003��o��\u001f��\u0013�\u0000҅��\u0000�m\u000f��\u0000��p\u001e-�\u0000�C�����P���\u0000͡�\u0000���\u0000�\u000f@�o����\u0013�\u0000�u�\u0000���\u0000%w]�\u0000��'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:\u0000��\u0000��?���W�xK�J��O���;W��\u0000�����@����\f�\u0000�v�\u000f\u0000�'�\u0000%wB�\u0000���'���\u0000�����\u0000>\u0015�|\u0013�\u0000��������]�\u0000�����\u0000�\n\u0000?���\u0000���\u0000��2�\u0000���\u0000n��Z���?��\u0000?�~̿�4�\u0000ۧ�֠\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000ٗ�f��t�\u0000���xK�I\u000f�O���CW�2�\u0000���\u0000n��Z�8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000�\u000f���Wu��w�\u0000�x��\u0000���\u0000?��\\\u0007���+�����\u0000�<u��\u0000�����\u000f@����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'���\u0000�_�W�\"�3�\u0000Iڼ\u0003�����\u000b��?��J\u0000��\u0000f_�����\u0000kQ�\u00006�����ٗ�f��t�\u0000��͡�\u0000���\u0000�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����\u000f�k�eo�{�\u0000�5�x��I\u000fÿ���\u0000�B��M̭�\u0000o�F�\u000f\u0016�\u0000�!�w�\u0000q?�(Z\u0000��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��k�>6�]����\u0000I�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���y�\u0000�����\u0000�\n�\u000f\t�^���\u0000p��'j\u0000�\u000f��Wt/�x�\u0000�y+����i�\u0000�O��\\\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֠\u0003�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�;�\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����\u000f\t�!���\u0000p��(j\u0000��\u0000i�������\u0000hנx��J�ÿ���\u0000�:ן��_�+���ѯ@�o����\u0013�\u0000�u�\u000f\u0000���\u0000%w]�\u0000��'���\u0000�����\u0000>\u0015�|l�\u0000����\u0000ۿ���]�\u0000�����\u0000�\n\u0000�\u000f\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�\u000e�\u0000�e�\u0000����?��p\u001f\u0004�\u0000��_���\u0000��W�2�\u0000���\u0000n��Z�\u000f��Wt/�x�\u0000�y(\u0000���\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j<%�\u0000$��'��?���\u0003��\u0000�C�\u0000?��\u0000G�5�\u00002����\u0000�\u001a?���\u0000���\u0000��M̭�\u0000o�F�8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000�\u000f���Wu��w�\u0000�x��\u0000���\u0000?��\\\u0007���+�����\u0000�<u��\u0000�����\u0003���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f����\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f�\u0003�e�\u0000����?��}\u0001_?�̿�4�\u0000ۧ�֯�(\u0000��(\u0000��(\u0003��\u0000�k�eo�{�\u0000�5�\u001e\u0012�\u0000���\u0013���N�Q@\u0007�?�$Z\u0017���D���\u0000�w���|(��8\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?�����<\u0003�����\u000b��?��J<%�\u0000$��'��?�����\u000f\t�!���\u0000p��(j<%�\u0000$��'��?�����;�\u0000�k�eo�{�\u0000�4~�_�+���Ѣ�\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f��Wt/�x�\u0000�y(��;�\u0000�����\u0000>\u0014|@�\u0000���\u0000p_���(\u0000���i�\u0000�O��G��\u001f��\u0000��(�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?�Q@\u001c\u0007���;�\u0000����-w�\u0000�h��袀=\u0003ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:(�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���\u0014P\u0007�|\u0013�\u0000��������]�\u0000�����\u0000�\n(�\u0003�m\u000f��\u0000��\u001f�/��?���\u0000����8\u000f\t�!���\u0000p��(j��\u0000���\u0000���\u0000�E\u0000\u001f�/��?���\u0000����o��\u001f��\u0013�\u0000҅��\u0000��\u0000i�������\u0000h���\u0000�h��ƿ�j(�\u000e\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z(�\u000f?���i�\u0000�O��G���\u00003O���j(�\u000e\u0003�����\u000b��?��J��\u0000���\u0000���\u0000�E\u0000p\u001e-�\u0000�C�����P���\u0000͡�\u0000���\u0000��\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x袀;�\u0000�����\u0000>\u0015�\u001e\u0012�\u0000���\u0013���N�Q@\u001e\u0001�O�J��\u0000o\u001f�O%w�\u0000�w���|(��\u000f��?��\u0000?�~̿�4�\u0000ۧ�֢�\u0000�<%�\u0000$��'��?�������i�\u0000�O��E\u0014\u0001�x��I\u000fÿ���\u0000�B׿���J�ÿ���\u0000�:�E\u0000x\u0007���+�����\u0000�<u��\u0000�����\u0000�\u000f\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y(��;�\u0000ٗ�f��t�\u0000��͡�\u0000���\u0000��\u0000�<%�\u0000$��'��?�����\u0000�C�\u0000?��\u0000E\u0014\u0000~�_�+���Ѯ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016�(\u0003��[�\u0000%{�����\u0000��k�>6�]����\u0000I㢊\u0000��\u0000��?���W�xK�J��O���;QE\u0000x\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֢�\u0000?���\u0000���\u0000�\u0001�/�$?\u0011?�\u0019�\u0000�\rE\u0014\u0001��\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�(\u0003�����V�\u0000����^����+�\u000e�\u0000�'�\u0000��E\u0014\u0001�\u001f\u001b?�����\u0000����\u00007y��(\u0003�<%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I䢊\u0000��\u0000f_�����\u0000kW\u0001�O�J��\u0000o\u001f�O%\u0014P\u0001�/�$?\u0011?�\u0019�\u0000�\rG����D�\u0000�g��5\u0014P\u0007�\u00006������k�eo�{�\u0000�4Q@\u001c\u0007���;�\u0000����-{�\u0000��|;�\u0000�����\u0014P\u0007�|l�\u0000����\u0000ۿ���]�\u0000�����\u0000�\n(�\u0003���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f��\u0000?f_�����\u0000kW�\u0014Q@\u0005\u0014Q@\u001f��\nendstream\nendobj\n7 0 obj\n<</ColorSpace/DeviceRGB/Subtype/Image/Height 39/Filter/DCTDecode/Type/XObject/Width 792/BitsPerComponent 8/Length 7155>>stream\n����\u0000\u0010JFIF\u0000\u0001\u0002\u0000\u0000\u0001\u0000\u0001\u0000\u0000��\u0000C\u0000\b\u0006\u0006\u0007\u0006\u0005\b\u0007\u0007\u0007\t\t\b\n\f\u0014\r\f\u000b\u000b\f\u0019\u0012\u0013\u000f\u0014\u001d\u001a\u001f\u001e\u001d\u001a\u001c\u001c $.' \",#\u001c\u001c(7),01444\u001f'9=82<.342��\u0000C\u0001\t\t\t\f\u000b\f\u0018\r\r\u00182!\u001c!22222222222222222222222222222222222222222222222222��\u0000\u0011\b\u0000'\u0003\u0018\u0003\u0001\"\u0000\u0002\u0011\u0001\u0003\u0011\u0001��\u0000\u001f\u0000\u0000\u0001\u0005\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b��\u0000�\u0010\u0000\u0002\u0001\u0003\u0003\u0002\u0004\u0003\u0005\u0005\u0004\u0004\u0000\u0000\u0001}\u0001\u0002\u0003\u0000\u0004\u0011\u0005\u0012!1A\u0006\u0013Qa\u0007\"q\u00142���\b#B��\u0015R��$3br�\t\n\u0016\u0017\u0018\u0019\u001a%&'()*456789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz���������������������������������������������������������������������������\u0000\u001f\u0001\u0000\u0003\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0000\u0000\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b��\u0000�\u0011\u0000\u0002\u0001\u0002\u0004\u0004\u0003\u0004\u0007\u0005\u0004\u0004\u0000\u0001\u0002w\u0000\u0001\u0002\u0003\u0011\u0004\u0005!1\u0006\u0012AQ\u0007aq\u0013\"2�\b\u0014B����\t#3R�\u0015br�\n\u0016$4�%�\u0017\u0018\u0019\u001a&'()*56789:CDEFGHIJSTUVWXYZcdefghijstuvwxyz��������������������������������������������������������������������������\u0000\f\u0003\u0001\u0000\u0002\u0011\u0003\u0011\u0000?\u0000��(��>����V�\u0000����^��/�+�\u0011?�\u0019�\u0000��^�M̭�\u0000o�F�\u0003�_�W�\"�3�\u0000Iڀ\u000f��H�/�x�\u0000҉+��\u0000��?���W�|\u0013�\u0000�E�����I^�\u00007y��8\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u000f\u0000�'�\u0000%wB�\u0000���'��\t�!���\u0000p��(j>\t�\u0000�]п���\u0000I��_�H~\"�3�\u0000J\u001a�\u000f\t�!���\u0000p��(j<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�;�\u0000�k�eo�{�\u0000�4~�_�+���ѣ���\u0000�[���\u0000��\u001f��������\u0000�h\u0003�<[�\u0000%{�����\u0000��k�>\t�\u0000�]п���\u0000I��o����\u0013�\u0000�u�\u0000�'�\u0000%wB�\u0000���'��;�\u0000�����\u0000>\u0014|@�\u0000���\u0000p_��������\u0000>\u0014|@�\u0000���\u0000p_���\u000fٗ�f��t�\u0000��͡�\u0000���\u0000��e�\u0000����?��\u001f�h���\u0003����\u001f���\f�\u0000҆��\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000��?��\u0000?��x��I\u000fÿ���\u0000�B��\u00006�����=\u0003ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x�\u0003��\u0000���\u0000?��^��/�+�\u0011?�\u0019�\u0000��^�\u00007y��½\u0003�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J��\u0000��?���W\u0001�O�J��\u0000o\u001f�O%w�\u0000�w���|(\u0000�\u0000�C�\u0000?��\u0000G���\u00003O���j?���\u0000���\u0000��2�\u0000���\u0000n��Z�8\u000f\t�!���\u0000p��(j��\u0000���\u0000���\u0000�\u0001�/�$?\u0011?�\u0019�\u0000�\r]�\u0000��\u001f��\u0000��\u0000?f_�����\u0000kW\u0001���$?\u000e�\u0000�'�\u0000�\u000b]�\u0000���\u00003O���j�<[�\u0000$������\u0000��h\u0003�����V�\u0000����G��\u0000����\u001a�\u0000٨����V�\u0000����G��\u0000����\u001a�\u0000٨\u0003����\u0000%w]�\u0000��'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000��\u0000ٗ�f��t�\u0000��~̿�4�\u0000ۧ�֣�e�\u0000����?��\u001f�/��?���\u0000��\u0003��'�\u0000%wB�\u0000���'���\u0000��?��\u0000?��|\u0013�\u0000��������]�\u0000��\u001f��\u0000��\u0000�<[�\u0000$������\u0000��k��\u0000�C�\u0000?��\u0000\\\u0007���;�\u0000����-w�\u0000�h���\u0003�<[�\u0000%{�����\u0000��k�>6�]����\u0000I��o����\u0013�\u0000�u�\u0000���\u0000%w]�\u0000��'��;�\u0000�����\u0000>\u0015�\u001e\u0012�\u0000���\u0013���N���\u0000�w���|+�<%�\u0000%{�'��?���\u0003�>\t�\u0000�]п���\u0000I��\u0000�n���\u0000υp\u001f\u0004�\u0000��_���\u0000��W�\u00007y��\u000f��?��\u0000?�~̿�4�\u0000ۧ�֣�m\u000f��\u0000��\u001f�/��?���\u0000��\u0003����\u001f���\f�\u0000҆��\u0000�e�\u0000����?��p\u001e\u0012�\u0000�C�\u0013���P���̿�4�\u0000ۧ�֠\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iր<\u0003�g���w���\u0000��:��\u0000��?���W\u0001��J��\u0000n�\u0000�O\u001dw�\u0000�w���|(\u0003�<%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'��;�\u0000ٗ�f��t�\u0000��͡�\u0000���\u0000��e�\u0000����?��\u001f�h���\u0003����\u001f���\f�\u0000҆��\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003���\u0000�[���\u0000��p\u001e-�\u0000�C�����P����_�+���Ѯ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016�=�\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x�\u0003��\u0000���\u0000?��^��/�+�\u0011?�\u0019�\u0000��^�\u00007y��½\u0003�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J��\u0000f_�����\u0000kW\u0001�O�J��\u0000o\u001f�O%w�\u0000�/��?���\u0000��\u0000�\u0000�C�\u0000?��\u0000\\\u0007����D�\u0000�g��5w�\u0000�h������\u001f���\f�\u0000҆�\u000e�\u0000�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�;�\u0000�k�eo�{�\u0000�5�\u001e-�\u0000�������N���\u0000��������\u0000�k�<[�\u0000%{�����\u0000��h\u0003�>6�]����\u0000I��\u0000�n���\u0000υp\u001f\u001b?�����\u0000����\u00007y��=\u0003�_�W�\"�3�\u0000Iڼ\u0003�����\u000b��?��J��\u0000\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y(\u0003����i�\u0000�O��\\\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֮\u0003�����\u000b��?��J\u0000<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j\u0000��\u0000���\u0000���\u0000��M̭�\u0000o�F���?��\u0000?�~�_�+���Ѡ\u000e\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016��\u0000ſ�W�\u001d�\u0000�O�\u0000Iր<\u0003�g���w���\u0000��:��\u0000��?���W\u0001��J��\u0000n�\u0000�O\u001dw�\u0000�w���|(\u0000����V�\u0000����G��\u0000����\u001a�\u0000٨����V�\u0000����G��\u0000����\u001a�\u0000٨\u0000���i�\u0000�O��_@W��\u0000�/��?���\u0000���\n\u0000(��\u0000(��\u0000��\u0000���\u0000�[���\u0000��z\u0007���|D�\u0000�g���y�\u0000�5�\u00002����\u0000�\u001a�\u000f\t�^���\u0000p��'j\u0000>\t�\u0000�\"п���\u0000J$�?�\u0000���\u0000?��^��O�I\u0016��\u0000o\u001f�Q%y�\u0000�����\u0000�\n\u0000�>\t�\u0000�]п���\u0000I�����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'���\u0000�_�W�\"�3�\u0000Iڀ<\u0003�����\u000b��?��J<%�\u0000$��'��?����'�\u0000%wB�\u0000���'��\t�!���\u0000p��(j\u0000<%�\u0000$��'��?������\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j\u0000��\u0000i�������\u0000h��M̭�\u0000o�F��k�eo�{�\u0000�4~�_�+���Ѡ\u000f@�o����\u0013�\u0000�u�\u0000�'�\u0000%wB�\u0000���'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�����\u000b��?��J\u0000��\u0000��?���Q�\u0003�k\u000f���Z?��?���Q�\u0003�k\u000f���Z\u0000?f_�����\u0000kQ�\u00006�����ٗ�f��t�\u0000��͡�\u0000���\u0000�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000���\u0000���\u0000�\u0001���$?\u000e�\u0000�'�\u0000�\u000b]�\u0000��\u001f��\u0000��\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��k�>6�]����\u0000I�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���y�\u0000�����\u0000�\n�\u000f\t�^���\u0000p��'j\u0000�\u000f��Wt/�x�\u0000�y+��\u0000���\u0000?��\\\u0007�?�+�\u0017���<���\u0000�����\u0003�m\u000f��\u0000��\u001f�/��?���\u0000���\u0000�C�\u0000?��\u0000G���\u00003O���j\u0000�<%�\u0000$��'��?�����\u0000�C�\u0000?��\u0000\\\u0007����D�\u0000�g��5w�\u0000�h���\u0000���i�\u0000�O��\\\u0007���;�\u0000����-w�\u0000�/��?���\u0000����o��\u001f��\u0013�\u0000҅�\u000e�\u0000���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f����\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f�\u000e\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��h\u0003��\u0000f_�����\u0000kQ�2�\u0000���\u0000n��Z�ٗ�f��t�\u0000��~̿�4�\u0000ۧ�֠\u000e\u0003�����\u000b��?��J��\u0000���\u0000���\u0000�\u0001�O�J��\u0000o\u001f�O%w�\u0000�h���\u0003��o��\u001f��\u0013�\u0000҅��\u0000�m\u000f��\u0000��p\u001e-�\u0000�C�����P���\u0000͡�\u0000���\u0000�\u000f@�o����\u0013�\u0000�u�\u0000���\u0000%w]�\u0000��'���\u0000ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:\u0000��\u0000��?���W�xK�J��O���;W��\u0000�����@����\f�\u0000�v�\u000f\u0000�'�\u0000%wB�\u0000���'���\u0000�����\u0000>\u0015�|\u0013�\u0000��������]�\u0000�����\u0000�\n\u0000?���\u0000���\u0000��2�\u0000���\u0000n��Z���?��\u0000?�~̿�4�\u0000ۧ�֠\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000ٗ�f��t�\u0000���xK�I\u000f�O���CW�2�\u0000���\u0000n��Z�8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000�\u000f���Wu��w�\u0000�x��\u0000���\u0000?��\\\u0007���+�����\u0000�<u��\u0000�����\u000f@����\f�\u0000�v�\u0000�'�\u0000%wB�\u0000���'���\u0000�_�W�\"�3�\u0000Iڼ\u0003�����\u000b��?��J\u0000��\u0000f_�����\u0000kQ�\u00006�����ٗ�f��t�\u0000��͡�\u0000���\u0000�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����\u000f�k�eo�{�\u0000�5�x��I\u000fÿ���\u0000�B��M̭�\u0000o�F�\u000f\u0016�\u0000�!�w�\u0000q?�(Z\u0000��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x���[�\u0000%{�����\u0000��k�>6�]����\u0000I�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���y�\u0000�����\u0000�\n�\u000f\t�^���\u0000p��'j\u0000�\u000f��Wt/�x�\u0000�y+����i�\u0000�O��\\\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֠\u0003�m\u000f��\u0000��p\u001e\u0012�\u0000�C�\u0013���P���\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�;�\u0000��?��\u0000?��xK�I\u000f�O���CW�\u00006�����\u000f\t�!���\u0000p��(j\u0000��\u0000i�������\u0000hנx��J�ÿ���\u0000�:ן��_�+���ѯ@�o����\u0013�\u0000�u�\u000f\u0000���\u0000%w]�\u0000��'���\u0000�����\u0000>\u0015�|l�\u0000����\u0000ۿ���]�\u0000�����\u0000�\n\u0000�\u000f\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I�\u000e�\u0000�e�\u0000����?��p\u001f\u0004�\u0000��_���\u0000��W�2�\u0000���\u0000n��Z�\u000f��Wt/�x�\u0000�y(\u0000���\u001f���\f�\u0000҆��_�H~\"�3�\u0000J\u001a�\t�!���\u0000p��(j<%�\u0000$��'��?���\u0003��\u0000�C�\u0000?��\u0000G�5�\u00002����\u0000�\u001a?���\u0000���\u0000��M̭�\u0000o�F�8\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z�\u000f\u0016�\u0000�!�w�\u0000q?�(Z��\u0000\u0016�\u0000�^�w�\u0000q?�'Z\u0000�\u000f���Wu��w�\u0000�x��\u0000���\u0000?��\\\u0007���+�����\u0000�<u��\u0000�����\u0003���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f����\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f�\u0003�e�\u0000����?��}\u0001_?�̿�4�\u0000ۧ�֯�(\u0000��(\u0000��(\u0003��\u0000�k�eo�{�\u0000�5�\u001e\u0012�\u0000���\u0013���N�Q@\u0007�?�$Z\u0017���D���\u0000�w���|(��8\u000f��Wt/�x�\u0000�y+��%�\u0000%{�'��?�����<\u0003�����\u000b��?��J<%�\u0000$��'��?�����\u000f\t�!���\u0000p��(j<%�\u0000$��'��?�����;�\u0000�k�eo�{�\u0000�4~�_�+���Ѣ�\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f��Wt/�x�\u0000�y(��;�\u0000�����\u0000>\u0014|@�\u0000���\u0000p_���(\u0000���i�\u0000�O��G��\u001f��\u0000��(�\u000e\u0003�_�H~\"�3�\u0000J\u001a��\u0000��?��\u0000?�Q@\u001c\u0007���;�\u0000����-w�\u0000�h��袀=\u0003ſ�W�\u001d�\u0000�O�\u0000Iּ\u0003�g���w���\u0000��:(�\u000e�\u0000�n���\u0000υz\u0007���|D�\u0000�g���\u0014P\u0007�|\u0013�\u0000��������]�\u0000�����\u0000�\n(�\u0003�m\u000f��\u0000��\u001f�/��?���\u0000����8\u000f\t�!���\u0000p��(j��\u0000���\u0000���\u0000�E\u0000\u001f�/��?���\u0000����o��\u001f��\u0013�\u0000҅��\u0000��\u0000i�������\u0000h���\u0000�h��ƿ�j(�\u000e\u0003�g���w���\u0000��:��\u0000\u0016�\u0000�^�w�\u0000q?�'Z(�\u000f?���i�\u0000�O��G���\u00003O���j(�\u000e\u0003�����\u000b��?��J��\u0000���\u0000���\u0000�E\u0000p\u001e-�\u0000�C�����P���\u0000͡�\u0000���\u0000��\u0000�\u000f\u0016�\u0000�^�w�\u0000q?�'Z�\u000f���Wu��w�\u0000�x袀;�\u0000�����\u0000>\u0015�\u001e\u0012�\u0000���\u0013���N�Q@\u001e\u0001�O�J��\u0000o\u001f�O%w�\u0000�w���|(��\u000f��?��\u0000?�~̿�4�\u0000ۧ�֢�\u0000�<%�\u0000$��'��?�������i�\u0000�O��E\u0014\u0001�x��I\u000fÿ���\u0000�B׿���J�ÿ���\u0000�:�E\u0000x\u0007���+�����\u0000�<u��\u0000�����\u0000�\u000f\t�^���\u0000p��'j�\u000f��Wt/�x�\u0000�y(��;�\u0000ٗ�f��t�\u0000��͡�\u0000���\u0000��\u0000�<%�\u0000$��'��?�����\u0000�C�\u0000?��\u0000E\u0014\u0000~�_�+���Ѯ\u0003ſ�H~\u001d�\u0000�O�\u0000J\u0016�(\u0003��[�\u0000%{�����\u0000��k�>6�]����\u0000I㢊\u0000��\u0000��?���W�xK�J��O���;QE\u0000x\u0007�?�+�\u0017���<���̿�4�\u0000ۧ�֢�\u0000?���\u0000���\u0000�\u0001�/�$?\u0011?�\u0019�\u0000�\rE\u0014\u0001��\u0000͡�\u0000���\u0000�\u0003�_�H~\"�3�\u0000J\u001a�(\u0003�����V�\u0000����^����+�\u000e�\u0000�'�\u0000��E\u0014\u0001�\u001f\u001b?�����\u0000����\u00007y��(\u0003�<%�\u0000%{�'��?����>\t�\u0000�]п���\u0000I䢊\u0000��\u0000f_�����\u0000kW\u0001�O�J��\u0000o\u001f�O%\u0014P\u0001�/�$?\u0011?�\u0019�\u0000�\rG����D�\u0000�g��5\u0014P\u0007�\u00006������k�eo�{�\u0000�4Q@\u001c\u0007���;�\u0000����-{�\u0000��|;�\u0000�����\u0014P\u0007�|l�\u0000����\u0000ۿ���]�\u0000�����\u0000�\n(�\u0003���\u0000�[���\u0000��\u001f\u000f�\u0000��k�\u0000f��\u0000?f_�����\u0000kW�\u0014Q@\u0005\u0014Q@\u001f��\nendstream\nendobj\n8 0 obj\n<</Filter/FlateDecode/Length 1449>>stream\nx��ZKO�F\u0010nin�KP\u001e�(��\u0007`�h����#\t\u000b�\rZ^C6Rv\u000f�YP\"O�nB�%�\u0015�����\u001bO\u0003�\u0013��0�볻�UݮGW\u001b�)^��`YH8�������+,e��'�g�����\u0017���#���Ɠ-�)����ړ�ϖ\u0017����\f��{��g\u000e��?�\u0001z2�1\u0015x6ι����<1��U`�(��Sq�����bJO�Nf|��\n\u001cV\u0013A�\u001cWG�|\t�c�\n�1#\u000e�\u0011����<�䡭F����T(�&J-#J�����\u0016g��d�q׌��\f\u000b�g�yKf���\u000b�7����=t���s�=:@#���Kk�\u0004�yc��<��o�\u001d�}k�\u0011�a����\u0000\u000b���O�3�7����>�\u0005��O���Gt]^�a\u0018�h\u001c��57�]\u0018�&چ�\u001cu\u001cJ�P�����\u001c&Qw���#(\u000fF'`b�!\u0004�R�[�ȓ��\u001a5�C�\u0012�<1���\u0002��:��T��K<������j��N��N�kS-\b,+0O��\u001c�J�ټ�\t�>�,�3�^ͬ®�Î�\u0004�OdR{?�*��HZ�]\u0005OZ��1b}�V���\u0000�~\u0002qb\u000b}\u0007�b�>��[�\u0003\u0011c/^+\u0017\fw��\b�6\u0001�BT����iO\u0015�bCWQpz/o��_]�\u00131犘OEȣ5j:��.���ZF�Ҹ\u001e\u0018�n�\u001e�\t�\u001e\u001c�M\u001e|��\u0005ث[S2�hwǧTf\u0005�ZfDܚD%��\u001b�7�\u0007��_����˙�\u0004o��W?�_^��=%j���^$��\u000bDc\u0018nL&,&\n\u0016\u0012D��N\t���x*�R\u0013��\u0011�Ժ�pu�|\u0000_\tcpNˢ;���5j:�\u0005ף�PJM�ZF�R;��խKy\"Y\u0006�&�2��{�HS�tw���7�jr�rn����\u0012��>Hz��ɴf\u0012<-�赢���\u001f�&�Y&\u0016\u001f~�[�\u0014��6\u0004�y\u000b\u00165^�6\\G\r��n�BH��e\u0005-#\n�\u0017\u00062\u001fۅ�\bM��\bn.�E�\u001f�F�%��6S�����zq)3A緗�4�;>;�'o���\u0018�r���cl.�\u0001Ӭ��N<�ln��E:�Z�ɾ�X�E���w%�uC_\u0006��Ȭ�I0\"���\u0019�u�rk�%��\u0004���Ɲ\u0017*v�$06!b�\b\u0013=EQ�[DQ2!�.D\u0005;������K �Rj�d�)tdC�em\u0015V_\u000f�B�=V�P\u0019QJ�k��\f<\u0016��@�����\u0004Ye���]\u0002\fE�\u000e\t_��ݴ\u001b��S�\u0011z\u0004����\u0004}����Q�xK2\"!\u0017�,W1\u001f�Dr\u000e�I��v\t��R�&Y+���.�+W�S(\u0006�g;�D�\n�\u001dE��R���\\�\n��\u0004�\u0003w����J���~p9���z��~z\u0001�m�����!s�epQ�:\u001a?\u0019\t\u001d�XG'��yk�ts��߯�M�U\u0006Z?�oG�Фa;Cb^m\u0014Q\b�2���t���3\u0001��B��i��������\u0006���a]�N����ᅹx��q�e�|�Rer�=2\u000f��EeD)����U�lQJ����T(�&J-#J������!�p�2X�I%2.o\r8���1!�-*�(M}�i�u\u001fIF25��-��_�@)��\u0002��<8w�xp�\n���\u0016]T<��)5�G�S���(��(�n{k��u\b<:�\u000b\b<R�EU^B��X�\u000b[[.�˿VdQų*����Fü\u0016z�{\u0017���^��z��J���\u0001w+�\u0001$�G�\nendstream\nendobj\n1 0 obj\n<</Tabs/S/Group<</S/Transparency/Type/Group/CS/DeviceRGB>>/Contents 8 0 R/Type/Page/Resources<</ColorSpace<</CS/DeviceRGB>>/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]/Font<</F1 2 0 R/F2 3 0 R/F3 5 0 R/F4 6 0 R>>/XObject<</img1 7 0 R/img0 4 0 R>>>>/Parent 9 0 R/Rotate 90/MediaBox[0 0 595 842]>>\nendobj\n10 0 obj\n[1 0 R/XYZ 0 605 0]\nendobj\n2 0 obj\n<</Subtype/Type1/Type/Font/BaseFont/Helvetica/Encoding/WinAnsiEncoding>>\nendobj\n11 0 obj\n<</Length1 25072/Filter/FlateDecode/Length 8599>>stream\nx��{\t|T���s�w�LfI&�}��lde �@�����n�\u0004CL  K\b D���BT\f�䥸4RDD\n�\u0002E�*5�j�U_�j݊b�-�Jqr���;3!P�������}�_���s�Y��9�:*1\"2�z���ƕi��=�\u0017=�\u0013�\u001f�oX�d���EDJ\u001a�\u001e[��i~�{T\u0014�O\u0010E����W{�˜�D�\u001d\u0018\u001fX�\u000e�\u0011�\u0017|���>�KV��6f���>O\u0014;e����{�� *\u001c\u0005�gɼ5\r�]�\u001d�ʷ0?����a�ԟ`��\u000bD�\u0005֟e�\u0003l+\u001d!%\u0004��d����\u001d�d\u0003�&�T�,�^�HpV%�V���\u0018�O-T�1\u0001��5�T+��T+?�v\u0013�������J���J\n\u0004�\u000b�\u001b�\u0000=E{h\u0007=M\u001dt�e��y���у�\b�~��E�\u0014��2���4P��v�\u000b��nf�\u0015*i��y:Mo�9픶�v�yJ���3\u0015\\'\u001b�\u001a\\�\fp��.�,\u0016��q��R�+��l,=c���T�W�uX�\u0015�Je���N��l\u001f}`pἍ�����(z���\u0013�\u0002�N�/\u001b\u001c��%�� �n\u0013���R��ZI%�h�h(fz�U�.��\u0015\u0019�i�z\u0005��菿0\u001a4�C\u0018�i�\u000e%s\\m�ojE�K�=\u0005�W|�9�i\u001d4�#�)�h 0�BM�fwhI\u001d<�ԡff�����\u0005�\u0013�T�u<7zTh��գ�7�\u0002��\u000b��\u001f=J\u001f��vh��g\\uG���i�9n�\u0018|��np\u0001Ԓ�E�Z��6\u001b)�gU�!�3̤�(*\u0015u�<ۏ\u001c'Ϟ<[\u001c��83=NO�J�\u0015<���h3�.|�h���\r���)�L\u0004eP\u0011��e�Yim�amJ�ڨ�)���q1f+�\u0013m�\u001b\u001dc�N���v�����<��ގs�2gT\u0019N�<s\u001e_�see�,�\u0010�r��\u000e,\u0019��Y�J\u0006\f��uǸ\f�\u0014�gFz\u0016z��\u00132�\rJ��7�t��ko\u0012Ǘ���k��r��w�?�I��@�5\u0015uu\u0015��\u0014�\u000b\u0016ܲ�nAss�#MO���Sk\u001e���ly��~�N6�b���k��C;�\u0013q��\u001d������\u0006�YT29N�����\")\u0013\u0006yH`��$�s�j��[\u001c\u0016�!W\u000f�\u0003z���\u001e�\r!F��*�j�T�����-\u0018��b�\u0016\u0013>2�\u001b��-�֬�MF��Af-�\u0012\u0017�8?��4}B�e꜊'��o�쳱\u0010WQ�\u0019�٨�bܻѡ�l�?\u000e���k�3�3;����pO�\u0014�b��Xl2\u0012�+*��%l�2�XbZ�nVֳV�\u0010;�ت��q\u000f\u0003p�R;�\u0015ϱ��n�v�X5G�����\u0000_~1�-\u0017�\u0010\u00155���ڛd\"'��0_�x����jY�e}j��\u001a�0)\u0006��ݚ=)�L��d���+��\u0019[�ܜ9+/\u001f7�\f]*\u000f�dz.]�����έ�o����pݼ�\"����7��>�3�\u0017�Te���zu�\"�*���������vE:;;����nF;��e��x*�%�o�e�\u0006\u001e�����`^�\u001b\u0013�=VJ5$%H��C#%Y_�+δ��4r:\b��:\u000bYF�\u0012�\u0002��j�U;g��\u0012�b�X���GMl����w���Ӈ��ְ&vg�>��U#D��/\u0002#���(𴤮��H���b��\\�\u001a\u001c&�a!�\u0013�Bvsz\u0014\b�u��Oj���A�8\u001dY\u0019̣�\u0003�tL9p�=\u0007D\u000b+gK�H�Kt���\u000f�\u0019��{f\u0011?\u0015+�\n��/�\u001c�3#��/��`P\u001b�ZK�a=\u001938��5;K��WS~��R�s��\u0013\u0006u�.�յI\u0019�u\\Y���ܟ\u00016a�U��\"�6���<ĴD\u0013k��\r��\r�e1\r����\u0014�2�jJ�'\"9Er����\u0016�8y\u000en�YV�JURy���U;�����ZŪ�3�����[08�[���f'f��J�/:�pV0���a\u000fU������Q�ƒ/t�\u00187���V���_,��2�K\u0004�.�Π^�\\2u�d���\u001a\u0018\f��hPT��,V��N��S7|���^�\u001d�a?o\u0012o�\\�f����T���\u0017~�\"��}Oc�u�W�8��c[R�j\"%\u0019��Y]����mN�le�v�\"��fa\u001d�KVz��0��\u000e4�!SM��H�\f*�t\u0002�\b�Q�d�T\u001b��#x;�]�s�\u0014�\u00189W,LafEa�a/�PC��1<�jf��7�n��\u0013�T%W\u0019�\f7\r7oV�+\u0007�\u0007-�\u001a��زX\u001a��E��\u0015�A|8��ֳ�x+�l^o��~��1�g��\u001e�L�͏�g�\u0011�S�\u0004�\u0010x�\u0019\u0015�ఠ[�~Р�ўD��\f'�ig�b�O<�jăi\u0017ک��J��<u�\ne�73$���\u0005�7C����B1\u0018\r���Z�f`F%KM5fQ�%l �C����a�Kp��I\u000e�\u000e��\u0010�6�\u0016�\nڢ=�F㱚\re���\u0017�\\���W�����</�\"��*=��B+�\r\r0Q�Ҙ�8�'*�{��q��A\r�� h9\u001d�y2�hPQ�H�_^_������Vff���,���t���O�\u0010\u0015���YY�\u0017Ba��\u0016�Fl\u0010��5l\u000bh�\u0015�\u0003\u0013ES�/\u0016�A�����Hu�K$���4�&�����LS�8=\u0019�����Vm\u0017��^V���\u000b�p���5MM5\u0017����w�^\u000f��M8�u��5��\r� (�\u0011\u0006�rMUy�A%7W�\r\u0016�u�\u0015\t\u001b�Qɱ\u0016�jO�P\u0013<Q�1\u0011���� Y�0k8�`̒�E�I�\u000e\\@\f\"L��XĜ��<�vҤ׿\u0014\u000e��G\u00141�x��)��\u001b抷�>��M[ׅۛ\u0016�ߤ\u001c7����\tkr$=���v��\u001fw\u001eQ,b�uK����p\u000e��y\u0005#�AiPka�v�\u0010�u'T$�:��\u0014�x[lR��o0E\b�_\u0004]���N�M��[�\u0019\u001a�\u0016V\u001be�G�*vJ��V\u0006�\b�*t7\u0011LR��P<i�\"��XW�Ȳ�\u0014�����d�\u0003~Súu\r���xM�e�����\u0019�^-�I�|Ef\u0003ŧ�ڬ�\bZ\u0010kX�LE\u001e�� ���\u0018��J\u0019I���E��\u0011������\u0002)' {/���P\u0018C|�.V���W0 �8�8m�g��\u0018���B[�\u0016ˆ�\r�vjg��v�\u001eמ���vw{l{���;%\u001b�2��\u00128b=\u000b��\u000ff`ƒa��[yz��s&�\\�2�{%{j�=%��7\u000bj\u0017�pü�\u001a��=�6c��9\u0007\u001fp-���<~ʯ\u000fw\u001e�7f\\���9Y���\t|g�͡�|;5��y���&G��E�g��J\r%�R|\u000e�[�f��W\u0003c{�e1>��\u001fOkݹ�u�=#���� �b1��o�8_:��޽��\u0006K��\u0001\u001dCP)8(�\u0006��)���xB��Uoj����<\u0016&�x���d��zt�\u001dAH��2�rR�\u000e�(7둰�X�G�[to�s'�|qN�xp�u�-]z�u��qe����W�\u0006�8�Ċ��}�ѣ��\u0014�I��\u000b\u0017%�D_�5&�u;ŴF:멉G�\u0019��))�M�B�;�m�M��\u0006�vPXg\u001d<'�@W��W��F�j{5��D��[~����0):��ѨN��F�\t�\\��g�]f���u�7\\PV4ԭ�(�ۗ\u0015�D\u0016ņ�lί�ᭃ���+W�].�GQ���}FP\u000e���$�[��Y��\\�\u001c}{\u0014.���3Z��ٷ'�fœ��2��rsAtgP��\n�\u0004�8,XY\u001e�2\f�/s\u0018<�Y�N�⡬��cK<<���r��ʪF��W�ߕ������\u001b���܇\u001f>Sݖ�2��m�\u000f�ǎC�ţ�����\"\u000b�W��4e2�G찰As��\u0006m\u0012��հ\u00011)\u0012^ �j1��6��jY��\b���b��@����K�rV�\n��\u0016GC\rb<%2�\u0000�SF��~�-\u0011�Y*�\u0014���\r�O+\u000frE�n_u\u0015t/�2}Q\u001a�X+_ij��\"̪[!����󥢕HG3��@\u0012l�xS�<��Ϣ��#�\r^}��g���[���a�Пt�Ǘ\u001d\u0017e7�FJN4\u0018c��i�%q[��HN{R����v�`�P�`g�㤌�\u0013:\"f\\�\nĩW ~$l�~��mE������\u0017e\\�t���W���ii�4c�)͜fI�(�)r\u0017�\u0016�\u0015�\u0017%\u0015%\u0017�\u0014��<c�ex�p�p�����]�c\u0012��B���Y�3x��\u001e/�c�A�\t���ۗ}����|���f}~*~�Q\r��1�^\u0012�]-ʫ�3f��ꧼ�v֌�~j�ʑ���r�\"�\u001eMžx3g6���-�mH��T*\u001dhI(�����:W�-�\b���\u0013�\u0016��FO��Z�\u001e�Hm[��]ʛ]�ʾ�\u0016�yK�:�zo��7�zS\u0003�]�s�yD}\f��[d\u001e�*�nk�?�\u0011��/\u000b\u001a��2ґG,\\�f�5k�����αx�ɹ��'|�\u000f?��D����P�<\u0002�\u0017�y6\u0014g��Y�j�-�X�/��\u001fk�5��|[2|�W�f�ғy�AJ��te��\\G!���_f�O���)l\u000b�2V\u0013ve\u000fv\u001d5X�Ϋ\u0011'ħ�x��}��ɠ�,C�ƺ/���l.n���\u0007�\u0003WA\u00111�t��\u0006)';�A�\u001a�H6��\"b�u�\u001b&Uݞ\u0015\u0017-�a�yO�._1����\u0018��xi�_�>P�09)���.�pf6=�\u001b\u001aiUl\u0011�)&�b����d�-�%\"%Ue1�����\f�G��D��I1G�&\u001aiX��Vjt��Kr��_��\u001dRY�P$+�pzc����\u0016Lp���0���Q\u001a��r͹�܈\\knd�-?��U\u0014���M�M�M�M�M���ɎA�\u0013\ne�J������r\u0014��O#���\u0007+jj\u00171��ޏ�ԝ\\2��\u000b\u0016M�:u��?�����\u0000\r()\u001b4��]Y�n���22\u0018�\u000e./\u001bT�\u001e��kˮC���2�G?�A�G?_�f3�y+9ٶ��Q�!�(�K:8�7o� -�\r�\f$&�d^�{$�\t�Nl\u00187��W�'ć,E{P��t׹\t#N?�{E=͆�L�ߖ���|\t�h2��%S:Vު��Q�@2\u0014Y�����\"�G�8;=�\u0013ä�e������+��\u000b��]�V�?�~�c�]׵S�9�b�O�ҏ(�Qe\\u�<�k;?��\f�f�}\u001bI�v��yX��9K\u0010�^0�\u0017[(\u0010\b�\u0002�\u001b\u001cY�%r\u001a#Va�Ud���8V�\u000f\u000b1G�s�\u0002G��#�E\u0019�����\u001d\u0006�1L\u000b?�}\u0005Z\u0006\u001d&�\u0012)'O\u0014ӄ\u000e댊_�\u001axN�d\u0004�\rr�\u000e�틴���R*+�\"f��)��%�\u000f_о\u0012\u0017��\u001d�f≹g�:u���o�j���ϧ��\u001dn�K�oko�\u0016a�)�B\u001a��d�����\u000b�ۡ�K��:��/�\u0007�}D����&\u000fe�OP��P\u0013�d��\u0006\u001c�崖��\u0015�L�\u001117�f�@��q��*t�\u0013\u0019���vP\u000b��#�\n�~Z��4���T\t��D��\u0001qp\u0011���DP����.E���4�ڰv\u000e�\u001d�\u001a�n\u0005\u001c��4��`l\u000e|�~�s;M��R\u001a�=;�Wt\b�K���9O!�~E�X�.��T��!��[\u0014B�)�x\u0015�^��X\u0014\u001d�\"\u001d:@�% p�7\u0004�C@:\u000faX\u001d�\b.�`\u0002\u0015�@�%�a]xfk\bjt\u001e�0\u0012�p{\b���!8un7��{b��\u001d�r�+q\u0015v�-�硁V]zW`�\u0002�q\t�WA\u0006\u0007p/szb�m�$�1/�����~�PӍ���&��&���\u0006���9��0.\u0002g߆��\u0004~q��[\u0018\u000f�b��\u0019�(�\n���\u0002g�Om4O糙\u0016ӵ�Ei:o��ͤfL�n��T��-��\u0010u�t-��\u001e\u0002:btz4T�s�7ǜ\u0015�\u0000�/\u000b-�\u0016��ۻh*�G�8<����$��Fe�-\u0011�\u0011���n\t��Z��x]��\u0003M��^�,tk����S$\u000e�/u�.B�<%,́�O�Ѣ���\u001eAݪ�\f�D����a�X�\r\\�OM�e�\u000b<���b�9�\u0006Ц�N��`7��̽��b�\u0017q�n����>��\"�\u0006��X#%@�\u0012|Ѓ5�1\u0001�w�ޞ�N�J\u0013�d\u0004=�{�0D褐�4C���XW\b_���hO\bJ!���~\r�������\u0000��C\u0012l����x\u001a�Ue,�\u0006��\u0001~�f\u0002��D�3�γ\u000e�\u0007����l,}N�+fV ��\u0007���l\u000b�ǜ��\u0019fe��%�̲�x�\u0001c�\u0013B@ml+�\b��9�H�!W\u0014ഉ,\u0017{Z�3�\u0013}��Y��N�ɀe�-6���o�,6�U��J\u0011=����Vb�.ł�^�T�k���W�� �\u000f\\��\u00026�^c���8�\u0003�d�\u000e��U\fl\u0005�(\b\u001cd��C�I\u001c\u000e�\u0014���̦{�#x�F����C�<���_-��\u001a�\t�\u001c���G��~������d\r��O���\u0003�u\u0000>P�(��kpo\u0013q�ci4��U5@\u001f5�BJ\u0017}Pe\f��\r�5�\u001a'\u001c��]\u000f\r!��\u0000}\u0007���h�E�\u0000m�p�;Bv�7�>V��u\u001c\u0011\"�%�г\n�'�z\u000f�H�r03\u0012o�\u0001�\u0010[fus�\u0003'&Q��]\u001dM\u0006�0�f���u:�h\u0004V�O�1�F?��<\u0000>f�\u001ea�N�n���нyt\u001bV\u000f��T=j\r\u00027Ҷ\\X�7\u0014Z�;2�s\u0000�\f����$�G0�\bo���I�8Kz�LжC�b�!�2\u001d\u0013qV��m��3\u000e�6]G����y�KQ��{O�QVcG�=-^��\u0004��tZ$/͸�J=f\u0010F����Q6�m������\u001e��@b�\u0003e\u001d��P\f��>\r�\u0000�\u0007��G�#�K����?\u0004�t�MT\u000e��\u0001]�;\u0016�\u0019V\f�7���}\u0001�X'[\f\n������9��h\u000b\n��t\u0017NM�\u0001�S+�3��i\u0001�/3���߅�\u000f��h�]L�1�u-��\u001bM�W3`\u0006\u0000T�\u0016�O��y50\u0015����i�\u001b�;�s\u001b⃙-d�������@\u0017�gN��C��ФDh��{��\b]\u001bz���D�#%�=��!5��\u001aܙ\u001c���\u000f�-��$|M�u�O�����\u0018�>���ɣ\u000bt���|6\nЗ\rfS�C�xO�%�¼�S\u0012ˁds\u0001���ޟ\u0004�\u0003(���b�l\u0012��\u001a���26�\u0002���L��R\r\u001b�S�`�j��L�\u001b\u000f_��X6\u001b\u000e�F\u0016�\u000fX����R���\u0005f'c�$�\u0012��1����!]�N\u0019��\u0018�H�ĞY�\u0011踞�@\u000bF?����\f$�W�!��i��#\u001f�Qj��)\u0012�L�\u0007~W&�m�H\u0019�L�J��'�U���=s\u0014�yJ{��i�l-\u001c���3�ˬ�'ʳe.�\u0013��P\u0010\u0007^\u0001���];����$0#�\u000e����#�F\u001bp\u0006��W��w�w\rԥ*�C٪�@|�o��ѕߥ�\u001c�\u0003�����Wp�V}�\u001f�/u5v��L1�GfZ\u0013���i��\"��<,�2\u0010k�K��u\u001dF,�\f\u0002\r�����\"V�$�u�%���\u0017�M�y�\u001eC|����˿t�%@>/�\b\u001c$\u000f{\u00111�E�}wN�_D���>\u0013M����7�I9���,�+\u000e�\u0012Ȭ[\u0006m\u0000ٚ����p�.�/@��M�\u0018�H=2p+,�\u0014{�[5L�#\u0005=�d\u0006��u���t���g�z)\u000b�o�ߐ\u0003ϗ��v�AT[���n�\u0002<�w7ˢ�`멺�FH>��\f`\u001c��d��\u001d�h�a��w�و��x�-�B�߫��\u0006��Rw��Oq�-�;���c�W'q|(>D�Y������%&\u0007Σ��\u0005I2�\thG\"�\u000e�NDɟ�9\u00120���\u0018\u001b��\u001e�\nB\u0019�\u0002QQ�S��^\u001dF�ZK�(�\u0010�\u001dj��\nk�������L�\u0001�{���h�P!�\u0000����O��^���-уX�\u001a\\����yx-���s\u0007*ő�M˩�%����8v���H\b�B��;�\u001b\u000fiU|/\\s��T��3d�5����rŷ�\u001b$�\u0003\u0004o�ˎ×?�\u0012�p��z\u0005���i���\"%b�\u0018h����&2P�GB[%~�X�C�u8�@\u0003 I������K��Y<O�\u001a\r:=\u001e���0�\u000b�36��\u0003��\u0003B�ǢN�`�\u0019\u0013�O��\"��*/Ч�]r�w�t�w�\u001fC+\f�\u0014�����0�����\u0015~�V��\u0001Hj�Q\\���~W��U�.3V�Jç�w\t����Ŀ�>��\u0019\u001d\u0004\u0018P7�\u0000g�\u0013\f\u0006�\u0004��#;r���(.��e��M�rI��A$�[��\u0019\u001b��D+��\t;LF�ބ]O��Sг\u0000�$bFb�/8�#��\u0012>};��1��?��~\u0013��\u0004s\u0006��,BU��\u00191�f.Fg��y\u001f�����\u0003�\u001e�\u0010{�H�IFM/l6\u0002m?*d��\u0003\u0016�nG!�-\u0005\u0015�ة\u001cy�(ꃬs\u0002�\u0002�t!�*DvQ�\u0003\nC 3�6�\u0013��Q7��ȧݰ�\u0014����m\u000b�\u0015�ș�A�\u0000�\u0013Ci8�\u0000\u0016�\u0005\u001c��\u001dX�\u0001��\u0011��\u000f���z��n\u0001���6\u0015�K�\u000f���\u001c�\u0003���.9�s v(\u0006��NS�샯~�v\u0000d�\u0007���ƋL�\u0018�ދ�U��t����A��S\u0012�+l*{��\u0001\r�\nR\n�3ط\u0011^��^��gK�\u000f@�\u0001^�߲�\u0001��wd�+u,�����@<�C�k\u0001���j<�\u0000%�W���ӷ�\u0016�U��x�@s�t\n�#b\u0011�\u0002%S�/}��oѼM��G�9G ZԠ�7с��A-\u0014��0\u001a�\u0004�\u0003;ζ���'�c��D\u001a\u001dx7���\r�\u0005��m)Ԃ/�}-�j��[������\u000e<\u0016x\bp6�{}\n<.[V��3�/d�����\u001e�v\b\u00105\u001f��G�[�rc�\u0014c���)�ݴv@ZW�/�� ]��!_\u0017�\u0013��\u0005��P���g��\u000f�\u0016�\u001d\u0005^\u000b��ݎ�\u0019�>��[.\u0014�LoM��u~)pX�.�ۇ!�C���z%\u001ax<�O�����\u0007N�Z\f¥�B�k\n��\u0012��R��{�\u0007Јeȩ\n`K�\b���y�h���\u0002W_��-�d�R��׭\u0004\u001b�tt������?+ѱ�Q�<�s\"~3\u0010�:1��)��=p\u0007�:Јl�؎�..��\u0006ќ\u0003�񿆖mA��>\u0011���:���!��\u0007�>\u001b��^\u000b�v;n\u000e!�����߁�����#N�7cm/�b/�b/�b/�o��^��^��^��^��^��^��^��^��^��^��^��^��^��^��^��^��^��^�����o�\u0011E�V��Gud �\u001c���\u001e?���F�Qe�o�3�\u001f;Ɵ:Ɵ��q�\u001f9<F;r�\u001f\u001e�\u000fy����\u0013^�x-�h�\u0007\u000fDk\u0007o�\u0007���h����\u001e���]�F�ܡ�\u0015|�s�#{fk���\u001fY��y8K�3���\u000fg�݂���w�����h\u000f\t����뾀���\u0011Z�\u0018��\u0011��\u0007�ڃ7�\u0007��~���w^�?\u0016|G\u0014��L�\u0016��\u0016�.��\u000b�M��:���������t�w8��.~���>?E���o��-Ǵ\u0016��l�Ҷ\u001c�[֫���m��}�2��\u001fڵM���v����*�\u0006���ׯ�����u���6�\\�o���bǵ^~\u0013&���Mq|\r:���Ղ�(��\u0015�ڊH޸�Pk\u0014|y!o�hC3_\u0016Ǘ.9�-\u0015|��*m�1�d��xa����/��7��\u0017�c�1��\u0017���XS_�\u0017�YP����)���k\u0005�^�\u001a��5�j�����k]Z��׺�\u001c/�]\u0010��v�\n7����k\u0004���3\u0005�1=B����#���nmZ\u001b�:šMu�)\u000e~���'�j����Z>Q�\t��\u001f\u0017��o���؋|�E~U3\u001f=*Z\u001b��GE�\u001f��\u00116>�ˇ9��r�6T��!\u0011Z��\u000f����b��m�lP�V\u0016��֫�\"� �Z:0N+-�\u0003A��8^2 N+��\u0007�wi\u0003�x\u0017���Ӽ��\u001f�����8�[+\u001eŋ�x!�\nSxA�S+��\u0005G\u0015�Ϭ��ٵ|'�?�\u0010���ڴ<;�;ʞ�W_�E�k�}����k��\t<�γ'�>qZV\u001f��&s\u0002�\u0003���\u0019.����ҽܓ6@�\f�i�O\u001b�S\u0013]Zj\u0002OA�\"x2�${y��'&Dk�h�m�Մx��\u0010�\u0013�4ś�Z���K��Q�\\<v\u0002wc;w\u001b�)�R\u001e�R��<�˝\u000e���\u001d\u0018ux��V�ٛ�\r_�\n\u001e�m\"S�5®YSx��[�o2Z5����\u001c\u001a���ʍ�C�j�̚��\rG���v��/^U�8W\"5��'g؃�p���(�ݴ���?�G�Ƴ��\u0007��!�\nendstream\nendobj\n12 0 obj\n<</Descent -240/CapHeight 699/StemV 80/Type/FontDescriptor/FontFile2 11 0 R/Flags 262177/FontBBox[-446 -394 730 1051]/FontName/DYNIAT+DejaVuSansMono-Bold/ItalicAngle 0/Ascent 759>>\nendobj\n13 0 obj\n<</DW 1000/Subtype/CIDFontType2/CIDSystemInfo<</Supplement 0/Registry(Adobe)/Ordering(Identity)>>/Type/Font/BaseFont/DYNIAT+DejaVuSansMono-Bold/FontDescriptor 12 0 R/W [3[602]27[602]29[602]36[602 602 602 602 602]42[602]44[602]47[602 602 602 602 602]53[602]55[602 602]68[602]70[602 602 602]74[602]76[602]79[602 602 602 602 602]85[602 602 602]93[602]149[602]181[602]]/CIDToGIDMap/Identity>>\nendobj\n14 0 obj\n<</Filter/FlateDecode/Length 413>>stream\nx�]�M��0\u0010���\u0015:���\u001f\u001a�Y\bsi)��Ҥ�WG������\u001c��W�w;\u000b5�\u0001��\b̓��r�z��Ք?�\u001c�q5�8�)��{\nќ�e���1�\u0018���0\\��(s��q[��0\rs�ߛ�g�x[��|:��<U���{�c\u001a�KN���;'������8��*�M\u001f���K��v�hJ)�\bO�%�F�5N\u0010�>ޖ.��M�X����[~��S��g�Pu\u001e>~��l*ޢ��J�CԳ�v\u00125�J�\u00119VR�ȳ�,���D�v�$��c%��\u0002+�\u0019��J\n\u0012ي��#�YI\u0011Q�J\u001a\u0010�\u0003����V@����\u001bt8�ݱ���D���Cp �0A-+=�\"8\u0010����@�a�\u0002+=L��J\u000f\u0013�b��\t'\u000e@\u000f\u0013�a��\t\u0007\u0007�\u0016&�ce\u000b\u0013NZ\u0001[4�Eآ!'w\u0006lqs�e\u0017�G�Y\u0016�`������-�\u0006L�\"�S��\"S(S���8E\u001d�e^�*���\r����\nendstream\nendobj\n3 0 obj\n<</Subtype/Type0/Type/Font/BaseFont/DYNIAT+DejaVuSansMono-Bold/Encoding/Identity-H/DescendantFonts[13 0 R]/ToUnicode 14 0 R>>\nendobj\n15 0 obj\n<</Length1 28300/Filter/FlateDecode/Length 10024>>stream\nx��}\t|TE��[��^�uw:���\u0001dI'�@XL�\u0010D\u0016%�\f�� � \u0012dXB�Ȁ\tAF\"àf\u001c@T��\u0001YTD\u0006Q���\"#.�\u0001\u001d\u0005t �~���\u001d\u0002�7���o~��%�SU�nթS��V��Ĉ�B���6��\u0007��V��ѳ�Hq\u0017Μ:}�r�)��A��S�}��V6�+\">�(�M��w\u0016����H��*��)B��F1��#<�*�����E�>xn �~��\u0019S�d�N}F��\u0016Q��wΙ�0�����\u0006%����3���\u000f��$2�Q\r\u001d1���F]�15�TY@J\u0013��\u0001�W�q5�\b+a���B\r(\u0017�����d]Ъ��|5\u0005�e؛�Yƿ��|\u000f�O��$Z_�\\���}Ja�@���*�\u0016O\u0007P��<�%�鴙m\u0005�yXs\u0006-PP+�@��z\u001c�Gi)`\rm�\u0019hK�\u0016��O�%*�\u000b�N9K����\u000e�\u001fA��5X\u001d]\u0002�j��R�q�@m=�g���f�Ĭ\u0018yZ�Sځ�K�t�.ڠ�i�<P�i��\rQ�^�;Mi؅��\u0016��e*��}̟G��;���$[���\u000f�T�\u0010�L��V�;�̔Fez!{X�l�<�?�!u2����y\u0017�\t�)�l��c���Q�pm8�\\��\rFY�+u\u001b\u001d�!�Պ`\u0003��<\u000fo�Ci\u001dm��֐\f�\f���g�<m�\u000f�\u001a�A[��Aߐ\u0006���\rJ!+\u0005�� �\u0019�/u�\u001a\t�yZ�^\u0002�d�O��:\"'�b�5�+��'۶+�A\u0005�=��'�5.�C��\u001e�m���4r{���5^��|5N\u001b�]���]���+��/�<ݡ�����5,�__?�~���st>��\t�����x'Wݮ��g����S���ۖ�u[n��[\u0007�y�(W��Ͱ<\u0013%�!�a3�3�Nf�\u0016)*e\u001c<Q�I�\u0013�'����\u0014�+ŞR�R�,\u001e���(7��������C�U���l�A!��\t�7Г�!&�\u000e������Uo��\u0005��z7ӕ\b�#*-]�����g/^�hqU�ڵ\u0015�����\u0017�ۗ�ف�N����{\u0007�\u000e�5I�&\u0016d�h�\u0011\u0004�\r�YW�v�tD8\u0015SZ�#����0hV���\u0017=N�\u0016=�fo|~��!�-`��te\u0011�n�IU��H��8h���R\"RX�bi�QY�\u0019c���|�2���I�\u0014� �B2\u0019rQ{\u001a;���2�1ȁ�b���P�B\u0010EQ\u001a�zb�\u001f,���������V\u0011�qz\nť�%�$�\u0002Ӑ��<\u0016=s\u0001���n�\u0007\u0019��2�\f��fh\u0019z�)Üaɰf\u0004�Q\u001e�S�x�����y�<s�%Ϛ\u00174�F�\u0011�\b눠I4�MR&Y'\u0005m��l���oT7j\u001b����捖�֍A�h\u001bۦl���m�6}�i�y�e�u[�^���*{�^u��W�k�k�k�k�\u001b�����/�'���I�$�$�$�\\��\b���&��9��\"#�zZjzx�b�9:e9�6��Q�\u0019=��a9]G���:d���ҕ�JKW}{���^����2rd��Ç*\u001bĻ�x[���,�ua�*1G,\u0014��9l\u0019{�-`ˤ>�zI�\u000f��R���+T�B[f�\n�9MO�8� ���\u0006�\u0010�.H\u0005�rkٮNvy������F��r\u001aުVg\u000f�\u0019|����s�\u000fR�p��t��-Ż4]����Qq.]�z��τT8�U�P�fU�51*��[%�\u001a�־}vG��\u000b�a�&�v�\u001e�+���q�.���C]nfٝ��RuS�ͬS�\n��B\u0019��lm���Eg\u0017�_S<���S߼�$\u000b\u001aWе����\u0010�x�܊\u0011�W���Nf���&�{�ח��\u0012�c\u0017�ۆ\u0006����\bk�eKH��T��%�\"�\\��x�md8qgLb�-��&9-Im�/\u0018>Q\u000f栝�PO�������Y\"�p�8��ى`/\u0007��cپ�5Ls�\r⛋S?�Z��][v�X�~}��K��\u0016=�ڠ��VZ��ğ�Iou8�s���*�̝>k^�6���O�<o�O�e�\u0003�1�zzRUSBl��^j[�\bQ*hYH��:�'RT\"���-)Q\n��ߦ��y\u0016\u0007\u001d��p��.9�\b']ü���r��`����f6���\u000f\u001d\u001a~Ǯ;�yy�3���\u000eU�ն0q������Y��7U�p��?\u0003�\u001eM��]�))�Ta��QE�X�VD��*]���\u001e�j��Yx�K�|Ùz�Ń�/l\u0010�\u001d2��Ȥ\tH\u0006�\u0013KK�9PJV$K�#��>F���U���ᮾ�s\u0017>\u0011\r߳4�\u001c�V|�p�څK�-�^��j-N��\n�\u0011?���f��l.[��x�͛w���!S�\u0016�����jE�=��:UD��\u0016R\u001a��V��Wė�V��uΒR-���1��3��<� Ӌ\u0006�\u0001��En��a\u000f���c��;HMWn]�f\r�[zZr(Cr�çL�^|\"�\u0019�V)\u000f��X\u0002�Y\n�)��Y/��Y�r1C,\u0015�����\u0007#S��*�\u0013�l���M��\u0012T2�N��ϒ�u���~��Р�\u0016�E�ᚱo\u0017l�y�\u0002���Ӌ\\p����4�\u0004�]��Z\\�j\u00062��[Ʌ\u0004�[{\u00137U��|�E��M�\u0011�-Z�5���zi\u001f\u0019=�4�C�\f�6���l��i�2�\u001b����\u0019����R\u0018��2R9\u000bRT\u001e�ZL�y\t+Q�\u0013h\u0002�)�\u0013K�)<M)�C\\}�\";|��Ƌ�\u001e��\u001aU��r;�X̓�f\u000b�s?�c&;%K\r��\n��±�UX_H�\u0007�$��\u0015�B\u0013#���L\u000b%:�)��,�e�\u001a�Ȱl���o\r<�p�\u0018��d�{[���v{�S�~��o\u0017-\\+\u0006�]_��hњg�%�O�_9��ɼ��-Q\n��3��_�南K�rF\u001e�:r\f6\\\n}˄��PGOl̋�#����\u0018��Va)畱�Y����c%kWM\u0003Z�vA���g\tQ~\u0013�q#���9l�xqZ\u001c`y,a��a���\u001c:x�P�s��۶e�l&��U�m{��\u0007����x���Ё\u0012�l�_fm<\u0011z�e\u0019U��\u0014f1��LS���\u0000#\r2_�\t\bJ�Jα��S���\u00067m���D޷\u000f{ir\u0001\u001b���=�Z\u001c�r�\rdC�\\yH�\u0010kE1B�\u00132-d�XI\u001d�f\u0010��D�2\u0016�2s����i�L\u0013�W�`�X\u000e\u001el:\u0010����!�`�ʪ�_+{\u001b\u001e���u���x\u0004�P�A�B�<�~��\u000bf�\u0019�;[}�}�hN6�,��x�rw�G$ŁՍ]\fz�8��8�\u0004��I���H\u001e[\u0011�y%��$\u0006SNx���(%uP��\u001f�8q\u001e1\u000e��OΞ������ȃ�8�<,a��#o��t���7����/l��!�X\u0005�!\u000f0;�ذA�\u0018�ﰨKJa��\u0018<\u001eƞuC�.O�Ր�Z\u0001_Ѕ'���%X�\r>��P�մ�l��yO�&�m8�rś���\u0005���B�,?\u0004]��k\u0014�\t6\u0004�\u0012y&u�m���8�4�H\u0010><�\u001co(�ꌬ\u0000���5,4�\u0013ob\nSt��ۤpzɬ�̤��L���րbI�Q���w\u0019�a�p\u000fQL���(%��VI7u5�U\n�i���\\�5ZOgm��l�>�MeE�t\u0015�)�Z;��RF�\u0003^\u0012�\u0003ZݕN����ԣW:A�g�<�\b䣞pKE\u0018��(\u000f�����\u001c=ˑ\u001dm0\u0015p�n\u0016����Û�y����K�V�_������~l@r|�\rb��K�\u0011_�\u00186H�\u0015�������X\u0014\u001b�V\u0006�\u001c�l1M�t�\u0003�V��U��T���U��jD�\u0005\u0001}Y���#-:�r;ŇrkL�j�tZ\u0013��\t>5�^˞k\u0014R�2os�J\b$S&[�L�ƥ\"I�\nO�\u001dY;HǞb�#M.N�i�}���eǰyS^?ª.1���w?Y���q�u�-��=���\u0012������V�5�l��\u0012�\u001f\u001b\fY���xz�\u0004+�A�ĤD�E1Y]II���A�I*�x��Lt���HϨ\u0015�r{e�DkPR����rC3���Tw\u001bl\u0007��\u0019؊�d��<0��K�/1�og�Y��a5�\t��M\n��°+\u0019|�n��e��H#[!��\u0017�xubٖ�OL{o����W'�u���z��{���BN���6\u001d��c��S�Ң3�{��\u000e\u001d>\u001cԷd��\u0007�c2j���Gk�=\u0003�\t�h�xO��3�n�0�4�_C�2�L\r\u0002�Pg�\u000eGD;X��:��ϾrAc\u001dh�4�Ӗ�\u0014���#�*�HlD�ޤ��8�,#M���&�*ʗ67;f�@�E�,�%.�El�q1�\u0018r�Zkw�����\u001c-M�'}/��\t\u0012�M\u000e�\u000e3��h�\nGJi�ބ\u0015�j\u001d��!,Z�\t���}�U=��l\u0017�\u0011e��\u0019\u0007�\\h�'$�5;\u0014\u000e'��$�����\u0014wj\u0015U�*��Z\u0015�)�*�*�*�*6t��p��˖nO�F�ٝs��l��|�r$rW���ӿ�{ﺭ��W��X��w���#[�f���K\u000f�LOV:�?����j;�qᖂI�oڽ?a��9�kZ�\u001e5*k�O�\u0007�W\u0017�\u001aC\u0019���Ґ}6*��\u0017���VXje�u\u0004��?�v�` ���\u0005����]\u00078W]�7J4�����[�\u000f\u001f�fv�~~�^��ڱ��\t�zS��{u���c���,e>\u000f|8t'�`�nO�F��\u0015��\u0015���Z�$�RIW\u0006�\u001dA\u0003\u0013 c)by�����e\"◕��D�@�\u000b���55\u001d+\u000b�����w�\u0017a�\u0016/.-]�x\u0019?���g���cYw\u0016���e�\b��㿞�;�q��|�%\u0002���#�1܂V�;��\"��\u001e�\"�6�2�+�6K�N��\u001d6?o\u0007���DuF\u001e���y#���\u0014�|\"\u0002���4��U�o�|���}�u`��\">f��}�c��z���m����W���\n����Y0�O\u000fmzn�\u0006y~��֐[8u��l,ؼSg+��P}�U\t7!��C�Hw\u000f6�8�e(�\u0019D:��,��\\\u0004VO`~\u000b�N��uR[\u001f�2�-\u0014\u000bjD\u001dk�܋���S�\u001a2���5[�z�u�u�{�-��8�b�\r~ҊHF�C,zP'�e�y\u000f�*�=��g���F�m(�\u001a���\u0017���d>;��);\u001b\u0007+;+V���ƥ��q��)��y��z}���B�\u0011ƘwR�A듴_Wv�|h\u0010ӵ�4�j\n�Fq��Ụ�i0�SS g�\"�\u0010�>d�\u001b�c��i�TS�Nn�(+㽕>g循��UO�*�|ĭ;�\u000f�\u001a�\u000b�AC-�T�;�$�\b�n�Zw)��l)?e��q\u001f�����/�\u0014+��\r'��>\u000e��Aw\u0006�)�~�i\u001d�\b��&J��M\u0011�+�ym��\u0018���a�a�p�������b���.\f�\u001e|���[��J��}]�5�0�\u0001�@�\u001eg.��\u001f����\u0001�\u0001nխ�u��mv[�VwP^d^T^t^L^l^\\^|^B^b1/V��b��Tl.�\u0014[���\"ˢʢ�b�b�����\u0012�\u0012��\u0004f\u001cL\fkvXWO-�x�lN���3���?�����\u0007�>�Lʔ��w��\u0003�\u001d\u0017�\u001a\u001fR\u0016��5��\u0005���f�Z�<�G^�&݁,�ם�7֝37ԝ��;��g\rՑ�;ly��ύ|F_�\u0015��[\u001ca}�#��h�p��3�.��?5)E+\u001e|���\u001f_y��K?{�\u0012?��\u0007u'O�}��\u0006��\u001b�\u0016�\u000eLF֎r�Z1F�\u0015�J���\u0013���jC+�\u0001�?\u0001�l����Kϑ��c�L�[s5���C:\u000bܜ�\u001b{��W�[���\u000b+�wK\u0017/Y�|��+\u001b\u000f�ֲ�c�\u001b���[qx,����'�N��c�7�i��\"�d�\u0011��)���W��Z����Nf���A#\u000b\u0006\u0013'ޑ����ldc6{2%�d��p]���\u001e�>6�}$�d#m#�\t�\u0017\u0002��M�����A��\u0004�{\u0017�}0�?���i|_�|�\u0005��|~�\u000eg����4��1�(z\u0014�<�wBb��!EP)ۧ:K#�E���+\\�H�\u0012|)҈8=t�Iw��k�(U]�d\u0013\u0017e�rD\u0019�Y�\u0014H��K���\tQ�\"�!�\r�\u001f\u001dQ5z��;^\u0019\\�����;�M�s��%\u0017��6���oߢ�Ա�-��\fN\u000b��0����)�3�Ф5\u000b�ޖb�u\u0011do֞��gz�C5s\u0018�Iv�߼�j\u000e�(P\u0004�#�ZO]��A�s5�_��k|�])d��ĉ���>V-]����_�X��]k�\u001cQ&�����=N�x��UZ��`ig�ap����>g���\u0016\u000e��3��К~�枙�-������Y��46ij��W6={g�i�~�T��]z!qܳ,�.zUe=��ӷtg\u0016��PÝ\u0011y����^X�r�\r�{�^(�gX��w�0�cK�,\"�)\u0018%�M&\u000f\u001f\u0011�&d��\u0018�Y/Ę�D6�\u001e\f�����%��ˤ��\u0007>�\u001ft��������\u0007��\u0000OW{���H�$���뇣����0\ncV�ʓ(�%)I<�m;X����C�\u001f�;�4�j�\u0017�K�'�a�C��p��W&���HIf�\u001d��g�@}ey#�jͷ���a���\"A��,�:�Z��\u001fU=NEF�\u000f��Q��P\n�*6V��-��ְ\u0002v�\ni1]�uT�V\u0019ڥ��\u0005�,[C�\u0006\\�8ra|)F\u001c\"9�\u00047��(?�1蝍�٘Y�\\~���Ɂ�\u001b�1*d�Kɳ(P}\u001d\u001e}\u001e���;h\u0017�#�NG�\u0004|����a�\u0003T��C��\u0011�Dq�'X\u001f��])\u001d%\u0017z�dy�\u0018J\u000f��e=Y;�z���$fO\u0003ߥL��:���:x�\nd�\r�\u000f\u000e��l�!\u0000�x^�\u0007\u0017��\u0001�W��\u0017\u0012v����C\u0000�!�\u0003~(�Ί@eq\u0013���9���\u0019x�\u0006Xx\u001d�u8�\u0007O;�G���\u0000Y�z�[��W�{\t\u0012m�j4�v\u0000{-i\u0014Je8�2�lԥ�įb\u0006�&�r�P����n��\u0005�\u00008vB{^'7�\u0000�\u001e4\u0011;6���h��9%��Q�\u0011�z\u0019�q��\u0019��O���N��\u0001��\u0015�,3��C\u000f6�cAT\u0018L�\u0011������\u0005̧?A�e���+���f�\u001b��+ވ��M�D8g���$$��2z{\u001a2�c�X?0g���v�O%0��\u0015\u0019\u0012\r�\u0012��|�j��\u001aX����!�7?\u0015�R�U4\r3va�s\f�e�Ƒ\u0002:G�\u000bZ��U��<�\u0007)��5t. ��\u0003t��;\u000f�\u000b�\u000b��R7W�\u001b����*j�5�h*�^F�c�~T�r\u001d��M\u0003︆\u001a���k\t\u000f�<\u0011�h\u0012Nl �\u0001\u000b!�g��W�}0��c�\u001c�{\u001b�z�Ҍ�\u0004Xd\u000eU\u0002^���%�4�W�C�\u0017�KV\t���!1;�g�\u0000�!G>�&\u0002ڲ�J+�S\"�\t��7�ep���a��R勧q�\u001c��3\u0007Ʒ\u000f\u0000��V�(v\u0012\u0014�XO�\f9#\u000f+�a������{\fN�ձo��I�0`\u0003{��b�g��]�5\t�K�Ә������\n>n�?K���\u0006e��\u0018�\u0012e\u0006�1�6cD)<\u0013�oU��Ğ�T\u0012�wOŰ��$qΛ�}Y�����\u0018^�C��7\u0011��\u001f6���yg\u001b�w��q��3������\u0013>���Ъ����Rz\u0016��S_�\u001e�M�\u001d\t��f#F\u000e�q8��Ƭ\u0012cf9F����yL�>u6V+�'�W`�L����C���\u000b�6\u0001\u000e�\u0014�-��P�����\u0016�˶����s��5(\u0015\u0019;�b�O��E��+���F`w2�\u0014Qo�n$�\r_�\f\r;dx�����t�1��<�.w\r����4�u���4�O��GО\u000f*�x��ӳ�U�1y��3��.��z\u001ah\u001c0F%c���C��\r��u\u0018V�\u0012�� ��2,?\u0003���\u000e\u0003\u001dXk\u0005�\u000e�G�\u001b����y�7�Y�\\\u0003\u00034�G\tx��\u0016_j�s\u0015$E�K/���1F�d\u0002n�f}�(�\u0001}�v���\u001a\r\u0005�(���O���1�k���\u000e�\u0015��a�Vi��z�N��L}�1���M\f��o3p�J@\u0017p\u00074�\u001c~f\tv�6�G\u0001��-����U�5\u0003ߪ�ƚ;��\bt\u0003�����3�K\u000f#�x��Y��\u0013��4\u001ab��)��\u00016�)��\u00198\u0001'��m�%�,��5�A�}\u0000O1��y�SB�O�� �wX���B4�b�O�k�\u001b��,7\"�t1��\u0018#����i��F�\u001e��J��\u001e��GU,�=�\u0013}\u000e\u001a\u0014��XF�\u0010��Q\u0003]d]\u0000C\u0001�Y7��Dx�~,��\u0000t�߰3���3���\u0006�\u00156\u0000�\t\u0018\u0001\u0018�\u0006���]�13\u001f�\r=��x�/�\r��\u001a��h\u001e�\u0006�P�w���0o,��\u0000����\u0004�\u0001X\u0015>�=�Y.��g�\u001a��a�.KF�d�ȉ��\t��v��\u001c�@F\u0012����yVr\u0016c\u0002�H\u0000��N�a\u0005;�6��\u000f��C ��Mx}&��\u0000�\u0006�2\u0011�=\r��L�F�H.4%��\"�#�U�����(2�\u0015\u0019�i��\u0005br\u0000��u��4G���E��/\u001b�a��\u0000٨�W��󚼯{ˌH�\u0007�\u0002����Ran�ДK��;�;��\u0003�����\"���r\u0010]/��,\u001c1(ɘ��q��+����2�\u0012��~�O����׀8\u000b��D��|bN�1�\u0015�{�O��oD\u001c��\"��\u0018�;\u00191��p�\u001e��^������]\n�b�\"�~+w��X��:^�\u0003wR6��AR��\u0018��$�z��\u00062k�A-@֒���\u000b0>\u000fw��\u0015�\u0016D�-�?�`��oo�a\u0004\u000bl�{F\u0006�\u00067�����\t�y4���y\u0016I���v�����Eκ\u001dQ2\u0005O�~3�\u0005c� ���\u001b�\u001b�\u0011�\u0017z|7�\u001b��\u0007��\r>(���HN2�>�Q���M�s��@��\b��\r}%D�\u0015��nt+`�1�72kyor�YZG��^%�ڬ-�7�o�\u001a?�\u0006�\u00034���k\u0007��p?��]�\u0000��+�\b�*��Ѩ\u0007��ɘqSS�ws�\u0006>釦7��ɞ\u0018�\u0001�\u000f�@o#v�p=Uc�D�y�4r�A���˴\u0010�\\�<V�ZH[X;�pw\u0003v!R�H��\u000f\u000b��l�\u001aLc\u00031�\u0017`�5���k���ٌ1~\u0018�������/È��H\u001f��mn���3Z��4\b\u0019�o\u0003 uZ��\u0010�\u0018y'4M��l�\u0001����\t\u0001\u0015�L�\b��q�:\rdd��%p][�F�Jo=Zf��n�咥�}\u000e,�?Z\u001b����8\u0006���ۺ΢\r�Q.�\u0018;Z�\b\f&�\u0012�Ҧ\u0004\u0001\u0019�B�r�Q�J4{����W+Ѳ������9\u0000�������A=��i�a�F���\u001a\u0003$Ǐ�>��\u0011��\u001f�\u0005\u000f�\n��~͟\u0002�\u001b��I�<-d���5տ�'a��uFfi�Ս�\rp����g�\u0002:4�N���J�����%�wv��`���;�SwDvdF�:���\u0010��HW��t��P�[���\u0017̠0\u001c���A�\u001ddT��\n*q\u0018\u0011g�\u0003\t\u001b�!�F�\u0001\u0011����܇\"���W��\r�'h�\u0006^���8���ch&���1o\u001a�YK\u0003�\u0007�\u00184Wc�\u0002��ոGtd�Fl�FvH�\u0005�c2����k\bn����\u000fA��\u0001yUG��\u0011�ݣ\u0019t��(@92�ָQ,�=\u0014N��Z�𥣀�Ȕ\u0000'rd7��\u0019\u0016ٓ�p�\u001d�ҁ�ѳ\u000e3\u0016�\u0007�X'�c��\u001b>�Q���n� �X��l]�\u0006{k��[\u001bPi\u0003�9��\u0006���U\u0012�Vx�\u0004��!�V�$\u0012s����a�Y��)���7�0�+z�)q�(��O���\n� %/�DG��^��\u001d}�\n�}ȳ��{����\u001f\u0006��?q�x��\u000e�x�Q�\u00187���}3�r�\b��\u0016��s���*W_\ro$g�Ɖ߄2\u001b��.9�-�\u000b�fK�\u0012�J�U~\u0003�+�d\\F�-��A\t�\u0012\u001e�����M��\t��[�6\u0012$\u0005x�e����N\u0003 �\u0019��o�ޝ�i�k���_Ը\rN�HV�\"�?P�x�d>\u0014�K��>b�g_�<U���\u0013�\r\u001c\u0003�7^b/�3���l�\u0012\u001e�\u0007\u000f=���O�����K|~�\u0000��V�#��@m\u0013���Ȁ���sim�I.I�sFm�>m�}�sY?F\u0003\u0002�\u000f�j�؏�K`?�r��F{?�\u000f�D/\u001a�\\�g�����{�����$2ϓȩ\u001f6�h��\u0012�0�O�a-=�\u000eb1n�y~^}:s�;횔�\t�J�կ\u0006�\u0017�>�\u0019�-�ӦQC�7P��wõ��\u0000o���W\"�\u0019x�H��C�\u0003��*��\u0003��e4�#2\u0017\u0001��[P[\u000e\"�v\u0002k|\u0018dk�\u0003����\u000b�b��(�=p�\u001f���\u0018��\u000fm������h�~�\u0003��*�w%r�\u0005�D\u0014��\"��0\u0012���\u001e��D���!,�\u000f��GXՂ-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂-؂��1���XdD�w*�Ԏ�!�\u0014�Q���Ric��4R_U�YĎ�\u0013�^�,�ʉ�,6��\u001f\u0002�p�t�\u0003��hی2�֣\f5�!;�\u0019��r�\u0010���`r�\f�,�V���\u0018e�P�&��\u001bc4��\u001a���Q�\u001e�\u0019'�\u0010�q>o\u0010������?w���\u001f/��~\u0014��}ꥋ�K+��b��t��8~ѣ^H�?|���p����!�w����;��r^\u000f\u0016�\u0005���\u001e�x�o\u0006�-��^��\u0016�\u0005���8�+����_\b~�\u001e�����O\u0016����?������\"�_OFh\u0015�d\u0004�����\b�/��2H�(�8�Ѝ�ᡮ\u001b?!���Y��\u0005�ʏ\u000b���ǖ۵c��ϑ�����#�.��o\u000b~x>K�7\u0005C�C�C���\u001f\u0010|��\u000b�\u000f��9��`^��n�V���L�^��_+V��vi{&�=\u001eu���\u0012��r^S�K{E�v^�/��K��X�w\u0014�\u0017B�v\u0007�&�V�i�\u0012�y����Ղ?�l��\\\u00166�?�Ů=ӆo��?l��a>�܁�^�M�?-x��\u0018���o|ʦm��O���|��Ob�'\u0005_\u001f�+�u�*\u0005_בW`��r^��n�\\�'�[O��O\u0014�k\u001fwik'�\u001eu��\u0015|5�W�揻x\u0019�Q֋��nW9�� �\u0002\u001d+\nx)�V�����D�e�/\u0015|�b��D��v�\u001b�\u0017\t������h�P��9|���\u0005�?:��O�\b>/��\u0015�!�\u001f\u0014|�\u0003���0>����c��`��>u����\u0016�~�g\n>��ڌr~��6�}���6�^�����\u0004�U\u0016/�̧�慂�-x��S�JԦ\b~\u0017ٴ�\u0012���O\u0016|��\u0013o\u000f�&��\t\u0005����x<�w�ۃ84:���\n>F���b�۲����\u0016|����#\u0005\u001f���\u0005\u001f�:h�\u0004\u001f��\u000fi�\u0007\u000f��\u0006w��8�A�|`�hm��\u0003�4����S�ݼ_4�]x��v�����Q<\u001e�ڻW����{�(��^�P�W\u0018�U���ɓ\u0017�yB���\u0015�)/آ�\u0005�\u001a��\u0014�7\u000b�\u0013,���{\b޽\r�&x.\u0004�[��f�j]��.��tpj9�g\u000f�ݱZ�!�\u0013�N�ga`���x�\u0019�ݱ<\u0003��h��\u0012�u��;�\u000f�:8y�\u001aE.��f�ڇ����r��M.���7a�M.�V馵\u0015���\u0005O\u000f��ޚ�\u001fo\u0015��\u0004O\r\u000b�R\u0005OI���\u001dx�\u0010���\u0013\u0005O\u0010<\u001e��\u0017<\u000e�\u0012\u0017�c\u0005�\u0011<Z�(P���##:h��y�ӦEt�N\u001b\u000fǸp'w`�Cp;vn��mX�f�6���B���0\u001e�]h�U\u000b\r�>م@v!V\u001e\u0002ٽ�\u0006[x�ԭ.j��V��*�%��m�$�\u000eҺ���sl�_�\n:�n��\u0001ց���\u001aV�x%k���\u000f��\u0019�?�I��\u0005R��\u000e\nendstream\nendobj\n16 0 obj\n<</Descent -240/CapHeight 699/StemV 80/Type/FontDescriptor/FontFile2 15 0 R/Flags 33/FontBBox[-557 -374 717 1041]/FontName/IZIVGP+DejaVuSansMono/ItalicAngle 0/Ascent 759>>\nendobj\n17 0 obj\n<</DW 1000/Subtype/CIDFontType2/CIDSystemInfo<</Supplement 0/Registry(Adobe)/Ordering(Identity)>>/Type/Font/BaseFont/IZIVGP+DejaVuSansMono/FontDescriptor 16 0 R/W [3[602]11[602 602]16[602 602]19[602 602 602 602]24[602 602]28[602 602]36[602 602 602 602 602 602 602]44[602]47[602]49[602 602]53[602 602 602]57[602]68[602]70[602 602 602 602]75[602 602]79[602 602 602 602 602]85[602 602 602 602]149[602]171[602]]/CIDToGIDMap/Identity>>\nendobj\n18 0 obj\n<</Filter/FlateDecode/Length 470>>stream\nx�]�M��0\u0010���\u0015:��`[Z�1���\u0014r�\u0007MZzud9\u0018\u001a�8�!���N�/Ԑ\u0007<ήF�V��ç�4n�����63�S���|_c2�t\u0019����\u001f��z\u0013�k�\u0014e.>>n[�\u001e�a.�{S��\u001fo��0�N��\u001f��E�m��:N�����++����I�4m�*�M����K�|��ɔR�&�\u001eK2V�k8�s�nK\u0017��M�T����s~�HS��g\n�:\u000fow��\u0015�tf��A����Hu�J�C�Yi\u0013$i\f:�������Y�,��J� �X�<���.@\u0012��{Y�Y�:��,\u000f\u0012LXY\u001e$���<H0a\u001bV\u0012Aڱ��˶�$��\u001d+���<�\u0004�v`%E�\\�JB�9#%\r�<+=ܻ�J\u000f�N|�\u001e�]�J\u000f�D�\f\b�\u0002+\u0003zQ�ʀ^�\f�\u0001IP���j/'\u000b\f8_\u0014Y\u0019�\u0004\r�\fH��a\u0003\u0003���X��p�ee@8ޱ��)�HJ� /\u001fX�`�\u001eI\t\u001b�����\u0006{l�\u000bأ��݁��Y�7tϱ|�\u0018:���\u0002�kE��9����Y��Ye��\u000b�(\u001e�\nendstream\nendobj\n5 0 obj\n<</Subtype/Type0/Type/Font/BaseFont/IZIVGP+DejaVuSansMono/Encoding/Identity-H/DescendantFonts[17 0 R]/ToUnicode 18 0 R>>\nendobj\n6 0 obj\n<</Subtype/Type1/Type/Font/BaseFont/Helvetica-Bold/Encoding/WinAnsiEncoding>>\nendobj\n9 0 obj\n<</Kids[1 0 R]/Type/Pages/Count 1/ITXT(2.1.7)>>\nendobj\n19 0 obj\n<</Names[(JR_PAGE_ANCHOR_0_1) 10 0 R]>>\nendobj\n20 0 obj\n<</Dests 19 0 R>>\nendobj\n21 0 obj\n<</Names 20 0 R/Type/Catalog/Pages 9 0 R/ViewerPreferences<</PrintScaling/AppDefault>>>>\nendobj\n22 0 obj\n<</ModDate(D:20240422065535-03'00')/Creator(JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd)/CreationDate(D:20240422065535-03'00')/Producer(iText 2.1.7 by 1T3XT)>>\nendobj\nxref\n0 23\n0000000000 65535 f \n0000016148 00000 n \n0000016496 00000 n \n0000026349 00000 n \n0000000015 00000 n \n0000037771 00000 n \n0000037907 00000 n \n0000007323 00000 n \n0000014631 00000 n \n0000038000 00000 n \n0000016460 00000 n \n0000016584 00000 n \n0000025266 00000 n \n0000025463 00000 n \n0000025868 00000 n \n0000026490 00000 n \n0000036598 00000 n \n0000036786 00000 n \n0000037233 00000 n \n0000038063 00000 n \n0000038119 00000 n \n0000038153 00000 n \n0000038258 00000 n \ntrailer\n<</Info 22 0 R/ID [<2aa164dfbbdb37465a3db1ba8bce2b69><c841a9a5fc7af8c66ad3dd150c91dbec>]/Root 21 0 R/Size 23>>\nstartxref\n38468\n%%EOF\n"
+						}
+					]
 				},
 				{
 					"name": "Boleta-Imprimir",
@@ -4331,7 +5814,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boleta/:id/imprimir",
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/:id/imprimir",
 							"protocol": "http",
 							"host": [
 								"{{Dom}}{{Puerto}}{{WSite}}"
@@ -4339,19 +5822,105 @@
 							"path": [
 								"empresa",
 								":empresaId",
-								"boleta",
+								"boletas",
 								":id",
 								"imprimir"
 							],
 							"variable": [
 								{
 									"key": "empresaId",
-									"value": "33"
+									"value": "21"
 								},
 								{
 									"key": "id",
-									"value": "2"
+									"value": "210"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boleta-ImprimirDetalle",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"actaNro\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionPago\": \"2024-05-10T03:00:00Z\",\r\n    \"descripcion\":\"Pago de Acta nueva cuota 1.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/:id/imprimir-detalle",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"boletas",
+								":id",
+								"imprimir-detalle"
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
+								},
+								{
+									"key": "id",
+									"value": "104"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FormaPago",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"entidad\": \"UOMA\",\r\n    \"actaNro\": \"15473\",\r\n    \"importe\": 15777.25,\r\n    \"intencionPago\": \"2024-05-10T03:00:00Z\",\r\n    \"descripcion\":\"Pago de Acta nueva cuota 1.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/formas-pago",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"formas-pago"
 							]
 						}
 					},
@@ -4507,8 +6076,337 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Boleta-Consulta",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/:id",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"boletas",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
+								},
+								{
+									"key": "id",
+									"value": "104"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boleta-Empresa-ConsultaGral",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/consulta-gral?desde=1900-01-01&hasta=2100-01-01",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"boletas",
+								"consulta-gral"
+							],
+							"query": [
+								{
+									"key": "desde",
+									"value": "1900-01-01"
+								},
+								{
+									"key": "hasta",
+									"value": "2100-01-01"
+								}
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boleta-Empresa-ConsultaGral x id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/:empresaId/boletas/:id/consulta-gral/conDdjj",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								":empresaId",
+								"boletas",
+								":id",
+								"consulta-gral",
+								"conDdjj"
+							],
+							"variable": [
+								{
+									"key": "empresaId",
+									"value": "21"
+								},
+								{
+									"key": "id",
+									"value": "34"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Boleta-ConsultaGral",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/boletas/consulta-gral?periodoDesde=2024-03-01&periodoHasta=2024-05-01",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"boletas",
+								"consulta-gral"
+							],
+							"query": [
+								{
+									"key": "periodoDesde",
+									"value": "2024-03-01"
+								},
+								{
+									"key": "periodoHasta",
+									"value": "2024-05-01"
+								},
+								{
+									"key": "concepto",
+									"value": "UOMACS",
+									"disabled": true
+								},
+								{
+									"key": "entidad",
+									"value": "UOMA",
+									"disabled": true
+								},
+								{
+									"key": "formaPago",
+									"value": "PMCUENTAS",
+									"disabled": true
+								},
+								{
+									"key": "cuit",
+									"value": "30501126965",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
+		},
+		{
+			"name": "Empresa",
+			"item": [
+				{
+					"name": "Empresa",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/empresa/",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"empresa",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Migracion - Procesos",
+			"item": [
+				{
+					"name": "Proceso Masivo DFA empresas",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/procesos/FDA/empleadores",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"procesos",
+								"FDA",
+								"empleadores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Proceso DFA por cuit (forzado)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/procesos/FDA/empleadores/cuit/:cuit",
+							"protocol": "http",
+							"host": [
+								"{{Dom}}{{Puerto}}{{WSite}}"
+							],
+							"path": [
+								"procesos",
+								"FDA",
+								"empleadores",
+								"cuit",
+								":cuit"
+							],
+							"variable": [
+								{
+									"key": "cuit",
+									"value": "30619652920"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BEP - Banelco",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cuit\": \"20233725006\",\r\n    \"secuencia\": 125,\r\n    \"aporte\": \"ART46\",\r\n    \"entidad\": \"OSPIM\",\r\n    \"importe\": 15600\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/public/ws/prueba/banelco",
+					"protocol": "http",
+					"host": [
+						"{{Dom}}{{Puerto}}{{WSite}}"
+					],
+					"path": [
+						"public",
+						"ws",
+						"prueba",
+						"banelco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BEP - RedLink",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cuit\": \"20233725006\",\r\n    \"secuencia\": 125,\r\n    \"aporte\": \"ART46\",\r\n    \"entidad\": \"UOMA\",\r\n    \"ddjjPeriodo\":\"2025-01-01T00:00:00.000Z\",\r\n    \"importe\": 1.05\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{Dom}}{{Puerto}}{{WSite}}/public/ws/prueba/redlink",
+					"protocol": "http",
+					"host": [
+						"{{Dom}}{{Puerto}}{{WSite}}"
+					],
+					"path": [
+						"public",
+						"ws",
+						"prueba",
+						"redlink"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
