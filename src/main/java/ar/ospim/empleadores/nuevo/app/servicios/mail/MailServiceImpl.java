@@ -215,7 +215,7 @@ public class MailServiceImpl implements MailService {
 	        	mimeMessage.setSubject(mailAsunto);
 		    }
 
-			mimeMessage.setSubject(mailAsunto);
+			//mimeMessage.setSubject(mailAsunto);
 			mimeMessage.setContent(mailCuerpo, "text/html");
 			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
 			
