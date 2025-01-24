@@ -11,9 +11,11 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.comun.dto.ProvinciaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EmpresaDomicilioTipoEnum;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class EmpresaDomicilioDto {
     private Integer id;
     

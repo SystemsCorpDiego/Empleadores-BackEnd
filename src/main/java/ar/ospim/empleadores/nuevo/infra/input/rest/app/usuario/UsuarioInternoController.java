@@ -42,7 +42,9 @@ public class UsuarioInternoController {
 	
 	@GetMapping()
 	public ResponseEntity<List<UsuarioInternoDto>>  consultar() {
+		logger.error("UsuarioInternoController - INIT");
 		List<UsuarioInternoBO> lst = consultarUsuarioInterno.run();
+		logger.error("UsuarioInternoController - lst: ", lst);
 		return ResponseEntity.ok( mapper.map(lst) ); 
 	}
 	

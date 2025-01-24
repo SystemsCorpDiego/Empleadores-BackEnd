@@ -6,9 +6,11 @@ import ar.ospim.empleadores.auth.usuario.app.FuncionalidadAsignada;
 import ar.ospim.empleadores.auth.usuario.app.RolAsignado;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(callSuper=true)
 public class UsuarioInfoBO  extends UsuarioBO {
 
 	private UsuarioEmpresaInfoBO usuarioEmpresaInfoBO;

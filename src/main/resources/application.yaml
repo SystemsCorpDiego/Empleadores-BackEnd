@@ -50,8 +50,10 @@ logging:
    file:
       name: /logs/empleadores.log
    level:
-      org: DEBUG
-      ar: DEBUG
+      ROOT: DEBUG
+      org.hibernate: ERROR
+      #org: DEBUG
+      #ar: DEBUG
    logback:
       rollingpolicy:
          max-file-size: 5MB # by size       

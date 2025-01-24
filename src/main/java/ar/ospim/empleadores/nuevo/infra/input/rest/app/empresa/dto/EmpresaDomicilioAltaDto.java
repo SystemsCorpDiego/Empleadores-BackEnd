@@ -6,9 +6,11 @@ import ar.ospim.empleadores.nuevo.app.servicios.empresa.validaciones.ContactoTip
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EmpresaDomicilioTipoEnum;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class EmpresaDomicilioAltaDto {
 	
 	//@NotBlank(message = "{dto.valid.obligado}")

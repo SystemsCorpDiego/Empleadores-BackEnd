@@ -8,9 +8,11 @@ import java.util.List;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAfiliadoDto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class DDJJBoletasDetalleDto {
     private String codigo;
     private String descripcion;

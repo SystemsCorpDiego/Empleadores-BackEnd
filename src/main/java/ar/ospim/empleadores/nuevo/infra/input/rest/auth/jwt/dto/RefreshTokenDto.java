@@ -3,6 +3,9 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.ToString;
+
+@ToString
 public class RefreshTokenDto {
 	public final String tokenRefresco;
 

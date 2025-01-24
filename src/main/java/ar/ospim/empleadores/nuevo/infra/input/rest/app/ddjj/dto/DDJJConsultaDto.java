@@ -5,9 +5,11 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class DDJJConsultaDto {
 	private Integer id;	
 	private String estado;

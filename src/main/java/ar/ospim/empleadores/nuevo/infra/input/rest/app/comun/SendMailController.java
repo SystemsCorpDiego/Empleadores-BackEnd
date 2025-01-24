@@ -58,6 +58,7 @@ public class SendMailController {
 		logger.debug(  "debug: " +  System.getProperty("debug")  );
 		logger.debug(  "spring.profiles.active: " +  System.getProperty("spring.profiles.active")  );
 		
+		
 		mailService.runMailCuentaEmpresaNuevaInfo(empresa);
 		
 		

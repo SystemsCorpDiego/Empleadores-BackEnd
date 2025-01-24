@@ -78,10 +78,11 @@ public class MailServiceImpl implements MailService {
 	 @Value("${app.mail.recupero-clave.cuerpo-dfa}")
 	 private String RC_cuerpo_dfa;
 
-	 private String springProfile;
+	 private String springProfile = "";
 	 
 	 public MailServiceImpl() {
-		 springProfile = System.getProperty("spring.profiles.active") ; 
+		 if ( System.getProperty("spring.profiles.active") != null)
+			 springProfile = System.getProperty("spring.profiles.active"); 
 	 }
 	 
 	public void run(MailBO email) {
@@ -158,30 +159,40 @@ public class MailServiceImpl implements MailService {
 	
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa) {
 		//Informa a Usuarios Internos con Notificaciones=true, los datos de la nueva empresa
+		
+		logger.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - INIT");
+		logger.error("MailService.runMailCuentaEmpresaNuevaInfo - empresa: ", empresa);
+		
 		try {
 			List<String> lstMails = getMailsNotifAltaEmpre() ;
+			logger.error("MailService.runMailCuentaEmpresaNuevaInfo - lstMails: ", lstMails);
 			if ( lstMails != null && lstMails.size() > 0 ) {
 				MimeMessage mimeMessage = emailSender.createMimeMessage();
 				
 				//mimeMessage.setSubject(CEN_titulo);
 				if ( springProfile.equals("dev") ) {
 					 mimeMessage.setSubject("(Desarrollo) - " + CEN_titulo);
+					 logger.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: "+"(Desarrollo) - " + CEN_titulo);
 		        } else {
 		        	mimeMessage.setSubject(CEN_titulo);
+		        	logger.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: " + CEN_titulo);
 			    }
 				
 				String razonSocial = "(" + empresa.getCuit() + ") " + empresa.getRazonSocial();
 				String cuerpo = String.format(CEN_cuerpo, razonSocial, getMailPpal(empresa), getTelPpal(empresa)  );	
 				mimeMessage.setContent(cuerpo, "text/html");
-				
+								
 				for ( String mail : lstMails) {
 					mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mail));
 				}
+				logger.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - INIT");
 		        emailSender.send(mimeMessage);
+		        logger.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - FIN");
 			}
 		} catch( Exception e) {
 			logger.error("MailService.runMailCuentaEmpresaNuevaInfo - ERROR - -> {}", e);			
 		}	
+		logger.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - FIN");
 	}
 
 	@Override

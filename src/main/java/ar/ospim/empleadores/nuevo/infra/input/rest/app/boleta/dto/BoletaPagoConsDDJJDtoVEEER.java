@@ -7,9 +7,11 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class BoletaPagoConsDDJJDtoVEEER {
     private Integer declaracion_jurada_id;
     private String tipo_ddjj; //"Original",

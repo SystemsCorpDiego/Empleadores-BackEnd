@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.ToString;
+
+
 public class LoginDto  implements Serializable {
 	
 	private static final long serialVersionUID = -468230957598564934L;
