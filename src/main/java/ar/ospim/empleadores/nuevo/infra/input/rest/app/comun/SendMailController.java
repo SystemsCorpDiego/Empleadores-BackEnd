@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SendMailController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	 
+	
+	@Value("${spring.mail.prueba.empresaId}")
+	private Integer empresaIdPrueba;
+	
 	 @Autowired
 	 private MailService mailService;
 	 
@@ -31,7 +35,7 @@ public class SendMailController {
 	 @Autowired
 	 private EmpresaContactoService empresaContactoService;
 	 
-	@GetMapping( value={"/sendMail"} )
+	@GetMapping( value={"/sendMail/prueba"} )
 	public ResponseEntity<Void>  send( HttpServletRequest request ) {
 		
 		MailBO email = new MailBO();
@@ -48,8 +52,8 @@ public class SendMailController {
         
 		//mailService.runMailActivacionCuenta("11111111111", "buenodiegomartin@yahoo.com.ar");
 		
-		EmpresaBO empresa = empresaService.getEmpresa(102);
-		empresa.setContactos( empresaContactoService.consultar(102) );
+		EmpresaBO empresa = empresaService.getEmpresa(empresaIdPrueba);
+		empresa.setContactos( empresaContactoService.consultar(empresaIdPrueba) );
 		
 		logger.debug(  "debug: " +  System.getProperty("debug")  );
 		logger.debug(  "spring.profiles.active: " +  System.getProperty("spring.profiles.active")  );

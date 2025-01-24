@@ -25,7 +25,7 @@ spring:
       default-property-inclusion: always
       deserialization:
          fail-on-unknown-properties: true
-   mail:
+   mail:   
       default-encoding: UTF-8
       host: smtp.gmail.com
 #      host: 12.20.1.16
@@ -44,6 +44,8 @@ spring:
                auth: false
                starttls:
                   enable: true
+      prueba:
+         empresaId: 833 #prueba de envio de mail: testeo de casilla sender
 logging:
    file:
       name: /logs/empleadores.log

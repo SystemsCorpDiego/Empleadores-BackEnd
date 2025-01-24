@@ -157,6 +157,7 @@ public class MailServiceImpl implements MailService {
 
 	
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa) {
+		//Informa a Usuarios Internos con Notificaciones=true, los datos de la nueva empresa
 		try {
 			List<String> lstMails = getMailsNotifAltaEmpre() ;
 			if ( lstMails != null && lstMails.size() > 0 ) {
