@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter 
 @ToString
 public class UsuarioInternoDto {
-		private Short id;
+		private Integer id;
 	    private String descripcion;
 	     
 	    private Short rolId;

@@ -3,6 +3,8 @@ package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final UsuarioPersonaMapper mapper;
 	
@@ -36,8 +39,9 @@ public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
 
 	@Override
 	public List<UsuarioInternoBO> findAllUsuarioInterno() {
-		Optional<RolBO> rolBo = null;
+		Optional<RolBO> rolBo = null;		
 		List<UsuarioInternoBO> lst = repository.findAllUsuarioInterno();
+		logger.error("UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
 		for(UsuarioInternoBO reg: lst) {
 			List<UsuarioRol> lstRol = usuarioRolRepository.findByUserId(reg.getId());
 			if ( lstRol.size()>0) { 
@@ -46,6 +50,7 @@ public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
 					reg.setRol(rolBo.get());
 			}
 		}
+		logger.error("FIN - UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
 		return lst;
 	}
 	
