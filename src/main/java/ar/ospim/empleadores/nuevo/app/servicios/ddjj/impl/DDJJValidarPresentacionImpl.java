@@ -88,7 +88,7 @@ public class DDJJValidarPresentacionImpl implements DDJJValidarPresentacion {
 			bErrorPeriodo = true;
 		} else {
 			//el periodo debe ser ANTERIOR al 1ro del mes en curso.-			
-			if ( !periodo.atStartOfDay().isBefore( LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay() ) ) {
+			if ( !periodo.atStartOfDay().isBefore( LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay().plusMonths(1) ) ) {
 				rta = new DDJJValidarErrorDto();
 				rta.setCuil( cuil );
 				rta.setCodigo("periodo");

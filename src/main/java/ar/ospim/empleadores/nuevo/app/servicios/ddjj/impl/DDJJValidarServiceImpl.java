@@ -49,7 +49,7 @@ public class DDJJValidarServiceImpl implements DDJJValidarService {
 		}
 				
 		//el periodo debe ser ANTERIOR al 1ro del mes en curso.-			
-		if ( !ddjj.getPeriodo().isBefore( LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()) ) ) {
+		if ( !ddjj.getPeriodo().isBefore( LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()).plusMonths(1) ) ) {
 			String errorMsg = messageSource.getMessage(DDJJStorageEnumException.PERIODO_FUTURO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(DDJJStorageEnumException.PERIODO_FUTURO.name(), errorMsg);
 		}

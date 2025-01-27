@@ -75,7 +75,7 @@ public class DDJJConsultasController {
 	}
 	
 	
-	@GetMapping(value="/public/plantilla_download",
+	@GetMapping(value="/public/plantilla_download/xls",
 			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@ResponseBody
 	public ResponseEntity<?> downloadFile()  {
@@ -88,7 +88,7 @@ public class DDJJConsultasController {
 			//Path dirPath = Paths.get("resources/DDJJCarga-Plantilla.xlsx");
 			
 			//System.out.println("in file download - dirPath: " + dirPath );
-			Resource resource = getResourse();  			
+			Resource resource = getResourse("xls");  			
 			String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
 			String contentType = "application/octet-stream";
 			
@@ -104,14 +104,38 @@ public class DDJJConsultasController {
 		}
 	}
 	
-	private Resource getResourse() throws MalformedURLException {
-		Path dirPath = Paths.get("DDJJCarga-Plantilla.xlsx");
+	@GetMapping(value="/public/plantilla_download/csv",
+			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<?> downloadFileCsv()  {
+		//to consume http://youserver/file_download?filename=mytest
+		try {
+			System.out.println("in file download " );
+			
+			//System.out.println("in file download - dirPath: " + dirPath );
+			Resource resource = getResourse("csv");  			
+			String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
+			String contentType = "application/octet-stream";
+			
+			InputStream stream = DDJJConsultasController.class.getResourceAsStream("/DDJJCarga-Plantilla.csv");
+			
+			return ResponseEntity.ok()
+	                .contentType(MediaType.parseMediaType(contentType))
+	                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+	                .body(stream.readAllBytes());
+			
+		} catch(Exception e) {
+			System.out.println("error in file_download "+e); return null;
+		}
+	}
+	
+	private Resource getResourse(String tipo) throws MalformedURLException {
+		Path dirPath;
+		dirPath = Paths.get("DDJJCarga-Plantilla.csv");
+		if( tipo.equals("xls"))
+			dirPath = Paths.get("DDJJCarga-Plantilla.xlsx");
 		
 		return new UrlResource(dirPath.toUri());
-		//Files.list(dirPath);
-		
-		//ClassLoader.getSystemResource(dirPath);
-		
 	}
 	 
 }

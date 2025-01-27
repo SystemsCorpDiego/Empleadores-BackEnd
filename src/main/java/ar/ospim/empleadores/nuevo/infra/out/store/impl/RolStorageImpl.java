@@ -72,6 +72,10 @@ public class RolStorageImpl implements RolStorage {
 		List<Rol> consulta = repository.findAll();
 		return mapper.map(consulta); 
 	}
+	public List<RolBO> findTipoUsuario() {
+		List<Rol> consulta = repository.findRolTipoUsuario();
+		return mapper.map(consulta); 
+	}
 
 	public Optional<RolBO> findById(Short id) {
 		Optional<Rol> reg = repository.findById(id);

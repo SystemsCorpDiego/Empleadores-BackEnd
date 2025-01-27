@@ -81,9 +81,5 @@ app:
    #auth:
     #  domain: ${AUTH_DOMAIN:localhost}
      # secure: ${AUTH_SECURE:true}
-   contacto:
-      whatsap: 15-4569-4545
-      tel: 011-4502-2075
-      mail: mesadeayuda@ospim.com.ar
    publicaciones:
       file-path: C:\empleadores\publicaciones

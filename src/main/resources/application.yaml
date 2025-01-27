@@ -92,8 +92,9 @@ app:
      # secure: ${AUTH_SECURE:true}
    contacto:
       whatsap: 15-4569-4545
-      tel: 5238-3992
+      tel: 011 5238-3992
       mail: empleadores@uoma.org.ar
+      #mail: mesadeayuda@ospim.com.ar
       diasHorarios: Lunes a Viernes en los horarios de 10 a 12 y de 14 a 17. 
    publicaciones:
       file-path: /opt/publicaciones/img
@@ -102,7 +103,7 @@ app:
    mail:
       cambio-clave:
          titulo: Portal de Empleadores - Gestión de Clave
-         cuerpo: "La clave de su usuario fue asignada. <br><b>Usuario:</b> %s<br><b>Clave:</b> %s<br><br>Por favor ingrese al sistema con el usuario y contraseña asignado y una vez logueado, cambiar la clave por una que solo usted conozca."
+         cuerpo: "La clave de su usuario fue asignada. <br><b>Sistema:</b>http://www.uomaempleadores.org.ar<br><b>Usuario:</b> %s<br><b>Clave:</b> %s<br><br>Por favor ingrese al sistema con el usuario y contraseña asignado y una vez logueado, cambiar la clave por una que solo usted conozca."
       activacion-cuenta:
          titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
          cuerpo: "Bienvenido al Portal de Empleadores.<br><br>Su Cuenta de Usuario <b>'%s'</b> fue creada con éxito.<br><br>Utilice el siguiente <a href='%s'>link</a> para activarla.<br><br><br>Gracias"
