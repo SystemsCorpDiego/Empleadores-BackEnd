@@ -19,7 +19,7 @@ public class UsuarioTokenActivacionController {
 	@Autowired
 	private UsuarioActivarPorToken service;
 	
-    @PostMapping("/activar/{token}")
+    @PostMapping(value={"/activar/{token}", "/activar/{token}/"} )
     public ResponseEntity<UsuarioActivadoDto>  activarUsuarioEmpresa (@PathVariable  String token ) {
     	
     	String usuario = service.run(token);

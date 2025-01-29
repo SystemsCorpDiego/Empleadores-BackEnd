@@ -73,7 +73,9 @@ public class LoginJWTImpl  implements Login {
 		JWTokenBo result;
 		
 		if ( fetchUserHasTwoFactorAuthenticationEnabled.run(user.getId())) {
-			result = generatePartiallyAuthenticationToken.run(user.getId(), user.getNombre());
+			//TODO: VER PORQUE NO ANDA!!!
+			//result = generatePartiallyAuthenticationToken.run(user.getId(), user.getNombre());
+			result = generateToken.generateTokens(user.getId(), user.getNombre());
 		} else {
 			result = generateToken.generateTokens(user.getId(), user.getNombre());
 			usuarioInfoStorage.actualizarLoginDate(user.getNombre());

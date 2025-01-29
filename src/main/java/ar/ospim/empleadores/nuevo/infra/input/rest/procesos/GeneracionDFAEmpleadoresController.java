@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,9 +44,12 @@ public class GeneracionDFAEmpleadoresController {
 	private final MailService mailService;
 	private final UsuarioStorage usuarioStorage;
 	 
+	@Value("${app.mail.batch-cantidad}")
+	 private Integer batchCantidad;
+	
 	@PostMapping("")
 	public ResponseEntity<String> generarDFA() {		
-		Integer maxRegProcesar = 50;
+		Integer maxRegProcesar = batchCantidad; //50;
 		Integer totalProcesados = 0;
 		
 		List<EmpresaBO> lstEmpresa = empresaService.findAll();
@@ -116,6 +120,7 @@ public class GeneracionDFAEmpleadoresController {
 									
 						//mando Mail con la clave
 						 mailService.runMailActivacionCuenta(usuarioBO, mailPpal.getValor(), authenticationBo);
+						 logger.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - MAIL ENVIADO OK !!!");
 						 return true;
 					} else {
 						logger.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - usuario con DFA secret registrado.");

@@ -320,6 +320,9 @@ public class MailServiceImpl implements MailService {
 	private String getDomain() {
 		//request.getRequestURL();
 		//request.getRequestURI();
+		
+		return "uomaempleadores.org.ar";
+		/*
 		try {
 			return request.getRequestURL().toString().split("/")[2];
 		} catch ( Exception e ) {
@@ -330,6 +333,7 @@ public class MailServiceImpl implements MailService {
 			}
 			return "";
 		}
+		*/
 	}
 
 }
