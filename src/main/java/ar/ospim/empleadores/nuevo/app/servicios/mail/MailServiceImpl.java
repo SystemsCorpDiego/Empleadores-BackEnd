@@ -277,11 +277,11 @@ public class MailServiceImpl implements MailService {
 	}
 	
 	private String getUrlRecuperoClave(String token) {
-		return  "http://" + getDomain() + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
+		return  "https://" + getDomain() + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
 	}
 	
     private  String getUrlActivacionCuenta(String token) {
-		return "http://" + getDomain() + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
+		return "https://" + getDomain() + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
 	}
 
 	private List<String> getMailsNotifAltaEmpre() {
