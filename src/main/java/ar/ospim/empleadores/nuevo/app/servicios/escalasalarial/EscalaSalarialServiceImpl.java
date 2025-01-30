@@ -23,7 +23,14 @@ public class EscalaSalarialServiceImpl implements EscalaSalarialService {
 		
 		return cons;
 	}
+	
 
+	@Override
+	public String getMenorCategoriaVigente(String tipo, String camara, Integer antiguedad, LocalDate vigencia) {
+		
+		String cons = storage.findMenorCategoriaVigente(tipo, camara, antiguedad, vigencia); 		
+		return cons;		
+	}
 	
 	@Override
 	public List<AntiguedadDto> getAntiguedades() {

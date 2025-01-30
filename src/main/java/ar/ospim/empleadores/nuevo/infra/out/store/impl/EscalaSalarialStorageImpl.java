@@ -26,6 +26,13 @@ public class EscalaSalarialStorageImpl implements EscalaSalarialStorage {
 	}
  
 	@Override
+ 	public String findMenorCategoriaVigente(String tipo, String camara, Integer antiguedad, LocalDate vigencia) {
+ 		String consulta = repository.findMenorCategoriaVigente(tipo, camara, antiguedad, vigencia);
+		return consulta; 		 		
+	}
+	
+ 
+	@Override
 	public List<EscalaSalarialBO> findByTipoAndCamaraAndCategoriaAndAntiguedadAndVigenciaBeforeOrderByVigenciaDesc(String tipo, String camara, String categoria, Integer antiguedad, LocalDate vigencia){
 		List<VEscalaSalarial> consulta = repository.findByTipoAndCamaraAndCategoriaAndAntiguedadAndVigenciaBeforeOrderByVigenciaDesc(tipo, camara, categoria, antiguedad, vigencia);
 		return mapper.map(consulta); 		 

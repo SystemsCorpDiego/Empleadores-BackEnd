@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
@@ -27,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final AporteStorage aporteStorage; 
 	private final AporteSeteoService aporteSeteoService;
 	private final EscalaSalarialService escalaSalarialService;
@@ -55,7 +52,7 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 	}
 	
 	private BigDecimal calcular(AporteSeteo aporteSeteo, LocalDate periodo, DDJJEmpleadoBO empleado) {
-		logger.debug("DDJJAportesCalcularService.calcular() - aporteSeteo:"+aporteSeteo +" - periodo:"+periodo + " - empleado:" +empleado);
+		log.debug("DDJJAportesCalcularService.calcular() - aporteSeteo:"+aporteSeteo +" - periodo:"+periodo + " - empleado:" +empleado);
 		BigDecimal importe = BigDecimal.ZERO;
 		
 		if ( empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 ) {			
@@ -80,6 +77,10 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 					if ( "DJ".equals(categoria) ) {
 						categoria = empleado.getCategoria();
 					}
+					if ( "MI".equals(categoria) ) {
+						categoria = getCategoriaMinimaVigente(periodo, aporteSeteo.getCalculoBase(),  camara, aporteSeteo.getCamaraAntiguedad() );						
+						log.debug("DDJJAportesCalcularService.calcular() - categoria=MI - Resultado calculo categoria: "+categoria);
+					}
 					List<EscalaSalarialBO> cons = escalaSalarialService.get(aporteSeteo.getCalculoBase(), camara, categoria, aporteSeteo.getCamaraAntiguedad(), periodo);
 					if ( cons != null && cons.size()>0 ) {
 						importe = cons.get(0).getBasico();
@@ -88,9 +89,18 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L));
 			}	 
 		}
-		logger.debug("DDJJAportesCalcularService.calcular() - Resultado: "+importe);
+		log.debug("DDJJAportesCalcularService.calcular() - Resultado: "+importe);
 
 		return importe;
+	}
+	
+	private String getCategoriaMinimaVigente(LocalDate periodo, String escalaSalarialTipo, String camara, Integer antiguedad) {
+		//(String tipo, String camara, Integer antiguedad, Integer basico, LocalDate vigencia);
+		String rtaCategoria = "E";
+		
+		rtaCategoria = escalaSalarialService.getMenorCategoriaVigente(escalaSalarialTipo, camara, antiguedad, periodo);
+		 
+		return rtaCategoria;
 	}
 	
 	@Override

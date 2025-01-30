@@ -10,6 +10,9 @@ public interface EscalaSalarialService {
 
 	public List<EscalaSalarialBO> get(String tipo, String camara, String categoria, Integer antiguedad, LocalDate vigencia);
 	
+	public String getMenorCategoriaVigente(String tipo, String camara, Integer antiguedad, LocalDate vigencia);
+	
+	
 	public List<AntiguedadDto> getAntiguedades();
 	
 }
