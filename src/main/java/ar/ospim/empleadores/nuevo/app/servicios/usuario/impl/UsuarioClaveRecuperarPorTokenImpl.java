@@ -1,6 +1,8 @@
 package ar.ospim.empleadores.nuevo.app.servicios.usuario.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.dfa.app.ConfirmarDFA;
@@ -9,39 +11,37 @@ import ar.ospim.empleadores.auth.dfa.app.GenerarDFA;
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
 import ar.ospim.empleadores.auth.usuario.app.UpdateClaveUsuario;
+import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.UsuarioStorageEnumException;
+import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioClaveRecuperarPorToken;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioClaveRecuperarPorTokenDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarPorToken {
 
-	@Autowired
+	private final MessageSource messageSource;
 	private TokenGestionUsuario tokenGestionUsuario;
-	
-	@Autowired
 	private UpdateClaveUsuario updateClaveUsuario;
-	
-	@Autowired
 	private UsuarioStorage usuarioStorage;
-
-	@Autowired
 	private GenerarDFA dfaService;
-	
-	@Autowired
 	private DeshabilitarDFA dfaDeshabilitarService;
-	
-	@Autowired
 	private ConfirmarDFA dfaHabilitarService;
-	
-	@Autowired
 	private MailService mailService;
 	
 	@Override
 	public String runGenToken(String mail) {
 		UsuarioBO usuarioBO = usuarioStorage.getUsuarioPorMail(mail);
+		
+		if (usuarioBO == null) {
+			//Error: no existe ese mail.-			
+			String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.MAIL_SIN_USUARIO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(UsuarioStorageEnumException.MAIL_SIN_USUARIO.name(), errorMsg);
+		}
 		
 		String tokenMail = "";
 		if ( usuarioBO.isDfaHabilitado() ) {

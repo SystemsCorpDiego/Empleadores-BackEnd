@@ -181,6 +181,8 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     
     public UsuarioBO getUsuarioPorMail(String mail) {
     	UsuarioBO usuario = null;
+    	
+    	//Busco Usuario x mail de la persona
     	List<UsuarioPorMailI> cons = usuarioRepository.findByMail(mail);
     	if ( cons != null && cons.size() == 1) {
     		usuario = new UsuarioBO();
@@ -190,7 +192,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     		return usuario;
     	}
     	
-    	//Busco Mail de Empresa.
+    	//Busco usuario x Mail de la Empresa.
     	List<Integer> cons2 = usuarioEmpresaRepository.findByMail(mail);
     	if ( cons2 != null && cons2.size() == 1) {
     		Optional<Usuario> reg = usuarioRepository.findById(cons2.get(0));

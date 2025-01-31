@@ -85,11 +85,15 @@ public class ActualizarUsuarioImpl implements ActualizarUsuario {
         	UsuarioInternoBO usuaIntSesion = consultarUsuarioInterno.getFromSession(); 
         	UsuarioInternoBO usuaIntModif = consultarUsuarioInterno.run(id);
         	
+        	//20250131: Mando siempre SIN copia
+        	mailService.runCambioDeClave(usuarioOld.getDescripcion(),  clave, usuaIntModif.getPersona().getEmail(),  null);
+        	/*
         	if ( usuaIntSesion.getPersona() != null && usuaIntSesion.getPersona().getEmail() != null) {        		
         		mailService.runCambioDeClave(usuarioOld.getDescripcion(),  clave, usuaIntModif.getPersona().getEmail(), usuaIntSesion.getPersona().getEmail());
         	}  else {
         		mailService.runCambioDeClave(usuarioOld.getDescripcion(),  clave, usuaIntModif.getPersona().getEmail(),  null);
         	}
+        	*/
         }
         return regNew;
 	}

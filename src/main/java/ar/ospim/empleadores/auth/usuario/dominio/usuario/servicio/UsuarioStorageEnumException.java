@@ -9,8 +9,9 @@ public enum UsuarioStorageEnumException {
 	NOMBRE_DUPLICADO,
 	MAIL_DUPLICADO,
 	USUARIO_CLAVE_NOT_FOUND,
-    USUARIO_DUPLICADO
-    ;
+    USUARIO_DUPLICADO,
+    MAIL_SIN_USUARIO,
+	;
 	
 	public String getMsgKey() {
 		return "auth.usuario.storage." + this.name();

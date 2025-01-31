@@ -104,7 +104,7 @@ app:
       batch-cantidad: 60
       cambio-clave:
          titulo: Portal de Empleadores - Gestión de Clave
-         cuerpo: "La clave de su usuario fue asignada. <br><b>Sistema:</b>http://www.uomaempleadores.org.ar<br><b>Usuario:</b> %s<br><b>Clave:</b> %s<br><br>Por favor ingrese al sistema con el usuario y contraseña asignado y una vez logueado, cambiar la clave por una que solo usted conozca."
+         cuerpo: "La clave de su usuario fue asignada. <br><b>Sistema: </b>https://uomaempleadores.org.ar<br><b>Usuario:</b> %s<br><b>Clave:</b> %s<br><br>Por favor ingrese al sistema con el usuario y contraseña asignado y una vez logueado, cambiar la clave por una que solo usted conozca."
       activacion-cuenta:
          titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
          cuerpo: "Bienvenido al Portal de Empleadores.<br><br>Su Cuenta de Usuario <b>'%s'</b> fue creada con éxito.<br><br>Utilice el siguiente <a href='%s'>link</a> para activarla.<br><br><br>Gracias"
@@ -118,11 +118,12 @@ app:
          cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar el siguiente Token de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br><br>Gracias"
 getwayPago:
    pagoMisCuentas:
-      habilitado: false
+      habilitado: true
       #TEST: host: https://recaudaciones-homo.prismamp.com/recaudaciones-api/v1/
       #PROD PRISMA: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
       #Conf. en proxy para conectar con PRISMA:
-      host: http://12.1.1.243/recaudaciones-api/v1/
+      #host: http://12.1.1.243/recaudaciones-api/v1/
+      host: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
       method: add_invoice
       token: UVmyCCrti4kLbaFhaSfkqA2DxbhmjUpQTxjMLm5q
       tokenAmtima: UVmyCCrti4kLbaFhaSfkqA2DxbhmjUpQTxjMLm5q
