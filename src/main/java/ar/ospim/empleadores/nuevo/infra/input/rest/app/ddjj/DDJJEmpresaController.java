@@ -37,6 +37,7 @@ import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJPresentarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarNomina;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarPresentacion;
+import ar.ospim.empleadores.nuevo.app.servicios.ddjj.impl.DDJJAportesCalcularServiceImpl;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJConsultaFiltroDto;
@@ -49,14 +50,14 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJValidarError
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.mapper.DDJJDtoAltaMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.mapper.DDJJDtoMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 
+@Slf4j
 @RestController
 @RequestMapping("/empresa/{empresaId}/ddjj")
 @RequiredArgsConstructor
 public class DDJJEmpresaController {
-	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final DDJJDtoMapper mapper;
 	private final DDJJDtoAltaMapper mapperAlta;
@@ -73,7 +74,7 @@ public class DDJJEmpresaController {
 	public ResponseEntity<List<DDJJTotalesEmpresaDto>>  consultarDDJJTotales(@PathVariable Integer empresaId, 
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  @Nullable @RequestParam LocalDate desde, 
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  @Nullable @RequestParam LocalDate hasta) {
-		logger.debug( "empresaId: " + empresaId.toString());		 
+		log.debug( "empresaId: " + empresaId.toString());		 
 		
 		DDJJConsultaFiltroDto filtro = new DDJJConsultaFiltroDto();
 		if ( empresaId != null ) {
@@ -88,31 +89,31 @@ public class DDJJEmpresaController {
 		
 		List<DDJJTotalesEmpresaDto> lst = consultarService.consultarTotales(filtro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( lst );	 
 	}
 	
 	@GetMapping(value = "/periodo-anterior")
 	public ResponseEntity<DDJJPeriodoAnteriorDto>  consultarPeriodoAnterior(@PathVariable Integer empresaId, 
 			@RequestParam  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  @Nullable LocalDate periodo) {
-		logger.debug( "empresaId: " + empresaId.toString());		
+		log.debug( "empresaId: " + empresaId.toString());		
 		LocalDate periodoAux = null;
 		if ( periodo != null)
 			periodoAux = periodo;
 		
 		DDJJBO ddjj = consultarService.consultarPeriodoAnterior(empresaId, periodoAux);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( mapper.mapPeriodoAnterior(ddjj) );	 
 	}
 		
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<DDJJConsultaDto>  consultar(@PathVariable Integer id) {
-		logger.debug( "ddjjId: " + id.toString());		
+		log.debug( "ddjjId: " + id.toString());		
 		
 		DDJJBO ddjj= consultarService.consultar(id);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( mapper.mapConsulta(ddjj) );	 
 	}
 	
@@ -124,20 +125,20 @@ public class DDJJEmpresaController {
 			LocalDate periodo
 			) {
 		if ( periodo != null )		
-			logger.debug( "periodo: " + periodo.toString());		
+			log.debug( "periodo: " + periodo.toString());		
 		
 		Optional<DDJJBO> cons = consultarService.getUltimaPresentada(empresaId, periodo);
 		
 		if ( cons.isPresent() ) 
 			return ResponseEntity.ok( mapper.mapConsulta(cons.get()) );
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().build();	 
 	}
 	
 	@PostMapping
 	public ResponseEntity<DDJJAltaDto>  alta(@PathVariable Integer empresaId, @RequestBody @Valid DDJJAltaDto ddjj, HttpServletRequest request) {
-		logger.debug("guardar() - Params => empresaId: " + empresaId + " - ddjj: " + ddjj.toString() );
+		log.debug("guardar() - Params => empresaId: " + empresaId + " - ddjj: " + ddjj.toString() );
 		
 		DDJJBO registro = mapperAlta.mapAlta(empresaId, ddjj);		
 		for ( DDJJEmpleadoBO reg: registro.getEmpleados() ) {
@@ -149,13 +150,13 @@ public class DDJJEmpresaController {
 		
 		URI location = URI.create( String.format(request.getRequestURI()+"%s", rta.getId()) );
 		
-		logger.debug("empresaId: " + rta.toString());
+		log.debug("empresaId: " + rta.toString());
 		return ResponseEntity.created( location ).body(rta); 	 
 	}
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<DDJJAltaDto>  actualizar(@PathVariable Integer empresaId, @PathVariable Integer id,  @RequestBody @Valid DDJJAltaDto ddjj) {
-		logger.debug("empresaId: " + empresaId + "id: " + id + " - ddjj: " + ddjj.toString());
+		log.debug("empresaId: " + empresaId + "id: " + id + " - ddjj: " + ddjj.toString());
 
 		ddjj.setId(id);		
 		DDJJBO registro = mapper.map(empresaId, ddjj);
@@ -166,25 +167,24 @@ public class DDJJEmpresaController {
 		registro = actualizarService.run(registro);
 		DDJJAltaDto rta = mapper.map(registro); 
 		
-		logger.debug("FIN" );
 		return ResponseEntity.ok(rta); 
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void>  baja(@PathVariable Integer empresaId, @PathVariable Integer id) {
-		logger.debug("empresaId: " + empresaId + "id: " + id );
+		log.debug("empresaId: " + empresaId + "id: " + id );
 		
 		bajaService.run(id);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 	
 	@GetMapping(value = "/{id}/imprimir")
 	public ResponseEntity<?> imprimir(@PathVariable Integer empresaId, @PathVariable Integer id)   throws JRException, SQLException {
-		logger.debug("empresaId: " + empresaId + "id: " + id );
+		log.debug("empresaId: " + empresaId + "id: " + id );
 		 
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		byte[] auxPdf = imprimirService.run(id);
 		
 		String contentType = "application/octet-stream";
@@ -201,7 +201,7 @@ public class DDJJEmpresaController {
 	
 	@PostMapping(value = "/validar")
 	public ResponseEntity<DDJJValidarDto>  validar(@PathVariable Integer empresaId, @RequestBody @Valid DDJJAltaDto ddjj) {
-		logger.debug("empresaId: " + empresaId + "ddjj: " + ddjj.toString() );
+		log.debug("empresaId: " + empresaId + "ddjj: " + ddjj.toString() );
 		DDJJValidarDto rtaFinal = new DDJJValidarDto() ;
 
 		DDJJBO ddjjBo = mapper.map(ddjj);
@@ -210,28 +210,28 @@ public class DDJJEmpresaController {
 			rtaFinal.setErrores(lst.get());
 		}
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok(rtaFinal); 
 	}
 	
 	@PostMapping(value = "/upload/nomina/validaCuil")
 	public ResponseEntity<List<DDJJValidarCuilDto>>  validarNominaCuil(@PathVariable Integer empresaId, @RequestBody  List<String> lstCuil ) {
-		logger.debug("empresaId: " + empresaId + "lstCuil: " + lstCuil.toString() );
+		log.debug("empresaId: " + empresaId + "lstCuil: " + lstCuil.toString() );
 		
 		List<DDJJValidarCuilDto> lst = mapper.map(lstCuil);
 		lst = validarNominaService.run(lst);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( lst );
 	}
 	
 	@PatchMapping(value = "/{id}/presentar")
 	public ResponseEntity<DDJJPresentarResponseDto>  presentar(@PathVariable Integer empresaId, @PathVariable Integer id) {
-		logger.debug("empresaId: " + empresaId + "id: " + id );
+		log.debug("empresaId: " + empresaId + "id: " + id );
 		
 		DDJJPresentarResponseDto rta = presentarService.run(id);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok(rta); 
 		//return ResponseEntity.noContent().<Void>build(); 
 	}

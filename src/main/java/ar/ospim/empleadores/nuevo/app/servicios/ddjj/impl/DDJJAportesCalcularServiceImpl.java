@@ -44,15 +44,13 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 		    (aporteSeteo.getEntidad().equals(EntidadEnum.AMTIMA.getCodigo())  && empleado.getAmtimaSocio() && aporteSeteo.getSocio()  ) ||
 			(aporteSeteo.getEntidad().equals(EntidadEnum.AMTIMA.getCodigo())  && !empleado.getAmtimaSocio() && !aporteSeteo.getSocio() ) 
 			) {
-				log.debug("aplicaAporte: true");
 				return true;
 		}		
-		log.debug("aplicaAporte: false");
 		return false;
 	}
 	
 	private BigDecimal calcular(AporteSeteo aporteSeteo, LocalDate periodo, DDJJEmpleadoBO empleado) {
-		log.debug("DDJJAportesCalcularService.calcular() - aporteSeteo:"+aporteSeteo +" - periodo:"+periodo + " - empleado:" +empleado);
+		
 		BigDecimal importe = BigDecimal.ZERO;
 		
 		if ( empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 ) {			
@@ -78,8 +76,7 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 						categoria = empleado.getCategoria();
 					}
 					if ( "MI".equals(categoria) ) {
-						categoria = getCategoriaMinimaVigente(periodo, aporteSeteo.getCalculoBase(),  camara, aporteSeteo.getCamaraAntiguedad() );						
-						log.debug("DDJJAportesCalcularService.calcular() - categoria=MI - Resultado calculo categoria: "+categoria);
+						categoria = getCategoriaMinimaVigente(periodo, aporteSeteo.getCalculoBase(),  camara, aporteSeteo.getCamaraAntiguedad() );
 					}
 					List<EscalaSalarialBO> cons = escalaSalarialService.get(aporteSeteo.getCalculoBase(), camara, categoria, aporteSeteo.getCamaraAntiguedad(), periodo);
 					if ( cons != null && cons.size()>0 ) {
@@ -89,7 +86,6 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L));
 			}	 
 		}
-		log.debug("DDJJAportesCalcularService.calcular() - Resultado: "+importe);
 
 		return importe;
 	}
@@ -105,7 +101,7 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 	
 	@Override
 	public void run(LocalDate periodo, DDJJEmpleadoBO empleado) {
-		log.debug("DDJJAportesCalcularService.run() - periodo:"+periodo+" - empleado:"+empleado);
+		log.debug("DDJJAportesCalcularService.run() - periodo: {} - empleado: {}", periodo, empleado);
 		AporteBO aporte = null;
 		DDJJEmpleadoAporteBO empleadoAporte = null;
 		
@@ -116,16 +112,13 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 		List<AporteSeteo> aporteSeteos = aporteSeteoService.findVigentes(periodo);
 		empleado.setAportes(new ArrayList<DDJJEmpleadoAporteBO>() );
 		for (AporteSeteo aporteSeteo : aporteSeteos) {
-			log.debug("DDJJAportesCalcularService.run() - aporteSeteo:"+aporteSeteo+" - empleado:"+empleado);
 			if ( aplicaAporte(aporteSeteo, empleado) ) {
 				empleadoAporte = new DDJJEmpleadoAporteBO();
 				aporte = aporteStorage.findByCodigo( aporteSeteo.getAporte() );
 				empleadoAporte.setAporte(aporte);
-				empleadoAporte.setImporte( calcular(aporteSeteo, periodo, empleado) );  //TODO: falta CALCULARLO				
+				empleadoAporte.setImporte( calcular(aporteSeteo, periodo, empleado) );  //TODO: falta CALCULARLO
 				empleado.getAportes().add(empleadoAporte);
 			}
 		}
 	}
- 
-	
-}
+ }

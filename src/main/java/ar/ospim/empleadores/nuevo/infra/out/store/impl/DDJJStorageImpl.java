@@ -17,6 +17,7 @@ import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoEnumException;
+import ar.ospim.empleadores.nuevo.app.servicios.ddjj.impl.DDJJAportesCalcularServiceImpl;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAfiliadoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.DDJJMapper;
@@ -35,13 +36,14 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.DDJJSecuenci
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.DDJJTotales;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.DDJJTotalesI;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class DDJJStorageImpl implements DDJJStorage {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+	 
 	private final AfiliadoRepository afiliadoRepository;
 	private final EmpresaDomicilioRepository empresaDomicilioRepository;
     private final DDJJRepository repository;
@@ -152,18 +154,13 @@ public class DDJJStorageImpl implements DDJJStorage {
 	}
 
 	@Override
-	public DDJJBO guardar(DDJJBO reg) {				
+	public DDJJBO guardar(DDJJBO reg) {
 		DDJJ ddjj = mapper.map(reg);		
-		logger.debug( "DDJJStorage.guardar() : ddjj.getDdjjEmpleados().size " +  ddjj.getEmpleados().size() );
 		
 		completarEmpleadosFK(ddjj);				
-		
 		ddjj = guardar( ddjj );
-		logger.debug( "DDJJStorage.guardar() : repository.save(ddjj) -  ddjj.getDdjjEmpleados().size" +  ddjj.getEmpleados().size() );
 		
 		reg = mapper.map(ddjj);		
-		logger.debug( "reg: " + reg.toString() );
-		logger.debug(  "DDJJStorage.guardar() : " + "FIN !!!" );
 		return reg;
 	}
 	
@@ -214,26 +211,25 @@ public class DDJJStorageImpl implements DDJJStorage {
 		Optional<DDJJ> cons = repository.findById(ddjj.getId());
 		if ( cons.isPresent() ) {
 			DDJJ ddjjActu = cons.get();
-			logger.debug( "DDJJStorage.guardar() :  ddjjActu.getDdjjEmpleados().size " +  ddjjActu.getEmpleados().size() );
 			mapper.mapSinAuditoria(ddjjActu, ddjj);
 			ddjj = ddjjActu;
 			ddjj.setUpdatedOn(null);
-			logger.debug( "DDJJStorage.guardar() :  ddjj.getDdjjEmpleados().size" +  ddjj.getEmpleados().size() );				
 		}
-			
+		
 		actualizarGerarquias(ddjj);
 		
 		for ( DDJJEmpleado regEmple : ddjj.getLstEmpleadoAporteBaja() ) {
-			logger.debug("empleadoAporteRepository.deleteByDDJJEmpleadoId() => regEmple.getId(): " + regEmple.getId());
 			empleadoAporteRepository.deleteByDDJJEmpleadoId(regEmple.getId());
 		}
+		
 		for ( DDJJEmpleado regEmple : ddjj.getLstEmpleadoBaja() ) {
-			logger.debug("empleadoRepository.deleteById() => regEmple.getId(): " + regEmple.getId());
 			empleadoAporteRepository.deleteByDDJJEmpleadoId(regEmple.getId());
 			empleadoRepository.deleteById(regEmple.getId());
 		}
+		
 		ddjj = repository.save(ddjj);
 		repository.flush();
+		
 		return ddjj;
 	}
 
