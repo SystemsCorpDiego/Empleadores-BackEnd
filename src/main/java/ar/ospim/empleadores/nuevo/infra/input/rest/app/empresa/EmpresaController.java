@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,24 +20,25 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaModiDt
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.EmpresaModiDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto.EmpresaDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("empresa")
 @RequiredArgsConstructor
 public class EmpresaController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final EmpresaModiDtoMapper mapper;
 	private final EmpresaService service;
 	
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void>  actualizar(@PathVariable Integer id, @RequestBody @Valid EmpresaModiDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		EmpresaBO registro = mapper.map(id, dato);
 		registro = service.updateEmpresa(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 

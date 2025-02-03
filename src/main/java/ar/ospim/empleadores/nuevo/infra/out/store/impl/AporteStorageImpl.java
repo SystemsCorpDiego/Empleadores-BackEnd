@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +17,18 @@ import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AporteMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AporteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Aporte;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.BancoConvenioMovimiento;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class AporteStorageImpl implements AporteStorage {
 	
 	private MessageSource messageSource;
 	
-    private final Logger logger;
     private final AporteRepository repository;
     private final AporteMapper mapper;
 	
 	public AporteStorageImpl(MessageSource messageSource, AporteRepository aporteRepository, AporteMapper mapper) {
-        this.logger =  LoggerFactory.getLogger(getClass());
         this.	messageSource = messageSource;			
         this.repository = aporteRepository;
         this.mapper = mapper;

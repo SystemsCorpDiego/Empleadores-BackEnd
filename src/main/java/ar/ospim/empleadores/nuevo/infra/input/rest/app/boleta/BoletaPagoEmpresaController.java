@@ -2,8 +2,6 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta;
 
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +22,14 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BepDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoActualizarDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoValidaModiDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 
+@Slf4j
 @RestController
 @RequestMapping("/empresa/{empresaId}/")
 @RequiredArgsConstructor
 public class BoletaPagoEmpresaController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final BoletaPagoDtoMapper mapper;
 	private final BoletaPagoImprimirService imprimirService;
@@ -60,9 +59,9 @@ public class BoletaPagoEmpresaController {
 
 	@GetMapping(value = "boletas/{id}/imprimir")
 	public ResponseEntity<?> imprimir(@PathVariable Integer empresaId, @PathVariable Integer id) throws JRException, SQLException {
-		logger.debug("empresaId: " + empresaId + "id: " + id );
+		log.debug("empresaId: " + empresaId + "id: " + id );
 		 
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		byte[] auxPdf = imprimirService.run(id);
 		
 		String contentType = "application/octet-stream";
@@ -92,9 +91,9 @@ public class BoletaPagoEmpresaController {
 
 	@GetMapping(value = "boletas/{id}/imprimir-detalle")
 	public ResponseEntity<?> imprimirDetalle(@PathVariable Integer empresaId, @PathVariable Integer id) throws JRException, SQLException {
-		logger.debug("empresaId: " + empresaId + "id: " + id );
+		log.debug("empresaId: " + empresaId + "id: " + id );
 		 
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		byte[] auxPdf = detalleImprimirService.run(id);
 		
 		String contentType = "application/octet-stream";

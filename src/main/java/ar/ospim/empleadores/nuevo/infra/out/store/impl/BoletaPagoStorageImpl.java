@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BoletaPagoStorageImpl  implements BoletaPagoStorage {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final BoletaPagoRepository repository;
 	private final BoletaPagoAjusteRepository boletaPagoAjusteRepository;
@@ -145,7 +142,7 @@ public class BoletaPagoStorageImpl  implements BoletaPagoStorage {
 			
 			reg = boletaPago;
 			//ddjj.setUpdatedOn(null);
-			//logger.debug( "DDJJStorage.guardar() :  ddjj.getDdjjEmpleados().size" +  ddjj.getEmpleados().size() );				
+			//log.debug( "DDJJStorage.guardar() :  ddjj.getDdjjEmpleados().size" +  ddjj.getEmpleados().size() );				
 		}
 		 
 		reg = repository.save(reg);

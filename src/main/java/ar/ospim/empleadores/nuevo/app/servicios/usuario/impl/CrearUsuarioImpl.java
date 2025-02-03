@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -21,11 +19,12 @@ import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.CrearUsuario;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.RegistrarUsuarioEnumException;
-import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage; 
+import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
+import lombok.extern.slf4j.Slf4j; 
 
+@Slf4j
 @Service
 public class CrearUsuarioImpl implements CrearUsuario {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     
     @Value("${app.seguridad.perfilEmpleador}")
     private Short rolEmpleadorId;
@@ -69,7 +68,7 @@ public class CrearUsuarioImpl implements CrearUsuario {
     
 	@Override
 	public UsuarioBO run(String usuario, String email, String clave, RolBO rol) {
-        logger.debug("Register new user -> {}", usuario);
+        log.debug("Register new user -> {}", usuario);
         validacionesUsuario(usuario);
         validacionesClave(clave);
         
@@ -98,7 +97,7 @@ public class CrearUsuarioImpl implements CrearUsuario {
 	}
 
     private void registrarEnOAuthService(String usuario, String email, String clave) {
-        logger.debug("Input parameters -> username {}, email {}", usuario, email);
+        log.debug("Input parameters -> username {}, email {}", usuario, email);
         if (oAuthServiceEnabled) {
         	OAuthUsuarioBo oAuthUsuarioBo = new OAuthUsuarioBo(usuario, clave, null, null, email);
         	oAuthUsuarioManagementStorage.crearUsuario(oAuthUsuarioBo);
@@ -134,7 +133,7 @@ public class CrearUsuarioImpl implements CrearUsuario {
     }
     
     private UsuarioBO register(String usuario, String clave, RolBO rol) {
-        logger.debug("Input parameter -> usuario {}", usuario);
+        log.debug("Input parameter -> usuario {}", usuario);
         var salt = "salt";
         var hashAlgorithm = "hashAlgorithm";
         UsuarioBO userBo = (clave != null) ?

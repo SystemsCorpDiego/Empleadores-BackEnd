@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +13,12 @@ import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.nuevo.infra.out.store.ClaveResetTokenStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ClaveResetTokenRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ClaveResetToken;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class ClaveResetTokenStorageImpl implements ClaveResetTokenStorage {
 
-    private final Logger logger;
 
     private final ClaveResetTokenRepository claveResetTokenRepository;
 
@@ -27,13 +26,12 @@ public class ClaveResetTokenStorageImpl implements ClaveResetTokenStorage {
     private Duration passwordExpiration;
 
     public ClaveResetTokenStorageImpl(ClaveResetTokenRepository passwordResetTokenRepository) {
-        this.logger =  LoggerFactory.getLogger(getClass());
         this.claveResetTokenRepository = passwordResetTokenRepository;
     }
 
     @Override
     public ClaveResetTokenBo get(String token) {
-        logger.debug("Get password reset token from database {} ", token);
+        log.debug("Get password reset token from database {} ", token);
         ClaveResetToken passwordResetToken = claveResetTokenRepository.findByToken(token)
                 .orElseThrow(() ->
                         new BusinessException(ClaveResetTokenStorageEnumException.TOKEN_NOT_FOUND.name(), String.format("Token %s inexistente ", token)));
@@ -42,7 +40,7 @@ public class ClaveResetTokenStorageImpl implements ClaveResetTokenStorage {
 
     @Override
     public ClaveResetTokenBo crearToken(Integer userId) {
-        logger.debug("Create password reset token for userId {} ",userId);
+        log.debug("Create password reset token for userId {} ",userId);
         ClaveResetToken entity = new ClaveResetToken();
         entity.setUsuarioId(userId);
         entity.setBajaFecha(LocalDateTime.now().plusSeconds(passwordExpiration.getSeconds()));
@@ -62,7 +60,7 @@ public class ClaveResetTokenStorageImpl implements ClaveResetTokenStorage {
 
     @Override
     public void deshabilitarTokens(Integer userId) {
-        logger.debug("Disable token to userId {} ", userId);
+        log.debug("Disable token to userId {} ", userId);
         claveResetTokenRepository.deshabilitarTokens(userId);
     }
 }

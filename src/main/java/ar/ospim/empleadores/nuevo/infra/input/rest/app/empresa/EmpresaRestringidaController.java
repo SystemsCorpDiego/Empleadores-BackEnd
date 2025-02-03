@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +22,14 @@ import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaRestringidaServic
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaRestringidaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.EmpresaRestringidaDtoMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("empresa/restringida")
 @RequiredArgsConstructor
 public class EmpresaRestringidaController {
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final EmpresaRestringidaService service;
 	private final EmpresaRestringidaDtoMapper mapper;
 	
@@ -48,12 +47,12 @@ public class EmpresaRestringidaController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?>  actualizar(@PathVariable Integer id, @RequestBody @Valid EmpresaRestringidaDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		EmpresaRestringidaBO registro = mapper.map(id, dato);
 		registro = service.crear(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent( ).build();
 	}
 	

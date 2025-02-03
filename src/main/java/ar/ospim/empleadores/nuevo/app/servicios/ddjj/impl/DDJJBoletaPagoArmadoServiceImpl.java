@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +28,13 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmado
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
 public class DDJJBoletaPagoArmadoServiceImpl implements DDJJBoletaPagoArmadoService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final AporteService aporteService;
 	private final DDJJConsultarService ddjjConsultarService;
@@ -48,7 +47,7 @@ public class DDJJBoletaPagoArmadoServiceImpl implements DDJJBoletaPagoArmadoServ
 	public DDJJBoletaArmadoDto run(Integer ddjjId, String aporteCodigo, LocalDate intencionDePago) {
 		
 		DDJJBO ddjj = ddjjConsultarService.consultar(ddjjId);
-		logger.debug( ddjj.toString() );
+		log.debug( ddjj.toString() );
 		
 		DDJJBoletaArmadoDto reg = buildConsulta( ddjj, aporteCodigo, intencionDePago );				
 		return reg;

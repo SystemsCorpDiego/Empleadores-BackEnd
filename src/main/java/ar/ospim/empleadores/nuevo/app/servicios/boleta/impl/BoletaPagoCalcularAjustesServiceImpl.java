@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +17,12 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.BoletaPagoDtoMappe
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAjusteDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleDto;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class BoletaPagoCalcularAjustesServiceImpl implements BoletaPagoCalcularAjustesService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final AjusteService service;
 	private final BoletaPagoDtoMapper mapper;
@@ -39,7 +38,7 @@ public class BoletaPagoCalcularAjustesServiceImpl implements BoletaPagoCalcularA
 		BigDecimal importeUsado = null;
 		BigDecimal importeAjuste = null;		
 		
-		logger.error( "generarAjusteAutomaticoIPF - Aporte: " + boleta.getAporte().getCodigo() );
+		log.error( "generarAjusteAutomaticoIPF - Aporte: " + boleta.getAporte().getCodigo() );
 		service.generarAjusteAutomaticoIPF(boleta.getAporte().getCodigo(), boleta.getEmpresa().getId());
 		
 		//1) consulta Ajustes con saldo para el CUIT+Aporte+Periodo

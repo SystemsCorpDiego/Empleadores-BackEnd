@@ -5,16 +5,13 @@ import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import lombok.extern.slf4j.Slf4j;
 import net.sourceforge.barbecue.Barcode;
 import net.sourceforge.barbecue.BarcodeFactory;
 import net.sourceforge.barbecue.BarcodeImageHandler;
 
+@Slf4j
 public class BarCode {
-	//private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private static Logger logger = LoggerFactory.getLogger(BarCode.class);
 	
 	public static Image generarCodigoBarras(String numero) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -41,12 +38,12 @@ public class BarCode {
 
 			return image;
 		} catch (Exception e) {
-			logger.error("No se pudo generar el codigo de barras", e);
+			log.error("No se pudo generar el codigo de barras", e);
 		} finally {
 			try {
 				out.close();
 			} catch (IOException e) {
-				logger.error("No se pudo cerrar el stream", e);
+				log.error("No se pudo cerrar el stream", e);
 			}
 		}
 		return null;

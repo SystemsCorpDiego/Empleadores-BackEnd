@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +26,13 @@ import ar.ospim.empleadores.nuevo.app.servicios.publicacion.PublicacionService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.publicaciones.dto.PublicacionDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.publicaciones.dto.PublicacionVigenteDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("publicaciones")
 @RequiredArgsConstructor
 public class publicacionController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());;
 	private final PublicacionService service;
 	private final PublicacionDtoMapper mapper;
 	
@@ -52,12 +51,12 @@ public class publicacionController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?>  actualizar(@PathVariable Integer id, @RequestBody @Valid PublicacionDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		PublicacionBO registro = mapper.map(id, dato);
 		registro = service.crear(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent( ).build();
 	}
 	

@@ -4,8 +4,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -22,10 +20,11 @@ import ar.ospim.empleadores.nuevo.app.servicios.usuario.ActualizarUsuario;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.RegistrarUsuarioEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class ActualizarUsuarioImpl implements ActualizarUsuario {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MessageSource messageSource;
 
     private final Pattern usuarioPattern;
@@ -54,7 +53,7 @@ public class ActualizarUsuarioImpl implements ActualizarUsuario {
     
 	@Override
 	public UsuarioBO run(UsuarioBO usuario) {
-        logger.debug("ActualizarUsuario new user -> {}", usuario);
+        log.debug("ActualizarUsuario new user -> {}", usuario);
         validaciones(usuario);
         validacionesClave(usuario.getClave());
         //registrarEnOAuthService(usuario, email, clave);
@@ -63,7 +62,7 @@ public class ActualizarUsuarioImpl implements ActualizarUsuario {
 	}
 
 	private UsuarioBO actualizar(Integer id, String usuario, String clave, RolBO rol, Boolean habilitado) {
-        logger.debug("Input parameter -> usuario {}", usuario);
+        log.debug("Input parameter -> usuario {}", usuario);
         var salt = "salt";
         var hashAlgorithm = "hashAlgorithm";
         UsuarioBO usuarioNew = (clave != null) ?

@@ -2,8 +2,6 @@ package ar.ospim.empleadores.auth.usuario.app.impl;
 
 import java.util.Locale;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +15,13 @@ import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.ClaveResetTokenStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ResetearClaveImpl  implements ResetearClave {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MessageSource messageSource;
     private final UsuarioStorage userStorage;
     private final ActualizarClaveUsuario updateUserPassword;
@@ -31,7 +31,7 @@ public class ResetearClaveImpl  implements ResetearClave {
 
     @Override
     public String execute(String token, String password) {
-        logger.debug("Reset Clave del token -> {}", token);
+        log.debug("Reset Clave del token -> {}", token);
 
         ClaveResetTokenBo passwordResetTokenBo = passwordResetTokenStorage.get(token);
 

@@ -8,27 +8,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.auth.jwt.app.login.LoginJWTImpl;
 import ar.ospim.empleadores.auth.usuario.app.CrearTokenClave;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.TokenResetClaveDto;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 //@Tag(name = "User password reset", description = "User password reset")
 //@PreAuthorize("hasPermission(#institutionId, 'ADMINISTRADOR_INSTITUCIONAL_BACKOFFICE')")
 public class GenerarTokenResetClaveControllerU {
-    private final Logger logger;
     private final CrearTokenClave crearTokenClave;
 
     public GenerarTokenResetClaveControllerU(CrearTokenClave crearTokenClave) {
-        this.logger = LoggerFactory.getLogger(this.getClass());
         this.crearTokenClave = crearTokenClave;
     }
 
     @PostMapping(value = "/usuario/{usuarioId}/clave/token-reset")
     @ResponseStatus(HttpStatus.OK)
     public TokenResetClaveDto create(@PathVariable(name = "usuarioId") Integer usuarioId) {
-    	logger.debug("Input parametros -> {}", usuarioId);
+    	log.debug("Input parametros -> {}", usuarioId);
         String result = crearTokenClave.run(usuarioId);
-        logger.debug("Output -> result {}", result);
+        log.debug("Output -> result {}", result);
         return new TokenResetClaveDto(result);
     }
     

@@ -12,10 +12,12 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
+import ar.ospim.empleadores.auth.usuario.app.impl.DeshabilitarUsuarioImpl;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class LoggingRequestInterceptor  implements ClientHttpRequestInterceptor {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
 	@Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         traceRequest(request, body);
@@ -25,12 +27,12 @@ public class LoggingRequestInterceptor  implements ClientHttpRequestInterceptor 
     }
 
     private void traceRequest(HttpRequest request, byte[] body){
-		logger.debug("===========================Request begin================================================");
-        logger.debug("URI         : {}", request.getURI());
-        logger.debug("Method      : {}", request.getMethod());
-        logger.debug("Headers     : {}", request.getHeaders() );
-        logger.debug("Request body: {}", new String(body, StandardCharsets.UTF_8));
-        logger.debug("===========================Request end================================================");
+		log.debug("===========================Request begin================================================");
+        log.debug("URI         : {}", request.getURI());
+        log.debug("Method      : {}", request.getMethod());
+        log.debug("Headers     : {}", request.getHeaders() );
+        log.debug("Request body: {}", new String(body, StandardCharsets.UTF_8));
+        log.debug("===========================Request end================================================");
     }
 
     private void traceResponse(ClientHttpResponse response) throws IOException {
@@ -42,12 +44,12 @@ public class LoggingRequestInterceptor  implements ClientHttpRequestInterceptor 
             inputStringBuilder.append('\n');
             line = bufferedReader.readLine();
         }
-        logger.debug("============================Response begin==========================================");
-        logger.debug("Status code  : {}", response.getStatusCode());
-        logger.debug("Status text  : {}", response.getStatusText());
-        logger.debug("Headers      : {}", response.getHeaders());
-        logger.debug("Response body: {}", inputStringBuilder);
-        logger.debug("============================Response end=================================================");
+        log.debug("============================Response begin==========================================");
+        log.debug("Status code  : {}", response.getStatusCode());
+        log.debug("Status text  : {}", response.getStatusText());
+        log.debug("Headers      : {}", response.getHeaders());
+        log.debug("Response body: {}", inputStringBuilder);
+        log.debug("============================Response end=================================================");
     }
 
 }

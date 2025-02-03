@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,12 +25,14 @@ import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioAuthenticationStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/procesos/FDA/empleadores")
 @RequiredArgsConstructor 
 public class GeneracionDFAEmpleadoresController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private final ConsultarEmpresa empresaService;
 	private final EmpresaContactoService empresaContactoService;
@@ -71,7 +71,7 @@ public class GeneracionDFAEmpleadoresController {
 		try {
 			empresa = empresaService.getEmpresa(cuit);
 		} catch (Exception e) {
-			logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - Exception: " + e.toString() );			
+			log.error( "PROCESO-DFA-EMPLEADORES - ERROR - Exception: " + e.toString() );			
 		}
 		
 		if ( empresa != null) { 
@@ -84,12 +84,12 @@ public class GeneracionDFAEmpleadoresController {
 				
 				rta = procesar(empresa);		
 			} else {
-				logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT.");
+				log.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT.");
 				return ResponseEntity.status(HttpStatus.SC_BAD_GATEWAY).body( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT." );
 			}
 		} else {
 			//ResponseEntity.badRequest("");
-			logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + cuit + " - No se encontro empresa para el CUIT.");
+			log.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + cuit + " - No se encontro empresa para el CUIT.");
 			return ResponseEntity.status(HttpStatus.SC_BAD_GATEWAY).body( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + cuit + " - No se encontro empresa para el CUIT.");
 		}
 		
@@ -108,7 +108,7 @@ public class GeneracionDFAEmpleadoresController {
 			try {
 				usuarioBO = usuarioStorage.getUsuario(empresa.getCuit());
 			} catch (Exception e) {
-				logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - Exception: " + e.toString() );
+				log.error( "PROCESO-DFA-EMPLEADORES - ERROR - Exception: " + e.toString() );
 			}
 			
 			if ( usuarioBO != null ) {									 
@@ -120,19 +120,19 @@ public class GeneracionDFAEmpleadoresController {
 									
 						//mando Mail con la clave
 						 mailService.runMailActivacionCuenta(usuarioBO, mailPpal.getValor(), authenticationBo);
-						 logger.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - MAIL ENVIADO OK !!!");
+						 log.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - MAIL ENVIADO OK !!!");
 						 return true;
 					} else {
-						logger.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - usuario con DFA secret registrado.");
+						log.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - usuario con DFA secret registrado.");
 					}					 
 				} else {
-					logger.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT " + empresa.getCuit() + " - usuarioBO.isHabilitado():"+usuarioBO.isHabilitado() + " - usuarioBO.isDfaHabilitado(): "+ usuarioBO.isDfaHabilitado() );
+					log.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT " + empresa.getCuit() + " - usuarioBO.isHabilitado():"+usuarioBO.isHabilitado() + " - usuarioBO.isDfaHabilitado(): "+ usuarioBO.isDfaHabilitado() );
 				}
 			}  else {
-				logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT.");
+				log.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT.");
 			}
 		} else {
-			logger.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - Falta informar MAIL principal.");
+			log.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - Falta informar MAIL principal.");
 		}
 		return false;
 	}

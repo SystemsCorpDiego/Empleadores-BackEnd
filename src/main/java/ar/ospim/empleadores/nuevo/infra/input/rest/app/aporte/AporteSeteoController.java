@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -28,12 +26,13 @@ import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteSeteoService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.aporte.dto.AporteSeteoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteSeteo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor 
 public class AporteSeteoController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final AporteSeteoService service;
 	private final AporteSeteoDtoMapper mapper;
 
@@ -63,12 +62,12 @@ public class AporteSeteoController {
 	
 	@PutMapping(value = "/aportes/seteos/{id}")
 	public ResponseEntity<Void>  actualizar(@PathVariable Integer id, @RequestBody @Valid AporteSeteoDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		AporteSeteoBO registro = mapper.map(dato, id);
 		registro = service.guardar(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 	

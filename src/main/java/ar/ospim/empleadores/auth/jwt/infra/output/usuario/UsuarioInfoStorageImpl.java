@@ -1,24 +1,21 @@
 package ar.ospim.empleadores.auth.jwt.infra.output.usuario;
  
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.jwt.dominio.usuario.UsuarioInfoBo;
 import ar.ospim.empleadores.auth.jwt.dominio.usuario.UsuarioInfoStorage;
 import ar.ospim.empleadores.auth.usuario.infra.input.servicio.UsuarioExternalService;
 import ar.ospim.empleadores.auth.usuario.infra.input.servicio.dto.UsuarioInfoDto;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UsuarioInfoStorageImpl  implements UsuarioInfoStorage {
-
-    private final Logger logger;
 
     private final UsuarioExternalService usuarioExternalService;
 
     public UsuarioInfoStorageImpl(UsuarioExternalService usuarioExternalService) {
-        this.logger = LoggerFactory.getLogger(getClass());
         this.usuarioExternalService = usuarioExternalService;
     }
    
@@ -38,7 +35,7 @@ public class UsuarioInfoStorageImpl  implements UsuarioInfoStorage {
 	
 	@Override
     public void actualizarLoginDate(String username) {
-        logger.debug("Update login date {}",username);
+        log.debug("Update login date {}",username);
         usuarioExternalService.actualizarLoginDate(username);
     }
 

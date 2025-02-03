@@ -3,8 +3,6 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -19,13 +17,13 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoCons
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.BoletaPagoDDJJConsulta;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/boletas")
 @RequiredArgsConstructor
 public class BoletaPagoController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
 
 	private final BoletaPagoConsultaService consultaService;
 	private final BoletaPagoDDJJConsultaService boletaPagoConsultaService;
@@ -62,7 +60,7 @@ public class BoletaPagoController {
 		//BoletaPagoBO a BoletaPagoConsSinDDJJDto
 		//cons.setSin_ddjj( mapper.mapConsSinDDJJ(consSinDDJJ) );
 
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( cons );	 
 	}
 	

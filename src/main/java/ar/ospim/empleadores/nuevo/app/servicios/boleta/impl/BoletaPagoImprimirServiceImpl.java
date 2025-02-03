@@ -13,8 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.BoletaPagoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -41,10 +40,10 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BoletaPagoImprimirServiceImpl implements BoletaPagoImprimirService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	JasperReport boletaJasper;
 	JasperReport boletaDdjjJasper;
 	
@@ -60,8 +59,8 @@ public class BoletaPagoImprimirServiceImpl implements BoletaPagoImprimirService 
 	
 	@PostConstruct
 	private void init() {
-		logger.debug("init(): ARRANQUE...");
-		//logger.debug("*** datasourceUrl: " + datasourceUrl);
+		log.debug("init(): ARRANQUE...");
+		//log.debug("*** datasourceUrl: " + datasourceUrl);
 		
 		try {			
 			InputStream fileJasper = getClass().getClassLoader().getResourceAsStream("reportes/boletaPagoGenerico.jrxml");
@@ -74,7 +73,7 @@ public class BoletaPagoImprimirServiceImpl implements BoletaPagoImprimirService 
 			//con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","tecnicos","Valkyria01"); //SystemsCorp
 			
 		}  catch(Exception e) {
-			logger.error("init() - ERROR : " +  e.getMessage() +" - "+ e.getCause() +" - "+ e.getStackTrace() );
+			log.error("init() - ERROR : " +  e.getMessage() +" - "+ e.getCause() +" - "+ e.getStackTrace() );
 		}
 	 }
 	
@@ -147,7 +146,7 @@ public class BoletaPagoImprimirServiceImpl implements BoletaPagoImprimirService 
 			pdfBytes = JasperExportManager.exportReportToPdf(print);
 			con.close();
 		} catch(Exception e) {
-			logger.error( e.toString() );
+			log.error( e.toString() );
 			throw e;
 		}
 		
@@ -155,7 +154,7 @@ public class BoletaPagoImprimirServiceImpl implements BoletaPagoImprimirService 
 			boleta.setImpresion( LocalDate.now() );
 			boletaPagoStorage.registrarImpresion(boleta.getId());			
 		}
-	    logger.debug( "FIN " );
+	    log.debug( "FIN " );
 		return pdfBytes;
 	}
 	 

@@ -3,8 +3,6 @@ package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
@@ -17,11 +15,12 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioRolRepositor
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.UsuarioPersona;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.UsuarioRol;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final UsuarioPersonaMapper mapper;
 	
@@ -41,7 +40,7 @@ public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
 	public List<UsuarioInternoBO> findAllUsuarioInterno() {
 		Optional<RolBO> rolBo = null;		
 		List<UsuarioInternoBO> lst = repository.findAllUsuarioInterno();
-		logger.error("UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
+		log.error("UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
 		for(UsuarioInternoBO reg: lst) {
 			List<UsuarioRol> lstRol = usuarioRolRepository.findByUserId(reg.getId());
 			if ( lstRol.size()>0) { 
@@ -50,7 +49,7 @@ public class UsuarioPersonaStorageImpl implements UsuarioPersonaStorage  {
 					reg.setRol(rolBo.get());
 			}
 		}
-		logger.error("FIN - UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
+		log.error("FIN - UsuarioPersonaStorageImpl.findAllUsuarioInterno() : " + lst );
 		return lst;
 	}
 	

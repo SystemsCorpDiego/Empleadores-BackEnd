@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,13 +28,14 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaPlanta
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.DomicilioTipoDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.EmpresaDomicilioDtoMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping( "empresa")
 @RequiredArgsConstructor
 public class EmpresaDomicilioController {
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final EmpresaDomicilioService service;
 	private final EmpresaDomicilioDtoMapper mapper;
 	private final DomicilioTipoDtoMapper domicilioTipoMapper;
@@ -83,12 +82,12 @@ public class EmpresaDomicilioController {
 
 	@PutMapping(value = "/{empresaId}/domicilio/{id}")
 	public ResponseEntity<Void>  actualizar(@PathVariable("empresaId") @NotNull Integer empresaId, @PathVariable("id") @NotNull Integer id, @RequestBody @Valid EmpresaDomicilioAltaDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		  
 		EmpresaDomicilioBO registro = mapper.map(id, dato);
 		registro = service.guardar(empresaId, registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 

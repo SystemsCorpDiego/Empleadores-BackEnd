@@ -8,8 +8,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +20,17 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Ajuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Aporte;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Empresa;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class AjusteStorageImpl  implements AjusteStorage {
 	private MessageSource messageSource;
 	
-    private final Logger logger;
     private final AjusteRepository repository;
     private final AjusteMapper mapper; 
 	
 	public AjusteStorageImpl(MessageSource messageSource, AjusteRepository ajusteRepository, AjusteMapper mapper) {
-        this.logger =  LoggerFactory.getLogger(getClass());
         this.	messageSource = messageSource;			
         this.repository = ajusteRepository;
         this.mapper = mapper; 

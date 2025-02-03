@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,13 +24,13 @@ import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.CrearUsuarioInte
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("usuario/interno")
 @RequiredArgsConstructor
 public class UsuarioInternoController {
-	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	private final ActualizarUsuarioInterno actualizarUsuarioInterno; 
 	private final CrearUsuarioInterno crearUsuarioInterno;
@@ -42,9 +40,9 @@ public class UsuarioInternoController {
 	
 	@GetMapping()
 	public ResponseEntity<List<UsuarioInternoDto>>  consultar() {
-		logger.error("UsuarioInternoController - INIT");
+		log.error("UsuarioInternoController - INIT");
 		List<UsuarioInternoBO> lst = consultarUsuarioInterno.run();
-		logger.error("UsuarioInternoController - lst: " + lst);
+		log.error("UsuarioInternoController - lst: " + lst);
 		return ResponseEntity.ok( mapper.map(lst) ); 
 	}
 	
@@ -62,23 +60,23 @@ public class UsuarioInternoController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void>  actualizar(@PathVariable Integer id, @RequestBody @Valid UsuarioInternoAltaDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		UsuarioInternoBO registro = mapper.map( id, dato );
 		actualizarUsuarioInterno.run(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 	
 	@PutMapping(value = "/persona/logueada")
 	public ResponseEntity<Void>  actualizarPersonaLogueada( @RequestBody @Valid UsuarioInternoDto dato ) {
-		logger.debug("dato: " + dato.toString());
+		log.debug("dato: " + dato.toString());
 		
 		UsuarioInternoBO registro = mapper.map( dato );
 		actualizarPersonaUsuarioLogueado.run(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 	

@@ -7,9 +7,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,31 +22,29 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.strings.StringHelper;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJConsultarService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJConsultaFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJTotalesEmpresaDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/ddjj")
 @RequiredArgsConstructor
 public class DDJJConsultasController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private final DateTimeProvider dateTimeProvider;
 	private final DDJJConsultarService consultarService;
-	private final MessageSource messageSource;
 	
 	//Consulta de DDJJ para Empledos de OSPIM - Ven todos los CUITs
 	@PostMapping(value = "/totales")
 	public ResponseEntity<List<DDJJTotalesEmpresaDto>>  consultarDDJJTotales(@RequestBody DDJJConsultaFiltroDto filtro) {
-		logger.debug( "filtro: " + filtro );		 		 
+		log.debug( "filtro: " + filtro );		 		 
 
 		List<DDJJTotalesEmpresaDto> lst = consultarService.consultarTotales(filtro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( lst );	 
 	}
 
@@ -57,7 +52,7 @@ public class DDJJConsultasController {
 	public ResponseEntity<List<DDJJTotalesEmpresaDto>>  consultarDDJJTotales(@Nullable @RequestParam String cuit, 
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  @Nullable @RequestParam LocalDate desde, 
 			@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  @Nullable @RequestParam LocalDate hasta) {
-		logger.debug( "cuit: " + cuit );		 
+		log.debug( "cuit: " + cuit );		 
 		DDJJConsultaFiltroDto filtro = new DDJJConsultaFiltroDto();
 		if ( !StringHelper.isNullOrWhiteSpace(cuit) ) 
 			filtro.setCuit(cuit);
@@ -70,7 +65,7 @@ public class DDJJConsultasController {
 		
 		List<DDJJTotalesEmpresaDto> lst = consultarService.consultarTotales( filtro );
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.ok( lst );	 
 	}
 	

@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class RolStorageImpl implements RolStorage {
-    private final Logger logger =  LoggerFactory.getLogger(getClass());
     private final MessageSource messageSource;
     private final RolRepository repository;
     private final RolMapper mapper;

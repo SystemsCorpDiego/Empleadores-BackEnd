@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +20,13 @@ import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/afip/intereses")
 @RequiredArgsConstructor 
 public class AfipInteresController {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private final AfipInteresService service;
 	private final AfipInteresDtoMapper mapper;
 
@@ -52,12 +51,12 @@ public class AfipInteresController {
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void>  actualizar(@PathVariable Integer id, @RequestBody @Valid AfipInteresDto dato) {
-		logger.debug("id: " + id + " - dato: " + dato.toString());
+		log.debug("id: " + id + " - dato: " + dato.toString());
 		
 		AfipInteresBO registro = mapper.map(dato, id);
 		registro = service.guardar(registro);
 		
-		logger.debug("FIN" );
+		log.debug("FIN" );
 		return ResponseEntity.noContent().<Void>build(); 
 	}
 	

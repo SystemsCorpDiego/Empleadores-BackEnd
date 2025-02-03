@@ -6,8 +6,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class EmpresaRestringidaStorageImpl implements EmpresaRestringidaStorage{
-    private final Logger logger =  LoggerFactory.getLogger(getClass());
     private final MessageSource messageSource;
     private final EmpresaRestringidaRepository repository;
     private final EmpresaRestringidaMapper mapper;

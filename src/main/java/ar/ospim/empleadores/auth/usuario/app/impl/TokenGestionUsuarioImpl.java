@@ -9,8 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
@@ -26,10 +24,11 @@ import io.jsonwebtoken.JwsHeader;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -63,7 +62,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 		try {			
 			return crearToken(usuario.getId(), usuario.getDescripcion(), mail, tokenDFA);
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.crearParaMail() - ERROR - mail: " + mail + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
+			log.error("TokenActivacionUsuario.crearParaMail() - ERROR - mail: " + mail + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
 			return null;
 		}
 	}
@@ -75,7 +74,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
         try {
         	return crearToken(usuario.getId(), usuario.getDescripcion(), "", "");
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.crearParaUsuario() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
+			log.error("TokenActivacionUsuario.crearParaUsuario() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
 			return null;
 		}
 	}
@@ -85,7 +84,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 		try {
 			return crearToken(usuario.getId(), usuario.getDescripcion(), "", tokenDFA);
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.crearParaMail() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
+			log.error("TokenActivacionUsuario.crearParaMail() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
 			return null;
 		}
 	}
@@ -117,7 +116,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 	        
 	        return builder.compact();
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.crear() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
+			log.error("TokenActivacionUsuario.crear() - ERROR - usuario: " + usuario + " - Cause:" + e.getCause() + " - Message: " + e.getMessage() + " - StackTrace: " + e.getStackTrace()  );
 			return null;
 		}		
 	}
@@ -127,13 +126,13 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 		try {
 			claims = Jwts.parser().setSigningKey( this.signingKey ).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.getClaim() - Error - 1 - claim: " +claim+ " - token: " + token);
+			log.error("TokenActivacionUsuario.getClaim() - Error - 1 - claim: " +claim+ " - token: " + token);
 			String errorMsg = messageSource.getMessage(RegistrarUsuarioEnumException.TOKEN_HABI.getMsgKey(), null, new Locale("es"));
             throw new BusinessException(RegistrarUsuarioEnumException.TOKEN_HABI.name(), errorMsg);
 		}
 
 		if ( !claims.containsKey(claim) || claims.get(claim) == null ) {
-			logger.error("TokenActivacionUsuario.getClaim() - Error - 2 - claim: " +claim+ " - token: " + token);
+			log.error("TokenActivacionUsuario.getClaim() - Error - 2 - claim: " +claim+ " - token: " + token);
 			String errorMsg = messageSource.getMessage(RegistrarUsuarioEnumException.TOKEN_HABI.getMsgKey(), null, new Locale("es"));
             throw new BusinessException(RegistrarUsuarioEnumException.TOKEN_HABI.name(), errorMsg);
 		}
@@ -141,7 +140,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 		try {
 			return claims.get(claim).toString();
 		} catch (Exception e) {
-			logger.error("TokenActivacionUsuario.getClaim() - Error - 3 - claim: " +claim+ " - token: " + token);
+			log.error("TokenActivacionUsuario.getClaim() - Error - 3 - claim: " +claim+ " - token: " + token);
 			String errorMsg = messageSource.getMessage(RegistrarUsuarioEnumException.TOKEN_HABI.getMsgKey(), null, new Locale("es"));
             throw new BusinessException(RegistrarUsuarioEnumException.TOKEN_HABI.name(), errorMsg);
 		}
@@ -159,7 +158,7 @@ public class TokenGestionUsuarioImpl implements TokenGestionUsuario {
 		try {
 			return Integer.valueOf(sId);
 		} catch ( Exception e) {
-			logger.error("TokenActivacionUsuario.getId() - Error  - token: " + token);
+			log.error("TokenActivacionUsuario.getId() - Error  - token: " + token);
 			String errorMsg = messageSource.getMessage(RegistrarUsuarioEnumException.TOKEN_HABI.getMsgKey(), null, new Locale("es"));
             throw new BusinessException(RegistrarUsuarioEnumException.TOKEN_HABI.name(), errorMsg);			
 		}				 

@@ -12,8 +12,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -29,10 +27,11 @@ import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-	 private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
 	 @Autowired 
 	 private HttpServletRequest request;
@@ -102,7 +101,7 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	public void runCambioDeClave(String usuario, String claveNueva, String usuarioMail,  String usuarioModificaMail) {
-		logger.error("MailService.runClaveNueva - INIT");
+		log.error("MailService.runClaveNueva - INIT");
 		try {
 			MimeMessage mimeMessage = emailSender.createMimeMessage();
 			
@@ -121,10 +120,10 @@ public class MailServiceImpl implements MailService {
 				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(usuarioModificaMail));
 			
 	        emailSender.send(mimeMessage);
-	        logger.error("MailService.runClaveNueva - PASO emailSender.send(mimeMessage); !!!! ");
+	        log.error("MailService.runClaveNueva - PASO emailSender.send(mimeMessage); !!!! ");
 		} catch( Exception e) {
-			logger.error("MailService.runClaveNueva - ERROR - usuario - -> {}", usuario);
-			logger.error("MailService.runClaveNueva - ERROR - -> {}", e);
+			log.error("MailService.runClaveNueva - ERROR - usuario - -> {}", usuario);
+			log.error("MailService.runClaveNueva - ERROR - -> {}", e);
 		}
 	}
 
@@ -137,8 +136,8 @@ public class MailServiceImpl implements MailService {
 			
 			runMailInt(usuarioMail, AC_titulo, mailCuerpo);
 		} catch( Exception e) {
-			logger.error("MailService.runMailActivacionCuenta - ERROR - -> {}", usuarioBO.toString());
-			logger.error("MailService.runMailActivacionCuenta - ERROR - -> {}", e);
+			log.error("MailService.runMailActivacionCuenta - ERROR - -> {}", usuarioBO.toString());
+			log.error("MailService.runMailActivacionCuenta - ERROR - -> {}", e);
 		}				
 	}
 
@@ -151,8 +150,8 @@ public class MailServiceImpl implements MailService {
 			
 			runMailIntWithAttach(usuarioMail, AC_titulo, mailCuerpo);			 
 		} catch( Exception e) {
-			logger.error("MailService.runMailActivacionCuenta - DFA - ERROR - -> {}", usuarioBO.toString());
-			logger.error("MailService.runMailActivacionCuenta - DFA - ERROR - -> {}", e);
+			log.error("MailService.runMailActivacionCuenta - DFA - ERROR - -> {}", usuarioBO.toString());
+			log.error("MailService.runMailActivacionCuenta - DFA - ERROR - -> {}", e);
 		}				
 	}
 
@@ -160,22 +159,22 @@ public class MailServiceImpl implements MailService {
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa) {
 		//Informa a Usuarios Internos con Notificaciones=true, los datos de la nueva empresa
 		
-		logger.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - INIT");
-		logger.error("MailService.runMailCuentaEmpresaNuevaInfo - empresa: ", empresa);
+		log.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - INIT");
+		log.error("MailService.runMailCuentaEmpresaNuevaInfo - empresa: ", empresa);
 		
 		try {
 			List<String> lstMails = getMailsNotifAltaEmpre() ;
-			logger.error("MailService.runMailCuentaEmpresaNuevaInfo - lstMails: ", lstMails);
+			log.error("MailService.runMailCuentaEmpresaNuevaInfo - lstMails: ", lstMails);
 			if ( lstMails != null && lstMails.size() > 0 ) {
 				MimeMessage mimeMessage = emailSender.createMimeMessage();
 				
 				//mimeMessage.setSubject(CEN_titulo);
 				if ( springProfile.equals("dev") ) {
 					 mimeMessage.setSubject("(Desarrollo) - " + CEN_titulo);
-					 logger.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: "+"(Desarrollo) - " + CEN_titulo);
+					 log.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: "+"(Desarrollo) - " + CEN_titulo);
 		        } else {
 		        	mimeMessage.setSubject(CEN_titulo);
-		        	logger.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: " + CEN_titulo);
+		        	log.error("MailService.runMailCuentaEmpresaNuevaInfo - setSubject: " + CEN_titulo);
 			    }
 				
 				String razonSocial = "(" + empresa.getCuit() + ") " + empresa.getRazonSocial();
@@ -185,14 +184,14 @@ public class MailServiceImpl implements MailService {
 				for ( String mail : lstMails) {
 					mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mail));
 				}
-				logger.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - INIT");
+				log.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - INIT");
 		        emailSender.send(mimeMessage);
-		        logger.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - FIN");
+		        log.error("MailService.runMailCuentaEmpresaNuevaInfo -  emailSender.send(mimeMessage) - FIN");
 			}
 		} catch( Exception e) {
-			logger.error("MailService.runMailCuentaEmpresaNuevaInfo - ERROR - -> {}", e);			
+			log.error("MailService.runMailCuentaEmpresaNuevaInfo - ERROR - -> {}", e);			
 		}	
-		logger.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - FIN");
+		log.error("*** - MailService.runMailCuentaEmpresaNuevaInfo - FIN");
 	}
 
 	@Override
@@ -202,7 +201,7 @@ public class MailServiceImpl implements MailService {
 			String mailCuerpo = String.format(RC_cuerpo_dfa, usuario, sUrlLink, dfaDto.getSharedSecret(), dfaDto.generateAuthenticatorBarCode());
 			runMailIntWithAttach(mail, RC_titulo, mailCuerpo);
 		} catch( Exception e) {
-			logger.error("MailService.runMailRecuperoClaveDFA - ERROR - -> {}", e);
+			log.error("MailService.runMailRecuperoClaveDFA - ERROR - -> {}", e);
 		}
 	}
 
@@ -212,7 +211,7 @@ public class MailServiceImpl implements MailService {
 			String mailCuerpo = String.format(RC_cuerpo, usuario, sUrlLink);	
 			runMailInt(mail, RC_titulo, mailCuerpo);			 
 		} catch( Exception e) {
-			logger.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
+			log.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
 		}
 	}	
 	
@@ -233,7 +232,7 @@ public class MailServiceImpl implements MailService {
 			
 			emailSender.send(mimeMessage);
 		} catch( Exception e) {
-			logger.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
+			log.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
 		}	
 	}
 	
@@ -272,7 +271,7 @@ public class MailServiceImpl implements MailService {
 			mimeMessage.setContent(emailContent);
 			emailSender.send(mimeMessage);
 		} catch( Exception e) {
-			logger.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
+			log.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
 		}	
 	}
 	
@@ -327,9 +326,9 @@ public class MailServiceImpl implements MailService {
 			return request.getRequestURL().toString().split("/")[2];
 		} catch ( Exception e ) {
 			if ( request == null ) {
-				logger.error("MailService.getDomain() - ERROR - request NULLL ");
+				log.error("MailService.getDomain() - ERROR - request NULLL ");
 			} else {
-				logger.error("MailService.getDomain() - ERROR - request.getRequestURL():  ", request.getRequestURL());
+				log.error("MailService.getDomain() - ERROR - request.getRequestURL():  ", request.getRequestURL());
 			}
 			return "";
 		}

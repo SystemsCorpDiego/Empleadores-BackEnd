@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,16 +21,16 @@ import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
 import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.aporte.dto.AporteDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("aportes")
 @RequiredArgsConstructor 
 public class AporteController {
 		
-		private final Logger logger = LoggerFactory.getLogger(this.getClass());
 		private final AporteService service;
 		private final AporteDtoMapper mapper;
-
 		
 		@GetMapping
 		public ResponseEntity<List<AporteDto>>  consultar() {
@@ -62,12 +60,12 @@ public class AporteController {
 		
 		@PutMapping(value = "/{codigo}")
 		public ResponseEntity<Void>  actualizar(@PathVariable String codigo, @RequestBody @Valid AporteDto dato) {
-			logger.debug("codigo: " + codigo + " - dato: " + dato.toString());
+			log.debug("codigo: " + codigo + " - dato: " + dato.toString());
 			
 			AporteBO registro = mapper.map(dato, codigo);
 			registro = service.guardar(registro);
 			
-			logger.debug("FIN" );
+			log.debug("FIN" );
 			return ResponseEntity.noContent().<Void>build(); 
 		}
 		

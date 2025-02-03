@@ -7,8 +7,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +17,17 @@ import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AfipInteresMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AfipInteresRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfipInteres;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class AfipInteresStorageImpl implements AfipInteresStorage {
 	private MessageSource messageSource;
 	
-    private final Logger logger;
     private final AfipInteresRepository repository;
     private final AfipInteresMapper mapper;
 	
 	public AfipInteresStorageImpl(MessageSource messageSource, AfipInteresRepository afipInteresRepository, AfipInteresMapper mapper) {
-        this.logger =  LoggerFactory.getLogger(getClass());
         this.	messageSource = messageSource;			
         this.repository = afipInteresRepository;
         this.mapper = mapper;

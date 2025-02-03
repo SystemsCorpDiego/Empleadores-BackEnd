@@ -8,13 +8,12 @@ import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJImprimirService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -22,19 +21,19 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DDJJImprimirServiceImpl implements DDJJImprimirService {
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	JasperReport ddjjJasper;	
 		
-	 @Autowired
-	 protected DataSource dataSource;
+	@Autowired
+	protected DataSource dataSource;
 	
 	@PostConstruct
 	private void init() {
-		logger.debug("init(): ARRANQUE...");
+		log.debug("init(): ARRANQUE...");
 		try {
 			
 			InputStream fleJasper = getClass().getClassLoader().getResourceAsStream("reportes/ddjj.jrxml");
@@ -43,7 +42,7 @@ public class DDJJImprimirServiceImpl implements DDJJImprimirService {
 			//con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","tecnicos","Valkyria01"); //SystemsCorp
 				
 		}  catch(Exception e) {
-			logger.error("init() - ERROR : " +  e.getMessage() +" - "+ e.getCause() +" - "+ e.getStackTrace() );
+			log.error("init() - ERROR : " +  e.getMessage() +" - "+ e.getCause() +" - "+ e.getStackTrace() );
 		}
 	 }
 	
@@ -66,7 +65,7 @@ public class DDJJImprimirServiceImpl implements DDJJImprimirService {
 			pdfBytes = JasperExportManager.exportReportToPdf(print);
 			con.close(); 
 		} catch(Exception e) {
-			logger.error( e.toString() );
+			log.error( e.toString() );
 			throw e;
 		}
 	    
@@ -75,7 +74,7 @@ public class DDJJImprimirServiceImpl implements DDJJImprimirService {
 		//base64Img =  new String(base64Encoder.encode(bos.toByteArray()));
 		//bos.close();
 
-	    logger.debug( "FIN " );
+	    log.debug( "FIN " );
 		return pdfBytes;
 	}
 

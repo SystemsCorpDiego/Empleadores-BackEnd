@@ -13,8 +13,6 @@ import javax.xml.soap.SOAPException;
 
 import org.apache.axis.message.PrefixedQName;
 import org.apache.axis.message.SOAPHeaderElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class RedLinkServiceImpl implements RedLinkService {   
-	private static final Logger logger = LoggerFactory.getLogger(RedLinkServiceImpl.class);
 
 	private final MessageSource messageSource;
 	private final DDJJConsultarService DdjjService;
@@ -112,23 +109,23 @@ public class RedLinkServiceImpl implements RedLinkService {
 			
 			return rta;
 		} catch(RemoteException e) {
-			logger.error("RemoteException - Error al llamar a ws Red Link: ",e);
+			log.error("RemoteException - Error al llamar a ws Red Link: ",e);
 			if ( requestAltaDeDeudas != null)
-				logger.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
 			//ret="Error Remote Exception "+ e.getMessage() ;
 			throw new WebServiceException( "2", "Error Remote Exception" + e.getMessage() , e);
 	    } catch ( BusinessException e) {
 	    	if ( requestAltaDeDeudas != null)
-				logger.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
 	    	throw e;
 	    } catch ( WebServiceException e) {
 	    	if ( requestAltaDeDeudas != null)
-				logger.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
 	    	throw e;
 	    } catch (Exception e) {
-	    	logger.error("Exception- Error al llamar a ws Red Link: ",e);
+	    	log.error("Exception- Error al llamar a ws Red Link: ",e);
 	    	if ( requestAltaDeDeudas != null)
-				logger.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
 	    	//ret="Error Exception" ;
 	    	throw new WebServiceException( "3", "Exception- Error al llamar a ws Red Link:" + e.getMessage() , e);
 	    }
@@ -146,35 +143,35 @@ public class RedLinkServiceImpl implements RedLinkService {
 	}
 	
 	private String procesarRespuesta(WsAltaDeDeudasResponse response) {
-		logger.error("RedLinkService - procesarRespuesta - init");
+		log.error("RedLinkService - procesarRespuesta - init");
 		
 		String rta = null;
 		if ( response == null ) {
-			logger.error("Respuesta Vacia");
+			log.error("Respuesta Vacia");
 			throw new WebServiceException( "1", "response null");
 		}		 
-		logger.error("RedLinkService - procesarRespuesta - 1");
+		log.error("RedLinkService - procesarRespuesta - 1");
 		
 		WsResultadoAlta[] resultado = response.getResultadoAltas();
-		logger.error("RedLinkService - procesarRespuesta - 2");
+		log.error("RedLinkService - procesarRespuesta - 2");
 		
 		for(int xi=0; xi<resultado.length; xi ++){
-			logger.error("RedLinkService - procesarRespuesta - 3");
+			log.error("RedLinkService - procesarRespuesta - 3");
 			String codigoResultado  = resultado[xi].getCodigoResultadoAlta();
 			String descripResultado = resultado[xi].getDescripcionResultadoAlta();
 			
-			logger.error("RedLinkService - procesarRespuesta - 3 - codigoResultado: " + codigoResultado + " descripResultado: " + descripResultado);
+			log.error("RedLinkService - procesarRespuesta - 3 - codigoResultado: " + codigoResultado + " descripResultado: " + descripResultado);
 			
 		    if("00".equalsIgnoreCase(codigoResultado)){
-			   logger.info("Respuesta OK de Red Link: " + response.toString());
+			   log.info("Respuesta OK de Red Link: " + response.toString());
 			   rta = response.getCpe();
 		    } else {
-			   logger.info("Respuesta FAIL de Red Link: " + codigoResultado +" - "+ descripResultado);
-			   logger.info("Respuesta FAIL de Red Link - response: " + response.toString());
+			   log.info("Respuesta FAIL de Red Link: " + codigoResultado +" - "+ descripResultado);
+			   log.info("Respuesta FAIL de Red Link - response: " + response.toString());
 			   throw new WebServiceException( codigoResultado, descripResultado);
 		    }  
 		}
-		logger.error("RedLinkService - procesarRespuesta - 4 - rta: " + rta);
+		log.error("RedLinkService - procesarRespuesta - 4 - rta: " + rta);
 		return rta;
 	}
 	

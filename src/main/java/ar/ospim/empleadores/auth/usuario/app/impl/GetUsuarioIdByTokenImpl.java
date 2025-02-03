@@ -6,16 +6,15 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.app.GetUsuarioIdByToken;
 import ar.ospim.empleadores.nuevo.infra.out.store.ClaveResetTokenStorage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class GetUsuarioIdByTokenImpl  implements GetUsuarioIdByToken {
-
-    private final Logger logger;
 
     private final ClaveResetTokenStorage claveResetTokenStorage;
 
     public GetUsuarioIdByTokenImpl(ClaveResetTokenStorage claveResetTokenStorage) {
-        this.logger = LoggerFactory.getLogger(this.getClass());
         this.claveResetTokenStorage = claveResetTokenStorage;
     }
 
@@ -23,7 +22,7 @@ public class GetUsuarioIdByTokenImpl  implements GetUsuarioIdByToken {
     @Override
     public Integer execute(String token) {
         Integer result = claveResetTokenStorage.get(token).getUsuarioId();
-        logger.debug("Output -> {}", result);
+        log.debug("Output -> {}", result);
         return result;
     }
 }

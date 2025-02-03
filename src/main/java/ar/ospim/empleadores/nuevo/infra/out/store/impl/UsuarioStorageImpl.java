@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +23,14 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.UsuarioClave
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.UsuarioRol;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.UsuarioPorMailI;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UsuarioStorageImpl  implements UsuarioStorage  {
     public static final String PASSWORD_CON_ID_INEXISTENTE = "Clave con id (%s) inexistente";
    
-    private final Logger logger =  LoggerFactory.getLogger(UsuarioStorageImpl.class);
-
     private final MessageSource messageSource;
     
     private final UsuarioRepository usuarioRepository;    
@@ -44,7 +42,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     
     @Override
     public UsuarioBO guardar(UsuarioBO user) {
-        logger.debug("Save user in repository -> {}", user);
+        log.debug("Save user in repository -> {}", user);
         Usuario userEntity = mapUsuario(user);
         userEntity = usuarioRepository.save(userEntity);
         user.setId(userEntity.getId());
@@ -78,7 +76,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
 
     @Override
     public UsuarioBO actualizar(UsuarioBO userBo) {
-        logger.debug("Save user in repository -> {}", userBo);
+        log.debug("Save user in repository -> {}", userBo);
         
         Usuario user = usuarioRepository.findById(userBo.getId())
                 .orElseThrow(() -> {
@@ -153,7 +151,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     
     @Override
     public UsuarioBO getUsuario(Integer userId) {
-        logger.debug("Get user in repository -> {}", userId);
+        log.debug("Get user in repository -> {}", userId);
         Usuario user = usuarioRepository.findById(userId)
                 .orElseThrow(() -> {
                 	String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.USUARIO_ID_NOT_FOUND.getMsgKey(), null, new Locale("es"));
@@ -166,7 +164,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
 
     @Override
     public UsuarioBO getUsuario(String usuarioNombre) {
-        logger.debug("Get user in repository -> {}", usuarioNombre);
+        log.debug("Get user in repository -> {}", usuarioNombre);
         Usuario usuario = usuarioRepository.findByUsuario(usuarioNombre)
                 .orElseThrow(() -> {
                 	String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.USUARIO_NOT_FOUND.getMsgKey(), null, new Locale("es"));	
@@ -208,7 +206,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     
     @Override
     public boolean existe(String usuarioNombre) {
-        logger.debug("existe user in repository -> {}", usuarioNombre);
+        log.debug("existe user in repository -> {}", usuarioNombre);
         Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioNombre);
         if ( usuario.isPresent() ) 
         	return true;
@@ -244,18 +242,18 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
     
 	@Override
 	public void resetDFA(Integer userId) {
-		logger.debug("Reset two factor authentication -> {}", userId);
+		log.debug("Reset two factor authentication -> {}", userId);
 		usuarioRepository.resetDFA(userId);
 	}
 
 	public void setDFAToken(Integer userId, String tokenDFA) {
-		logger.debug("DFA - token: Actualizar -> {}", userId);
+		log.debug("DFA - token: Actualizar -> {}", userId);
 		usuarioRepository.setDFASecreto(userId, tokenDFA);
 	}
 	
     @Override
     public Boolean usuarioConDFAHabilitado(Integer userId) {
-        logger.debug("Fetch user has two factor authentication enabled -> {}", userId);
+        log.debug("Fetch user has two factor authentication enabled -> {}", userId);
         return usuarioRepository.usuarioConDFAHabilitado(userId);
     }
 
