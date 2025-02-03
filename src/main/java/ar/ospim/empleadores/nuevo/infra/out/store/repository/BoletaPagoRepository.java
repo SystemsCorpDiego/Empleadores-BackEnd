@@ -105,7 +105,7 @@ public interface BoletaPagoRepository extends JpaRepository<BoletaPago, Integer>
 			+ " and    (b.aporte = cast(?3 as text) or cast(?3 as text)  is null) "
 			+ " and    (a.entidad = cast(?4 as text) or cast(?4 as text)  is null) "
 			+ " and    (b.forma_pago = cast(?5 as text) or cast(?5 as text)  is null) " //empresaId
-			+ "order by d.periodo desc,  d.secuencia desc,  b.secuencia asc", 
+			+ "order by d.periodo desc,  b.secuencia desc", 
 			  nativeQuery = true)
 	public List<BoletaPagoDDJJConsultaI> consultaBoletasDDJJ(LocalDate periodoDesde,  LocalDate periodoHasta, String aporte, String entidad, String formaPago );
 
@@ -124,7 +124,7 @@ public interface BoletaPagoRepository extends JpaRepository<BoletaPago, Integer>
 			+ " where (b.aporte = cast(?3 as text) or cast(?3 as text)  is null) "
 			+ " and    (a.entidad = cast(?4 as text) or cast(?4 as text)  is null) "
 			+ " and    (b.forma_pago = cast(?5 as text) or cast(?5 as text)  is null) " //empresaId
-			+ "order by d.periodo desc,  d.secuencia desc,  b.secuencia asc", 
+			+ "order by d.periodo desc,  b.secuencia desc", 
 			  nativeQuery = true)
 	public List<BoletaPagoDDJJConsultaI> consultaBoletasDDJJPeriodoDH(LocalDate periodoDesde,  LocalDate periodoHasta, String aporte, String entidad, String formaPago);
 
@@ -147,7 +147,7 @@ public interface BoletaPagoRepository extends JpaRepository<BoletaPago, Integer>
 			+ " and    (b.aporte = cast(?3 as text) or cast(?3 as text)  is null) "
 			+ " and    (a.entidad = cast(?4 as text) or cast(?4 as text)  is null) "
 			+ " and    (b.forma_pago = cast(?5 as text) or cast(?5 as text)  is null) "  
-			+ "order by d.periodo desc,  d.secuencia desc,  b.secuencia asc", 
+			+ "order by d.periodo desc,  b.secuencia desc", 
 			  nativeQuery = true)
 	public List<BoletaPagoDDJJConsultaI> consultaBoletasDDJJEmpresa(LocalDate periodoDesde,  LocalDate periodoHasta, String aporte, String entidad, String formaPago, Integer empresaId);
 
