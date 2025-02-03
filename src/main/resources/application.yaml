@@ -72,6 +72,10 @@ logging:
       console: "%clr(%d{mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%-35.35logger{0}) %msg %n"
 app:
    seguridad:
+      login:
+         tunel-activo: true
+         tunel-pwd: Prueba159
+         tunel-pwd-dfa: 1591
       activacion-cuenta:
          jwt-secret: SECRETO-activacion
       perfilEmpleador: 4

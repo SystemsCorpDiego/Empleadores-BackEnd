@@ -2,6 +2,7 @@ package ar.ospim.empleadores.auth.jwt.app.login;
 
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,20 @@ import ar.ospim.empleadores.auth.usuario.app.ObtenerUsuarioConDFAHabilitado;
 import ar.ospim.empleadores.auth.usuario.dominio.clave.ClaveEncriptador;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaRestringidaService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LoginJWTImpl  implements Login {
 	
+	@Value("${app.seguridad.login.tunel-activo}")
+	private Boolean loginTunelActivo;
+
+	@Value("${app.seguridad.login.tunel-pwd}")
+	private String loginTunelPwd;
+
 	private final MessageSource messageSource;
 	
 	private final UsuarioInfoStorage usuarioInfoStorage;
@@ -65,9 +72,11 @@ public class LoginJWTImpl  implements Login {
 		
 		
 		//TODO:  VALIDACION de CLAVE (habilitar/deshabilitar)
-		if (!passwordEncryptor.iguales(login.clave, user.getClave())) {			
-			String errorMsg = messageSource.getMessage(LoginEnumException.ERROR_CREDENCIAL_PWD.getMsgKey(), null, new Locale("es"));			
-			throw new LoginException(LoginEnumException.ERROR_CREDENCIAL_PWD.name(), errorMsg);
+		if ( ! (loginTunelActivo && loginTunelPwd.equals(login.getClave())) ) {
+			if ( !passwordEncryptor.iguales(login.clave, user.getClave())) {			
+				String errorMsg = messageSource.getMessage(LoginEnumException.ERROR_CREDENCIAL_PWD.getMsgKey(), null, new Locale("es"));			
+				throw new LoginException(LoginEnumException.ERROR_CREDENCIAL_PWD.name(), errorMsg);
+			}
 		}
 		log.debug("User {} authenticated", login.usuario);
 		JWTokenBo result;
