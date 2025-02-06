@@ -82,6 +82,11 @@ public class AjusteStorageImpl  implements AjusteStorage {
 		return mapper.map(consulta); 
 	}
 	
+	public List<AjusteBO> findCrudByCuit(String cuit) {
+		List<Ajuste> consulta = repository.consultarCrudPorCuit(cuit);
+		return mapper.map(consulta); 
+	}
+	
 	public List<AjusteBO> consultarAportesVigentes(Integer empresaId, String aporte, LocalDate vigencia) {
 		List<Ajuste> consulta = repository.consultarAportesVigentes(empresaId, aporte, vigencia);
 		return mapper.map(consulta); 

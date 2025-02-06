@@ -41,6 +41,11 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 			+ " where  a.motivo <> 'IPF' ")
 	List<Ajuste>  consultarCrud();
 	
+	@Query(value =" select a from Ajuste a "
+			+ " where  a.motivo <> 'IPF' and a.empresa.cuit = :cuit "
+			+ " order by a.vigencia desc " )
+	List<Ajuste>  consultarCrudPorCuit(@Param("cuit") String cuit);
+	
 	@Query(value =" select COALESCE(sum(bpa.importe),0) from boleta_pago_ajuste bpa, boleta_pago bp "
 								+ " where  bpa.boleta_pago_id = bp.id "
 								+ " and      bp.baja_en is null  "

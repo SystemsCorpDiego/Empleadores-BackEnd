@@ -73,6 +73,7 @@ logging:
 app:
    seguridad:
       login:
+         default-pwd: uoma2025
          tunel-activo: true
          tunel-pwd: Prueba159
          tunel-pwd-dfa: 1591

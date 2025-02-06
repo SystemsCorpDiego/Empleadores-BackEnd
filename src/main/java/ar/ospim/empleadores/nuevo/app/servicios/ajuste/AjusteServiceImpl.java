@@ -137,6 +137,10 @@ public class AjusteServiceImpl implements AjusteService {
 		return storage.findAllCrud();
 	}
 	
+	public List<AjusteBO> consultarCrudPorCuit(String cuit) {
+		return storage.findCrudByCuit(cuit);
+	}
+	
 	public List<AjusteBO> consultarAportesVigentes(Integer empresaId, String aporte, LocalDate vigencia) {
 		return storage.consultarAportesVigentes(empresaId, aporte, vigencia);
 	}

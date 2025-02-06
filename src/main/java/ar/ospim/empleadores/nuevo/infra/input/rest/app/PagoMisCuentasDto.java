@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class BanelcoDto {
+public class PagoMisCuentasDto {
 	
     private String cuit;
 

@@ -17,7 +17,7 @@ public class FormaPagoServiceImpl implements FormaPagoService {
 	private final String REDLINK = "REDLINK";
 	private final String REDLINK_DESC = "Red Link";
 	private final String PMCUENTAS = "PMCUENTAS";
-	private final String PMCUENTAS_DESC = "Banelco";
+	private final String PMCUENTAS_DESC = "PagoMisCuentas";
 	
 	public List<FormaPagoBO> consultar() {
 		List<FormaPagoBO> lst = new ArrayList<FormaPagoBO>();

@@ -13,6 +13,8 @@ public interface AjusteService {
 
 	public List<AjusteBO> consultarCrud();
 	
+	public List<AjusteBO> consultarCrudPorCuit(String cuit);
+	
 	public AjusteBO guardar(AjusteBO reg);	
 	
 	public void borrar(Integer id);	

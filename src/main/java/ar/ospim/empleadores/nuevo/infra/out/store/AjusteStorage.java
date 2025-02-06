@@ -10,6 +10,7 @@ public interface AjusteStorage {
 	
 	public List<AjusteBO> findAll();   
 	public List<AjusteBO> findAllCrud();
+	public List<AjusteBO> findCrudByCuit(String cuit);
 	public AjusteBO save(AjusteBO aporte);	
 	public void deleteById(Integer id);	
 	public AjusteBO findById(Integer id);	

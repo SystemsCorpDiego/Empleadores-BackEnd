@@ -83,3 +83,9 @@ app:
      # secure: ${AUTH_SECURE:true}
    publicaciones:
       file-path: C:\empleadores\publicaciones
+
+getwayPago:
+   pagoMisCuentas:
+      habilitado: false
+   redlink:
+      habilitado: false

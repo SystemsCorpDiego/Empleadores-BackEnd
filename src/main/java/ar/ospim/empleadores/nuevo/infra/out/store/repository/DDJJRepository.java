@@ -78,7 +78,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ "	left join ddjj_deta_aporte a on dd.id = a.ddjj_deta_id "
 			+ "   left join aporte ap on ap.codigo = a.aporte "
 			+ "group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ "order by e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte desc", 
+			+ "order by  d.periodo desc, e.razon_social, d.secuencia desc, ap.orden, a.aporte desc", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales();
 	
@@ -95,7 +95,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ "   left join aporte ap on ap.codigo = a.aporte "
 			+ " where d.empresa_id = ?1 "
 			+ " group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social, d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ " order by d.periodo desc, d.secuencia desc, ap.orden asc ", 
+			+ " order by d.periodo desc, e.razon_social, d.secuencia desc, ap.orden asc ", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales(Integer empresaId);
 	
@@ -113,7 +113,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ " where d.empresa_id = ?1 "
 			+ "and d.periodo BETWEEN CAST(?2 AS TIMESTAMP)  and CAST(?3 AS TIMESTAMP)  "
 			+ " group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social, d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ " order by d.periodo desc, d.secuencia desc, ap.orden asc ", 
+			+ " order by d.periodo desc, e.razon_social, d.secuencia desc, ap.orden asc ", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales(Integer empresaId, String desde, String hasta);
 	
@@ -130,7 +130,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ "   left join aporte ap on ap.codigo = a.aporte "
 			+ "where e.cuit =  ?1 "
 			+ "group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ "order by e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte desc", 
+			+ "order by d.periodo desc, e.razon_social, d.secuencia desc, ap.orden, a.aporte desc", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales(String cuit );
 	
@@ -149,7 +149,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ "where ( ?1 IS NULL OR e.cuit =  ?1 ) "
 			+ "and d.periodo BETWEEN CAST(?2 AS TIMESTAMP)  and CAST(?3 AS TIMESTAMP)  "
 			+ "group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ "order by e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte desc", 
+			+ "order by d.periodo desc, e.razon_social, d.secuencia desc, ap.orden, a.aporte desc", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales(String cuit, String desde, String hasta);
 
@@ -166,7 +166,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 			+ "   left join aporte ap on ap.codigo = a.aporte "
 			+ " where d.periodo BETWEEN CAST(?1 AS TIMESTAMP)  and CAST(?2 AS TIMESTAMP)  "
 			+ "group by d.id, d.estado, d.empresa_id, e.cuit, e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte "
-			+ "order by e.razon_social,  d.periodo, d.secuencia, ap.orden, a.aporte desc", 
+			+ "order by d.periodo desc, e.razon_social, d.secuencia desc, ap.orden, a.aporte desc", 
 			  nativeQuery = true)
 	public List<DDJJTotalesI> consultaTotales(String desde, String hasta);
 
@@ -197,7 +197,7 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 	
 	@Query(value ="update ddjj d "
 			+ " set estado = 'PR',  "			
-			+ " presentada_fecha = current_date, "
+			+ " presentada_fecha = NOW(), "
 			+ " secuencia = ?2 "
 			+ "where d.id = ?1 ", 
 			  nativeQuery = true)

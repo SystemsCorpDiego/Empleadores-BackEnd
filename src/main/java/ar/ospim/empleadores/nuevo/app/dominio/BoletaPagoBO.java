@@ -19,7 +19,7 @@ public class BoletaPagoBO {
 	private BigDecimal importe = BigDecimal.ZERO;
 	
 	private LocalDate intencionDePago;
-	private String formaDePago; //Ventanilla, Link, Banelco. 
+	private String formaDePago; //Ventanilla, Link, PagoMisCuentas. 
 	private String bep;  
 
 	private LocalDate vencimiento;

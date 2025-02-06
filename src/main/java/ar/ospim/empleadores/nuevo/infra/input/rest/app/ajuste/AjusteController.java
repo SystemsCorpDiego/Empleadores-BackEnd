@@ -49,6 +49,15 @@ public class AjusteController {
 		return ResponseEntity.ok( consultaDto );
 	}
 	
+	@GetMapping("/crud/cuit/{cuit}")
+	public ResponseEntity<List<AjusteDto>>  consultarCrud(@PathVariable String cuit) {
+		List<AjusteBO> consulta = service.consultarCrudPorCuit(cuit);
+		List<AjusteDto> consultaDto = mapper.map(consulta) ;
+		 
+		return ResponseEntity.ok( consultaDto );
+	}
+	
+	
 	@PostMapping
 	public ResponseEntity<IdGeneradoDto>  agregar( @RequestBody @Valid AjusteDto dato, HttpServletRequest request) {
 		

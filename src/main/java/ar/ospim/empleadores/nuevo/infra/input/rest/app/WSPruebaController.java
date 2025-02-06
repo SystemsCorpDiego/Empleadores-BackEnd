@@ -29,7 +29,7 @@ public class WSPruebaController {
 	
 	
 	@PostMapping("/banelco")
-	public ResponseEntity<String>  ejecutar( @RequestBody  BanelcoDto dto) {
+	public ResponseEntity<String>  ejecutar( @RequestBody  PagoMisCuentasDto dto) {
 		String bep = null;
 		BoletaPagoBO boleta = new BoletaPagoBO(); 
 		

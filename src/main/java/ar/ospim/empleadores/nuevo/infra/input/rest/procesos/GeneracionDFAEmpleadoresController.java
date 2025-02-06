@@ -23,6 +23,7 @@ import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioAuthenticationStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioClaveRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,7 @@ public class GeneracionDFAEmpleadoresController {
 	private final EmpresaContactoService empresaContactoService;
 	private final UsuarioAuthenticationStorage usuarioAuthenticationStorage;
 	private final UsuarioRepository usuarioRepository;
+	private final UsuarioClaveRepository claveRepository;
 	private final GenerarDFA generateTwoFactorAuthentication;
 	private final DeshabilitarDFA deshabilitarDFA;
 	private final UsuarioExternalService usuarioService;
@@ -45,8 +47,12 @@ public class GeneracionDFAEmpleadoresController {
 	private final UsuarioStorage usuarioStorage;
 	 
 	@Value("${app.mail.batch-cantidad}")
-	 private Integer batchCantidad;
+	private Integer batchCantidad;
+
+	@Value("${app.seguridad.login.default-pwd}")
+	private String claveDefault;
 	
+
 	@PostMapping("")
 	public ResponseEntity<String> generarDFA() {		
 		Integer maxRegProcesar = batchCantidad; //50;
@@ -81,6 +87,8 @@ public class GeneracionDFAEmpleadoresController {
 				usuarioService.deshabilitarUsuario(cuit);
 				//Deshabilita la DFA que tenia.-
 				deshabilitarDFA.run(usuario.get());
+				//Inicializar Clave
+				claveRepository.updatePassword(usuario.get(), claveDefault);
 				
 				rta = procesar(empresa);		
 			} else {
