@@ -9,6 +9,7 @@ import ar.ospim.empleadores.auth.dfa.app.ConfirmarDFA;
 import ar.ospim.empleadores.auth.dfa.app.DeshabilitarDFA;
 import ar.ospim.empleadores.auth.dfa.app.GenerarDFA;
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
+import ar.ospim.empleadores.auth.jwt.app.login.LoginEnumException;
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
 import ar.ospim.empleadores.auth.usuario.app.UpdateClaveUsuario;
 import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.UsuarioStorageEnumException;
@@ -16,7 +17,9 @@ import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioClaveRecuperarPorToken;
+import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioClaveRecuperarPorTokenDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.UsuarioRecuperoClaveTokenDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.AllArgsConstructor;
 
@@ -32,38 +35,55 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 	private DeshabilitarDFA dfaDeshabilitarService;
 	private ConfirmarDFA dfaHabilitarService;
 	private MailService mailService;
+	private UsuarioMailGet usuarioMailGet;
+	
 	
 	@Override
-	public String runGenToken(String mail) {
-		UsuarioBO usuarioBO = usuarioStorage.getUsuarioPorMail(mail);
+	public UsuarioRecuperoClaveTokenDto runGenTokenByUsuarioDescrip(String descripcion) {
+		UsuarioRecuperoClaveTokenDto dto = null;
+		UsuarioBO usuario = usuarioStorage.getUsuario(descripcion);
+		if (usuario == null) {
+			String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.USUARIO_NOT_FOUND.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(UsuarioStorageEnumException.USUARIO_NOT_FOUND.name(), errorMsg);
+		}
+		if ( !usuario.isHabilitado() ) {
+			String errorMsg = messageSource.getMessage(LoginEnumException.USUARIO_DESHABILITADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(LoginEnumException.USUARIO_DESHABILITADO.name(), errorMsg);
+		}
 		
-		if (usuarioBO == null) {
-			//Error: no existe ese mail.-			
+		String mail = usuarioMailGet.run(usuario);
+		if ( mail == null ) {
+			String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.USUARIO_SIN_MAIL.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(UsuarioStorageEnumException.USUARIO_SIN_MAIL.name(), errorMsg);
+		}
+		String tokenMail = runGenToken(usuario, mail);
+		
+		if ( tokenMail != null ) {
+			dto = new UsuarioRecuperoClaveTokenDto();
+			dto.setMail(mail);
+			dto.setToken(tokenMail);
+		}
+		return dto;
+	}
+	
+	@Override
+	public UsuarioRecuperoClaveTokenDto runGenTokenByMail(String mail) {
+		UsuarioRecuperoClaveTokenDto dto = null;
+		UsuarioBO usuario = usuarioStorage.getUsuarioPorMail(mail);
+		
+		if (usuario == null) {
 			String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.MAIL_SIN_USUARIO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(UsuarioStorageEnumException.MAIL_SIN_USUARIO.name(), errorMsg);
 		}
 		
-		String tokenMail = "";
-		if ( usuarioBO.isDfaHabilitado() ) {
-			//TODO: generar nuevo dfaToken y enviarlo en el mail
-			dfaDeshabilitarService.run(usuarioBO.getId());
-			
-			SetDFABo dfaDto = dfaService.run(usuarioBO.getId());
-			dfaHabilitarService.run( dfaDto.getSharedSecret(), usuarioBO.getId() );
-			
-			String tokenDFA = dfaDto.getSharedSecret();
-			//usuarioStorage.setDFAToken(usuarioBO.getId(), tokenDFA);
-			
-			tokenMail = tokenGestionUsuario.crearParaMail(usuarioBO, mail, tokenDFA);
-			mailService.runMailRecuperoClave(mail, usuarioBO.getDescripcion(), tokenMail, dfaDto);
-		} else {
-			tokenMail = tokenGestionUsuario.crearParaMail(usuarioBO, mail);
-			mailService.runMailRecuperoClave(mail, usuarioBO.getDescripcion(), tokenMail);
-		}
+		String tokenMail = runGenToken(usuario, mail);
 		
-		usuarioStorage.desHabilitarCuenta(usuarioBO.getId());
-
-		return tokenMail;
+		if ( tokenMail != null ) {
+			dto = new UsuarioRecuperoClaveTokenDto();
+			dto.setMail(mail);
+			dto.setToken(tokenMail);
+		}
+		return dto;
 	}
 
 	@Override
@@ -83,4 +103,28 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 		usuarioStorage.habilitarCuenta(usuarioId);
 	}
 
+	private String runGenToken(UsuarioBO usuario, String mail) {
+		String tokenMail = "";
+		if ( usuario.isDfaHabilitado() ) {
+			//TODO: generar nuevo dfaToken y enviarlo en el mail
+			dfaDeshabilitarService.run(usuario.getId());
+			
+			SetDFABo dfaDto = dfaService.run(usuario.getId());
+			dfaHabilitarService.run( dfaDto.getSharedSecret(), usuario.getId() );
+			
+			String tokenDFA = dfaDto.getSharedSecret();
+			//usuarioStorage.setDFAToken(usuarioBO.getId(), tokenDFA);
+			
+			tokenMail = tokenGestionUsuario.crearParaMail(usuario, mail, tokenDFA);
+			mailService.runMailRecuperoClave(mail, usuario.getDescripcion(), tokenMail, dfaDto);
+		} else {
+			tokenMail = tokenGestionUsuario.crearParaMail(usuario, mail);
+			mailService.runMailRecuperoClave(mail, usuario.getDescripcion(), tokenMail);
+		}
+		
+		usuarioStorage.desHabilitarCuenta(usuario.getId());
+
+		return tokenMail;		
+	}
+	
 }

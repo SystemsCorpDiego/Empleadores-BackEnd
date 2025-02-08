@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.app.servicios.empresa.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -63,6 +64,17 @@ public class EmpresaContactoServiceImpl implements EmpresaContactoService {
     public List<ContactoBO> consultar(Integer empresaId) {
 		return storage.findAll(empresaId); 
 	}
+    
+    @Override
+    public String consultarMailPpal(Integer empresaId) {
+    	List<ContactoBO> lst = storage.findAll(empresaId);
+    	for (ContactoBO reg: lst) {
+    		if ( reg.esMailPpal() )
+    			return reg.getValor();
+    	}
+    	return null;
+	}
+    
     
     @Override
     public List<ContactoTipoBO> consultarTipos() {

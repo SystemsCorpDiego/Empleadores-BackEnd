@@ -11,6 +11,7 @@ public enum UsuarioStorageEnumException {
 	USUARIO_CLAVE_NOT_FOUND,
     USUARIO_DUPLICADO,
     MAIL_SIN_USUARIO,
+    USUARIO_SIN_MAIL,
 	;
 	
 	public String getMsgKey() {

@@ -9,7 +9,8 @@ public interface EmpresaContactoService {
 
 	List<ContactoBO> consultar(Integer empresaId);	
 	List<ContactoTipoBO> consultarTipos();
-
+	public String consultarMailPpal(Integer empresaId);
+	
 	ContactoBO guardar(Integer empresaId, ContactoBO domicilio);
 	public void borrar(Integer empresaId, Integer domicilioId);
 	
