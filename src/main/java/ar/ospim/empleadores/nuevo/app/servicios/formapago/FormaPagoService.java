@@ -10,4 +10,7 @@ public interface FormaPagoService {
 	public Boolean existe(String codigo);
 	public String getFormaPagoCodigoVentanillaBanco();
 	public Boolean generaVEP(String codigo);
+	public Boolean esPagoMisCuentas(String codigo);
+	public Boolean esRedLink(String codigo);
+	
 }

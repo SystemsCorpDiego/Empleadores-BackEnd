@@ -59,8 +59,10 @@ public class Ajuste {
 	
 	private String motivo;
 	
+	//private Integer boleta_pago_id; //es la boleta que genero el ajuste !!!!
+	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "ajuste")
-    private List<BoletaPagoAjuste> boletaPagoAjuste;
+    private List<BoletaPagoAjuste> boletaPagoAjuste;   //son las boletas en las q se aplico el ajuste
 	
 }

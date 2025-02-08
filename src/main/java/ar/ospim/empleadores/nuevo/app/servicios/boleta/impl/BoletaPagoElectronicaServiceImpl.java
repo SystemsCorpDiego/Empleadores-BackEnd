@@ -43,27 +43,36 @@ public class BoletaPagoElectronicaServiceImpl implements BoletaPagoElectronicaSe
 	
 	public String run(BoletaPagoBO bp) {
 		String bep = null;
-		if ( formaPagoService.generaVEP(bp.getFormaDePago()) ) {
-			if ( bp.getFormaDePago().equals("PMCUENTAS")  ) {
-				if ( BANELCO_HABI ) {
-					try {
-						bep = pagoMisCuentasService.generarBep(bp);
-					} catch (WebServiceException wsE) {
-						bep = "ERROR: " + wsE.getCodigo() +"-"+ wsE.getDescripcion();
-					} catch (Exception e) {
-						bep = "ERROR-2: " + e.toString();
-					}
-				} else {
-					bep = generarBepDemo(bp.getFormaDePago());
-				}
-			} else {
-				if ( REDLINK_HABI ) {
-					bep = redLinkService.generarBep(bp);
-				} else {
-					bep = generarBepDemo(bp.getFormaDePago());
+		if ( ! formaPagoService.generaVEP(bp.getFormaDePago()) ) {
+			return bep;
+		}
+		
+		if ( formaPagoService.esPagoMisCuentas(bp.getFormaDePago()) ) {
+			
+			if ( ! BANELCO_HABI ) {
+				bep = generarBepDemo(bp.getFormaDePago());
+			}
+			if ( BANELCO_HABI ) {
+				try {
+					bep = pagoMisCuentasService.generarBep(bp);
+				} catch (WebServiceException wsE) {
+					bep = "ERROR: " + wsE.getCodigo() +"-"+ wsE.getDescripcion();
+				} catch (Exception e) {
+					bep = "ERROR-2: " + e.toString();
 				}
 			}
 		}
+		
+		if ( formaPagoService.esRedLink(bp.getFormaDePago()) ) {
+			
+			if ( !REDLINK_HABI ) {
+				bep = generarBepDemo(bp.getFormaDePago());
+			}
+			if ( REDLINK_HABI ) {
+				bep = redLinkService.generarBep(bp);
+			} 
+		}
+		
 		if (bep != null && bep.length() > 254) {
 			bep = bep.substring(0,254);
 		}

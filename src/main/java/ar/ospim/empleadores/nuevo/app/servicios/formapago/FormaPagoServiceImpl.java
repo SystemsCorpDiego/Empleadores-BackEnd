@@ -71,6 +71,14 @@ public class FormaPagoServiceImpl implements FormaPagoService {
 		return  VENTANILLA;
 	}
 	
+	public Boolean esPagoMisCuentas(String codigo) {
+		return PMCUENTAS.equals(codigo);
+	}
+	
+	public Boolean esRedLink(String codigo) {
+		return REDLINK.equals(codigo);
+	}
+	
 	public Boolean generaVEP(String codigo) {
 		if ( REDLINK.equals(codigo) || PMCUENTAS.equals(codigo)  ) {
 			return true;
