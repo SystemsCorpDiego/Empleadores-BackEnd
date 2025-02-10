@@ -87,7 +87,7 @@ public class DDJJConsultasController {
 			String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
 			String contentType = "application/octet-stream";
 			
-			InputStream stream = DDJJConsultasController.class.getResourceAsStream("/DDJJCarga-Plantilla.xlsx");
+			InputStream stream = DDJJConsultasController.class.getResourceAsStream("/DDJJCarga-Plantilla.xls");
 			
 			return ResponseEntity.ok()
 	                .contentType(MediaType.parseMediaType(contentType))
