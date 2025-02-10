@@ -77,17 +77,17 @@ public class DDJJConsultasController {
 		//to consume http://youserver/file_download?filename=mytest
 		try {
 			System.out.println("in file download " );
-			//String path = "src/main/resources/public/DDJJCarga-Plantilla.xlsx"; //path of your file
+			//String path = "src/main/resources/public/DDJJCarga-Plantilla.xls"; //path of your file
 			
 			
-			//Path dirPath = Paths.get("resources/DDJJCarga-Plantilla.xlsx");
+			//Path dirPath = Paths.get("resources/DDJJCarga-Plantilla.xls");
 			
 			//System.out.println("in file download - dirPath: " + dirPath );
 			Resource resource = getResourse("xls");  			
 			String headerValue = "attachment; filename=\"" + resource.getFilename() + "\"";
 			String contentType = "application/octet-stream";
 			
-			InputStream stream = DDJJConsultasController.class.getResourceAsStream("/DDJJCarga-Plantilla.xlsx");
+			InputStream stream = DDJJConsultasController.class.getResourceAsStream("/DDJJCarga-Plantilla.xls");
 			
 			return ResponseEntity.ok()
 	                .contentType(MediaType.parseMediaType(contentType))
@@ -128,7 +128,7 @@ public class DDJJConsultasController {
 		Path dirPath;
 		dirPath = Paths.get("DDJJCarga-Plantilla.csv");
 		if( tipo.equals("xls"))
-			dirPath = Paths.get("DDJJCarga-Plantilla.xlsx");
+			dirPath = Paths.get("DDJJCarga-Plantilla.xls");
 		
 		return new UrlResource(dirPath.toUri());
 	}
