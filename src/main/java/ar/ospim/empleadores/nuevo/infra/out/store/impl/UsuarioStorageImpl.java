@@ -264,6 +264,7 @@ public class UsuarioStorageImpl  implements UsuarioStorage  {
                 user.getId(),
                 user.getDescripcion(),
                 user.getHabilitado(),
+                user.getDfaHabilitado(),
                 userPassword.getClave(),
                 userPassword.getSalt(),
                 userPassword.getHashAlgorithm(),

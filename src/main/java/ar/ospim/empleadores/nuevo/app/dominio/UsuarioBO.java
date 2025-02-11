@@ -51,23 +51,24 @@ public class UsuarioBO {
     }
 
     public UsuarioBO(Integer id, String usuario, String clave, String salt, String hashAlgorithm) {
-        this(id, usuario, false, clave, salt, hashAlgorithm);
+        this(id, usuario, false, false, clave, salt, hashAlgorithm);
     }
     
     public UsuarioBO(String usuario, String clave, String salt, String hashAlgorithm) {
-        this(null, usuario, false, clave, salt, hashAlgorithm);
+        this(null, usuario, false, false, clave, salt, hashAlgorithm);
     }
     
-    public UsuarioBO(Integer id, String usuario, boolean habilitado, String clave, String salt, String hashAlgorithm) {
-        this(id, usuario, habilitado, clave, salt, hashAlgorithm, null, null, null);
+    public UsuarioBO(Integer id, String usuario, boolean habilitado, boolean dfaHabilitado, String clave, String salt, String hashAlgorithm) {
+        this(id, usuario, habilitado, false, clave, salt, hashAlgorithm, null, null, null);
     }
     
-    public UsuarioBO(Integer id, String nombre, boolean habilitado, String clave, String salt, String hashAlgorithm, 
+    public UsuarioBO(Integer id, String nombre, boolean habilitado, boolean dfaHabilitado, String clave, String salt, String hashAlgorithm, 
     		LocalDateTime ultimoLogin, LocalDateTime previoLogin, RolBO rol) {
     	validaciones(nombre);
         this.id = id;
         this.descripcion = nombre;
         this.habilitado = habilitado;
+        this.dfaHabilitado = dfaHabilitado;
         this.ultimoLogin = ultimoLogin;
 		this.previoLogin = previoLogin;
         this.usuarioClaveBo = new UsuarioClaveBo(clave, salt, hashAlgorithm);
