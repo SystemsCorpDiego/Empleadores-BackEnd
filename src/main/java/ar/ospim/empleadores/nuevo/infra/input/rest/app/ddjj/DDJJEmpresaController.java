@@ -185,7 +185,7 @@ public class DDJJEmpresaController {
 		log.debug("empresaId: " + empresaId + "id: " + id );
 		 
 		log.debug("FIN" );
-		byte[] auxPdf = imprimirService.run(id);
+		byte[] auxPdf = imprimirService.run2(id);
 		
 		String contentType = "application/octet-stream";
         String headerValue = "attachment; filename=\"" + "ddjj_1.pdf" + "\"";
