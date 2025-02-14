@@ -54,18 +54,23 @@ public class PagoMisCuentasServiceImpl implements PagoMisCuentasService {
 	
 	@Override
 	public String generarBep(BoletaPagoBO boleta) {
+		log.debug("generarBep() - boleta: {}", boleta);
+		
 		String strRequest = "";
 		ObjectMapper objectMapper = new ObjectMapper();
 	    RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders(); 
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		Factura request = getFactura(boleta);
+		log.debug("generarBep() - request - Factura: {}", request);
 		
 		try {
 			strRequest = objectMapper.writeValueAsString(request);
 			HttpEntity<String> hRequest = new HttpEntity<String>(strRequest, headers);
 			
 			String aux = restTemplate.postForObject(host+ method, hRequest, String.class);
+			
+			log.debug("generarBep() - response - aux: {}", aux);
 			return request.getInvoice_id();			
 		} catch (HttpStatusCodeException e) {
 			try {

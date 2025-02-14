@@ -120,7 +120,7 @@ app:
       recupero-clave:
          titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
          cuerpo: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso. "
-         cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar el siguiente Token de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br><br>Gracias"
+         cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar su <b>nuevo Token</b> de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br>Los Token generados anteriormente fueron dados de baja. Por favor descartelos.<br>Gracias"
 getwayPago:
    pagoMisCuentas:
       habilitado: true

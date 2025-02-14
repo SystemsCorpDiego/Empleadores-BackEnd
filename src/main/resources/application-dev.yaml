@@ -86,6 +86,6 @@ app:
 
 getwayPago:
    pagoMisCuentas:
-      habilitado: false
+      habilitado: true
    redlink:
-      habilitado: false
+      habilitado: true

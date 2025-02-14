@@ -91,6 +91,8 @@ public class RedLinkServiceImpl implements RedLinkService {
 	}
 	 
 	public String generarBep(BoletaPagoBO boleta, String deudaIdDeuda) throws WebServiceException {
+		log.debug("generarBep() - deudaIdDeuda: {} - boleta: {}", deudaIdDeuda, boleta);
+		
 		WsAltaDeDeudasRequest requestAltaDeDeudas = null;
 		
 		validarBoleta(boleta);
@@ -102,9 +104,11 @@ public class RedLinkServiceImpl implements RedLinkService {
 		    stub.setHeader( getHeader(boleta) );
 		    
 			requestAltaDeDeudas = getAltaDeDeudasRequest(boleta, deudaIdDeuda) ; 
-
+			log.debug("generarBep() - requestAltaDeDeudas:", requestAltaDeDeudas);
+			
 			WsAltaDeDeudasResponse response = stub.altaDeDeudas(requestAltaDeDeudas);
-			 
+			log.debug("generarBep() - response:", response);
+			
 			rta = procesarRespuesta(response);
 			
 			return rta;
