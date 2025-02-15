@@ -87,5 +87,12 @@ app:
 getwayPago:
    pagoMisCuentas:
       habilitado: true
+      host: https://recaudaciones-homo.prismamp.com/recaudaciones-api/		    
+      #TEST: host: https://recaudaciones-homo.prismamp.com/recaudaciones-api/v1/
+      #PROD PRISMA: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
+      #Conf. en proxy para conectar con PRISMA:
+      #host: http://12.1.1.243/recaudaciones-api/v1/
+      #PROD - host: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
+
    redlink:
       habilitado: true

@@ -128,9 +128,9 @@ getwayPago:
       #PROD PRISMA: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
       #Conf. en proxy para conectar con PRISMA:
       #host: http://12.1.1.243/recaudaciones-api/v1/
-      #PROD - host: https://recaudaciones.prismamp.com/recaudaciones-api/
+      #PROD - host: https://recaudaciones.prismamp.com/recaudaciones-api/v1/
 
-      host: https://recaudaciones-homo.prismamp.com/recaudaciones-api/		    
+      host: https://recaudaciones.prismamp.com/recaudaciones-api/v1/			    
       method: add_invoice
       token: UVmyCCrti4kLbaFhaSfkqA2DxbhmjUpQTxjMLm5q
       tokenAmtima: iy8c9ewggx8RUqmFzjQKpey7AKTk8JHVbfbLVBa3
