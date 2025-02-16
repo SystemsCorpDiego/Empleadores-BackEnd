@@ -11,6 +11,7 @@ public enum BepBoletaPagoEnumException {
 	REDLINK_BOLETA_SIN_DDJJ,
 	BOLETA_APORTE_NULL,
 	BOLETA_DDJJ_INEXISTENTE,
+	INTENCION_PAGO_VENCIDA,
     ;
 	
 	public String getMsgKey() {

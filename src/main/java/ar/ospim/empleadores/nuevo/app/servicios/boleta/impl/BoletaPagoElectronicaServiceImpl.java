@@ -1,16 +1,22 @@
 package ar.ospim.empleadores.nuevo.app.servicios.boleta.impl;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import ar.ospim.empleadores.comun.dates.DateTimeProvider;
+import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.exception.WebServiceException;
 import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoElectronicaService;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
+import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.BepBoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas.PagoMisCuentasService;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.RedLinkService;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.BoletaPagoRepository;
@@ -31,10 +37,12 @@ public class BoletaPagoElectronicaServiceImpl implements BoletaPagoElectronicaSe
 	private final BoletaPagoConsultaService consultaService;
 	private final PagoMisCuentasService pagoMisCuentasService;
 	private final RedLinkService redLinkService; 
-	
+	private final MessageSource messageSource;
+	private final DateTimeProvider dtProvider;
 	
 	public String runAndSave(Integer boletaPagoId) {
-		BoletaPagoBO boleta = consultaService.find(boletaPagoId);
+		BoletaPagoBO boleta = consultaService.find(boletaPagoId);		
+		
 		String  bep = run(boleta);
 		boleta.setBep(bep);
 		registrarBep(boleta);
@@ -45,6 +53,11 @@ public class BoletaPagoElectronicaServiceImpl implements BoletaPagoElectronicaSe
 		String bep = null;
 		if ( ! formaPagoService.generaVEP(bp.getFormaDePago()) ) {
 			return bep;
+		}
+		
+		if ( !bp.getIntencionDePago().isAfter( LocalDate.now() )  ) {
+			String errorMsg = messageSource.getMessage(BepBoletaPagoEnumException.INTENCION_PAGO_VENCIDA.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(BepBoletaPagoEnumException.INTENCION_PAGO_VENCIDA.name(), String.format(errorMsg, dtProvider.getDateToString(bp.getIntencionDePago()) ));					
 		}
 		
 		if ( formaPagoService.esPagoMisCuentas(bp.getFormaDePago()) ) {
