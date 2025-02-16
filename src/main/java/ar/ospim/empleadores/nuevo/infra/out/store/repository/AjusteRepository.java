@@ -19,6 +19,7 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 			+ " where a.empresa_id = ?1 "
 			+ " and     a.aporte          = ?2 "
 			+ " and     a.vigencia     <= ?3 "
+			+ " and     a.vigencia     >= '2024-01-01' "
 			+ " and     ( (          a.importe > 0 "
 			+ "                 AND NOT EXISTS(SELECT 1 from boleta_pago_ajuste bpa, boleta_pago bp"
 			+ "                                              where  bpa.boleta_pago_id = bp.id "

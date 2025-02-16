@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
@@ -48,8 +49,13 @@ public class BoletaPagoConsultaServiceImpl implements BoletaPagoConsultaService 
 			FormaPagoBO fp =  formaPagoService.get( reg.getFormaDePago() ); //buscar descripcion FormaPago
 			if ( fp != null )
 				reg.setFormaDePagoDescripcion( fp.getDescripcion() );
-			if ( reg.getBep() != null ) 
+			if ( reg.getBep() != null ) {
+				if ( NumberUtils.isParsable(reg.getBep()) ) {
 					reg.setFormaDePagoDescripcion( reg.getFormaDePagoDescripcion() + " (BEP)" );
+				} else {
+					reg.setFormaDePagoDescripcion( reg.getFormaDePagoDescripcion() + " (ERROR)" );
+				}
+			}
 		}
 		
 		return lst;

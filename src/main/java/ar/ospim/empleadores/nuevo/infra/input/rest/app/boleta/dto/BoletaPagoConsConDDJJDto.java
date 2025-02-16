@@ -44,6 +44,7 @@ public class BoletaPagoConsConDDJJDto {
     private String formaDePago; //Descripcion de FormaPago
     
     private Boolean requiereBep; //Booleano para nostrar o no icono Generacion VEP
+    private String estadoBep; 
 
     @JsonProperty("tipo_ddjj")
     private String tipoDdjj; //"Original",

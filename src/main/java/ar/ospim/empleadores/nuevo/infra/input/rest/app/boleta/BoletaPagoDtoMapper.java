@@ -70,6 +70,7 @@ public interface BoletaPagoDtoMapper {
 	@Mapping(target = "numeroBoleta", source = "secuenciaBoleta")	  
 	@Mapping(target = "declaracionJuradaId", source = "ddjjId")
 	@Mapping(target = "requiereBep", expression = "java( reg.getRequiereBep() )" )
+	@Mapping(target = "estadoBep", expression = "java( reg.getBepEstado() )" )
 	BoletaPagoConsConDDJJDto map(BoletaPagoDDJJConsulta reg);
 	List<BoletaPagoConsConDDJJDto> mapConsConDDJJ(List<BoletaPagoDDJJConsulta> dto);	
 

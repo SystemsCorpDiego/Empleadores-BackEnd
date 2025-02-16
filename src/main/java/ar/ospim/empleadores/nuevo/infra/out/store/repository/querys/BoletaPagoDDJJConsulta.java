@@ -3,6 +3,8 @@ package ar.ospim.empleadores.nuevo.infra.out.store.repository.querys;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoServiceImpl;
 import lombok.AllArgsConstructor;
@@ -49,8 +51,27 @@ public class BoletaPagoDDJJConsulta {
     
     public Boolean getRequiereBep() {
     	FormaPagoService fpService = new FormaPagoServiceImpl();
-    	if ( (this.getBep() ==null) && (fpService.generaVEP(this.getFormaDePago()) )  ) 
+    	if ( fpService.generaVEP(this.getFormaDePago()) ) {
+        	if ( this.getBep() ==null  || !NumberUtils.isParsable(this.getBep()) ) 
     			return true;
+    	}
     	return false;    			
+    }
+    
+    public String getBepEstado() {
+    	FormaPagoService fpService = new FormaPagoServiceImpl();
+    	if ( !fpService.generaVEP(this.getFormaDePago()) ) {
+        	return "--";	
+    	}
+    	
+    	if ( this.getBep() ==null  ) {
+    		return "Pendiente";
+    	}
+    	
+    	if ( NumberUtils.isParsable(this.getBep()) ) {
+    		return "Generado";
+    	}
+		
+    	return "ERROR";
     }
 }
