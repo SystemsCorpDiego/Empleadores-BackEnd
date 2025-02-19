@@ -32,6 +32,20 @@ public class BoletaPagoBO {
 	private LocalDate impresion;
 	private LocalDate baja;
 	
+	public BigDecimal getTotal() {
+		BigDecimal rta = BigDecimal.ZERO;
+		
+		if ( this.getImporte() != null ) {
+			rta = rta.add( this.getImporte() );
+		}
+		if ( this.getInteres() != null ) {
+			rta = rta.add( this.getInteres() );
+		}
+		rta = rta.add( getTotalAjustes() );
+		
+		return rta;
+	}
+	
 	public BigDecimal getTotalAjustes() {
 		BigDecimal rta = BigDecimal.ZERO;
 		if ( ajustes != null ) {

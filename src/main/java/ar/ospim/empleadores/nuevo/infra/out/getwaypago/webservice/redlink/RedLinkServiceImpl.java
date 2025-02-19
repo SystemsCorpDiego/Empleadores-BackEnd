@@ -91,7 +91,7 @@ public class RedLinkServiceImpl implements RedLinkService {
 	}
 	 
 	public String generarBep(BoletaPagoBO boleta, String deudaIdDeuda) throws WebServiceException {
-		log.debug("generarBep() - deudaIdDeuda: {} - boleta: {}", deudaIdDeuda, boleta);
+		log.debug("generarBep() - boleta: {} - deudaIdDeuda: {}", boleta, deudaIdDeuda);
 		
 		WsAltaDeDeudasRequest requestAltaDeDeudas = null;
 		
@@ -104,34 +104,34 @@ public class RedLinkServiceImpl implements RedLinkService {
 		    stub.setHeader( getHeader(boleta) );
 		    
 			requestAltaDeDeudas = getAltaDeDeudasRequest(boleta, deudaIdDeuda) ; 
-			log.debug("generarBep() - requestAltaDeDeudas:", requestAltaDeDeudas);
+			log.debug("generarBep() - request - AltaDeDeudas: {}", requestAltaDeDeudas);
 			
 			WsAltaDeDeudasResponse response = stub.altaDeDeudas(requestAltaDeDeudas);
-			log.debug("generarBep() - response:", response);
+			log.debug("generarBep() - response: {}", response);
 			
 			rta = procesarRespuesta(response);
 			
 			return rta;
 		} catch(RemoteException e) {
-			log.error("RemoteException - Error al llamar a ws Red Link: ",e);
+			log.error("generarBep() - RemoteException - Error al llamar a ws Red Link: {}",e);
 			if ( requestAltaDeDeudas != null)
-				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 			//ret="Error Remote Exception "+ e.getMessage() ;
 			throw new WebServiceException( "2", "Error Remote Exception" + e.getMessage() , e);
 	    } catch ( BusinessException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch ( WebServiceException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch (Exception e) {
-	    	log.error("Exception- Error al llamar a ws Red Link: ",e);
+	    	log.error("generarBep() - Exception- Error al llamar a ws Red Link: {}",e);
 	    	if ( requestAltaDeDeudas != null)
-				log.error("RemoteException - requestAltaDeDeudas: ", requestAltaDeDeudas.toString());
+				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	//ret="Error Exception" ;
-	    	throw new WebServiceException( "3", "Exception- Error al llamar a ws Red Link:" + e.getMessage() , e);
+	    	throw new WebServiceException( "3", "Exception- Error al llamar a ws Red Link: " + e.getMessage() , e);
 	    }
 	}
 	
@@ -333,7 +333,7 @@ public class RedLinkServiceImpl implements RedLinkService {
 		String fechaVto = boleta.getIntencionDePago().format(vtoFormatter);
 
 		//importe => 1.25 = "000000000125";
-		BigDecimal importeBg = boleta.getImporte().add(boleta.getInteres());
+		BigDecimal importeBg = boleta.getTotal();				
 		importeBg = importeBg.multiply(new BigDecimal(100)).setScale(0,  BigDecimal.ROUND_DOWN);
 		String importe=String.format("%012d", importeBg.intValue() );
 		

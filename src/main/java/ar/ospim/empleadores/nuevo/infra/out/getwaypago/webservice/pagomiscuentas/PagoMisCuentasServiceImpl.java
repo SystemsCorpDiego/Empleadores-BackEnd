@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,10 +92,10 @@ public class PagoMisCuentasServiceImpl implements PagoMisCuentasService {
 			}
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
-			log.debug( " JsonProcessingException - request: " + request.toString() );
+			log.debug( "generarBep() - JsonProcessingException - request: " + request.toString() );
 			throw new WebServiceException( "-2", e.getMessage(), e);
 		}  catch ( Exception e2) {
-			log.debug( " Exception - e2: " + e2 );
+			log.debug( "generarBep() - Exception - e2: " + e2 );
 			throw new WebServiceException( "-3", e2.getMessage(), e2);
 		}
 	}
@@ -119,7 +120,9 @@ public class PagoMisCuentasServiceImpl implements PagoMisCuentasService {
 		
 		Due_Dates dd =new Due_Dates();
 		DecimalFormat df = new DecimalFormat("#.00");
-		dd.setAmount( df.format(boleta.getImporte())  );
+
+		dd.setAmount( df.format(boleta.getTotal())  );
+		
 		dd.setDue_date(dateTimeProvider.getToStringBEP(boleta.getIntencionDePago()));
 		dd.setDue_date_hour("23:59:59");
 		
