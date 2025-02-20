@@ -22,6 +22,10 @@ public class Due_Dates{
 	public void setAmount(String amount) {
 		this.amount = amount;
 	}
+	@Override
+	public String toString() {
+		return "Due_Dates [due_date=" + due_date + ", due_date_hour=" + due_date_hour + ", amount=" + amount + "]";
+	}
 	
 	
 }

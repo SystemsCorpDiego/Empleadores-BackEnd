@@ -1,7 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -119,8 +119,11 @@ public class PagoMisCuentasServiceImpl implements PagoMisCuentasService {
 		factura.setCurrency("032");		
 		
 		Due_Dates dd =new Due_Dates();
-		DecimalFormat df = new DecimalFormat("#.00");
-
+		DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+		otherSymbols.setDecimalSeparator('.');
+		DecimalFormat df = new DecimalFormat("#.00", otherSymbols);
+		df.setGroupingUsed(false);
+		
 		dd.setAmount( df.format(boleta.getTotal())  );
 		
 		dd.setDue_date(dateTimeProvider.getToStringBEP(boleta.getIntencionDePago()));
