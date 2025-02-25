@@ -166,7 +166,7 @@
  $P{secuencia}.intValue()==0?"Original":"Rectificativa Nro. " + $P{secuencia}.toString()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="221" y="99" width="70" height="13" uuid="21620f69-d818-4eb0-9204-39b620ad28ab"/>
+				<reportElement x="221" y="99" width="99" height="13" uuid="21620f69-d818-4eb0-9204-39b620ad28ab"/>
 				<textElement>
 					<font fontName="DejaVu Sans"/>
 				</textElement>
