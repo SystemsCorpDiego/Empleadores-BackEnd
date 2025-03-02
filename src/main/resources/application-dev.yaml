@@ -5,8 +5,8 @@ server:
 spring:
    datasource:
       url: jdbc:postgresql://${DATABASE_IP_PORT:localhost:5432}/${DATABASE_SCHEMA:portalempresasV2}
-      username: ${DATABASE_USER:postgres}
-      password: ${DATABASE_PASS:Local123}
+      username: ${EMPLEADORES_BACK_DATABASE_USER:postgres}
+      password: ${EMPLEADORES_BACK_DATABASE_PASS:Local123}
       driverClassName: org.postgresql.Driver
    jpa:
       properties:

@@ -12,8 +12,8 @@ spring:
          - auth
    datasource:
       url: jdbc:postgresql://localhost:5432/portalempresasV2
-      username: tecnicos
-      password: Valkyria01
+      username: ${EMPLEADORES_BACK_DATABASE_USER:tecnicos}
+      password: ${EMPLEADORES_BACK_DATABASE_PASS:Valkyria01}
       driverClassName: org.postgresql.Driver
    jpa:
       properties:
