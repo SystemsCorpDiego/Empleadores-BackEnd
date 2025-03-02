@@ -173,7 +173,7 @@
 				<textFieldExpression><![CDATA[$P{presentada_fecha} == null ? "No" : $P{presentada_fecha}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="146" width="58" height="22" uuid="02b2a870-69c0-42cd-893b-218fba7ca22d">
+				<reportElement x="2" y="146" width="56" height="22" uuid="02b2a870-69c0-42cd-893b-218fba7ca22d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -188,7 +188,7 @@
 				<text><![CDATA[CUIL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="146" width="90" height="22" uuid="0189ae9d-1a58-491a-af60-9c6262325b00">
+				<reportElement x="58" y="146" width="90" height="22" uuid="0189ae9d-1a58-491a-af60-9c6262325b00">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -218,7 +218,7 @@
 				<text><![CDATA[Ingreso]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="146" width="34" height="22" uuid="d2b86d5e-a5d1-43af-82d1-696685808b55">
+				<reportElement x="148" y="146" width="34" height="22" uuid="d2b86d5e-a5d1-43af-82d1-696685808b55">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -232,7 +232,7 @@
 				<text><![CDATA[Cámara]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="184" y="146" width="20" height="22" uuid="d947af4b-d4bc-4794-b663-95d01ecc7924">
+				<reportElement x="182" y="146" width="20" height="22" uuid="d947af4b-d4bc-4794-b663-95d01ecc7924">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -386,7 +386,7 @@
 	<detail>
 		<band height="22">
 			<textField>
-				<reportElement x="2" y="0" width="58" height="22" uuid="7b893100-f338-496d-bcb9-d970c405270d">
+				<reportElement x="2" y="0" width="56" height="22" uuid="7b893100-f338-496d-bcb9-d970c405270d">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -402,7 +402,7 @@
 				<textFieldExpression><![CDATA[$F{cuil}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="60" y="0" width="90" height="22" uuid="e8643e8f-1628-4cdf-99de-1ffc6b69af5f">
+				<reportElement x="58" y="0" width="90" height="22" uuid="e8643e8f-1628-4cdf-99de-1ffc6b69af5f">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -421,7 +421,7 @@
 				<textFieldExpression><![CDATA[$F{apellidonombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="204" y="0" width="43" height="22" uuid="65eecc05-1054-4bba-bbc1-701cbdec633e">
+				<reportElement x="202" y="0" width="45" height="22" uuid="65eecc05-1054-4bba-bbc1-701cbdec633e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -439,7 +439,7 @@
 				<textFieldExpression><![CDATA[$F{ingreso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="150" y="0" width="34" height="22" uuid="d7c70c0e-86ee-42c7-aa43-e32a1d72d211">
+				<reportElement x="148" y="0" width="34" height="22" uuid="d7c70c0e-86ee-42c7-aa43-e32a1d72d211">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -453,7 +453,7 @@
 				<textFieldExpression><![CDATA[$F{camara}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="184" y="0" width="20" height="22" uuid="f42e04be-83fa-45a7-92d9-165fc70f65c9">
+				<reportElement x="182" y="0" width="20" height="22" uuid="f42e04be-83fa-45a7-92d9-165fc70f65c9">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
