@@ -250,7 +250,8 @@ public class DDJJImprimirServiceImpl implements DDJJImprimirService {
 				
 				regNew.setCamara( reg.getCamara());
 				regNew.setCategoria( reg.getCategoria() );
-				regNew.setPlanta( reg.getEmpresaDomicilio().getPlanta() );
+				if ( reg.getEmpresaDomicilio()!= null)
+					regNew.setPlanta( reg.getEmpresaDomicilio().getPlanta() );
 				regNew.setRemunerativo( reg.getRemunerativo() );
 				regNew.setNo_remunerativo( reg.getNoRemunerativo() );
 				
