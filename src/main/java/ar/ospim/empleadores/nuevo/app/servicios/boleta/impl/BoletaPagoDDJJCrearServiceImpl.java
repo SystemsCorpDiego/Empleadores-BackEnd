@@ -145,7 +145,8 @@ public class BoletaPagoDDJJCrearServiceImpl implements BoletaPagoDDJJCrearServic
 	}
 
 	private List<BoletaPagoBO> actualizarInfoPago(List<BoletaPagoBO> lstBoletasDDJJ, List<BoletaPagoBO> lstBoletasParam) {
-		//Actualizar Boletas de la DDJJ con: intencionDePago y formaDePago; //Ventanilla, Link, PagoMisCuentas. 
+		//Actualizar Boletas de la DDJJ con: intencionDePago y formaDePago; //Ventanilla, Link, PagoMisCuentas.
+		//por ahora AMTIMA y PagoMisCuentas. => ERROR !! 
 		Integer indexAporte = -1;
 		for(BoletaPagoBO boleta: lstBoletasDDJJ) {
 			indexAporte = getAporteIndex(lstBoletasParam,  boleta.getAporte().getCodigo() );
