@@ -157,6 +157,12 @@ public class BoletaPagoDDJJCrearServiceImpl implements BoletaPagoDDJJCrearServic
 				}
 				boleta.setIntencionDePago(lstBoletasParam.get(indexAporte).getIntencionDePago() );
 				boleta.setFormaDePago( lstBoletasParam.get(indexAporte).getFormaDePago() );
+				
+				if ( boleta.getAporte().getCodigo().equals("AMTIMACS") && boleta.getFormaDePago().equals("PMCUENTAS")  ) {
+					String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_APORTE_INEXISTENTE.getMsgKey(), null, new Locale("es"));
+					throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_APORTE_INEXISTENTE.name(), errorMsg );										
+				}
+				
 			} else {
 				String errorMsg = messageSource.getMessage(BoletaPagoEnumException.APORTE_DDJJ_INEXISTENTE.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(BoletaPagoEnumException.APORTE_DDJJ_INEXISTENTE.name(),
