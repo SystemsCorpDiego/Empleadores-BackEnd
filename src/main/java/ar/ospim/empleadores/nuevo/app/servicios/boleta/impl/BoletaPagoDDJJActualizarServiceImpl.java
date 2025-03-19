@@ -47,11 +47,12 @@ public class BoletaPagoDDJJActualizarServiceImpl implements BoletaPagoDDJJActual
 			return reg;
 		}
 
+		/* 20230319 - Se habilita PagoMisCuentas para AMTIMA
 		if ( reg.getAporte().getCodigo().equals("AMTIMACS") && bo.getFormaDePago().equals("PMCUENTAS")  ) {
 			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_APORTE_INEXISTENTE.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_APORTE_INEXISTENTE.name(), errorMsg );										
 		}
-
+		 */
 		
 		if ( puedeActualizar(reg) ) {
 			reg = actualizar(reg, bo); 
