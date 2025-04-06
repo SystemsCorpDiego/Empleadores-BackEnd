@@ -20,8 +20,6 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.exception.WebServiceException;
 import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJConsultarService;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.BepBoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAbarcativa;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAltaDeDeudasRequest;
@@ -42,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RedLinkServiceImpl implements RedLinkService {   
 
 	private final MessageSource messageSource;
-	private final DDJJConsultarService DdjjService;
+	//private final DDJJConsultarService DdjjService;
 	
 	@Value("${getwayPago.redlink.wsseSecurity.amtima.usuario}")
 	private String usuarioAMTIMA;//="PAGOSSERVICES_DK2";	
@@ -362,9 +360,15 @@ public class RedLinkServiceImpl implements RedLinkService {
 	}
 	
 	private String getDeudaIdDeuda(BoletaPagoBO boleta) {
+		//Ahora se manda el Nro de Boleta.-
+		
+		//return "00000"+boleta.getSecuencia();
+		return String.format("%05d", boleta.getSecuencia());
+		
+		/*
 		//Genero Periodo+secuencia DDJJ en formato: yyMM+(ultimo nro de la secuencia)
 		//Si el periodo tiene mas de 9 rectificativas => SE REPITE idDeuda !!
-		
+
 		DateTimeFormatter periodoFormatter = DateTimeFormatter.ofPattern("yyMM");
 		
 		String idDeuda = null;
@@ -383,7 +387,8 @@ public class RedLinkServiceImpl implements RedLinkService {
 			String errorMsg = messageSource.getMessage(BepBoletaPagoEnumException.BOLETA_DDJJ_INEXISTENTE.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(BepBoletaPagoEnumException.BOLETA_DDJJ_INEXISTENTE.name(), errorMsg);								
 		}
-		return idDeuda;		
+		return idDeuda;	
+		*/	
 	}
 	
 }
