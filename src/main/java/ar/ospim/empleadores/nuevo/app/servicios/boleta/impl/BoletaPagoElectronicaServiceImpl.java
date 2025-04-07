@@ -55,7 +55,7 @@ public class BoletaPagoElectronicaServiceImpl implements BoletaPagoElectronicaSe
 			return bep;
 		}
 		
-		if ( !bp.getIntencionDePago().isAfter( LocalDate.now() )  ) {
+		if ( !bp.getIntencionDePago().isAfter( LocalDate.now() ) && !bp.getIntencionDePago().equals(LocalDate.now() )  ) {
 			String errorMsg = messageSource.getMessage(BepBoletaPagoEnumException.INTENCION_PAGO_VENCIDA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(BepBoletaPagoEnumException.INTENCION_PAGO_VENCIDA.name(), String.format(errorMsg, dtProvider.getDateToString(bp.getIntencionDePago()) ));					
 		}
