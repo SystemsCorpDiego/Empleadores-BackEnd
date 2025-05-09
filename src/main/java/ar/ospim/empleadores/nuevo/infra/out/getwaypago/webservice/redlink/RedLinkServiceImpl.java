@@ -333,7 +333,7 @@ public class RedLinkServiceImpl implements RedLinkService {
 		//importe => 1.25 = "000000000125";
 		BigDecimal importeBg = boleta.getTotal();				
 		importeBg = importeBg.multiply(new BigDecimal(100)).setScale(0,  BigDecimal.ROUND_DOWN);
-		String importe=String.format("%012d", importeBg.intValue() );
+		String importe=String.format("%012d", importeBg.longValue() );
 		
 		WsVencimiento vto = new WsVencimiento(ordenVencimiento, fechaVto, importe);
 		return vto;
