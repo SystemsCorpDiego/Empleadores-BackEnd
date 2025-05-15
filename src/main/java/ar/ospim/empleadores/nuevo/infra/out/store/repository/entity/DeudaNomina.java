@@ -1,0 +1,71 @@
+package ar.ospim.empleadores.nuevo.infra.out.store.repository.entity;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Entity
+@Table(name = "deuda_nomina")
+@ToString
+@Getter
+@Setter
+public class DeudaNomina {
+
+	@Id 
+	@Column(name = "id")
+    private Integer id;
+
+	@Column(name = "ddjj_id")
+    private Long ddjjId;
+	
+	@Column(name = "boleta_id")
+    private Long boletaId;
+	
+	@Column(name = "cuit")
+    private String cuit;
+	
+	@Column(name = "periodo")
+    private LocalDate periodo;
+	
+	@Column(name = "fecha_info")
+    private LocalDate fechaInfor;
+	
+	@Column(name = "aporte")
+    private String aporte;
+	
+	@Column(name = "aporte_importe")
+    private BigDecimal importe;
+
+	@Column(name = "interes")
+    private BigDecimal interes;
+
+	@Column(name = "vencimiento")
+    private LocalDate vencimiento;
+	 
+	@Column(name = "interes_fecha_info")
+    private LocalDate interesFechaInfo;
+	
+	@Column(name = "aporte_pago")
+    private BigDecimal aportePago;
+
+	@Column(name = "aporte_pago_fecha_info")
+    private LocalDate aportePagoFechaInfo;
+	
+	@Column(name = "acta_id")
+    private Long actaId;
+	
+	@Column(name = "acta_fecha_info")
+    private LocalDate actaFechaInfo;
+
+	@Column(name = "convenio_id")
+    private Long convenioId;
+    
+}
