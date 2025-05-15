@@ -16,6 +16,10 @@ public class GestionDeudaDDJJDto {
     private BigDecimal importe;
     private BigDecimal intereses; 
     
+    
+    
+    
+    
     public BigDecimal getImporteTotal() {
     	if ( intereses != null && importe != null ) 
     		return intereses.add(importe);
@@ -23,4 +27,20 @@ public class GestionDeudaDDJJDto {
     		return importe;
     	return BigDecimal.ZERO;
     }
+
+
+
+
+
+	public GestionDeudaDDJJDto(Integer id, LocalDate periodo, Integer rectificativa, String aporteCodigo,
+			String aporteDescripcion, BigDecimal importe, BigDecimal intereses) {
+		super();
+		this.id = id;
+		this.periodo = periodo;
+		this.rectificativa = rectificativa;
+		this.aporteCodigo = aporteCodigo;
+		this.aporteDescripcion = aporteDescripcion;
+		this.importe = importe;
+		this.intereses = intereses;
+	}
 }

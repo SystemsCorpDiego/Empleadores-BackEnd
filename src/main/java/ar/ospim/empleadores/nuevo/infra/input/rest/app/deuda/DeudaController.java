@@ -28,14 +28,14 @@ public class DeudaController {
 		GestionDeudaDto rta = null;
 		
 		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(empresaId);
-		List<DeudaNomina> lstNomina = deudaService.getDDJJ(empresaId);
+		//List<DeudaNomina> lstNomina = deudaService.getDDJJ(empresaId);
 		
 		rta = new  GestionDeudaDto();
 		rta.setActas( mapper.run(lstActas) );
-		rta.setDeclaracionesJuradas( mapper.runNomina(lstNomina) );
-		
-		deudaService.actualizarSecuencia( rta.getDeclaracionesJuradas() );
-		deudaService.actualizarAporteDescrip( rta.getDeclaracionesJuradas() );
+		rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId))  );
+		//rta.setDeclaracionesJuradas( mapper.runNomina(lstNomina) );
+		//deudaService.actualizarSecuencia( rta.getDeclaracionesJuradas() );
+		//deudaService.actualizarAporteDescrip( rta.getDeclaracionesJuradas() );
 		
 		
 		

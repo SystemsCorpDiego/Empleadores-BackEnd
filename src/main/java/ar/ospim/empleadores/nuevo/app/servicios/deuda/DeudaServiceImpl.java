@@ -12,6 +12,7 @@ import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
 import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.GestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
@@ -60,9 +61,23 @@ public class DeudaServiceImpl implements DeudaService {
 		rta = deudaStorage.getNomina( empresa.get().getCuit() );
 		
 		return rta; 
-		
 	}
 
+	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId) {
+		String cuit = null;
+		
+		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
+		if ( empresa.isEmpty()  ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), 
+					String.format(errorMsg, empresaId)  );
+		}
+		
+		return deudaStorage.getNominaDto( empresa.get().getCuit() );
+		
+	}
+	
+	
 	public List<GestionDeudaDDJJDto> actualizarSecuencia(List<GestionDeudaDDJJDto> lst) {
 		AporteBO aporte; 
 		for(GestionDeudaDDJJDto reg : lst) {
