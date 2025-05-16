@@ -49,6 +49,7 @@ public class DeudaController {
 		
 		rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
 		
+		rta.setSaldosAFavor( deudaService.getAjustesDto(empresaId, entidadCodigo) );
 		
 		return ResponseEntity.ok( rta );
 	}

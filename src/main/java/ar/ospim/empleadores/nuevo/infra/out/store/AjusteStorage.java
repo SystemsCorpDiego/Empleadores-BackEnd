@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaAjustes;
 
 public interface AjusteStorage {	
 	
@@ -17,4 +18,6 @@ public interface AjusteStorage {
 	public List<AjusteBO> consultarAportesVigentes(Integer empresaId, String aporte, LocalDate vigencia);
 	public BigDecimal getImporteUsado(Integer aporteId);
 	public void generarAjusteAutomaticoIPF(String p_aporte, Integer p_empresa_id);
+	
+	public List<IGestionDeudaAjustes> getGestionDeudaAjustes(Integer empresaId, String entidad);
 }

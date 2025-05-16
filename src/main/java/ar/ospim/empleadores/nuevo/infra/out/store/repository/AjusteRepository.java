@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaAjustes;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Ajuste;
 
 public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
@@ -20,20 +21,9 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 			+ " and     a.aporte          = ?2 "
 			+ " and     a.vigencia     <= ?3 "
 			+ " and     a.vigencia     >= '2024-01-01' "
-			+ " and     ( (          a.importe > 0 "
-			+ "                 AND NOT EXISTS(SELECT 1 from boleta_pago_ajuste bpa, boleta_pago bp"
-			+ "                                              where  bpa.boleta_pago_id = bp.id "
-			+ "                                              and      bp.baja_en is null  "
-			+ "                                              and      bpa.ajuste_id = a.id ) "
-			+ "               ) "
+			+ " and     ( ( a.importe > 0 AND fajuste_importe_utilizado( a.id ) = 0 ) "
 			+ "               OR "
-			+ "               (         a.importe < 0 "
-			+ "                 AND  a.importe < (select COALESCE(sum(bpa.importe),0) "
-			+ "                                          from boleta_pago_ajuste bpa, boleta_pago bp "
-			+ "                                          where  bpa.boleta_pago_id = bp.id "
-			+ "                                          and      bp.baja_en is null  "
-			+ "                                          and      bpa.ajuste_id = a.id ) "
-			+ "	            ) "
+			+ "               ( a.importe < 0 AND  a.importe < public.fajuste_importe_utilizado( a.id ) ) "
 			+ "            ) "
 			+ " order by a.importe desc "	
 			, 
@@ -50,13 +40,14 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 			+ " order by a.vigencia desc " )
 	List<Ajuste>  consultarCrudPorCuit(@Param("cuit") String cuit);
 	
-	@Query(value =" select COALESCE(sum(bpa.importe),0) from boleta_pago_ajuste bpa, boleta_pago bp "
-								+ " where  bpa.boleta_pago_id = bp.id "
-								+ " and      bp.baja_en is null  "
-								+ " and      bpa.ajuste_id = ?1  ", 
+	@Query(value =" select * FROM fajuste_importe_utilizado( :ajusteId ) ", 
 			nativeQuery = true)
 	public BigDecimal importeUsado(Integer ajusteId); 
 
+	
+	@Query(value =" select * FROM fGestion_deuda_ajuste_consul( :empresaId, :entidad) ", 
+			nativeQuery = true)
+	public List<IGestionDeudaAjustes> getGestionDeudaAjustes(Integer empresaId, String entidad);
 	
 	@Transactional 
 	@Modifying(clearAutomatically = true)
