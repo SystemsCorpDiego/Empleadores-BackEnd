@@ -40,10 +40,26 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		return rta;
 	}
 	
-	public List<DeudaNomina> getNomina(String cuit) {
-		 List<DeudaNomina> rta = null;
+	public List<ActaMolineros> getActasMolineros(String cuit, String entidad) {
+		List<ActaMolineros>  rta = null;
+		
+		try {
+			 rta = ActaRepository.getByCuitAndEntidad(cuit, entidad); //"30537582916"
+				if ( rta != null ) {
+					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
+				}			 
+		} catch ( Exception e) {
+			log.debug( e.toString() );			
+		}
+		
+		return rta;
+	}
+	 
+	
+	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit, String entidad){
+		 List<IGestionDeudaDDJJDto> rta = null;
 		 try {
-			 rta = nominaRepository.getByCuitAndActaIdIsNull(cuit);
+			 rta = nominaRepository.get(cuit, entidad);
 		 }  catch ( Exception e) {
 			 log.debug( e.toString() );			
 		 }

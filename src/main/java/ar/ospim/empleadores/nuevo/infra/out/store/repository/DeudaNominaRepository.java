@@ -9,10 +9,11 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaDDJJDt
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 
 public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> {
-
-	List<DeudaNomina> getByCuitAndActaIdIsNull(String cuit);
 	
 	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit)", nativeQuery = true)	
 	List<IGestionDeudaDDJJDto> get(String cuit);
- 
+
+	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
+	List<IGestionDeudaDDJJDto> get(String cuit, String entidad);
+
 }

@@ -49,19 +49,23 @@ public class DeudaServiceImpl implements DeudaService {
 		
 		return rta; 
 	}
-	
-	public List<DeudaNomina>  getDDJJ(Integer empresaId) {
-		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
+    
+    public List<ActaMolineros>  getMolinerosActas(Integer empresaId, String entidad) {
+ 
+    	Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
 		if ( empresa.isEmpty()  ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), 
 					String.format(errorMsg, empresaId)  );
 		}
-		List<DeudaNomina> rta = null;
-		rta = deudaStorage.getNomina( empresa.get().getCuit() );
+		
+		List<ActaMolineros> rta = null;
+		rta = deudaStorage.getActasMolineros( empresa.get().getCuit(), entidad );
 		
 		return rta; 
-	}
+    }
+	
+	
 
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId) {
 		String cuit = null;
@@ -77,23 +81,15 @@ public class DeudaServiceImpl implements DeudaService {
 		
 	}
 	
-	
-	public List<GestionDeudaDDJJDto> actualizarSecuencia(List<GestionDeudaDDJJDto> lst) {
-		AporteBO aporte; 
-		for(GestionDeudaDDJJDto reg : lst) {
-			
-			aporte = aporteStorage.findByCodigo(reg.getAporteCodigo());
-			if ( aporte != null ) 
-				reg.setAporteDescripcion( aporte.getDescripcion() );
-		    
-			//imprimimos el objeto pivote
-		    System.out.println(reg);
+	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId, String entidad) {
+		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
+		if ( empresa.isEmpty()  ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), 
+					String.format(errorMsg, empresaId)  );
 		}
-		return lst;
-	}
-
-	public List<GestionDeudaDDJJDto> actualizarAporteDescrip(List<GestionDeudaDDJJDto> lst){
 		
-		return lst;
+		return deudaStorage.getNominaDto( empresa.get().getCuit(), entidad );
 	}
+ 	 
 }

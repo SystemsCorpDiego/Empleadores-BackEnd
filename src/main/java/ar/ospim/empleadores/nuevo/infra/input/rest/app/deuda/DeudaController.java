@@ -16,14 +16,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("deuda")
+@RequestMapping("/empresa/{empresaId}/deuda")
 @RequiredArgsConstructor
 public class DeudaController {
 	
 	private final  DeudaService deudaService;
 	private final  DeudaMapper mapper;
 	
-	@GetMapping(value = "/empresa/{empresaId}")
+	@GetMapping(value = "")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId) {
 		GestionDeudaDto rta = null;
 		
@@ -36,10 +36,22 @@ public class DeudaController {
 		//rta.setDeclaracionesJuradas( mapper.runNomina(lstNomina) );
 		//deudaService.actualizarSecuencia( rta.getDeclaracionesJuradas() );
 		//deudaService.actualizarAporteDescrip( rta.getDeclaracionesJuradas() );
+		return ResponseEntity.ok( rta );
+	}
+
+	@GetMapping(value = "/entidad/{entidadCodigo}")
+	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId, @PathVariable("entidadCodigo") String entidadCodigo) {
+		GestionDeudaDto rta = null;
 		
+		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(empresaId, entidadCodigo);
+		rta = new  GestionDeudaDto();
+		rta.setActas( mapper.run(lstActas) );
+		
+		rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
 		
 		
 		return ResponseEntity.ok( rta );
 	}
 
+		
 }

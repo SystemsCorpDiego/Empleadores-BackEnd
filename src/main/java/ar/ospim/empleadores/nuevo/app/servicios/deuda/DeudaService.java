@@ -10,10 +10,8 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 public interface DeudaService {
 	
 	public List<ActaMolineros>  getMolinerosActas(Integer empresaId);
-	public List<DeudaNomina>  getDDJJ(Integer empresaId);
+	public List<ActaMolineros>  getMolinerosActas(Integer empresaId, String entidad); 
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId);
-	
-	public List<GestionDeudaDDJJDto> actualizarSecuencia(List<GestionDeudaDDJJDto> lst);	
-	public List<GestionDeudaDDJJDto> actualizarAporteDescrip(List<GestionDeudaDDJJDto> lst);	
+	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId, String entidad);	 
 	
 }
