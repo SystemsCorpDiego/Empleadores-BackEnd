@@ -81,6 +81,11 @@ public class Convenio {
 	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
 	private List<ConvenioActa> actas;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
+	private List<ConvenioDdjj> ddjjs;
+
+	
 	@Column(name = "fecha_alta")
 	@ToString.Include
 	private LocalDateTime createdOn;

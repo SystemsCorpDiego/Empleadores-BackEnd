@@ -21,5 +21,6 @@ public class ConvenioAltaResponseDto {
 	private String convenioNro;
 	
 	private List<ConvenioActaDto> actas;
+	private List<ConvenioDDJJDto> ddjjs;
 	
 }

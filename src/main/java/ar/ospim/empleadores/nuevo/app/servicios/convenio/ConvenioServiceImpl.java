@@ -13,8 +13,11 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -25,6 +28,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final ConvenioStorage storage;
 	private final ActaMolinerosRepository actaMolinerosRepository;
 	private final ConvenioActaRepository convenioActaRepository;  
+	private final ConvenioDdjjRepository convenioDdjjRepository;
+	private final DDJJRepository ddjjRepository; 
 	
 	@Override
 	public Convenio generar(ConvenioAltaDto dto) {
@@ -57,11 +62,28 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 }		 		 
 		 convenio.setActas(actas);
 		 
-		 convenio = storage.guardar(convenio);
-		 for (ConvenioActa ca:  convenio.getActas()) {
-			 ca = convenioActaRepository.save(ca);				 
-		}
+		 List<ConvenioDdjj> ddjjs = new ArrayList<ConvenioDdjj>();
+		 ConvenioDdjj auxDDJJ = null;
+		 for(Integer reg : dto.getDdjj()) {
+			 auxDDJJ = new ConvenioDdjj();
+			 auxDDJJ.setConvenio(convenio);
+			 auxDDJJ.setDdjj( ddjjRepository.getById(reg) );
+			 ddjjs.add( auxDDJJ );
+		 }
+		 convenio.setDdjjs(ddjjs);
 		 
+		 
+		 convenio = storage.guardar(convenio);
+		 if ( convenio.getActas() != null ) {
+			 for (ConvenioActa ca:  convenio.getActas()) {
+				 ca = convenioActaRepository.save(ca);				 
+			 }
+		 }
+		 if ( convenio.getDdjjs() != null ) { 
+			for (ConvenioDdjj cd:  convenio.getDdjjs()) {
+				 cd = convenioDdjjRepository.save(cd);
+			}
+		 }
 		 return convenio;
 		//	repository.flush();
 	}
