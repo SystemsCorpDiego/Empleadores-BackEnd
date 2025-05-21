@@ -1,0 +1,22 @@
+package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import lombok.Data;
+
+@Data
+public class ConvenioAltaResponseDto {
+
+	private Integer id;
+	private String entidad;
+	
+	private BigDecimal deuda;
+	private BigDecimal interes;
+	private BigDecimal saldoFavor;
+	private LocalDate intencionPago;
+	private Integer cuotas;
+	private String medioPago;
+	private String convenioNro;
+	
+}
