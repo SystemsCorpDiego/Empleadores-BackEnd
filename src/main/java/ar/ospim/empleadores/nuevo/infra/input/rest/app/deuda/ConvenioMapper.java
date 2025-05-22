@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 
 @Mapper
@@ -36,5 +37,14 @@ public interface ConvenioMapper {
 	@Mapping(target = "ddjjId", source = "ddjj.id")
 	public ConvenioDDJJDto run(ConvenioDdjj dto);
 	
+	
+	public List<ConvenioAjusteDto> run3(List<ConvenioAjuste> lst);
+	
+	@Mapping(target = "id", source = "id")
+	@Mapping(target = "ajusteId", source = "ajuste.id")
+	@Mapping(target = "vigencia", source = "ajuste.vigencia")
+	@Mapping(target = "motivo", source = "ajuste.motivo")
+	@Mapping(target = "importe", source = "importe")
+	public ConvenioAjusteDto run(ConvenioAjuste dto);
 	
 }

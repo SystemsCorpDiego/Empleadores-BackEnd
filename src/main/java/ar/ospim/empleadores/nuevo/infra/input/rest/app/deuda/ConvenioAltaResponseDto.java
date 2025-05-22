@@ -22,5 +22,6 @@ public class ConvenioAltaResponseDto {
 	
 	private List<ConvenioActaDto> actas;
 	private List<ConvenioDDJJDto> ddjjs;
+	private List<ConvenioAjusteDto> ajustes;
 	
 }

@@ -12,11 +12,14 @@ import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioAjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 import lombok.AllArgsConstructor;
 
@@ -29,7 +32,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final ActaMolinerosRepository actaMolinerosRepository;
 	private final ConvenioActaRepository convenioActaRepository;  
 	private final ConvenioDdjjRepository convenioDdjjRepository;
+	private final ConvenioAjusteRepository convenioAjusteRepository;
 	private final DDJJRepository ddjjRepository; 
+	private final AjusteRepository ajusteRepository; 
 	
 	@Override
 	public Convenio generar(ConvenioAltaDto dto) {
@@ -73,6 +78,17 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 convenio.setDdjjs(ddjjs);
 		 
 		 
+		 List<ConvenioAjuste> ajustes = new ArrayList<ConvenioAjuste>();
+		 ConvenioAjuste auxAjuste = null;
+		 for(Integer reg : dto.getAjuste()) {
+			 auxAjuste = new ConvenioAjuste();
+			 auxAjuste.setConvenio(convenio);
+			 auxAjuste.setAjuste( ajusteRepository.getById(reg) );
+			 auxAjuste.setImporte(BigDecimal.ZERO); //TODO: 
+			 ajustes.add(auxAjuste);
+		 }
+		 convenio.setAjustes(ajustes);
+		 
 		 convenio = storage.guardar(convenio);
 		 if ( convenio.getActas() != null ) {
 			 for (ConvenioActa ca:  convenio.getActas()) {
@@ -84,6 +100,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 				 cd = convenioDdjjRepository.save(cd);
 			}
 		 }
+		 if ( convenio.getAjustes() != null ) { 
+				for (ConvenioAjuste caj:  convenio.getAjustes()) {
+					caj = convenioAjusteRepository.save(caj);
+				}
+		}
+		 
 		 return convenio;
 		//	repository.flush();
 	}
