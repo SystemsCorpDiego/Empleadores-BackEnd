@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.Data;
 
@@ -11,4 +12,5 @@ public class ConvenioDDJJDto {
 	private LocalDate periodo;
 	private Integer secuencia;
 	
+	private List<ConvenioDDJJDeudaNominaDto> deudaNominas;
 }

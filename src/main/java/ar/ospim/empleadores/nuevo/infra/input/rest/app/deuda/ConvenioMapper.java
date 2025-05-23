@@ -9,6 +9,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
 
 @Mapper
 public interface ConvenioMapper {
@@ -39,7 +40,14 @@ public interface ConvenioMapper {
 	@Mapping(target = "ddjjId", source = "ddjj.id")
 	@Mapping(target = "periodo", source = "ddjj.periodo")
 	@Mapping(target = "secuencia", source = "ddjj.secuencia")
+	@Mapping(target = "deudaNominas", source = "ddjjDeudaNomina")	 
 	public ConvenioDDJJDto run(ConvenioDdjj dto);
+	
+
+	public List<ConvenioDDJJDeudaNominaDto> run5(List<ConvenioDdjjDeudaNomina> lst);
+	
+	@Mapping(target = "importe", source = "aporteImporte")	 
+	public ConvenioDDJJDeudaNominaDto run(ConvenioDdjjDeudaNomina dto);
 	
 	
 	public List<ConvenioAjusteDto> run3(List<ConvenioAjuste> lst);

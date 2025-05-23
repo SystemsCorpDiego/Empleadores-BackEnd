@@ -46,8 +46,9 @@ public class ConvenioController {
 		log.debug( "ConvenioController.get - convenioId:  " + convenioId.toString() );  
 		
 		Convenio convenio = service.get(empresaId, convenioId);
+		ConvenioDto rta = mapper.run(convenio);
 		
-		return ResponseEntity.ok( mapper.run(convenio) );
+		return ResponseEntity.ok( rta );
 	}
 	
 	@GetMapping(value = "")

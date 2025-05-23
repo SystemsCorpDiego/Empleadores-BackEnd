@@ -46,9 +46,9 @@ public class ConvenioDdjj {
 	@JoinColumn(name = "ddjj_id")	
 	private DDJJ ddjj;
 	
-	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "convenioDdjj", cascade = { CascadeType.MERGE})
+
+	@JsonManagedReference	
+	@OneToMany(mappedBy = "convenioDdjj", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
 	private List<ConvenioDdjjDeudaNomina> ddjjDeudaNomina;
 
 }
