@@ -23,4 +23,11 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 		return regNew;
 	}
 
+	@Override
+	public Convenio get(Integer id) {
+		
+		return repository.getById(id);
+		
+	}
+
 }

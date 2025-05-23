@@ -15,5 +15,8 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 
 	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
 	List<IGestionDeudaDDJJDto> get(String cuit, String entidad);
-
+		
+	@Query(value = "SELECT a FROM DeudaNomina a WHERE a.ddjjId = :ddjjId and a.actaId IS NULL and a.aporte.entidad = :entidad")	
+	List<DeudaNomina> findByDdjjIdAndEntidadAndActaIdIsNull(Integer ddjjId, String entidad);
+	
 }

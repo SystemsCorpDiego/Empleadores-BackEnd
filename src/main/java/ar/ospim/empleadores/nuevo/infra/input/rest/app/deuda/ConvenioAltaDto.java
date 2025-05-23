@@ -15,7 +15,7 @@ public class ConvenioAltaDto {
 	private LocalDate fechaPago;
 	
 	private List<Integer> actas;
-	private List<Integer> ddjj;
-	private List<Integer> ajuste;
+	private List<Integer> ddjjs;
+	private List<Integer> ajustes;
 	
 }

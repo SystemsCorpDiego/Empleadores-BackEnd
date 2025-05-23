@@ -17,9 +17,11 @@ public interface ConvenioMapper {
 	@Mapping(target = "interes", source = "importeIntereses")
 	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")
 	@Mapping(target = "intencionPago", source = "intencionDePago")	
-	@Mapping(target = "convenioNro", source = "convenioNumeroMolineros")
-	//ddjjs
-	public ConvenioAltaResponseDto run(Convenio dto);
+	@Mapping(target = "convenioNro", source = "convenioNumeroMolineros")	
+	@Mapping(target = "empresaId", source = "empresa.id")
+	@Mapping(target = "cuit", source = "empresa.cuit")
+	@Mapping(target = "razonSocial", source = "empresa.razonSocial")	
+	public ConvenioDto run(Convenio dto);
 	
 	
 	public List<ConvenioActaDto> run(List<ConvenioActa> lst);	
@@ -35,6 +37,8 @@ public interface ConvenioMapper {
 	
 	@Mapping(target = "id", source = "id")
 	@Mapping(target = "ddjjId", source = "ddjj.id")
+	@Mapping(target = "periodo", source = "ddjj.periodo")
+	@Mapping(target = "secuencia", source = "ddjj.secuencia")
 	public ConvenioDDJJDto run(ConvenioDdjj dto);
 	
 	
@@ -46,5 +50,16 @@ public interface ConvenioMapper {
 	@Mapping(target = "motivo", source = "ajuste.motivo")
 	@Mapping(target = "importe", source = "importe")
 	public ConvenioAjusteDto run(ConvenioAjuste dto);
+	
+	
+	public List<ConvenioConsultaDto> run4(List<Convenio> lst);	
+	
+	@Mapping(target = "cuit", source = "empresa.cuit")
+	@Mapping(target = "razonSocial", source = "empresa.razonSocial")
+	@Mapping(target = "fecha", source = "intencionDePago")	
+	@Mapping(target = "capital", source = "importeDeuda")
+	@Mapping(target = "interes", source = "importeIntereses")
+	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")
+	public ConvenioConsultaDto run2 (Convenio dto);
 	
 }

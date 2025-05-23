@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -24,10 +26,10 @@ public class DeudaNomina {
     private Integer id;
 
 	@Column(name = "ddjj_id")
-    private Long ddjjId;
+    private Integer ddjjId;
 	
 	@Column(name = "boleta_id")
-    private Long boletaId;
+    private Integer boletaId;
 	
 	@Column(name = "cuit")
     private String cuit;
@@ -38,8 +40,13 @@ public class DeudaNomina {
 	@Column(name = "fecha_info")
     private LocalDate fechaInfor;
 	
-	@Column(name = "aporte")
-    private String aporte;
+	//@Column(name = "aporte")
+    //private String aporte;
+
+	@OneToOne
+	@JoinColumn(name = "aporte")
+	private Aporte aporte;
+
 	
 	@Column(name = "aporte_importe")
     private BigDecimal importe;

@@ -18,6 +18,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjDeudaNominaRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,8 +45,9 @@ public class Convenio {
 	@Column(name = "estado")
 	private String estado; //--PENDIENTE, CERRADO, CHEQUE RECIBIDO
 	
-	@Column(name = "cuit", length = 11)
-	private String cuit;   
+	@OneToOne
+	@JoinColumn(name = "empresa_id")
+	private Empresa empresa;
 
 	  //fecha_alta timestamp without time zone NOT NULL, -- demas auditoria
 	

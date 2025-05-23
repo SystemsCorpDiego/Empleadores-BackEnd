@@ -7,10 +7,14 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ConvenioAltaResponseDto {
+public class ConvenioDto {
 
 	private Integer id;
 	private String entidad;
+	
+	private String empresaId;
+	private String cuit;
+	private String razonSocial;
 	
 	private BigDecimal deuda;
 	private BigDecimal interes;

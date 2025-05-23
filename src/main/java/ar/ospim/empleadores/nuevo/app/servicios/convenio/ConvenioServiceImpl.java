@@ -1,14 +1,13 @@
 package ar.ospim.empleadores.nuevo.app.servicios.convenio;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
@@ -16,24 +15,32 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioAjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjDeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Empresa;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class ConvenioServiceImpl implements ConvenioService {
 
-	private final EmpresaService empresaService; 
+	private final EmpresaRepository empresaRepository;
 	private final ConvenioStorage storage;
 	private final ActaMolinerosRepository actaMolinerosRepository;
 	private final ConvenioActaRepository convenioActaRepository;  
 	private final ConvenioDdjjRepository convenioDdjjRepository;
 	private final ConvenioAjusteRepository convenioAjusteRepository;
-	private final DDJJRepository ddjjRepository; 
+	private final DDJJRepository ddjjRepository;
+	private final ConvenioDdjjDeudaNominaRepository convenioDdjjDeudaNominaRepository;
+	private final DeudaNominaRepository deudaNominaRepository;
 	private final AjusteRepository ajusteRepository; 
 	
 	@Override
@@ -42,9 +49,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 Convenio convenio = new Convenio();
 		 convenio.setCreatedOn(LocalDateTime.now());
 		 
-		 EmpresaBO empresa = empresaService.getEmpresa(dto.getEmpresaId());
+		 Empresa empresa = empresaRepository.getById(dto.getEmpresaId());
 		 
-		 convenio.setCuit(empresa.getCuit());
+		 convenio.setEmpresa(empresa);
 		 convenio.setEntidad(dto.getEntidad());
 		 convenio.setEstado("PENDIENTE");
 		 
@@ -69,10 +76,26 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 
 		 List<ConvenioDdjj> ddjjs = new ArrayList<ConvenioDdjj>();
 		 ConvenioDdjj auxDDJJ = null;
-		 for(Integer reg : dto.getDdjj()) {
+		 for(Integer reg : dto.getDdjjs()) {
 			 auxDDJJ = new ConvenioDdjj();
 			 auxDDJJ.setConvenio(convenio);
 			 auxDDJJ.setDdjj( ddjjRepository.getById(reg) );
+			 
+			 List<DeudaNomina> lstDeudaNomina = deudaNominaRepository.findByDdjjIdAndEntidadAndActaIdIsNull(reg, convenio.getEntidad() );
+			 auxDDJJ.setDdjjDeudaNomina( new ArrayList<ConvenioDdjjDeudaNomina>());
+			 ConvenioDdjjDeudaNomina auxCDDN = null;
+			 for ( DeudaNomina dn: lstDeudaNomina) {
+				 auxCDDN = new ConvenioDdjjDeudaNomina();
+				 auxCDDN.setConvenioDdjj(auxDDJJ);
+				 
+				 auxCDDN.setAporte(dn.getAporte().getCodigo());
+				 auxCDDN.setAporteImporte(dn.getImporte());
+				 auxCDDN.setInteres(dn.getInteres());
+				 auxCDDN.setVencimiento( dn.getVencimiento() );
+				 
+				 auxDDJJ.getDdjjDeudaNomina().add(auxCDDN);
+			 }
+			 
 			 ddjjs.add( auxDDJJ );
 		 }
 		 convenio.setDdjjs(ddjjs);
@@ -80,7 +103,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 
 		 List<ConvenioAjuste> ajustes = new ArrayList<ConvenioAjuste>();
 		 ConvenioAjuste auxAjuste = null;
-		 for(Integer reg : dto.getAjuste()) {
+		 for(Integer reg : dto.getAjustes()) {
 			 auxAjuste = new ConvenioAjuste();
 			 auxAjuste.setConvenio(convenio);
 			 auxAjuste.setAjuste( ajusteRepository.getById(reg) );
@@ -98,6 +121,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 if ( convenio.getDdjjs() != null ) { 
 			for (ConvenioDdjj cd:  convenio.getDdjjs()) {
 				 cd = convenioDdjjRepository.save(cd);
+				 for (ConvenioDdjjDeudaNomina cddn:  cd.getDdjjDeudaNomina()) {
+					 cddn = convenioDdjjDeudaNominaRepository.save(cddn);
+				 }
 			}
 		 }
 		 if ( convenio.getAjustes() != null ) { 
@@ -114,4 +140,19 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 	}
 
+	
+	public Convenio get(Integer empresaId, Integer convenioId) {
+		
+		Convenio convenio = storage.get(convenioId);
+		//TODO: validar q sea del cuit 
+		
+		return convenio;
+	}
+	
+	
+	public List<Convenio> get(Integer empresaId, LocalDate desde, LocalDate hasta){
+		List<Convenio> lst = null;
+		
+		return lst;
+	}
 }

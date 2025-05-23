@@ -26,7 +26,7 @@ public interface DeudaMapper {
 		
 	@Mapping(target = "id", source = "ddjjId")
 	@Mapping(target = "periodo", source = "periodo")	
-	@Mapping(target = "aporteCodigo", source = "aporte")	
+	@Mapping(target = "aporteCodigo", source = "aporte.codigo")	
 	@Mapping(target = "importe", source = "importe")		
 	@Mapping(target = "intereses", source = "interes")		
 	GestionDeudaDDJJDto run(DeudaNomina reg);
