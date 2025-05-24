@@ -9,19 +9,27 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaChequeAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioAjusteRepository;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioCuotaChequeRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioCuotaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjDeudaNominaRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuota;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
@@ -32,12 +40,16 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ConvenioServiceImpl implements ConvenioService {
 
+	private final ConvenioMapper mapper;
+	
 	private final EmpresaRepository empresaRepository;
 	private final ConvenioStorage storage;
 	private final ActaMolinerosRepository actaMolinerosRepository;
 	private final ConvenioActaRepository convenioActaRepository;  
 	private final ConvenioDdjjRepository convenioDdjjRepository;
 	private final ConvenioAjusteRepository convenioAjusteRepository;
+	private final ConvenioCuotaRepository convenioCuotaRepository;
+	private final ConvenioCuotaChequeRepository convenioCuotaChequeRepository;
 	private final DDJJRepository ddjjRepository;
 	private final ConvenioDdjjDeudaNominaRepository convenioDdjjDeudaNominaRepository;
 	private final DeudaNominaRepository deudaNominaRepository;
@@ -61,8 +73,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 convenio.setImporteSaldoFavor( BigDecimal.ZERO );
 		 
 		 convenio.setIntencionDePago( dto.getFechaPago() );
-		 convenio.setCuotas(dto.getCantidadCuota());
+		 convenio.setCuotasCanti(dto.getCantidadCuota());
 		 convenio.setMedioPago("CHEQUE");
+		 
+		 calcularCuotas( convenio);
 		 
 		 List<ConvenioActa> actas = new ArrayList<ConvenioActa>();
 		 ConvenioActa aux = null;
@@ -131,28 +145,126 @@ public class ConvenioServiceImpl implements ConvenioService {
 					caj = convenioAjusteRepository.save(caj);
 				}
 		}
-		 
+		
+		 if ( convenio.getCuotas() != null ) {
+			 for (ConvenioCuota caj:  convenio.getCuotas()) {
+					caj = convenioCuotaRepository.save(caj);
+				}
+		 }
 		 return convenio;
 		//	repository.flush();
+	}
+	
+	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {
+		//cambio estado
+		Convenio  convenio = storage.getById(convenioId);
+		convenio.setEstado(estado);
+		convenio = storage.guardar(convenio);
+		
+		//TODO: falta enviar convenio a molineros !!!
+		
+		return convenio;		
+	}
+	
+	private void calcularCuotas(Convenio convenio) {
+		ConvenioCuota cuota = null;
+		Integer cantidad = convenio.getCuotasCanti();
+		LocalDate vencimiento = convenio.getIntencionDePago().minusMonths(1);
+		BigDecimal impCuota = BigDecimal.ZERO;
+		if ( convenio.getImporteIntereses() != null && convenio.getImporteIntereses().compareTo( BigDecimal.ZERO )  == 0 && cantidad!=null && cantidad>0  ) {
+			impCuota = convenio.getImporteDeuda().add(convenio.getImporteIntereses()).divide(BigDecimal.valueOf(cantidad)); 
+		}
+		convenio.setCuotas( new ArrayList<ConvenioCuota>() );
+		for (int cuotaNro = 1; cuotaNro <= cantidad; cuotaNro++) {
+			cuota = new ConvenioCuota();
+			cuota.setConvenio(convenio);
+			cuota.setCuotaNro(cuotaNro);
+			cuota.setVencimiento( vencimiento.plusMonths(1*cuotaNro) );
+			cuota.setImporte( impCuota );
+			convenio.getCuotas().add(cuota);
+		}
 	}
 	
 	private void validarAlta(ConvenioAltaDto dto) {
 		
 	}
-
 	
-	public Convenio get(Integer empresaId, Integer convenioId) {
-		
-		Convenio convenio = storage.get(convenioId);
-		//TODO: validar q sea del cuit 
-		
+	public Convenio get(Integer empresaId, Integer convenioId) {		
+		Convenio convenio = storage.get(convenioId);		
 		return convenio;
+	}
+		
+	public List<Convenio> get(ConvenioConsultaFiltro filtro) {
+		List<Convenio> lst = null;		
+		lst = storage.get(filtro);		
+		return lst;
 	}
 	
 	
-	public List<Convenio> get(Integer empresaId, LocalDate desde, LocalDate hasta){
-		List<Convenio> lst = null;
+	public List<ConvenioCuotaConsultaDto> getCuotas(Integer empresaId, Integer convenioId){
+		List<ConvenioCuotaConsultaDto> rta = null;
+		List<ConvenioCuota> lstCuotas = convenioCuotaRepository.findByConvenioId(convenioId);
+		rta = mapper.run6(lstCuotas);
 		
-		return lst;
+		String listCheques = "";
+		BigDecimal impTotal = BigDecimal.ZERO; 
+		List<ConvenioCuotaCheque> lstCheques = null;
+		for(ConvenioCuotaConsultaDto convenioCuota: rta) {
+			listCheques = "";
+			impTotal = BigDecimal.ZERO;
+			lstCheques = convenioCuotaChequeRepository.findByConvenioCuotaId(convenioCuota.getId());
+			for(ConvenioCuotaCheque cheque: lstCheques) {
+				listCheques = listCheques + ", " + cheque.getNumero();
+				impTotal = impTotal.add(cheque.getImporte());				
+			}
+			if ( !listCheques.equals("")) {
+				listCheques = listCheques.substring(2);
+			}
+			convenioCuota.setChequesNro(listCheques);
+			convenioCuota.setChequestotal(impTotal);
+		}
+		
+		return rta;
+	}
+
+	public ConvenioCuotaCheque generar(ConvenioCuotaChequeAltaDto cheque) {
+		ConvenioCuotaCheque rta = null;
+		ConvenioCuotaCheque reg = new ConvenioCuotaCheque();
+		
+		ConvenioCuota convenioCuota = convenioCuotaRepository.getById(cheque.getCuotaId());
+		reg.setConvenioCuota(convenioCuota);
+		
+		reg.setFecha(cheque.getFecha());
+		reg.setImporte(cheque.getImporte());
+		reg.setNumero(cheque.getNumero());
+		
+		rta = convenioCuotaChequeRepository.save(reg);
+		
+		return rta;
+	}
+	
+	public ConvenioCuotaCheque actualizar(ConvenioCuotaChequeAltaDto cheque) {
+		ConvenioCuotaCheque reg = convenioCuotaChequeRepository.getById(cheque.getChequeId());
+		reg.setNumero(cheque.getNumero());
+		reg.setFecha(cheque.getFecha());
+		reg.setImporte(cheque.getImporte());
+		reg = convenioCuotaChequeRepository.save(reg);
+		return reg;
+	}
+
+	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId){
+		 List<ConvenioCuotaCheque> rta = null;
+		 rta = convenioCuotaChequeRepository.findByConvenioCuotaId(cuotaId);
+		 return rta;
+	}
+
+	public ConvenioCuotaCheque getCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId) {
+		 ConvenioCuotaCheque rta = null;
+		 rta = convenioCuotaChequeRepository.getById(chequeId);
+		 return rta;
+	}
+	
+	public void borrarCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId) {
+		convenioCuotaChequeRepository.deleteById(chequeId);
 	}
 }

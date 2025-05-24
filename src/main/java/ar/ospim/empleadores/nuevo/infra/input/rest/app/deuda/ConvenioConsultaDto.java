@@ -7,10 +7,13 @@ import lombok.Data;
 
 @Data
 public class ConvenioConsultaDto {
+	private Integer id;
+	private String entidad;
+	private String numero;
+	
 	private String cuit;
 	private String razonSocial;
 	private LocalDate fecha;
-	private Integer id;
 	private BigDecimal capital;
 	private BigDecimal interes;
 	private BigDecimal saldoFavor;

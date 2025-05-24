@@ -64,7 +64,7 @@ public class Convenio {
 	private LocalDate intencionDePago;
 	
 	@Column(name = "cuotas_cantidad")
-	private Integer cuotas;
+	private Integer cuotasCanti;
 	
 	@Column(name = "medio_pago")
 	private String medioPago;   
@@ -91,6 +91,10 @@ public class Convenio {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
 	private List<ConvenioAjuste> ajustes;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
+	private List<ConvenioCuota> cuotas;
 	
 	@Column(name = "fecha_alta")
 	@ToString.Include

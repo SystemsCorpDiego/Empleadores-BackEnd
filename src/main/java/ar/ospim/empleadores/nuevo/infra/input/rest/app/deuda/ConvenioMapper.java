@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuota;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
 
@@ -21,7 +23,8 @@ public interface ConvenioMapper {
 	@Mapping(target = "convenioNro", source = "convenioNumeroMolineros")	
 	@Mapping(target = "empresaId", source = "empresa.id")
 	@Mapping(target = "cuit", source = "empresa.cuit")
-	@Mapping(target = "razonSocial", source = "empresa.razonSocial")	
+	@Mapping(target = "razonSocial", source = "empresa.razonSocial")
+	@Mapping(target = "cuotas", source = "cuotasCanti")
 	public ConvenioDto run(Convenio dto);
 	
 	
@@ -68,6 +71,28 @@ public interface ConvenioMapper {
 	@Mapping(target = "capital", source = "importeDeuda")
 	@Mapping(target = "interes", source = "importeIntereses")
 	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")
+	@Mapping(target = "numero", source = "convenioNumeroMolineros")	 
+	@Mapping(target = "cuotas", source = "cuotasCanti")
 	public ConvenioConsultaDto run2 (Convenio dto);
+	
+	
+	public List<ConvenioCuotaConsultaDto> run6 ( List<ConvenioCuota> lst);
+		
+	@Mapping(target = "id", source = "id")
+	@Mapping(target = "numero", source = "cuotaNro")
+	@Mapping(target = "importe", source = "importe")
+	@Mapping(target = "vencimiento", source = "vencimiento")
+	//@Mapping(target = "chequesNro", source = "")
+	//@Mapping(target = "Chequestotal", source = "")	
+	public ConvenioCuotaConsultaDto run ( ConvenioCuota lst);
+
+	@Mapping(target = "id", source = "id") 
+	public ConvenioCuotaChequeDto run(ConvenioCuotaCheque dto);
+
+	
+	List<ConvenioCuotaChequeConsultaDto> run7 (List<ConvenioCuotaCheque> lst);
+	
+	ConvenioCuotaChequeConsultaDto run2(ConvenioCuotaCheque dto);
+	
 	
 }
