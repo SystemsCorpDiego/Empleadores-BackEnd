@@ -142,4 +142,37 @@ public class ConvenioController {
 		
 		return ResponseEntity.ok( mapper.run(chequeNew) );
 	}
+	
+	
+	@DeleteMapping(value = "/{convenioId}/actas/{actaId}")
+	public ResponseEntity<Void> borrarActa(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("actaId") Integer actaId) {
+		
+		service.borrarActa(empresaId, convenioId, actaId);		
+		
+		return ResponseEntity.ok( null );
+	}
+	
+	@PostMapping(value = "/{convenioId}/actas/{actaId}")
+	public ResponseEntity<Void> altaActa(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("actaId") Integer actaId) {
+		
+		service.asignarActa(empresaId, convenioId, actaId);		
+		
+		return ResponseEntity.ok( null );
+	}
+	
+	@DeleteMapping(value = "/{convenioId}/ajustes/{ajusteId}")
+	public ResponseEntity<Void> borrarAjuste(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ajusteId") Integer ajusteId) {
+		
+		service.borrarAjuste(empresaId, convenioId, ajusteId);		
+		
+		return ResponseEntity.ok( null );
+	}
+	
+	@PostMapping(value = "/{convenioId}/ajustes/{ajusteId}")
+	public ResponseEntity<Void> altaAjuste(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ajusteId") Integer ajusteId) {
+		
+		service.asignarAjuste(empresaId, convenioId, ajusteId);		
+		
+		return ResponseEntity.ok( null );
+	}
 }

@@ -25,6 +25,8 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjReposit
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Ajuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
@@ -266,5 +268,42 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	public void borrarCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId) {
 		convenioCuotaChequeRepository.deleteById(chequeId);
+	}
+	
+	
+	public  void borrarActa(Integer empresaId, Integer convenioId, Integer actaId) {
+		convenioActaRepository.deleteById(actaId);
+	}
+	
+	public  ConvenioActa asignarActa(Integer empresaId, Integer convenioId, Integer actaId) {
+		ConvenioActa acta = new ConvenioActa();
+		
+		Convenio convenio = storage.get(convenioId);
+		acta.setConvenio(convenio);
+		
+		ActaMolineros actaMolineros = actaMolinerosRepository.getById(actaId);
+		acta.setActa(actaMolineros);
+		
+		acta = convenioActaRepository.save(acta);
+		
+		return acta;
+	}
+	
+	public  void borrarAjuste(Integer empresaId, Integer convenioId, Integer ajusteId) {
+		convenioAjusteRepository.deleteById(ajusteId);
+	}
+	
+	public  ConvenioAjuste asignarAjuste(Integer empresaId, Integer convenioId, Integer ajusteId) {
+		ConvenioAjuste ajuste = new ConvenioAjuste();
+		
+		Convenio convenio = storage.get(convenioId);
+		ajuste.setConvenio(convenio);
+		
+		Ajuste ajusteAux = ajusteRepository.getById(ajusteId);
+		ajuste.setAjuste(ajusteAux);
+		
+		ajuste = convenioAjusteRepository.save(ajuste);
+		
+		return ajuste;
 	}
 }
