@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.app.servicios.ddjj.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +84,7 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 						importe = cons.get(0).getBasico();
 					}
 				}
-				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L));
+				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L), 2, RoundingMode.HALF_EVEN);
 			}	 
 		}
 

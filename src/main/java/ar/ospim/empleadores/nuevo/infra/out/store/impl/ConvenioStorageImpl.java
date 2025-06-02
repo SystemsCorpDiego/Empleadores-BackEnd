@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,8 +31,6 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 	 @Transactional
 	 @Override
 	public Convenio guardar(Convenio reg) {
-		// TODO Auto-generated method stub
-
 		Convenio regNew = repository.save(reg);
 		return regNew;
 	}
@@ -41,10 +40,19 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 		 return repository.getById(id);
 	 }
 	
+	 private void imprimirconvenio(Convenio convenio) {
+		 if ( convenio != null) {
+			 log.debug( "imprimirconvenio() - convenio: " + convenio.toString() );
+		 } else {
+			 log.debug( "imprimirconvenio() - convenio: NULL");
+		 }
+	 }
+	 
 	 @Override
 	 public Convenio get(Integer id) {
 		
 		Convenio convenio = repository.getById(id);
+		imprimirconvenio(convenio);
 		
 		List<ConvenioDdjjDeudaNominaConsultaI> lst = null;
 		List<ConvenioDdjjDeudaNomina> lst2 = null;
@@ -67,7 +75,7 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 			}
 			//log.error("test : lst" + lst.toString() );
 		}		
-		
+		imprimirconvenio(convenio);
 		return convenio;		
 	}
 
@@ -122,5 +130,9 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 		}				    		 
 	}
 
+	@Override
+	public void actualizarImportes( Integer convenioId, BigDecimal p_imp_deuda, BigDecimal p_imp_interes, BigDecimal p_imp_saldo_favor ) {
+		repository.actualizarImportes(convenioId, p_imp_deuda, p_imp_interes, p_imp_saldo_favor);
+	}
 	
 }

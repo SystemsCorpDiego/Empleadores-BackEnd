@@ -51,5 +51,11 @@ public class ConvenioActa {
         @JoinColumn(name = "acta_id", referencedColumnName = "id")        
     })
 	private ActaMolineros acta;
+
+	@Override
+	public String toString() {
+		return "ConvenioActa [id=" + id + ", acta=" + acta + "]";
+	}
 	  
+	
 }

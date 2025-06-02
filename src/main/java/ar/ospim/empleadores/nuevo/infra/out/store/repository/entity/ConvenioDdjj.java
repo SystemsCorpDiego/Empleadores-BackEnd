@@ -24,7 +24,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "convenio_ddjj")
-@ToString
 @Getter
 @Setter
 public class ConvenioDdjj {
@@ -51,4 +50,11 @@ public class ConvenioDdjj {
 	@OneToMany(mappedBy = "convenioDdjj", fetch = FetchType.LAZY, cascade = { CascadeType.MERGE})
 	private List<ConvenioDdjjDeudaNomina> ddjjDeudaNomina;
 
+
+	@Override
+	public String toString() {
+		return "ConvenioDdjj [id=" + id + ", ddjj=" + ddjj + ", ddjjDeudaNomina=" + ddjjDeudaNomina + "]";
+	}
+
+	
 }

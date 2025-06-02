@@ -53,7 +53,7 @@ public class BoletaPagoCalcularInteresServiceImpl implements BoletaPagoCalcularI
 		}
 		log.debug("BoletaPagoCalcularInteresService - RTA - importe:" + importe);
 		if ( ! BigDecimal.ZERO.equals(importe) ) {
-			importe = importe.divide(new BigDecimal(100));
+			importe = importe.divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN);
 		}
 		return importe;		
 	}

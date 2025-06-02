@@ -22,7 +22,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "convenio_ddjj_deuda_nomina")
-@ToString
 @Getter
 @Setter
 public class ConvenioDdjjDeudaNomina {
@@ -54,5 +53,12 @@ public class ConvenioDdjjDeudaNomina {
 	
 	@Column(name = "interes")
 	private BigDecimal interes;
+
+	@Override
+	public String toString() {
+		return "ConvenioDdjjDeudaNomina [id=" + id + ", boletaId=" + boletaId + ", aporte=" + aporte
+				+ ", aporteImporte=" + aporteImporte + ", vencimiento=" + vencimiento + ", interes=" + interes + "]";
+	}
+	
 	
 }

@@ -28,7 +28,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ConvenioAjuste {
 	@Id
     @Column(name = "id", nullable = false)
@@ -48,6 +47,12 @@ public class ConvenioAjuste {
 	//  ajuste_id integer NOT NULL, 
 	@OneToOne
 	@JoinColumn(name = "ajuste_id")
-	private Ajuste ajuste;	   
+	private Ajuste ajuste;
+
+	@Override
+	public String toString() {
+		return "ConvenioAjuste [id=" + id + ", importe=" + importe + ", ajuste=" + ajuste + "]";
+	}	   
 	  
+	
 }

@@ -1,6 +1,10 @@
 package ar.ospim.empleadores.nuevo.app.servicios.convenio;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.repository.query.Param;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
@@ -19,6 +23,8 @@ public interface ConvenioService {
 	public Convenio get(Integer empresaId, Integer convenioId);	
 	public List<Convenio> get(ConvenioConsultaFiltro filtro);
 	
+	public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
+	
 	public List<ConvenioCuotaConsultaDto> getCuotas(Integer empresaId, Integer convenioId);
 	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId);
 	public ConvenioCuotaCheque getCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId);
@@ -26,6 +32,7 @@ public interface ConvenioService {
 	
 	public ConvenioCuotaCheque generar(ConvenioCuotaChequeAltaDto cheque);
 	public ConvenioCuotaCheque actualizar(ConvenioCuotaChequeAltaDto cheque);
+	
 	
 	public  void borrarActa(Integer empresaId, Integer convenioId, Integer actaId);
 	public  ConvenioActa asignarActa(Integer empresaId, Integer convenioId, Integer actaId);

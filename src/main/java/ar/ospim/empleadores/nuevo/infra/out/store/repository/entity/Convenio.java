@@ -100,4 +100,15 @@ public class Convenio {
 	@ToString.Include
 	private LocalDateTime createdOn;
 
+	@Override
+	public String toString() {
+		return "Convenio [id=" + id + ", entidad=" + entidad + ", estado=" + estado + ", empresa=" + empresa
+				+ ", importeDeuda=" + importeDeuda + ", importeIntereses=" + importeIntereses + ", importeSaldoFavor="
+				+ importeSaldoFavor + ", intencionDePago=" + intencionDePago + ", cuotasCanti=" + cuotasCanti
+				+ ", medioPago=" + medioPago + ", actaIdDDJJ=" + actaIdDDJJ + ", convenioIdMolineros="
+				+ convenioIdMolineros + ", convenioNumeroMolineros=" + convenioNumeroMolineros + ", actas=" + actas
+				+ ", ddjjs=" + ddjjs + ", ajustes=" + ajustes + ", cuotas=" + cuotas + ", createdOn=" + createdOn + "]";
+	}
+
+	
 }

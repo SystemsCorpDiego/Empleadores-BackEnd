@@ -30,7 +30,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class ConvenioCuota {
 	@Id
     @Column(name = "id", nullable = false)
@@ -50,6 +49,12 @@ public class ConvenioCuota {
 	private LocalDate vencimiento;
 	
 	@Column(name = "importe")
-	private BigDecimal importe;	  
+	private BigDecimal importe;
+
+	@Override
+	public String toString() {
+		return "ConvenioCuota [id=" + id + ", cuotaNro=" + cuotaNro + ", vencimiento=" + vencimiento + ", importe="
+				+ importe + "]";
+	}	  
 	 
 }

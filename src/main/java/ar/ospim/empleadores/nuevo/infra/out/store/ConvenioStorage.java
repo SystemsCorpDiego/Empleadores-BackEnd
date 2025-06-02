@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
@@ -11,5 +12,7 @@ public interface ConvenioStorage {
 	public Convenio guardar(Convenio reg);	
 	public Convenio get(Integer id);
 	public List<Convenio> get(ConvenioConsultaFiltro filtro);
+	
+	public void actualizarImportes( Integer convenioId, BigDecimal p_imp_deuda, BigDecimal p_imp_interes, BigDecimal p_imp_saldo_favor );
 	
 }

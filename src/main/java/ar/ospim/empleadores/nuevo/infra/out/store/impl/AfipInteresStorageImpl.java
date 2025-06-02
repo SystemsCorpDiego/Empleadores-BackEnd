@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -32,6 +33,14 @@ public class AfipInteresStorageImpl implements AfipInteresStorage {
         this.repository = afipInteresRepository;
         this.mapper = mapper;
     }
+	
+	
+	public  BigDecimal calcularInteres(BigDecimal capital, LocalDate desde, LocalDate hasta) {
+		
+		BigDecimal aux = repository.calcularInteres(capital, BigDecimal.ZERO, desde, hasta);
+		
+		return aux;
+	}
 	
 	public Optional<AfipInteresBO> findByDesde(LocalDate desde) {
 		Optional<AfipInteres> consulta = repository.findByDesde(desde);
