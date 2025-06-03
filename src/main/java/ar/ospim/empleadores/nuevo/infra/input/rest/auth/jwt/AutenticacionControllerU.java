@@ -41,8 +41,7 @@ public class AutenticacionControllerU {
 	//private final ICaptchaService captchaService;
 	private final CookieService cookieService;	
 	private final RefrescarToken refreshToken;
-	private final LoginDFA loginTwoFactorAuthentication;
-	private final TokenGestionUsuario tokenGestionUsuario; 
+	private final LoginDFA loginTwoFactorAuthentication; 
 
 	@PostMapping("/login")
 	public ResponseEntity<JWTokenDto>  login(

@@ -374,7 +374,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return rta;
 	}
 	
-	public ConvenioCuotaCheque actualizar(ConvenioCuotaChequeAltaDto cheque) {
+	public ConvenioCuotaCheque actualizarCuotaCheque(ConvenioCuotaChequeAltaDto cheque) {
 		ConvenioCuotaCheque reg = convenioCuotaChequeRepository.getById(cheque.getChequeId());
 		reg.setNumero(cheque.getNumero());
 		reg.setFecha(cheque.getFecha());
@@ -402,6 +402,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	public  void borrarActa(Integer empresaId, Integer convenioId, Integer actaId) {
 		convenioActaRepository.deleteById(actaId);
+		actualizarConvenioImportes(convenioId);
 	}
 	
 	public  ConvenioActa asignarActa(Integer empresaId, Integer convenioId, Integer actaId) {
@@ -414,6 +415,11 @@ public class ConvenioServiceImpl implements ConvenioService {
 		acta.setActa(actaMolineros);
 		
 		acta = convenioActaRepository.save(acta);
+		if( convenio.getActas() == null)
+			convenio.setActas( new ArrayList<ConvenioActa>() );		
+		convenio.getActas().add(acta);
+
+		actualizarConvenioImportes(convenio);
 		
 		return acta;
 	}
@@ -427,7 +433,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		ConvenioAjuste ajuste = new ConvenioAjuste();
 		
 		Convenio convenio = storage.get(convenioId);
-		imprimirconvenio(convenio); 
+		//imprimirconvenio(convenio); 
 		ajuste.setConvenio(convenio);
 		
 		Ajuste ajusteAux = ajusteRepository.getById(ajusteId);
@@ -440,7 +446,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 
 		 
 		ajuste = convenioAjusteRepository.save(ajuste);
-		
+		if( convenio.getAjustes() == null)
+			convenio.setAjustes( new ArrayList<ConvenioAjuste>() );		
+		convenio.getAjustes().add(ajuste);
+
 		actualizarConvenioImportes(convenio);
 		return ajuste;
 	}
@@ -471,7 +480,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private Convenio actualizarConvenioImportes(Integer convenioId) {
 		Convenio convenio = storage.get(convenioId);
-		imprimirconvenio( convenio);
+		//imprimirconvenio( convenio);
 		
 		convenio = actualizarConvenioImportes(convenio);
 		return convenio;
@@ -499,5 +508,21 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return convenio;
 	}
 
+	public  void borrarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId) {
+		
+		ConvenioDdjj convenioDdjj = convenioDdjjRepository.findByConvenioIdAndDdjjId(convenioId, ddjjId);
+		convenioDdjjRepository.baja(convenioDdjj.getId());
+		actualizarConvenioImportes(convenioId);
+		
+	}
+	
+	public ConvenioDdjj asignarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId) {
+		ConvenioDdjj rta = null;
+		convenioDdjjRepository.alta(convenioId, ddjjId);
+		rta = convenioDdjjRepository.findByConvenioIdAndDdjjId(convenioId, ddjjId);
+		actualizarConvenioImportes(convenioId);
+		
+		return rta;
+	}
 
 }

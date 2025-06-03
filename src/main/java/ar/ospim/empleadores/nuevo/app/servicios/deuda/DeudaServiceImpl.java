@@ -57,6 +57,8 @@ public class DeudaServiceImpl implements DeudaService {
 					String.format(errorMsg, empresaId)  );
 		}
 		
+		deudaStorage.actualizarCuit(empresa.get().getCuit());
+		
 		List<ActaMolineros> rta = null;
 		rta = deudaStorage.getActasMolineros( empresa.get().getCuit(), entidad );
 		
@@ -87,10 +89,21 @@ public class DeudaServiceImpl implements DeudaService {
 					String.format(errorMsg, empresaId)  );
 		}
 		
+		deudaStorage.actualizarCuit(empresa.get().getCuit());
+		
 		return deudaStorage.getNominaDto( empresa.get().getCuit(), entidad );
 	}
 	
 	public List<IGestionDeudaAjustes>  getAjustesDto(Integer empresaId, String entidad) {
+		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
+		if ( empresa.isEmpty()  ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), 
+					String.format(errorMsg, empresaId)  );
+		}
+		
+		deudaStorage.actualizarCuit(empresa.get().getCuit());	
+		
 		return ajusteStorage.getGestionDeudaAjustes(empresaId, entidad);
 	}
  	 

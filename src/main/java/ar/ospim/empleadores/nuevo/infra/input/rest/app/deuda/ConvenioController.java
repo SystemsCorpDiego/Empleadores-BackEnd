@@ -166,7 +166,7 @@ public class ConvenioController {
 		dto.setCuotaId(cuotaId);
 		dto.setChequeId(chequeId);
 		
-		service.actualizar(dto);		
+		service.actualizarCuotaCheque(dto);		
 		
 		return ResponseEntity.ok( null );
 	}
@@ -222,6 +222,22 @@ public class ConvenioController {
 	public ResponseEntity<Void> altaAjuste(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ajusteId") Integer ajusteId) {
 		
 		service.asignarAjuste(empresaId, convenioId, ajusteId);		
+		
+		return ResponseEntity.ok( null );
+	}
+	
+	@PostMapping(value = "/{convenioId}/ddjj/{ddjjId}")
+	public ResponseEntity<Void> ddjjAlta(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ddjjId") Integer ddjjId) {
+		
+		service.asignarDDJJ(empresaId, convenioId, ddjjId);		
+		
+		return ResponseEntity.ok( null );
+	}
+	
+	@DeleteMapping(value = "/{convenioId}/ddjj/{ddjjId}")
+	public ResponseEntity<Void> ddjjBorrar(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ddjjId") Integer ddjjId) {
+		
+		service.borrarDDJJ(empresaId, convenioId, ddjjId);		
 		
 		return ResponseEntity.ok( null );
 	}

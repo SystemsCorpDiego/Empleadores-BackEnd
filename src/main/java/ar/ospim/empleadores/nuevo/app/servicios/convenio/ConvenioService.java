@@ -14,6 +14,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 
 public interface ConvenioService {
 
@@ -31,7 +32,7 @@ public interface ConvenioService {
 	public void borrarCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId);
 	
 	public ConvenioCuotaCheque generar(ConvenioCuotaChequeAltaDto cheque);
-	public ConvenioCuotaCheque actualizar(ConvenioCuotaChequeAltaDto cheque);
+	public ConvenioCuotaCheque actualizarCuotaCheque(ConvenioCuotaChequeAltaDto cheque);
 	
 	
 	public  void borrarActa(Integer empresaId, Integer convenioId, Integer actaId);
@@ -39,4 +40,8 @@ public interface ConvenioService {
 	
 	public  void borrarAjuste(Integer empresaId, Integer convenioId, Integer ajusteId);
 	public  ConvenioAjuste asignarAjuste(Integer empresaId, Integer convenioId, Integer ajusteId);
+
+	public  void borrarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId);
+	public ConvenioDdjj asignarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId);
+	
 }
