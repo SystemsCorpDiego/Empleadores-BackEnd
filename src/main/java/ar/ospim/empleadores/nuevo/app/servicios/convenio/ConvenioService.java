@@ -9,6 +9,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsult
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
@@ -19,6 +20,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj
 public interface ConvenioService {
 
 	public Convenio generar(ConvenioAltaDto dto);
+	public Convenio actualizar(ConvenioModiDto dto);
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado);
 	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago);
 	

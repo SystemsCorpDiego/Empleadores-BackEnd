@@ -31,6 +31,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
@@ -91,6 +92,17 @@ public class ConvenioController {
 		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
 				
 		Convenio convenioNew = service.generar(convenio);
+		
+		return ResponseEntity.ok( mapper.run(convenioNew) );
+	}
+	
+	@PutMapping(value = "/{convenioId}")
+	public ResponseEntity<ConvenioDto>  actualizar(@PathVariable("empresaId") Integer empresaId,  @PathVariable("convenioId") Integer convenioId, @RequestBody @Valid ConvenioModiDto convenio) {
+		
+		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
+		convenio.setConvenioId(convenioId);
+		convenio.setEmpresaId(empresaId);
+		Convenio convenioNew = service.actualizar(convenio);
 		
 		return ResponseEntity.ok( mapper.run(convenioNew) );
 	}

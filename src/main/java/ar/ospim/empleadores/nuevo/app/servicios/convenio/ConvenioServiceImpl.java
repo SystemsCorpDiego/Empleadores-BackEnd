@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
@@ -21,6 +22,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
@@ -75,13 +77,49 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final AfipInteresService afipInteresService;
 	private final DeudaService deudaService;
 	
-	
+	@Override
+	@Transactional
+	public Convenio actualizar(ConvenioModiDto dto) {
+		Convenio convenioOri = storage.get(dto.getConvenioId());
+		
+		ConvenioAltaDto dtoAlta = mapper.run(dto);
+		dtoAlta.setEntidad(convenioOri.getEntidad());		
+		Convenio convenioNew = armarConvenio(dtoAlta);
+		convenioNew.setId( convenioOri.getId() );
+		convenioNew.setEstado( convenioOri.getEstado() );
+		convenioNew.setCreatedOn( convenioOri.getCreatedOn() );
+		
+		
+		//Borro todos los Detalles del Contrato ...
+		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
+		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
+		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
+			convenioDdjjRepository.baja( reg.getId() );
+		}
+		
+		//Guardo los Detalles nuevos.-
+		guardarConvenioDetalle( convenioNew );
+		
+		PlanPagoDto planPago = mapper.run2(dto);
+		convenioNew.setCuotas(convenioOri.getCuotas());
+		actualizarPlanPago( convenioNew, planPago);
+		
+		//storage.actualizarImportes(convenioNew.getId(), convenioNew.getImporteDeuda(), convenioNew.getImporteIntereses(), convenioNew.getImporteSaldoFavor());
+		//convenioNew.setAjustes(null);
+		//convenioNew.setActas(null);
+		//convenioNew.setDdjjs(null);
+		//convenioNew.setCuotas(null);
+		storage.guardar(convenioNew);
+		
+		return convenioNew;		
+	}
+	 
 	@Override
 	public Convenio generar(ConvenioAltaDto dto) {
 		 validarAlta(dto);
 		 
 		 Convenio convenio = armarConvenio(dto);
-		 
+		 calcularCuotas( convenio);		 
 		 convenio = guardarConvenio(convenio);
 		 
 		 return convenio; 
@@ -89,6 +127,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private Convenio guardarConvenio(Convenio convenio ) {
 		convenio = storage.guardar(convenio);
+		guardarConvenioDetalle( convenio );
+		 return convenio;
+	}
+	
+	private Convenio guardarConvenioDetalle(Convenio convenio ) {
+		
 		 if ( convenio.getActas() != null ) {
 			 for (ConvenioActa ca:  convenio.getActas()) {
 				 ca = convenioActaRepository.save(ca);				 
@@ -140,8 +184,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 
 		 calcularCapital(convenio);
 
-		 calcularCuotas( convenio);
-		 
 		 return convenio;
 	}
 
@@ -578,8 +620,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return rta;
 	}
 
-	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago) {
-		Convenio convenio = storage.get(convenioId);
+	private Convenio actualizarPlanPago(Convenio convenio, PlanPagoDto planPago) {
 		convenio.setIntencionDePago( planPago.getIntencionPago() );
 		
 		if ( planPago.getCantidadCuota() < convenio.getCuotasCanti() ) {
@@ -610,12 +651,18 @@ public class ConvenioServiceImpl implements ConvenioService {
 		if ( convenio.getCuotas() != null ) {
 			 for (ConvenioCuota caj:  convenio.getCuotas()) {
 					caj = convenioCuotaRepository.save(caj);
-				}
-		 }
+			}
+		}
 		
 		storage.actualizarModoPago(convenio.getId(), convenio.getCuotasCanti(), convenio.getIntencionDePago());
 		
 		return convenio;
+
+	}
+	
+	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago) {
+		Convenio convenio = storage.get(convenioId);
+		return actualizarPlanPago(convenio, planPago);		 
 	}
 	
 	private void actualizarCuotas(List<ConvenioCuota> lstOri, List<ConvenioCuota> lstNew ) {

@@ -9,6 +9,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeu
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeDto;
@@ -18,8 +19,10 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeu
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
@@ -31,7 +34,14 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj
 
 @Mapper
 public interface ConvenioMapper {
-  
+  	
+	
+	@Mapping(target = "intencionPago", source = "fechaPago")
+	PlanPagoDto run2 (ConvenioModiDto dto);
+	
+	@Mapping(target = "cantidadCuota", source = "cantidadCuota")
+	ConvenioAltaDto run(ConvenioModiDto dto);
+	
 	@Mapping(target = "deuda", source = "importeDeuda")
 	@Mapping(target = "interes", source = "importeIntereses")
 	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")

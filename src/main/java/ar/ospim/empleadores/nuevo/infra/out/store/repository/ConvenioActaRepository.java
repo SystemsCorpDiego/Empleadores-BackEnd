@@ -11,5 +11,6 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa
 public interface ConvenioActaRepository   extends JpaRepository< ConvenioActa, Integer>  {
 
 	List<ConvenioActa> findByConvenioId(Integer convenioId);
+	void deleteByConvenioId(Integer convenioId);
 	
 }

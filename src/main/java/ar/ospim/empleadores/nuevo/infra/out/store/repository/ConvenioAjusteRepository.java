@@ -8,4 +8,6 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjus
 @Repository
 public interface ConvenioAjusteRepository   extends JpaRepository< ConvenioAjuste, Integer> {
 
+	void deleteByConvenioId(Integer convenioId);
+	
 }
