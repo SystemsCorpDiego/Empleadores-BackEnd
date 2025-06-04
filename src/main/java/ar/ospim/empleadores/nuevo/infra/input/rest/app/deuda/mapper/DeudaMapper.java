@@ -1,10 +1,13 @@
-package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
+package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaActaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 

@@ -1,4 +1,4 @@
-package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
+package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,6 +7,8 @@ import lombok.Data;
 
 @Data
 public class GestionDeudaDDJJDto {
+	
+	private Integer convenioDdjjId;
 	
 	private Integer id;
 	private LocalDate periodo;

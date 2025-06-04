@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaAjustes;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AjusteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AjusteMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
@@ -102,7 +102,7 @@ public class AjusteStorageImpl  implements AjusteStorage {
 		repository.generarAjusteAutomaticoIPF22(p_aporte, p_empresa_id);		
 	}
 	
-	public List<IGestionDeudaAjustes> getGestionDeudaAjustes(Integer empresaId, String entidad) {
+	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustes(Integer empresaId, String entidad) {
 		return repository.getGestionDeudaAjustes(empresaId, entidad);
 	}
 	

@@ -12,4 +12,6 @@ public interface ConvenioCuotaChequeRepository extends JpaRepository< ConvenioCu
 	
 	public List<ConvenioCuotaCheque> findByConvenioCuotaId(Integer id);	
 	
+	public Long deleteByConvenioCuotaId(Integer ConvenioCuotaId);
+	
 }

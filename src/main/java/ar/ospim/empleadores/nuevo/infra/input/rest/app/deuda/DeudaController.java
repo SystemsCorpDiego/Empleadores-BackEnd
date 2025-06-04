@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,6 +51,5 @@ public class DeudaController {
 		
 		return ResponseEntity.ok( rta );
 	}
-
-		
+	
 }

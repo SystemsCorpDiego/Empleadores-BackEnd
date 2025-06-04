@@ -1,5 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,6 +15,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj
 public interface ConvenioDdjjRepository    extends JpaRepository< ConvenioDdjj, Integer> {
 
 	public ConvenioDdjj findByConvenioIdAndDdjjId(Integer convenioId, Integer ddjjId);
+	public List<ConvenioDdjj> findByConvenioId(Integer convenioId);
 	
 	@Transactional
 	@Modifying(clearAutomatically = true)

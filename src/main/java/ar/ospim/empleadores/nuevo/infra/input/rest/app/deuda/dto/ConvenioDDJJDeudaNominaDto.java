@@ -1,4 +1,4 @@
-package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
+package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

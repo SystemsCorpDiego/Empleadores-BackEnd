@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,5 +31,10 @@ public interface ConvenioRepository  extends JpaRepository< Convenio, Integer>  
 	@Modifying(clearAutomatically = true)
 	@Query(value = "CALL convenio_importes_modi(?1, ?2, ?3, ?4);", nativeQuery = true)
 	void actualizarImportes(@Param("p_convenio_id")  Integer convenioId, @Param("p_imp_deuda")  BigDecimal p_imp_deuda, @Param("p_imp_interes")  BigDecimal p_imp_interes, @Param("p_imp_saldo_favor")  BigDecimal p_imp_saldo_favor );
+
+	@Transactional
+	@Modifying(clearAutomatically = true)
+	@Query(value = "CALL convenio_modo_pago_modi(?1, ?2, ?3);", nativeQuery = true)
+	void actualizarModoPago(@Param("p_convenio_id")  Integer convenioId, @Param("p_cuotas_canti")  Integer p_cuotas_canti, @Param("p_intencion_pago")  LocalDate p_intencion_pago);
 
 }

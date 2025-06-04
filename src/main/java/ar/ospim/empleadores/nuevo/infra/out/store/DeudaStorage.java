@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 
 public interface DeudaStorage {

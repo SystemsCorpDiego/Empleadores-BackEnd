@@ -1,4 +1,4 @@
-package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
+package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 
 import java.util.List;
 
@@ -9,6 +9,6 @@ public class GestionDeudaDto {
 
 	List<GestionDeudaDDJJDto> declaracionesJuradas;
 	List<GestionDeudaActaDto> actas;
-	List<IGestionDeudaAjustes> saldosAFavor;
+	List<IGestionDeudaAjustesDto> saldosAFavor;
 	
 }

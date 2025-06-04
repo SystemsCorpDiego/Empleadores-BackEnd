@@ -5,12 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

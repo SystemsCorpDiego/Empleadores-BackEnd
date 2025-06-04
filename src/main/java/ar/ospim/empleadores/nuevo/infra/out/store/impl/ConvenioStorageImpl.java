@@ -9,7 +9,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjDeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioRepository;
@@ -75,12 +75,12 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 			}
 			//log.error("test : lst" + lst.toString() );
 		}		
-		imprimirconvenio(convenio);
+		//imprimirconvenio(convenio);
 		return convenio;		
 	}
 
 	@Override
-	public List<Convenio> get(ConvenioConsultaFiltro filtro) {
+	public List<Convenio> get(ConvenioConsultaFiltroDto filtro) {
 		 
 		if ( filtro.getDesde() == null &&  filtro.getHasta() == null ) {
 			if ( filtro.getEmpresaId() != null && filtro.getEstado() != null ) {				
@@ -133,6 +133,11 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 	@Override
 	public void actualizarImportes( Integer convenioId, BigDecimal p_imp_deuda, BigDecimal p_imp_interes, BigDecimal p_imp_saldo_favor ) {
 		repository.actualizarImportes(convenioId, p_imp_deuda, p_imp_interes, p_imp_saldo_favor);
+	}
+
+	@Override
+	public void actualizarModoPago( Integer convenioId, Integer p_cuotas_canti, LocalDate p_intencion_pago ) {
+		repository.actualizarModoPago(convenioId, p_cuotas_canti, p_intencion_pago);
 	}
 	
 }

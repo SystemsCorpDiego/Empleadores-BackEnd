@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaAjustes;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Ajuste;
 
 public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
@@ -47,7 +47,7 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 	
 	@Query(value =" select * FROM fGestion_deuda_ajuste_consul( :empresaId, :entidad) ", 
 			nativeQuery = true)
-	public List<IGestionDeudaAjustes> getGestionDeudaAjustes(Integer empresaId, String entidad);
+	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustes(Integer empresaId, String entidad);
 	
 	@Transactional 
 	@Modifying(clearAutomatically = true)

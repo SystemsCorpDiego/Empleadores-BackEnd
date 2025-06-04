@@ -6,18 +6,27 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaChequeAltaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaConsultaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioMapper;
+import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeudaMapper;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
-import ar.ospim.empleadores.nuevo.infra.out.store.impl.ConvenioStorageImpl;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
@@ -49,6 +58,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConvenioServiceImpl implements ConvenioService {
 
 	private final ConvenioMapper mapper;
+	private final ConvenioDeudaMapper convenioDeudaMapper;
 	
 	private final EmpresaRepository empresaRepository;
 	private final ConvenioStorage storage;
@@ -63,6 +73,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final DeudaNominaRepository deudaNominaRepository;
 	private final AjusteRepository ajusteRepository; 
 	private final AfipInteresService afipInteresService;
+	private final DeudaService deudaService;
+	
 	
 	@Override
 	public Convenio generar(ConvenioAltaDto dto) {
@@ -320,12 +332,53 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 	}
 	
+	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio) {
+		ConvenioDeudaDto rta = mapper.run3(convenio);
+		rta.setDeclaracionesJuradas( convenioDeudaMapper.run(convenio.getDdjjs() ) );
+		
+		//Ahora Agrego registros posibles...		
+		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(convenio.getEmpresa().getId(), convenio.getEntidad());
+		if ( lstActas != null && lstActas.size()>0 ) {
+			if ( rta.getActas() == null )
+				rta.setActas( new ArrayList<ConvenioActaDeudaDto>() );
+			List<ConvenioActaDeudaDto> lstActasPosibles = mapper.run8(lstActas);
+			for ( ConvenioActaDeudaDto reg : lstActasPosibles) {
+				reg.setConvenioActaId(null);
+				rta.getActas().add(reg);
+			}
+		}
+		
+		List<IGestionDeudaAjustesDto>  lstAjustes = deudaService.getAjustesDto(convenio.getEmpresa().getId(), convenio.getEntidad());
+		if ( lstAjustes != null && lstAjustes.size()>0 ) {
+			if ( rta.getSaldosAFavor() == null )
+				rta.setSaldosAFavor( new ArrayList<ConvenioAjusteDeudaDto>() );
+			List<ConvenioAjusteDeudaDto> lstAjustesPosibles =  mapper.run9(lstAjustes); 
+			for ( ConvenioAjusteDeudaDto reg : lstAjustesPosibles) {
+				reg.setConvenioAjusteId(null);
+				rta.getSaldosAFavor().add(reg);
+			}
+		}
+				
+		List<IGestionDeudaDDJJDto>  lstDdjjs = deudaService.getDDJJDto(convenio.getEmpresa().getId(), convenio.getEntidad());
+		if ( lstDdjjs != null && lstDdjjs.size()>0 ) {
+			if ( rta.getDeclaracionesJuradas() == null )
+				rta.setDeclaracionesJuradas( new ArrayList<ConvenioDDJJDeudaDto>() );
+			List<ConvenioDDJJDeudaDto> lstDdjjsPosibles =  mapper.run10(lstDdjjs); 
+			for ( ConvenioDDJJDeudaDto reg : lstDdjjsPosibles) {
+				reg.setConvenioDdjjId(null);
+				rta.getDeclaracionesJuradas().add(reg);
+			}
+		}
+		
+		return rta;
+	}
+	
 	public Convenio get(Integer empresaId, Integer convenioId) {		
 		Convenio convenio = storage.get(convenioId);		
 		return convenio;
 	}
 		
-	public List<Convenio> get(ConvenioConsultaFiltro filtro) {
+	public List<Convenio> get(ConvenioConsultaFiltroDto filtro) {
 		List<Convenio> lst = null;		
 		lst = storage.get(filtro);		
 		return lst;
@@ -383,7 +436,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return reg;
 	}
 
-	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId){
+	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId) {
 		 List<ConvenioCuotaCheque> rta = null;
 		 rta = convenioCuotaChequeRepository.findByConvenioCuotaId(cuotaId);
 		 return rta;
@@ -525,4 +578,63 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return rta;
 	}
 
+	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago) {
+		Convenio convenio = storage.get(convenioId);
+		convenio.setIntencionDePago( planPago.getIntencionPago() );
+		
+		if ( planPago.getCantidadCuota() < convenio.getCuotasCanti() ) {
+			//borro las cuotas sobrantes			
+			for (ConvenioCuota reg : convenio.getCuotas()) {
+				if ( reg.getCuotaNro() > planPago.getCantidadCuota()) {
+					convenioCuotaChequeRepository.deleteByConvenioCuotaId(reg.getId());
+					convenioCuotaRepository.deleteById(reg.getId());					
+				}
+			}
+			
+			List<ConvenioCuota> filtered = convenio.getCuotas().stream()
+	                .filter(c -> c.getCuotaNro() <= planPago.getCantidadCuota() )
+	                .collect(Collectors.toList());
+			convenio.setCuotas(filtered);
+		}
+		
+		
+		List<ConvenioCuota> lstOri = convenio.getCuotas();
+		
+		convenio.setCuotasCanti(planPago.getCantidadCuota());		
+		calcularCuotas(convenio);		
+		List<ConvenioCuota> lstCuotasNew = convenio.getCuotas();
+		actualizarCuotas(lstOri, lstCuotasNew);
+		
+		convenio.setCuotas(lstOri);
+		
+		if ( convenio.getCuotas() != null ) {
+			 for (ConvenioCuota caj:  convenio.getCuotas()) {
+					caj = convenioCuotaRepository.save(caj);
+				}
+		 }
+		
+		storage.actualizarModoPago(convenio.getId(), convenio.getCuotasCanti(), convenio.getIntencionDePago());
+		
+		return convenio;
+	}
+	
+	private void actualizarCuotas(List<ConvenioCuota> lstOri, List<ConvenioCuota> lstNew ) {
+		for ( ConvenioCuota reg : lstOri ) {
+			for ( ConvenioCuota regNew : lstNew ) {
+				if ( regNew.getCuotaNro().equals(reg.getCuotaNro()) ) {
+					reg.setImporte(regNew.getImporte());
+					reg.setVencimiento(regNew.getVencimiento());
+				}
+			}			
+		}
+		
+		if ( lstOri.size() < lstNew.size() ) {
+			for ( ConvenioCuota regNew : lstNew ) {
+				if ( regNew.getCuotaNro() >  lstOri.size() ) {
+					lstOri.add(regNew);
+				}
+			}
+		}
+	}
+	
 }

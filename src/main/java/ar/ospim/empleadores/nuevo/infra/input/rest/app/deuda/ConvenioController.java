@@ -20,6 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeudaMapper;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
@@ -81,6 +95,16 @@ public class ConvenioController {
 		return ResponseEntity.ok( mapper.run(convenioNew) );
 	}
 	
+	@PostMapping(value = "/{convenioId}/plan-pago")
+	public ResponseEntity<Void>  actualizarPlanPago(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId,  @RequestBody @Valid PlanPagoDto planPago) {				
+		log.debug( "ConvenioController.actualizarPlanPago - planPago " + planPago.toString() );  
+				
+		//Convenio convenioNew = service.generar(convenio);
+		service.actualizarPlanPago(empresaId, convenioId, planPago);
+		
+		return ResponseEntity.ok( null );
+	}
+	
 	@PostMapping(value = "/{convenioId}/estado-set/{estado}")
 	public ResponseEntity<ConvenioCambioEstadoDto>  actualizarEstado(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("estado") String estado) {
 		ConvenioCambioEstadoDto rta = null;
@@ -104,6 +128,16 @@ public class ConvenioController {
 	public ResponseEntity<ConvenioDeudaDto>  getDeudaDto(@PathVariable("empresaId") Integer empresaId, @PathVariable("id") Integer convenioId) {
 		log.debug( "ConvenioController.getDeudaDto - convenioId:  " + convenioId.toString() );  
 		
+		Convenio convenio = service.get(empresaId, convenioId);		
+		ConvenioDeudaDto rta = service.getConvenioDeudaDto(convenio);
+		
+		return ResponseEntity.ok( rta );
+	}
+	
+	@GetMapping(value = "/{id}/deudaDto/all")
+	public ResponseEntity<ConvenioDeudaDto>  getAllDeudaDto(@PathVariable("empresaId") Integer empresaId, @PathVariable("id") Integer convenioId) {
+		log.debug( "ConvenioController.getDeudaDto - convenioId:  " + convenioId.toString() );  
+		
 		Convenio convenio = service.get(empresaId, convenioId);
 		
 		ConvenioDeudaDto rta = mapper.run3(convenio);
@@ -111,7 +145,6 @@ public class ConvenioController {
 		
 		return ResponseEntity.ok( rta );
 	}
-	
 	
 	@GetMapping(value = "")
 	public ResponseEntity<List<ConvenioConsultaDto>>  get(@PathVariable("empresaId") Integer empresaId,
@@ -122,7 +155,7 @@ public class ConvenioController {
 		
 		List<ConvenioConsultaDto> lst = null; 
 		
-		ConvenioConsultaFiltro filtro = new ConvenioConsultaFiltro();
+		ConvenioConsultaFiltroDto filtro = new ConvenioConsultaFiltroDto();
 		filtro.setDesde(desde);
 		filtro.setHasta(hasta);
 		filtro.setEmpresaId(empresaId);

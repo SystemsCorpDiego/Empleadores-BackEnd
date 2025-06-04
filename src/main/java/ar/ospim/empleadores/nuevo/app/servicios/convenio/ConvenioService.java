@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.data.repository.query.Param;
-
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioAltaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioConsultaFiltro;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaChequeAltaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
@@ -20,9 +20,12 @@ public interface ConvenioService {
 
 	public Convenio generar(ConvenioAltaDto dto);
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado);
+	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago);
+	
+	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio);	
 	
 	public Convenio get(Integer empresaId, Integer convenioId);	
-	public List<Convenio> get(ConvenioConsultaFiltro filtro);
+	public List<Convenio> get(ConvenioConsultaFiltroDto filtro);
 	
 	public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
 	

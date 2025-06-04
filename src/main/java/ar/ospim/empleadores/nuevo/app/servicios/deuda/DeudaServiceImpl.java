@@ -10,11 +10,9 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaAjustes;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.IGestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AjusteStorage;
-import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;
-import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
@@ -31,7 +29,6 @@ public class DeudaServiceImpl implements DeudaService {
 	private DeudaStorage deudaStorage;	
 	private AjusteStorage ajusteStorage;
 	private EmpresaStorage empresaStorage;
-
     
     public List<ActaMolineros>  getMolinerosActas(Integer empresaId) {
 		
@@ -65,8 +62,6 @@ public class DeudaServiceImpl implements DeudaService {
 		return rta; 
     }
 	
-	
-
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId) {
 		String cuit = null;
 		
@@ -94,7 +89,7 @@ public class DeudaServiceImpl implements DeudaService {
 		return deudaStorage.getNominaDto( empresa.get().getCuit(), entidad );
 	}
 	
-	public List<IGestionDeudaAjustes>  getAjustesDto(Integer empresaId, String entidad) {
+	public List<IGestionDeudaAjustesDto>  getAjustesDto(Integer empresaId, String entidad) {
 		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
 		if ( empresa.isEmpty()  ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
