@@ -22,6 +22,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
@@ -81,6 +82,15 @@ public class ConvenioServiceImpl implements ConvenioService {
 	@Transactional
 	public Convenio actualizar(ConvenioModiDto dto) {
 		Convenio convenioOri = storage.get(dto.getConvenioId());
+
+		//Borro todos los Detalles del Contrato ...
+		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
+		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
+		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
+			convenioDdjjRepository.baja( reg.getId() );
+		}
+		
+
 		
 		ConvenioAltaDto dtoAlta = mapper.run(dto);
 		dtoAlta.setEntidad(convenioOri.getEntidad());		
@@ -89,13 +99,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 		convenioNew.setEstado( convenioOri.getEstado() );
 		convenioNew.setCreatedOn( convenioOri.getCreatedOn() );
 		
-		
-		//Borro todos los Detalles del Contrato ...
-		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
-		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
-		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
-			convenioDdjjRepository.baja( reg.getId() );
-		}
 		
 		//Guardo los Detalles nuevos.-
 		guardarConvenioDetalle( convenioNew );
@@ -109,8 +112,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 		//convenioNew.setActas(null);
 		//convenioNew.setDdjjs(null);
 		//convenioNew.setCuotas(null);
-		storage.guardar(convenioNew);
+		convenioNew = storage.guardar(convenioNew);
 		
+
 		return convenioNew;		
 	}
 	 

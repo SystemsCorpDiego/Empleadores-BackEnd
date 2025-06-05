@@ -92,7 +92,7 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 					if( filtro.getEstado() != null ) {		
 						return repository.findByEstado(filtro.getEstado());
 					} else {
-						return null;
+						return repository.findAll();						
 					}						
 				}
 			}
@@ -106,7 +106,8 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 			} else {
 				if (  filtro.getHasta() == null ) {
 					filtro.setHasta( filtro.getDesde().plusMonths(11) );
-				} else {
+				}
+				if (  filtro.getDesde() == null ) {
 					filtro.setDesde( filtro.getHasta().minusMonths(11) );
 				}
 			}			 
