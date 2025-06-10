@@ -54,7 +54,9 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 		
 		BigDecimal importe = BigDecimal.ZERO;
 		
-		if ( empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 ) {			
+		if ( aporteSeteo.getAporte().equals("ART46")  || 
+				(empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 )
+			) {			
 			if ( aporteSeteo.getCalculoTipo().equals("EN")  ) {
 				importe =  aporteSeteo.getCalculoValor();
 			}
