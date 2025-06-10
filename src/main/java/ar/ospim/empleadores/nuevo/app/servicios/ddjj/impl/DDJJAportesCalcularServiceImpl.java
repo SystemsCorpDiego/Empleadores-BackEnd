@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.app.servicios.ddjj.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,9 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 		
 		BigDecimal importe = BigDecimal.ZERO;
 		
-		if ( empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 ) {			
+		if ( aporteSeteo.getAporte().equals("ART46")  || 
+				(empleado.getRemunerativo() != null && empleado.getRemunerativo().compareTo(BigDecimal.ZERO)>0 )
+			) {			
 			if ( aporteSeteo.getCalculoTipo().equals("EN")  ) {
 				importe =  aporteSeteo.getCalculoValor();
 			}
@@ -83,7 +86,7 @@ public class DDJJAportesCalcularServiceImpl implements DDJJAportesCalcularServic
 						importe = cons.get(0).getBasico();
 					}
 				}
-				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L));
+				importe = importe.multiply(aporteSeteo.getCalculoValor()).divide(BigDecimal.valueOf(100L), 2, RoundingMode.HALF_EVEN);
 			}	 
 		}
 
