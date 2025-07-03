@@ -1,5 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
+import java.math.BigDecimal;
+
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
@@ -45,6 +48,15 @@ public class ConvenioSistemasController {
 		
 		Convenio convenio = service.get(empresaId, convenioId);		
 		ConvenioDeudaDto rta = service.getConvenioDeudaDto(convenio);
+		
+		//paso a negativo los saldos a favor
+		if ( rta.getSaldosAFavor() != null && rta.getSaldosAFavor().size()>0) {
+			for (ConvenioAjusteDeudaDto reg : rta.getSaldosAFavor()) {
+				if ( reg.getImporte().negate().compareTo(BigDecimal.ZERO) < 0 ) {
+					reg.setImporte( reg.getImporte().negate() );
+				}
+			}
+		}
 		
 		return ResponseEntity.ok( rta );
 	}
