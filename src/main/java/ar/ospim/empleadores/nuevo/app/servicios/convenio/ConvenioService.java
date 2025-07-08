@@ -23,6 +23,7 @@ public interface ConvenioService {
 	public Convenio generar(ConvenioAltaDto dto);
 	public Convenio actualizar(ConvenioModiDto dto);
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado);
+	public Convenio cambiarEstado(Integer convenioId, String estado);
 	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago);
 	
 	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio);	

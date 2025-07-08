@@ -258,6 +258,16 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return convenio;		
 	}
 	
+	public Convenio cambiarEstado(Integer convenioId, String estado) {
+		//cambio estado
+		Convenio  convenio = storage.getById(convenioId);
+		convenio.setEstado(estado);
+		convenio = storage.guardar(convenio);
+		
+		//TODO: falta enviar convenio a molineros !!!
+		
+		return convenio;		
+	}
 	private void calcularCapital(Convenio convenio) {
 		//Actualiza ImporteDeuda y SaldoAFavor en Convenio.-
 		BigDecimal importe = BigDecimal.ZERO;
@@ -484,7 +494,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 
 	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId) {
 		 List<ConvenioCuotaCheque> rta = null;
-		 rta = convenioCuotaChequeRepository.findByConvenioCuotaId(cuotaId);
+		 rta = convenioCuotaChequeRepository.findByConvenioCuotaConvenioIdAndConvenioCuotaId(convenioId, cuotaId);
 		 return rta;
 	}
 
