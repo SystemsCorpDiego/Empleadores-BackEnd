@@ -10,6 +10,6 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuot
 @Repository
 public interface ConvenioCuotaRepository extends JpaRepository< ConvenioCuota, Integer> {
 
-	public List<ConvenioCuota> findByConvenioId(Integer id);
+	public List<ConvenioCuota> findByConvenioIdOrderByCuotaNro(Integer id);
 	
 }

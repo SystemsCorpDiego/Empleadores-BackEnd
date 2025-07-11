@@ -6,11 +6,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.ospim.empleadores.comun.exception.BusinessException;
+import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
@@ -22,7 +26,6 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
@@ -59,7 +62,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 public class ConvenioServiceImpl implements ConvenioService {
-
+ 
+	private final MessageSource messageSource;
 	private final ConvenioMapper mapper;
 	private final ConvenioDeudaMapper convenioDeudaMapper;
 	
@@ -83,6 +87,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 	public Convenio actualizar(ConvenioModiDto dto) {
 		Convenio convenioOri = storage.get(dto.getConvenioId());
 
+		 
+		//TODO: Ver si se validan CHEQUES. Por ahora se borran...
+		 
+		
 		//Borro todos los Detalles del Contrato ...
 		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
 		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
@@ -103,9 +111,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 		//Guardo los Detalles nuevos.-
 		guardarConvenioDetalle( convenioNew );
 		
-		PlanPagoDto planPago = mapper.run2(dto);
+		PlanPagoDto planPagoNew = mapper.run2(dto);
 		convenioNew.setCuotas(convenioOri.getCuotas());
-		actualizarPlanPago( convenioNew, planPago);
+		actualizarPlanPago( convenioOri, planPagoNew);
+		convenioNew.setCuotas(convenioOri.getCuotas());
 		
 		//storage.actualizarImportes(convenioNew.getId(), convenioNew.getImporteDeuda(), convenioNew.getImporteIntereses(), convenioNew.getImporteSaldoFavor());
 		//convenioNew.setAjustes(null);
@@ -443,7 +452,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	public List<ConvenioCuotaConsultaDto> getCuotas(Integer empresaId, Integer convenioId){
 		List<ConvenioCuotaConsultaDto> rta = null;
-		List<ConvenioCuota> lstCuotas = convenioCuotaRepository.findByConvenioId(convenioId);
+		List<ConvenioCuota> lstCuotas = convenioCuotaRepository.findByConvenioIdOrderByCuotaNro(convenioId);
 		rta = mapper.run6(lstCuotas);
 		
 		String listCheques = "";
@@ -461,7 +470,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 				listCheques = listCheques.substring(2);
 			}
 			convenioCuota.setChequesNro(listCheques);
-			convenioCuota.setChequestotal(impTotal);
+			convenioCuota.setChequesTotal(impTotal);
 		}
 		
 		return rta;
@@ -477,6 +486,11 @@ public class ConvenioServiceImpl implements ConvenioService {
 		reg.setFecha(cheque.getFecha());
 		reg.setImporte(cheque.getImporte());
 		reg.setNumero(cheque.getNumero());
+		
+		if ( reg.getImporte().compareTo(BigDecimal.ZERO) < 1 ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.IMPORTE_NEGATIVO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.IMPORTE_NEGATIVO.name(), String.format(errorMsg, "Importe"));			
+		}
 		
 		rta = convenioCuotaChequeRepository.save(reg);
 		
@@ -504,7 +518,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 return rta;
 	}
 	
-	public void borrarCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId) {
+	public void borrarCheque(Integer empresaId, Integer convenioId, Integer cuotaId, Integer chequeId) {		
 		convenioCuotaChequeRepository.deleteById(chequeId);
 	}
 	
@@ -641,10 +655,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 			//borro las cuotas sobrantes			
 			for (ConvenioCuota reg : convenio.getCuotas()) {
 				if ( reg.getCuotaNro() > planPago.getCantidadCuota()) {
-					convenioCuotaChequeRepository.deleteByConvenioCuotaId(reg.getId());
+					convenioCuotaChequeRepository.deleteByConvenioCuotaId(reg.getId());					
 					convenioCuotaRepository.deleteById(reg.getId());					
 				}
 			}
+			convenioCuotaChequeRepository.flush();
+			convenioCuotaRepository.flush();
 			
 			List<ConvenioCuota> filtered = convenio.getCuotas().stream()
 	                .filter(c -> c.getCuotaNro() <= planPago.getCantidadCuota() )
@@ -667,6 +683,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 					caj = convenioCuotaRepository.save(caj);
 			}
 		}
+		convenioCuotaRepository.flush();
 		
 		storage.actualizarModoPago(convenio.getId(), convenio.getCuotasCanti(), convenio.getIntencionDePago());
 		

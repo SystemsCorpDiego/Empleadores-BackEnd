@@ -14,6 +14,6 @@ public class ConvenioCuotaConsultaDto {
 	private LocalDate vencimiento;
 	
 	private String chequesNro;
-	private BigDecimal Chequestotal;
+	private BigDecimal chequesTotal;
 	
 }

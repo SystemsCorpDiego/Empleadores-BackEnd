@@ -23,6 +23,7 @@ public enum CommonEnumException {
 	ID_DIFIERE_DE_ATRIBUTO,
 	MAIL_FORMATO,
 	ERROR_FECHA_PASADA,
+	IMPORTE_NEGATIVO,
 	;
 	
 	public String getMsgKey() {
