@@ -120,6 +120,7 @@ public class DDJJImprimirServiceImpl implements DDJJImprimirService {
 		Long aux = Long.parseLong(String.valueOf(id));  
 		//params.put("ddjjId",  new Long( 1 ));
 		
+	
 	    try {
 	    	params = new HashMap<String, Object>();
 	    	params.put("ddjjId", aux);

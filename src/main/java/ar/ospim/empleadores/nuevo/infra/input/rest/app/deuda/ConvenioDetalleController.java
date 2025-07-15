@@ -20,6 +20,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
+import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioChequeEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

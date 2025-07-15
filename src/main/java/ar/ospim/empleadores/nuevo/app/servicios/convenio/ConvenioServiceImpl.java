@@ -33,6 +33,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioChequeEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
@@ -487,6 +488,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 		reg.setImporte(cheque.getImporte());
 		reg.setNumero(cheque.getNumero());
 		
+		if ( reg.getNumero() != null ) {
+			reg.setEstado( ConvenioChequeEstadoEnum.PENDIENTE.getCodigo() );
+		} else {
+			reg.setEstado( ConvenioChequeEstadoEnum.CARGADO.getCodigo() );
+		}
+		
 		if ( reg.getImporte().compareTo(BigDecimal.ZERO) < 1 ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.IMPORTE_NEGATIVO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.IMPORTE_NEGATIVO.name(), String.format(errorMsg, "Importe"));			
@@ -502,6 +509,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		reg.setNumero(cheque.getNumero());
 		reg.setFecha(cheque.getFecha());
 		reg.setImporte(cheque.getImporte());
+		reg.setEstado(cheque.getEstado());
 		reg = convenioCuotaChequeRepository.save(reg);
 		return reg;
 	}

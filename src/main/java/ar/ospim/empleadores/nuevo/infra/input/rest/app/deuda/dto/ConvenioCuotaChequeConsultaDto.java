@@ -14,4 +14,6 @@ public class ConvenioCuotaChequeConsultaDto {
 	private LocalDate fecha;
 	private BigDecimal importe;
 	
+	private String estado;
+	
 }

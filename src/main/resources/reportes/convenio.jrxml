@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="convenio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="59750146-e434-41de-81b3-44262cc69142">
+	<parameter name="empresaCuit" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="empresaRazonSocial" class="java.lang.String"/>
+	<parameter name="fechaIntencionPago" class="java.lang.String"/>
+	<parameter name="tituloEntidad" class="java.lang.String"/>
+	<parameter name="convenioImporteDeuda" class="java.lang.String"/>
+	<parameter name="convenioImporteSaldoFavor" class="java.lang.String"/>
+	<parameter name="convenioImporteFinanciar" class="java.lang.String"/>
+	<parameter name="convenioCuotasCantidad" class="java.lang.String"/>
+	<parameter name="convenioImporteTotalIntereses" class="java.lang.String"/>
+	<parameter name="convenioImporteTotal" class="java.lang.String"/>
+	<parameter name="convenioEstado" class="java.lang.String"/>
+	<parameter name="P_logoPath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="cuotaNro" class="java.lang.String"/>
+	<field name="cuotaImporte" class="java.lang.String"/>
+	<field name="cuotaVto" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="10" y="5" width="146" height="65" uuid="d6a4a027-022e-417b-8a6a-115a6ccd36b9"/>
+				<imageExpression><![CDATA[$P{P_logoPath}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="80" y="44" width="480" height="15" uuid="7aa6ea74-2285-47d4-81bb-453b94a8e8aa"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Convenio de Deuda]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="15" width="480" height="15" uuid="83f4153e-afcb-4400-91b8-122af13ec8b8"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tituloEntidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="246" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="43" y="31" width="113" height="15" uuid="a858cf9b-05ab-487e-b4c8-ee6aecc760c2"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresaCuit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="10" width="271" height="15" isPrintWhenDetailOverflows="true" uuid="5b5145a8-7773-4bec-b3e4-d4ce6d2a3ac3"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{empresaRazonSocial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="31" width="34" height="15" uuid="cbc8c73f-2757-4992-97b3-4d1f765194bb"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUIT:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="10" width="62" height="15" uuid="445b3308-8b7d-41a5-a8eb-c21335ca3b7e"/>
+				<textElement>
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empleador: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="341" y="30" width="122" height="15" uuid="6c0423c0-ad2d-4caf-bec9-86ba009fa866">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intención de Pago:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="466" y="30" width="75" height="15" uuid="d10ac0a7-8bab-4e61-bc93-2b94d9abab66"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{fechaIntencionPago}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="230" width="108" height="15" uuid="a388e739-db50-4195-95bd-6663dce5df1d"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de Cuotas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="65" width="134" height="15" uuid="36c9307d-bad7-4ea5-abe4-d0db7b814cac"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle del Convenio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="80" width="460" height="16" uuid="ebc7a2e1-eb72-463b-8e88-b8fa1e8186e7"/>
+				<text><![CDATA[Ud. está generando un convenio con la siguiente información:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="110" width="160" height="15" uuid="658c4022-7c97-4ddb-b552-4c42d324dbba">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe de Deuda:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="130" width="170" height="15" uuid="a9cbbdfb-4c1d-43ee-94d2-f744e5c9f9c8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo a Favor utilizado:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="145" width="170" height="15" uuid="2ab60573-98db-4788-829a-6103c1c0c706">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto a financiar:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="160" width="170" height="15" uuid="38343f2b-be89-469b-9d1d-e38b49057937">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad de cuotas:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="175" width="172" height="15" uuid="8aca3668-76c5-4862-b47e-bc598914667d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Intereses de financiación:
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="198" width="172" height="15" uuid="66ef152f-6a10-44f5-aa80-02d1dfa021f1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total a pagar:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="291" y="110" width="159" height="15" uuid="3db26ec7-8387-4315-855d-e58cd6c2f458"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioImporteDeuda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="130" width="159" height="15" uuid="4b1041ab-e407-47b1-bafc-1a20c02c18c3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioImporteSaldoFavor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="146" width="159" height="14" uuid="132ba6e9-ad21-403b-890b-15bd89c4ac2b"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioImporteFinanciar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="161" width="159" height="14" uuid="8260e2ce-8298-4d88-aa73-96a3765b2092"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioCuotasCantidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="176" width="159" height="14" uuid="c79ac695-abd8-4653-bce6-80201789e68c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioImporteTotalIntereses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="198" width="159" height="15" uuid="c2b28913-bf48-42ac-80c6-f63184149566"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{convenioImporteTotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="10" width="83" height="15" uuid="b0dd9ef1-a19f-4c8c-838e-18d515bc3d29">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans Mono" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estado:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="466" y="10" width="94" height="15" uuid="5a39bab2-92b6-4434-a94d-149db1b92b38"/>
+				<textFieldExpression><![CDATA[$P{convenioEstado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="120" y="8" width="69" height="15" uuid="390c4f8d-0567-4289-9f4a-2949dbfc7966"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuota Nro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="199" y="8" width="100" height="15" uuid="a55ccdef-194e-44f1-9b70-3cae5e681e96"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="313" y="8" width="102" height="15" uuid="f971e7a0-f79f-422a-80a1-9ebb457078dd"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vencimiento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="313" y="0" width="102" height="16" uuid="c4d0d6f5-8a8a-468e-b9f8-5e423e1017e5">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c7c63fd1-49a4-4f4f-a09e-be494c71ff07"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cuotaVto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="199" y="0" width="100" height="16" uuid="6dc88c46-16ea-47e2-97b5-18e67095d95f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d20a1991-8d69-45c1-bd75-33e8da08e692"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{cuotaImporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="69" height="16" uuid="927d6853-9db6-4bd3-bdf3-186869bc323e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="561a5eed-05f4-4846-b66a-c131f032becd"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cuotaNro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

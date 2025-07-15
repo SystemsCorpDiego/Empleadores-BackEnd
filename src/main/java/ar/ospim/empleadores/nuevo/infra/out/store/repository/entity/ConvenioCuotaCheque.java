@@ -48,4 +48,5 @@ public class ConvenioCuotaCheque {
 	private LocalDate fecha;
 	private BigDecimal importe;
 
+	private String estado;
 }

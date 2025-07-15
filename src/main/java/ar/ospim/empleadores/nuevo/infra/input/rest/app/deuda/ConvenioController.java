@@ -1,10 +1,13 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.validation.Valid;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
@@ -27,6 +31,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @RestController
@@ -37,6 +42,7 @@ public class ConvenioController {
 	private final ConvenioMapper mapper;
 	private final ConvenioDeudaMapper convenioDeudaMapper; 
 	private final ConvenioService service;
+	private final ConvenioImprimirService imprimirService;
 	private final AfipInteresStorage afipInteresStorage;
 	
 	
@@ -60,6 +66,27 @@ public class ConvenioController {
 		Convenio convenioNew = service.actualizar(convenio);
 		
 		return ResponseEntity.ok( mapper.run(convenioNew) );
+	}
+	
+	@GetMapping(value = "/{convenioId}/imprimir")
+	public ResponseEntity<?> imprimir(@PathVariable Integer empresaId, @PathVariable Integer convenioId)   throws JRException, SQLException {
+		log.debug("empresaId: " + empresaId + "id: " + convenioId );
+		 
+		byte[] auxPdf = imprimirService.run(convenioId);
+		
+		String contentType = "application/octet-stream";
+        String headerValue = "attachment; filename=\"" + "ddjj_1.pdf" + "\"";
+         
+
+        log.debug("FIN" );
+        
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
+                .body(auxPdf);  
+        
+		//return ResponseEntity.noContent().<Void>build();
+		//return ResponseEntity.ok(aux);
 	}
 	
 	@GetMapping(value = "/{id}/deudaDto/all")
