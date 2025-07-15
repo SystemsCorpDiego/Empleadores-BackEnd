@@ -105,21 +105,34 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 		ConvenioEstadoEnum estado = ConvenioEstadoEnum.map(  convenio.getEstado() );
 		params.put("convenioEstado", estado.getDescripcion());
 	
-    	if ( convenio.getIntencionDePago() != null)
+    	if ( convenio.getIntencionDePago() != null)  { 
 			params.put("fechaIntencionPago", dtProvider.getDateToString( convenio.getIntencionDePago()) );
+    	} else {
+    		params.put("fechaIntencionPago", " " );
+    	}
 	
-    	if (convenio.getImporteDeuda() != null)
+    	if (convenio.getImporteDeuda() != null) {
     		params.put("convenioImporteDeuda", df.format(convenio.getImporteDeuda()) );
-    	
-    	if ( convenio.getImporteSaldoFavor() != null)
+    	} else {
+    		params.put("convenioImporteDeuda", "0,00");
+    	}
+    	if ( convenio.getImporteSaldoFavor() != null) {
     		params.put("convenioImporteSaldoFavor",  df.format(convenio.getImporteSaldoFavor()) );
+    	} else {
+    		params.put("convenioImporteSaldoFavor",  "0,00" );
+    	}
     	
-    	if ( convenio.getImporteIntereses() != null)
+    	if ( convenio.getImporteIntereses() != null) {
     		params.put("convenioImporteTotalIntereses",  df.format(convenio.getImporteIntereses()) );
+    	} else {
+    		params.put("convenioImporteTotalIntereses",   "0,00"  );
+    	}
 
-    	if ( convenio.getCuotasCanti() != null)
+    	if ( convenio.getCuotasCanti() != null) {
     		params.put("convenioCuotasCantidad", convenio.getCuotasCanti().toString());
-    	
+    	} else {
+    		params.put("convenioCuotasCantidad", " ");
+    	}
 		
 		if (  convenio.getImporteSaldoFavor() != null ) {
 			
@@ -143,12 +156,21 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 			
 			for(ConvenioCuotaConsultaDto cuota :lst) {
 				registro = new HashMap(); 
-				if ( cuota.getNumero() != null)
+				if ( cuota.getNumero() != null) {
 					registro.put("cuotaNro", cuota.getNumero().toString());
-				registro.put("cuotaImporte", df.format(cuota.getImporte()) );
-		    	if ( cuota.getVencimiento() != null)
+				} else {
+					registro.put("cuotaNro", " ");
+				}
+				if ( cuota.getImporte() != null ) {
+					registro.put("cuotaImporte", df.format(cuota.getImporte()) );
+				} else {
+					registro.put("cuotaImporte", "0,00" );
+				}
+		    	if ( cuota.getVencimiento() != null) {
 		    		registro.put("cuotaVto", dtProvider.getDateToString( cuota.getVencimiento()) );
-
+		    	} else {
+		    		registro.put("cuotaVto", " ");
+		    	}
 				vecDetalle.add(registro);
 			}
 		}

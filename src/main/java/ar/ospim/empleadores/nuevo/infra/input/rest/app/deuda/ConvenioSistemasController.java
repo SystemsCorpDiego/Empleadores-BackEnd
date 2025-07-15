@@ -50,6 +50,7 @@ public class ConvenioSistemasController {
 		ConvenioDeudaDto rta = service.getConvenioDeudaDto(convenio);
 		
 		//paso a negativo los saldos a favor
+		/*
 		if ( rta.getSaldosAFavor() != null && rta.getSaldosAFavor().size()>0) {
 			for (ConvenioAjusteDeudaDto reg : rta.getSaldosAFavor()) {
 				if ( reg.getImporte().negate().compareTo(BigDecimal.ZERO) < 0 ) {
@@ -57,7 +58,7 @@ public class ConvenioSistemasController {
 				}
 			}
 		}
-		
+		*/
 		return ResponseEntity.ok( rta );
 	}
 	
