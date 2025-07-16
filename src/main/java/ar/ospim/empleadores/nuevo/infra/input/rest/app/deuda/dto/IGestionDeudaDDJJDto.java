@@ -11,6 +11,6 @@ public interface IGestionDeudaDDJJDto {
 		String getAporteCodigo();
 		String getAporteDescripcion();
 	    BigDecimal getImporte();
-	    BigDecimal getIntereses(); 
+	    BigDecimal getInteres(); 
 	    
 }

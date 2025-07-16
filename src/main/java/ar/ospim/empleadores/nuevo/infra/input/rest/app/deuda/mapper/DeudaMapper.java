@@ -34,6 +34,9 @@ public interface DeudaMapper {
 	@Mapping(target = "intereses", source = "interes")		
 	GestionDeudaDDJJDto run(DeudaNomina reg);
 	
+	@Mapping(target = "intereses", source = "interes")		
+	GestionDeudaDDJJDto run(IGestionDeudaDDJJDto reg);
+	
 	List<GestionDeudaDDJJDto> runNomina2(List<IGestionDeudaDDJJDto> lst);
 	
 }
