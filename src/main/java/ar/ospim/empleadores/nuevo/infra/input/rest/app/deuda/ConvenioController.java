@@ -104,7 +104,8 @@ public class ConvenioController {
 	}
 	
 
-	@PostMapping("/calcular-cuota")
+	//TODO: Este hay que eliminarlo
+	@PostMapping("/calcular-cuota-old")
 	public ResponseEntity<CalcularCuotaDto> getCuota(@PathVariable("empresaId") Integer empresaId, @RequestBody @Valid CalcularCuotaDto dto) {
 		
 		dto.setImporteCuota(BigDecimal.ZERO);
@@ -121,7 +122,7 @@ public class ConvenioController {
 	}
 	
 	//CalcularCuotasCalculadaDto
-	@PostMapping("/calcular-cuota-new")
+	@PostMapping("/calcular-cuota")
 	public ResponseEntity<List<CalcularCuotasCalculadaDto>> getCuotas(@PathVariable("empresaId") Integer empresaId, @RequestBody @Valid CalcularCuotaDto dto) {		
 		dto.setImporteCuota(BigDecimal.ZERO);
 		dto.setImporteInteresTotal(BigDecimal.ZERO);

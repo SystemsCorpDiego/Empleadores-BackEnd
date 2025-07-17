@@ -9,6 +9,6 @@ public class GestionDeudaDto {
 
 	List<GestionDeudaDDJJDto> declaracionesJuradas;
 	List<GestionDeudaActaDto> actas;
-	List<IGestionDeudaAjustesDto> saldosAFavor;
+	List<GestionDeudaAjustesDto> saldosAFavor;
 	
 }

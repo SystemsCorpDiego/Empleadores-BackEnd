@@ -131,10 +131,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 	 
 	@Override
 	public Convenio generar(ConvenioAltaDto dto) {
-		 validarAlta(dto);
 		 
 		 Convenio convenio = armarConvenio(dto);
-		 calcularCuotas( convenio);		 
+		 calcularCuotas( convenio );		 
+
+		 validarAlta(convenio);
+
 		 convenio = guardarConvenio(convenio);
 		 
 		 return convenio; 
@@ -311,11 +313,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private void calcularCuotas(Convenio convenio) {
 		ConvenioCuota cuota = null;
 		BigDecimal capital = getCapitalConvenio(convenio);
+		BigDecimal totalInteres = BigDecimal.ZERO; 
 		Integer cantiCuotas = convenio.getCuotasCanti();
 		LocalDate vencimiento = convenio.getIntencionDePago();
 		
+		/*
 		BigDecimal importeCuota = calcularImporteCuota(capital, cantiCuotas, vencimiento);
-		
 		convenio.setCuotas( new ArrayList<ConvenioCuota>() );
 		for (int cuotaNro = 1; cuotaNro <= cantiCuotas; cuotaNro++) {
 			cuota = new ConvenioCuota();
@@ -331,6 +334,21 @@ public class ConvenioServiceImpl implements ConvenioService {
 		imptotalAPagar = importeCuota.multiply(BigDecimal.valueOf(cantiCuotas));
 				
 		convenio.setImporteIntereses( imptotalAPagar.subtract( capital ) );
+		*/
+		List<CalcularCuotasCalculadaDto> lst = calcularCuotas( capital, cantiCuotas, vencimiento);
+		convenio.setCuotas( new ArrayList<ConvenioCuota>() );		
+		for (CalcularCuotasCalculadaDto cuotaDto : lst) {
+			cuota = new ConvenioCuota();
+			cuota.setConvenio(convenio);
+			cuota.setCuotaNro(cuotaDto.getNumero());
+			cuota.setImporte(cuotaDto.getImporte());
+			cuota.setInteres( cuotaDto.getInteres() );
+			cuota.setVencimiento( cuotaDto.getVencimiento() );
+			
+			convenio.getCuotas().add(cuota);
+			totalInteres = totalInteres.add(cuota.getInteres());
+		}
+		convenio.setImporteIntereses( totalInteres );
 	}
 	
 	public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
@@ -356,7 +374,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return importeCuota;
 	}
 	
-	public List<CalcularCuotasCalculadaDto> calcularCuotas(BigDecimal capital, Integer cuotas, LocalDate vencimiento ){
+	public List<CalcularCuotasCalculadaDto> calcularCuotas(BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
 		
 		if ( capital == null || capital.compareTo(BigDecimal.ZERO) < 1 ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
@@ -438,9 +456,20 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return importeCuotaSF;
 	}
 	
-	private void validarAlta(ConvenioAltaDto dto) {
+	private void validarAlta(Convenio convenio) {
+		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
+			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
+		validarActualizacion(convenio);
+	}
+	
+	private void validarActualizacion(Convenio convenio) {
+		 
 		
 	}
+
 	
 	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio) {
 		ConvenioDeudaDto rta = mapper.run3(convenio);

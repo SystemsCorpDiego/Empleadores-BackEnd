@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
@@ -52,7 +55,14 @@ public class DeudaController {
 		rta.setDeclaracionesJuradas( lst2  );
 		//rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
 		
-		rta.setSaldosAFavor( deudaService.getAjustesDto(empresaId, entidadCodigo) );
+		List<IGestionDeudaAjustesDto> iLst =  deudaService.getAjustesDto(empresaId, entidadCodigo);
+		List<GestionDeudaAjustesDto> lst3 = mapper.run2(iLst);
+		
+		for(GestionDeudaAjustesDto reg :  lst3) {
+			reg.setImporte( reg.getImporte( ).multiply( BigDecimal.valueOf(-1)) );
+		}
+		
+		rta.setSaldosAFavor( lst3  );
 		
 		return ResponseEntity.ok( rta );
 	}

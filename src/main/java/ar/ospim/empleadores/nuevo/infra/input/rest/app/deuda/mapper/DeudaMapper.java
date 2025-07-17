@@ -6,7 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaActaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
@@ -38,5 +40,8 @@ public interface DeudaMapper {
 	GestionDeudaDDJJDto run(IGestionDeudaDDJJDto reg);
 	
 	List<GestionDeudaDDJJDto> runNomina2(List<IGestionDeudaDDJJDto> lst);
+	
+	
+	List<GestionDeudaAjustesDto> run2( List<IGestionDeudaAjustesDto> lst);
 	
 }

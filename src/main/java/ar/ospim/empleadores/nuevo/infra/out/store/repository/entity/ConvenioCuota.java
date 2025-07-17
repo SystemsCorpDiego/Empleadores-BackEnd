@@ -50,10 +50,13 @@ public class ConvenioCuota {
 	
 	@Column(name = "importe")
 	private BigDecimal importe;
+	
+	@Column(name = "interes")
+	private BigDecimal interes;
 
 	@Override
 	public String toString() {
-		return "ConvenioCuota [id=" + id + ", cuotaNro=" + cuotaNro + ", vencimiento=" + vencimiento + ", importe="
+		return "ConvenioCuota [id=" + id + ", cuotaNro=" + cuotaNro + ", vencimiento=" + vencimiento+ ", interes=" + interes + ", importe="
 				+ importe + "]";
 	}	  
 	 
