@@ -14,6 +14,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsult
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
@@ -105,6 +106,9 @@ public interface ConvenioMapper {
 	public ConvenioConsultaDto run2 (Convenio dto);
 	
 	
+	@Mapping(target = "numero", source = "cuotaNro")
+	public ConvenioCuotaDto run2(ConvenioCuota convenioCuota);
+	
 	public List<ConvenioCuotaConsultaDto> run6 ( List<ConvenioCuota> lst);
 		
 	@Mapping(target = "id", source = "id")
@@ -134,6 +138,7 @@ public interface ConvenioMapper {
 	@Mapping(target = "cuotas", source = "cuotasCanti")
 	@Mapping(target = "declaracionesJuradas", ignore = true)
 	@Mapping(target = "saldosAFavor", source = "ajustes")
+	@Mapping(target = "lstCuotas", source = "cuotas")
 	ConvenioDeudaDto run3( Convenio dto);
 	
 	 

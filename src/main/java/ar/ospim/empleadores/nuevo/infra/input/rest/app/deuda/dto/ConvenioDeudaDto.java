@@ -29,4 +29,5 @@ public class ConvenioDeudaDto {
 		
 		private List<ConvenioAjusteDeudaDto> saldosAFavor;
 		
+		private List<ConvenioCuotaDto> lstCuotas;
 }
