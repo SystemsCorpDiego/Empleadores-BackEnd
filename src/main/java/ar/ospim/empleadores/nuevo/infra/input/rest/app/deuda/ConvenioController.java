@@ -3,6 +3,7 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
@@ -118,6 +120,17 @@ public class ConvenioController {
 		return ResponseEntity.ok( dto );		 
 	}
 	
+	//CalcularCuotasCalculadaDto
+	@PostMapping("/calcular-cuota-new")
+	public ResponseEntity<List<CalcularCuotasCalculadaDto>> getCuotas(@PathVariable("empresaId") Integer empresaId, @RequestBody @Valid CalcularCuotaDto dto) {		
+		dto.setImporteCuota(BigDecimal.ZERO);
+		dto.setImporteInteresTotal(BigDecimal.ZERO);
+		log.debug( "calcular-cuota-new - dto: " + dto.toString() );
+				
+		List<CalcularCuotasCalculadaDto> lst = service.calcularCuotas(dto.getImporteDeuda(), dto.getCantidadCuota(), dto.getFechaIntencionPago() );
+				
+		return ResponseEntity.ok( lst );		 
+	}
 
 	@PostMapping(value = "/{convenioId}/estado-set/{estado}")
 	public ResponseEntity<ConvenioCambioEstadoDto>  actualizarEstado(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("estado") String estado) {

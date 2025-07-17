@@ -93,6 +93,7 @@ public interface ConvenioMapper {
 	
 	public List<ConvenioConsultaDto> run4(List<Convenio> lst);	
 	
+	@Mapping(target = "empresaId", source = "empresa.id")
 	@Mapping(target = "cuit", source = "empresa.cuit")
 	@Mapping(target = "razonSocial", source = "empresa.razonSocial")
 	@Mapping(target = "fecha", source = "intencionDePago")	

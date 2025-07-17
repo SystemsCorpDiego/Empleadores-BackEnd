@@ -24,6 +24,7 @@ public enum CommonEnumException {
 	MAIL_FORMATO,
 	ERROR_FECHA_PASADA,
 	IMPORTE_NEGATIVO,
+	ATRIBUTO_MAYOR_A_CERO,
 	;
 	
 	public String getMsgKey() {

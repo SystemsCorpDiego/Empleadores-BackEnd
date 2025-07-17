@@ -18,6 +18,7 @@ import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
@@ -353,6 +354,49 @@ public class ConvenioServiceImpl implements ConvenioService {
 		}
 		
 		return importeCuota;
+	}
+	
+	public List<CalcularCuotasCalculadaDto> calcularCuotas(BigDecimal capital, Integer cuotas, LocalDate vencimiento ){
+		
+		if ( capital == null || capital.compareTo(BigDecimal.ZERO) < 1 ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.name(), String.format(errorMsg, "El Capital de las Cuotas ") );			
+		}
+		if ( cuotas == null || cuotas < 1 ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.name(), String.format(errorMsg, "La cantida de Cuotas") );			
+		}
+		if ( vencimiento == null || vencimiento.isBefore(LocalDate.now()) ) {			
+			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
+		List<CalcularCuotasCalculadaDto> lst = new ArrayList<CalcularCuotasCalculadaDto>();
+		CalcularCuotasCalculadaDto cuota = new CalcularCuotasCalculadaDto();
+		BigDecimal capitalCuota = capital.divide( BigDecimal.valueOf(cuotas), 2, RoundingMode.HALF_UP);
+		LocalDate calculoFechaInicio = LocalDate.now();
+		LocalDate calculoFechaVtoCuota = vencimiento;
+		int cuotaNro = 1;
+		
+		cuota.setNumero(cuotaNro);
+		cuota.setImporte(capitalCuota);
+		cuota.setVencimiento(calculoFechaVtoCuota);
+		cuota.setInteres( afipInteresService.calcularInteres(capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+		lst.add(cuota);
+		
+		for ( cuotaNro = 2;  cuotaNro<=cuotas;  cuotaNro++) {
+			cuota = new CalcularCuotasCalculadaDto();
+			calculoFechaVtoCuota = calculoFechaVtoCuota.plusMonths(1);
+			
+			cuota.setNumero(cuotaNro);
+			cuota.setImporte(capitalCuota);
+			cuota.setVencimiento(calculoFechaVtoCuota);
+			cuota.setInteres( afipInteresService.calcularInteres(capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+			
+			lst.add(cuota);
+		}
+			
+		return lst;
 	}
 
 	private BigDecimal getCapitalConvenio(Convenio convenio) {

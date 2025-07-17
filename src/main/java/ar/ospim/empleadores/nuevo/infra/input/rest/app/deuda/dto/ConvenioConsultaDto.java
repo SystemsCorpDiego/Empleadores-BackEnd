@@ -11,6 +11,7 @@ public class ConvenioConsultaDto {
 	private String entidad;
 	private String numero;
 	
+	private Integer empresaId;
 	private String cuit;
 	private String razonSocial;
 	private LocalDate fecha;
