@@ -180,13 +180,13 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private Convenio armarConvenio(ConvenioAltaDto dto) {
 		Convenio convenio = new Convenio();
-		 convenio.setCreatedOn(LocalDateTime.now());
 		 
 		 Empresa empresa = empresaRepository.getById(dto.getEmpresaId());
 		 
 		 convenio.setEmpresa(empresa);
 		 convenio.setEntidad(dto.getEntidad());
 		 convenio.setEstado("PENDIENTE");
+		 convenio.setCreatedOn(LocalDateTime.now());
 		 
 		 //Estos hay que calcularlos segun detalle
 		 convenio.setImporteDeuda( BigDecimal.ZERO );
