@@ -123,10 +123,53 @@ public class ConvenioServiceImpl implements ConvenioService {
 		//convenioNew.setActas(null);
 		//convenioNew.setDdjjs(null);
 		//convenioNew.setCuotas(null);
+		actualizarTotales(convenioNew);
 		convenioNew = storage.guardar(convenioNew);
 		
 
 		return convenioNew;		
+	}
+	
+	private void actualizarTotales(Convenio convenio) {
+		BigDecimal capitalDeuda = BigDecimal.ZERO;
+		BigDecimal interesDeuda = BigDecimal.ZERO;
+		BigDecimal saldoAFavorDeuda = BigDecimal.ZERO;
+		
+		 if ( convenio.getActas() != null ) {
+			 for (ConvenioActa ca:  convenio.getActas()) {
+				 if ( ca.getActa() != null ) {
+					 if ( ca.getActa().getCapital() != null )
+						 capitalDeuda = capitalDeuda.add(ca.getActa().getCapital());
+					 if ( ca.getActa().getInteres() != null )
+						 capitalDeuda = capitalDeuda.add(ca.getActa().getInteres());
+				 }
+			 }
+		 }
+		 if ( convenio.getDdjjs() != null ) { 
+			for (ConvenioDdjj cd:  convenio.getDdjjs()) {
+				 for (ConvenioDdjjDeudaNomina cddn:  cd.getDdjjDeudaNomina()) {
+					 if ( cddn.getAporteImporte() != null )
+						 capitalDeuda = capitalDeuda.add(cddn.getAporteImporte());
+				 }
+			}
+		 }
+		 if ( convenio.getAjustes() != null ) { 
+				for (ConvenioAjuste caj:  convenio.getAjustes()) {
+					if ( caj.getImporte()  != null )
+						saldoAFavorDeuda = saldoAFavorDeuda.add(caj.getImporte());
+				}
+		}
+		
+		 if ( convenio.getCuotas() != null ) {
+			 for (ConvenioCuota cuota:  convenio.getCuotas()) {
+				 if ( cuota.getInteres()!=null ) 
+					 interesDeuda = interesDeuda.add(cuota.getInteres());					 
+				}
+		 }		
+		 
+		 convenio.setImporteSaldoFavor(saldoAFavorDeuda);		 
+		 convenio.setImporteDeuda(capitalDeuda);
+		 convenio.setImporteIntereses(interesDeuda);
 	}
 	 
 	@Override
@@ -199,7 +242,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 
 		 armarDetalle(convenio, dto);
 		 
-		 calcularCapital(convenio);
+		 actualizarTotales(convenio);
 
 		 return convenio;
 	}
@@ -281,34 +324,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 		return convenio;		
 	}
-	private void calcularCapital(Convenio convenio) {
-		//Actualiza ImporteDeuda y SaldoAFavor en Convenio.-
-		BigDecimal importe = BigDecimal.ZERO;
-		for (ConvenioActa reg : convenio.getActas() ) {
-			if ( reg.getActa().getCapital() != null )
-				importe = importe.add(reg.getActa().getCapital());
-			if ( reg.getActa().getInteres() != null )
-				importe = importe.add( reg.getActa().getInteres() );
-		}
-		
-		for (ConvenioDdjj reg : convenio.getDdjjs() ) {
-			for (ConvenioDdjjDeudaNomina dn : reg.getDdjjDeudaNomina() ) {
-				if ( dn.getAporteImporte() != null )
-					importe = importe.add( dn.getAporteImporte() );
-				if ( dn.getInteres()  != null )
-					importe = importe.add( dn.getInteres() );
-			}
-		}
-		convenio.setImporteDeuda(importe);
-		
-		importe = BigDecimal.ZERO;
-		for (ConvenioAjuste ca : convenio.getAjustes() ) {
-			if ( ca.getImporte()  != null )
-				importe = importe.add( ca.getImporte() );
-		}			
-		convenio.setImporteSaldoFavor(importe);
-		
-	}
+	
 	
 	private void calcularCuotas(Convenio convenio) {
 		ConvenioCuota cuota = null;
@@ -660,7 +676,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private Convenio calcularConvenioImportes(Convenio convenio) {
 		//Recalcula los importes del convenio ( tabla convenio y convenio_cuota
-		calcularCapital(convenio);
+		actualizarTotales(convenio);
 		 
 		BigDecimal capital = getCapitalConvenio(convenio);
 		Integer cantiCuotas = convenio.getCuotasCanti();
