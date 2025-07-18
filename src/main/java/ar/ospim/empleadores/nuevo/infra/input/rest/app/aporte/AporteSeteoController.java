@@ -50,6 +50,11 @@ public class AporteSeteoController {
 	@PostMapping(value = "/aportes/seteos")
 	public ResponseEntity<IdGeneradoDto>  agregar( @RequestBody @Valid AporteSeteoDto dato, HttpServletRequest request) {
 		
+		if ( "".equals( dato.getCalculoValor() ) ) 
+				dato.setCalculoValor(null); 
+		if ( "".equals( dato.getCamaraAntiguedad() ) ) 
+			dato.setCamaraAntiguedad(null); 
+		
 		AporteSeteoBO registro = mapper.map(dato);
 		registro.setId(null);
 		registro = service.guardar(registro);		
