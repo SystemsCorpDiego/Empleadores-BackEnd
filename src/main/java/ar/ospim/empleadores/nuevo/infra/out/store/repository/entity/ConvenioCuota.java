@@ -59,5 +59,13 @@ public class ConvenioCuota {
 		return "ConvenioCuota [id=" + id + ", cuotaNro=" + cuotaNro + ", vencimiento=" + vencimiento+ ", interes=" + interes + ", importe="
 				+ importe + "]";
 	}	  
+	
+	public BigDecimal getImporteTotalCuota() {
+		if ( importe != null && interes != null )
+			return importe.add(interes);
+		if ( importe != null )
+			return importe;		
+		return BigDecimal.ZERO;
+	}
 	 
 }

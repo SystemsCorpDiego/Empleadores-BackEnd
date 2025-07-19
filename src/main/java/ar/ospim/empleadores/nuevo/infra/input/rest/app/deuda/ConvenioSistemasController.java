@@ -48,17 +48,7 @@ public class ConvenioSistemasController {
 		
 		Convenio convenio = service.get(empresaId, convenioId);		
 		ConvenioDeudaDto rta = service.getConvenioDeudaDto(convenio);
-		
-		//paso a negativo los saldos a favor
-		/*
-		if ( rta.getSaldosAFavor() != null && rta.getSaldosAFavor().size()>0) {
-			for (ConvenioAjusteDeudaDto reg : rta.getSaldosAFavor()) {
-				if ( reg.getImporte().negate().compareTo(BigDecimal.ZERO) < 0 ) {
-					reg.setImporte( reg.getImporte().negate() );
-				}
-			}
-		}
-		*/
+				 
 		return ResponseEntity.ok( rta );
 	}
 	

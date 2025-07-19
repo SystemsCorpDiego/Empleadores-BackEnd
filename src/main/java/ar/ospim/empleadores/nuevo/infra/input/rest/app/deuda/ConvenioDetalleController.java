@@ -81,7 +81,7 @@ public class ConvenioDetalleController {
 	}
 	
 	@PostMapping(value = "/{convenioId}/cuotas/{cuotaId}/cheques")
-	public ResponseEntity<ConvenioCuotaChequeDto>  generarCuota(@PathVariable("empresaId") Integer empresaId,  @PathVariable("convenioId") Integer convenioId,  @PathVariable("cuotaId") Integer cuotaId, @RequestBody @Valid ConvenioCuotaChequeAltaDto cheque) {
+	public ResponseEntity<ConvenioCuotaChequeDto>  generarCuotaCheque(@PathVariable("empresaId") Integer empresaId,  @PathVariable("convenioId") Integer convenioId,  @PathVariable("cuotaId") Integer cuotaId, @RequestBody @Valid ConvenioCuotaChequeAltaDto cheque) {
 		
 		cheque.setEmpresaId(empresaId);
 		cheque.setConvenioId(convenioId);

@@ -1,9 +1,11 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDto;
@@ -111,14 +113,14 @@ public interface ConvenioMapper {
 	
 	public List<ConvenioCuotaConsultaDto> run6 ( List<ConvenioCuota> lst);
 		
+	//@Mapping(target = "importe", source = "importe")
 	@Mapping(target = "id", source = "id")
 	@Mapping(target = "numero", source = "cuotaNro")
-	@Mapping(target = "importe", source = "importe")
+	@Mapping(target = "importe", source ="importeTotalCuota")	
 	@Mapping(target = "vencimiento", source = "vencimiento")
-	//@Mapping(target = "chequesNro", source = "")
-	//@Mapping(target = "Chequestotal", source = "")	
-	public ConvenioCuotaConsultaDto run ( ConvenioCuota lst);
+	public ConvenioCuotaConsultaDto run ( ConvenioCuota cuota );
 
+	
 	@Mapping(target = "id", source = "id") 
 	public ConvenioCuotaChequeDto run(ConvenioCuotaCheque dto);
 

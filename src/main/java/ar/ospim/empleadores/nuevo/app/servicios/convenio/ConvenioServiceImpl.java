@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -530,9 +532,22 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	public Convenio get(Integer empresaId, Integer convenioId) {		
 		Convenio convenio = storage.get(convenioId);		
+		if ( convenio.getCuotas() != null)
+			orderByNroCuota(convenio.getCuotas());
+		
 		return convenio;
 	}
-		
+	
+	private void orderByNroCuota(List<ConvenioCuota> lst) {
+		 Collections.sort(lst, new Comparator<ConvenioCuota>() {
+	            @Override
+	            public int compare(ConvenioCuota a, ConvenioCuota b) {
+	                return a.getCuotaNro().compareTo(b.getCuotaNro()); // For descending order
+	            }
+	        });
+	}
+	
+	
 	public List<Convenio> get(ConvenioConsultaFiltroDto filtro) {
 		List<Convenio> lst = null;		
 		lst = storage.get(filtro);		
@@ -582,11 +597,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 		} else {
 			reg.setEstado( ConvenioChequeEstadoEnum.CARGADO.getCodigo() );
 		}
-		
-		if ( reg.getImporte().compareTo(BigDecimal.ZERO) < 1 ) {
-			String errorMsg = messageSource.getMessage(CommonEnumException.IMPORTE_NEGATIVO.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.IMPORTE_NEGATIVO.name(), String.format(errorMsg, "Importe"));			
-		}
+				
+		validarImporte(reg);
 		
 		rta = convenioCuotaChequeRepository.save(reg);
 		
@@ -599,10 +611,34 @@ public class ConvenioServiceImpl implements ConvenioService {
 		reg.setFecha(cheque.getFecha());
 		reg.setImporte(cheque.getImporte());
 		reg.setEstado(cheque.getEstado());
+		
+		validarImporte(reg);
+		
 		reg = convenioCuotaChequeRepository.save(reg);
 		return reg;
 	}
 
+	private void validarImporte(ConvenioCuotaCheque reg) {		
+		BigDecimal ImporteTotalCuota = reg.getConvenioCuota().getImporteTotalCuota();
+		BigDecimal ImporteTotalCheques = reg.getImporte();
+		
+		if (reg.getImporte() == null || reg.getImporte().compareTo(BigDecimal.ZERO) < 1 ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.IMPORTE_NEGATIVO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.IMPORTE_NEGATIVO.name(), String.format(errorMsg, "Importe"));			
+		}		
+		
+		List<ConvenioCuotaCheque> lst = convenioCuotaChequeRepository.findByConvenioCuotaId(reg.getId());
+		for (ConvenioCuotaCheque cheque: lst) {
+			if ( reg.getId() == null || !cheque.getId().equals(reg.getId()) ) {
+				ImporteTotalCheques = ImporteTotalCheques.add(cheque.getImporte());
+			} 
+		}
+		if ( ImporteTotalCheques.compareTo(ImporteTotalCuota) == 1 ) {
+			String errorMsg = messageSource.getMessage(ConvenioEnumException.CUOTA_IMPORTE_MENOR_TOTAL_CHEQUES.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(ConvenioEnumException.CUOTA_IMPORTE_MENOR_TOTAL_CHEQUES.name(), String.format(errorMsg, ImporteTotalCheques, ImporteTotalCuota));			   			
+		}
+	}
+	
 	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId) {
 		 List<ConvenioCuotaCheque> rta = null;
 		 rta = convenioCuotaChequeRepository.findByConvenioCuotaConvenioIdAndConvenioCuotaId(convenioId, cuotaId);
