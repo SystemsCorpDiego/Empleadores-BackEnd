@@ -13,6 +13,7 @@
 	<parameter name="convenioImporteTotal" class="java.lang.String"/>
 	<parameter name="convenioEstado" class="java.lang.String"/>
 	<parameter name="P_logoPath" class="java.lang.String"/>
+	<parameter name="fechaHoy" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -46,7 +47,7 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="246" splitType="Stretch">
+		<band height="250" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="43" y="31" width="113" height="15" uuid="a858cf9b-05ab-487e-b4c8-ee6aecc760c2"/>
@@ -286,8 +287,19 @@
 		</band>
 	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="313" y="3" width="165" height="15" uuid="78d8fdbe-1700-49fd-b600-2b442fd85112"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha de Impresión:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="480" y="2" width="80" height="16" uuid="3fce2b59-ed73-4714-8c7c-c26b0a53912d"/>
+				<textFieldExpression><![CDATA[$P{fechaHoy}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>

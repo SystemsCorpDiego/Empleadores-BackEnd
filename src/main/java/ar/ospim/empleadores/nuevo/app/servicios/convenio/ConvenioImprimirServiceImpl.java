@@ -1,9 +1,11 @@
 package ar.ospim.empleadores.nuevo.app.servicios.convenio;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -18,7 +20,6 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCo
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EntidadEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuota;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -122,6 +123,15 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
     		params.put("convenioImporteSaldoFavor",  "0,00" );
     	}
     	
+    	BigDecimal convenioImporteFinanciar = BigDecimal.ZERO;
+    	if ( convenio.getImporteDeuda() != null )
+    		convenioImporteFinanciar = convenio.getImporteDeuda();
+    	if ( convenio.getImporteSaldoFavor() != null )
+    		convenioImporteFinanciar = convenioImporteFinanciar.subtract( convenio.getImporteSaldoFavor() ) ;
+    	    		
+    	params.put("convenioImporteFinanciar",  df.format(convenioImporteFinanciar) );
+    	
+    	
     	if ( convenio.getImporteIntereses() != null) {
     		params.put("convenioImporteTotalIntereses",  df.format(convenio.getImporteIntereses()) );
     	} else {
@@ -134,10 +144,15 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
     		params.put("convenioCuotasCantidad", " ");
     	}
 		
-		if (  convenio.getImporteSaldoFavor() != null ) {
-			
+    	if ( convenio.getImporteIntereses() != null) {
+			params.put("convenioImporteTotal", df.format(convenioImporteFinanciar.add( convenio.getImporteIntereses())) );
+		} else {
+			params.put("convenioImporteTotal", df.format(convenioImporteFinanciar) );
 		}
-		
+		    	
+    	params.put("fechaHoy", dtProvider.getDateToString(LocalDateTime.now()) );
+
+    	
 	// "convenioImporteFinanciar" 
 	// "convenioImporteTotal"
 
