@@ -10,14 +10,12 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolinero
 
 public interface ActaMolinerosRepository extends JpaRepository<ActaMolineros, Integer> {
 
-	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, convenio_numero FROM public.fGestion_deuda_actas_consulta(:cuit)", nativeQuery = true)	
+	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, NULL convenio_id, NULL convenio_numero FROM public.fGestion_deuda_actas_consulta(:cuit)", nativeQuery = true)	
     List<ActaMolineros> getByCuit(String cuit);
 
-	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, convenio_numero FROM public.fGestion_deuda_actas_consulta(:cuit, :entidad)", nativeQuery = true)	
+	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, NULL convenio_id, NULL convenio_numero FROM public.fGestion_deuda_actas_consulta(:cuit, :entidad)", nativeQuery = true)	
     List<ActaMolineros> getByCuitAndEntidad(String cuit, String entidad);
 
-	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, convenio_numero FROM public.fGestion_deuda_actas_consulta(:cuit, :entidad, :contratoId)", nativeQuery = true)	
-    List<ActaMolineros> getByCuitAndEntidadAndContratoId(String cuit, String entidad, Integer contratoId);
 	
 	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
 	List<IGestionDeudaDDJJDto> get(String cuit, String entidad);
