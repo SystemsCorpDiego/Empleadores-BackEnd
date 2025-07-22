@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaActaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaDescargaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
@@ -17,4 +18,5 @@ public interface DeudaService {
 	
 	public List<IGestionDeudaAjustesDto>  getAjustesDto(Integer empresaId, String entidad);	 
 	
+	public List<IDeudaNominaDescargaDto> getDeudaNominaAll();
 }

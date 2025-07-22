@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaDescargaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AjusteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class DeudaServiceImpl implements DeudaService {
 	private DeudaStorage deudaStorage;	
 	private AjusteStorage ajusteStorage;
 	private EmpresaStorage empresaStorage;
+	private DeudaNominaRepository deudaNominaRepository;
     
     public List<ActaMolineros>  getMolinerosActas(Integer empresaId) {
 		
@@ -102,4 +105,7 @@ public class DeudaServiceImpl implements DeudaService {
 		return ajusteStorage.getGestionDeudaAjustes(empresaId, entidad);
 	}
  	 
+	public List<IDeudaNominaDescargaDto> getDeudaNominaAll() {
+		return deudaNominaRepository.getDeudaNominaAll();
+	}
 }

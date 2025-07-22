@@ -6,6 +6,9 @@ public enum ConvenioEstadoEnum {
 
 	PENDIENTE("PENDIENTE", "Pendiente"),
 	PRES("PRES", "Presentada"),
+	APROB("APROB", "Aprobado"),
+	RECH("RECH", "Rechazado"),
+	OBSR("OBSR", "Observado"),
 	;
 
     private String codigo;
@@ -28,7 +31,7 @@ public enum ConvenioEstadoEnum {
         for(ConvenioEstadoEnum e : values()) {
             if(e.codigo.equals(codigo)) return e;
         }
-        throw new NotFoundException("entidad-not-exists", String.format("La entidad %s no existe", codigo));
+        throw new NotFoundException("entidad-not-exists", String.format("El Estado %s no existe", codigo));
     }
 	
 }

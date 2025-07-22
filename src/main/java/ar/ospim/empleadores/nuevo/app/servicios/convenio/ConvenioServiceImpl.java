@@ -37,6 +37,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeud
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioChequeEstadoEnum;
+import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AjusteRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioActaRepository;
@@ -319,12 +320,38 @@ public class ConvenioServiceImpl implements ConvenioService {
 	public Convenio cambiarEstado(Integer convenioId, String estado) {
 		//cambio estado
 		Convenio  convenio = storage.getById(convenioId);
+		validarEstado(estado);
+		validarCambioEstado(convenio, estado);
+		
 		convenio.setEstado(estado);
 		convenio = storage.guardar(convenio);
-		
+		 
 		//TODO: falta enviar convenio a molineros !!!
 		
 		return convenio;		
+	}
+	
+	private void validarEstado(String estado) {
+		ConvenioEstadoEnum.map(estado);
+	}
+	
+	private void validarCambioEstado(Convenio  convenio, String estadoNew) {
+		ConvenioEstadoEnum eEstadoNew = ConvenioEstadoEnum.map(estadoNew);
+		if ( eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.PRES.getCodigo()) ) {
+			//Deben estar cargados TODOS los cheques.-
+			BigDecimal importeTotalConvenio = convenio.getImporteDeuda();
+			if ( convenio.getImporteSaldoFavor() != null ) 
+				importeTotalConvenio = importeTotalConvenio.subtract(convenio.getImporteSaldoFavor());
+			if ( convenio.getImporteIntereses() != null ) 
+				importeTotalConvenio = importeTotalConvenio.add(convenio.getImporteIntereses());
+			
+			BigDecimal importeTotalCheques = deudaNominaRepository.countChequesImporteTotal(convenio.getId() );
+			
+			if (importeTotalConvenio.compareTo(importeTotalCheques) != 0) {
+				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.name(), String.format(errorMsg, importeTotalConvenio, importeTotalCheques));			   			
+			}
+		}
 	}
 	
 	
