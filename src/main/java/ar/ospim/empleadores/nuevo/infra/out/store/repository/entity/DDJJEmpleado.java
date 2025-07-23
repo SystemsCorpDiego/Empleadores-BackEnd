@@ -33,7 +33,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class DDJJEmpleado {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,6 +81,15 @@ public class DDJJEmpleado {
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "ddjjEmpleado", cascade = { CascadeType.MERGE })
-	private List<DDJJEmpleadoAporte> aportes;  
-	  
+	private List<DDJJEmpleadoAporte> aportes;
+
+	@Override
+	public String toString() {
+		return "DDJJEmpleado [id=" + id + ", afiliado=" + afiliado + ", empresaDomicilio=" + empresaDomicilio
+				+ ", camara=" + camara + ", categoria=" + categoria + ", remunerativo=" + remunerativo
+				+ ", noRemunerativo=" + noRemunerativo + ", ingreso=" + ingreso + ", uomaSocio=" + uomaSocio
+				+ ", amtimaSocio=" + amtimaSocio + ", aportes=" + aportes + "]";
+	}  
+
+	
 }

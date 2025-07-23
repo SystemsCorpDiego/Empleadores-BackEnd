@@ -34,12 +34,14 @@ public class BoletaPagoAjuste {
 	 
     @JsonIgnore 
 	@JsonBackReference
+	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "boleta_pago_id")	
 	private BoletaPago boletaPago;
 
     @JsonManagedReference
 	@ManyToOne	
+	@ToString.Exclude
 	@JoinColumns( {
         @JoinColumn(name = "ajuste_id", referencedColumnName = "id")
     })

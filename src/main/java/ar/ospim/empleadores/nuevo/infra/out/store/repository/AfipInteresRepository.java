@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -25,5 +26,10 @@ public interface AfipInteresRepository   extends JpaRepository<AfipInteres, Inte
 			nativeQuery = true
 			)
 	Optional<AfipInteres> findContenido(LocalDate desde);
+	
+	
+	@Query( value ="select getintereses as interes from public.getintereses( ?1, ?2, cast(?3 as timestamp) , cast(?4 as timestamp) )" ,
+			nativeQuery = true)
+	BigDecimal calcularInteres(BigDecimal capital, BigDecimal interes, LocalDate desde, LocalDate hasta);
 	
 }

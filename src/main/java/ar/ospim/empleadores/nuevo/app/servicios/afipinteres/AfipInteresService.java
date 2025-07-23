@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.app.servicios.afipinteres;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,5 +15,7 @@ public interface AfipInteresService {
 	public void borrar(Integer id);	
 
 	public AfipInteresBO getContenido(LocalDate desde);
+	
+	public  BigDecimal calcularInteres(BigDecimal capital, LocalDate desde, LocalDate hasta);
 	
 }
