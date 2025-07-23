@@ -153,6 +153,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 				 for (ConvenioDdjjDeudaNomina cddn:  cd.getDdjjDeudaNomina()) {
 					 if ( cddn.getAporteImporte() != null )
 						 capitalDeuda = capitalDeuda.add(cddn.getAporteImporte());
+					 if ( cddn.getInteres()!= null )
+						 capitalDeuda = capitalDeuda.add(cddn.getInteres());					 
 				 }
 			}
 		 }

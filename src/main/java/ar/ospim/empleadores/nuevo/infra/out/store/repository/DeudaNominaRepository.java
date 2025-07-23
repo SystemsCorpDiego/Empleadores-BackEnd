@@ -23,7 +23,7 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 	List<DeudaNomina> findByDdjjIdAndEntidadAndActaIdIsNull(Integer ddjjId, String entidad);
 	
 	
-	@Query(value = "SELECT * FROM fdeudanomina_actualizar(?1);", nativeQuery = true)	
+	@Query(value = "SELECT * FROM fdeudanomina_actualizar_x_log(?1);", nativeQuery = true)	
 	void actualizarCuit( @Param("p_cuit")  String p_cuit);
 	
 	@Query(value = "select sum(ch.importe) from convenio_cuota cu "
