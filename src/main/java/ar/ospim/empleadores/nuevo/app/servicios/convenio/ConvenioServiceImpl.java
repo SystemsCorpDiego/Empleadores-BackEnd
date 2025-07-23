@@ -15,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
@@ -71,6 +72,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final MessageSource messageSource;
 	private final ConvenioMapper mapper;
 	private final ConvenioDeudaMapper convenioDeudaMapper;
+	private final DateTimeProvider dateTimeProvider;
 	
 	private final EmpresaRepository empresaRepository;
 	private final ConvenioStorage storage;
@@ -340,6 +342,15 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private void validarCambioEstado(Convenio  convenio, String estadoNew) {
 		ConvenioEstadoEnum eEstadoNew = ConvenioEstadoEnum.map(estadoNew);
 		if ( eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.PRES.getCodigo()) ) {
+			
+			//La fecha de Intencion de PAgo debe ser futura.-
+			if ( convenio.getIntencionDePago() == null ||
+					convenio.getIntencionDePago().isBefore(LocalDate.now())
+					) {
+				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   			
+			}
+			
 			//Deben estar cargados TODOS los cheques.-
 			BigDecimal importeTotalConvenio = convenio.getImporteDeuda();
 			if ( convenio.getImporteSaldoFavor() != null ) 
