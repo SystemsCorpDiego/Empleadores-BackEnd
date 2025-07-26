@@ -87,7 +87,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		LOG.error("handleWebServiceException - ApiErrorMessageDto -> {}", error);
 		
 		return ResponseEntity.status(status).body(error);
-	}	
+	}
+	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({ ClaveException.class })
 	protected ApiErrorMessageDto handleInvalidPasswordException(ClaveException ex) {
