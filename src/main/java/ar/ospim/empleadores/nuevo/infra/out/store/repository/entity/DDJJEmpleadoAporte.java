@@ -28,7 +28,6 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class DDJJEmpleadoAporte {
 	@Id
     @Column(name = "id", nullable = false)
@@ -48,4 +47,10 @@ public class DDJJEmpleadoAporte {
 	@JoinColumns({ @JoinColumn(name = "ddjj_deta_id", referencedColumnName = "id") })
 	private DDJJEmpleado ddjjEmpleado;
 
+	@Override
+	public String toString() {
+		return "DDJJEmpleadoAporte [id=" + id + ", aporte=" + aporte + ", importe=" + importe + "]";
+	}
+
+	
 }

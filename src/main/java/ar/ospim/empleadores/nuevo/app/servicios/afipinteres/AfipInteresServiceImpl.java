@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.app.servicios.afipinteres;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +21,8 @@ public class AfipInteresServiceImpl implements AfipInteresService {
 
 	private final MessageSource messageSource;
 	private final  AfipInteresStorage storage;	
+	
+	
 	
 	@Override
 	public AfipInteresBO guardar(AfipInteresBO reg) {
@@ -79,6 +82,13 @@ public class AfipInteresServiceImpl implements AfipInteresService {
 				throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
 			}
 		}
+	}
+
+	@Override
+	public BigDecimal calcularInteres(BigDecimal capital, LocalDate desde, LocalDate hasta) {
+		
+		return storage.calcularInteres(capital, desde, hasta);
+		
 	}
 	
 	

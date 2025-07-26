@@ -26,6 +26,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
+import ar.ospim.empleadores.auth.jwt.app.BadRefreshTokenException;
 import ar.ospim.empleadores.auth.jwt.app.login.LoginException;
 import ar.ospim.empleadores.auth.usuario.app.ClaveException;
 import ar.ospim.empleadores.comun.exception.ApiErrorMessageDto;
@@ -99,6 +100,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		return error;
 	}
 
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler({ BadRefreshTokenException.class })
+	protected ApiErrorMessageDto handleInvalidPasswordException(BadRefreshTokenException ex) {
+		LOG.debug("BadRefreshTokenException -> {}", ex.getMessage(), ex);
+		BusinessException exB = new BusinessException( null, ex.getMessage() );
+		
+		ApiErrorMessageDto error = new ApiErrorMessageDto(exB.getErrorType(), exB.getTicketError(), "BAD-REFRESH-TOKEN", ex.getMessage());
+		LOG.error("BadRefreshTokenException - ApiErrorMessageDto -> {}", error);
+
+		return error;
+	}
+	
 	@ResponseStatus(HttpStatus.PRECONDITION_FAILED)
 	@ExceptionHandler({ PermissionDeniedException.class })
 	public ApiErrorMessageDto handleConstraintViolation(PermissionDeniedException ex, WebRequest request) {

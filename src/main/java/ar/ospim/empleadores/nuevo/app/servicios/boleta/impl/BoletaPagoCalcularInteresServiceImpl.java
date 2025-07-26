@@ -34,6 +34,10 @@ public class BoletaPagoCalcularInteresServiceImpl implements BoletaPagoCalcularI
 
 	public BigDecimal run(LocalDate vencimiento, LocalDate intencionDePago, BigDecimal importeAPagar) {
 		log.debug("BoletaPagoCalcularInteresService - vencimiento:" + vencimiento +" - intencionDePago:"+ intencionDePago + " - importeAPagar: " + importeAPagar ); 
+		//TODO: cambiar esto x Funcion posgreSql => getIntereses() 
+		// 			=> getIntereses(capital, interesesPreCalculados, fechaDesde, FechaHasta)
+		//				=> getIntereses(importeAPagar, 0, vencimiento+1, intencionDePago)
+		
 		BigDecimal importe = BigDecimal.ZERO; 
 		LocalDate dia = vencimiento.plusDays(1);
 		AfipInteresBO afipInteres = getInteresDia( dia);
@@ -49,7 +53,7 @@ public class BoletaPagoCalcularInteresServiceImpl implements BoletaPagoCalcularI
 		}
 		log.debug("BoletaPagoCalcularInteresService - RTA - importe:" + importe);
 		if ( ! BigDecimal.ZERO.equals(importe) ) {
-			importe = importe.divide(new BigDecimal(100));
+			importe = importe.divide(new BigDecimal(100), 2, RoundingMode.HALF_EVEN);
 		}
 		return importe;		
 	}

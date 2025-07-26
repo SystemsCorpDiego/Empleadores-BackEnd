@@ -69,7 +69,7 @@ logging:
       #console: "%d{HH:mm:ss.SSS} %clr(%-5p) %clr(${PID}){faint} %clr(---){faint} %clr([%8.15t]) %-40.40logger{0}  %clr(:) %clr(%m){faint}%n"
       #console: "%clr(%d{HH:mm:ss.SSS}){yellow} %clr(%-5level) ${PID} %clr(%logger{0}.%method[:%line]) %msg %n"
       #console: "%clr(%d{mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%logger{0}.%method[:%line]) %msg %n"
-      console: "%clr(%d{mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%-35.35logger{0}) %msg %n"
+      console: "%clr(%d{dd/MM mm:ss.SSS}){yellow} %clr(%.-3level) %clr(%-35.35logger{0}) %msg %n"
 app:
    seguridad:
       login:
