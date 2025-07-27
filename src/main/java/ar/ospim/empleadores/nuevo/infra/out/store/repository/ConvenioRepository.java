@@ -21,7 +21,7 @@ public interface ConvenioRepository  extends JpaRepository< Convenio, Integer>  
 	public List<Convenio> findByEmpresaIdAndEstado(Integer empresaId, String estado);
 	public List<Convenio> findByEmpresaIdAndCreatedOnBetween(Integer empresaId, LocalDateTime desde, LocalDateTime hasta);
 	public List<Convenio> findByEmpresaIdAndEstadoAndCreatedOnBetween(Integer empresaId, String estado, LocalDateTime desde, LocalDateTime hasta);
-	
+	public List<Convenio> findByEmpresaIdAndEstadoAndEntidad(Integer empresaId, String estado, String entidad); 
 	
 	public List<Convenio> findByCreatedOnBetween(LocalDateTime desde, LocalDateTime hasta);
 	public List<Convenio> findByCreatedOnBetweenAndEstado(LocalDateTime desde, LocalDateTime hasta, String estado);

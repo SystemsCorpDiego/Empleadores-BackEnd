@@ -347,8 +347,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 			if ( convenio.getIntencionDePago() == null ||
 					convenio.getIntencionDePago().isBefore(LocalDate.now())
 					) {
-				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.getMsgKey(), null, new Locale("es"));
-				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   			
+				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.name(), errorMsg );			   			
 			}
 			
 			//Deben estar cargados TODOS los cheques.-
@@ -518,6 +518,16 @@ public class ConvenioServiceImpl implements ConvenioService {
 		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
+		ConvenioConsultaFiltroDto filtro = new ConvenioConsultaFiltroDto();
+		filtro.setEmpresaId( convenio.getEmpresa().getId() );
+		filtro.setEstado( ConvenioEstadoEnum.PENDIENTE.getCodigo() );
+		filtro.setEntidad( convenio.getEntidad() );
+		List<Convenio> lst = get( filtro);
+		if ( lst != null && lst.size() > 0) {
+			String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   						
 		}
 		
 		validarActualizacion(convenio);
