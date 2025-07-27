@@ -347,8 +347,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 			if ( convenio.getIntencionDePago() == null ||
 					convenio.getIntencionDePago().isBefore(LocalDate.now())
 					) {
-				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.getMsgKey(), null, new Locale("es"));
-				throw new BusinessException(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.name(), errorMsg );			   			
+				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_FECHAPAGO_VENCIDA.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   			
 			}
 			
 			//Deben estar cargados TODOS los cheques.-
