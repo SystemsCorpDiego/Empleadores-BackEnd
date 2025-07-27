@@ -8,6 +8,7 @@ import lombok.Data;
 public class ConvenioConsultaFiltroDto {
 	private Integer empresaId;
 	private String estado;
+	private String entidad;
 	private LocalDate desde;
 	private LocalDate hasta;	
 }

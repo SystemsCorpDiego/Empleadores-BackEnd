@@ -83,8 +83,12 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 	public List<Convenio> get(ConvenioConsultaFiltroDto filtro) {
 		 
 		if ( filtro.getDesde() == null &&  filtro.getHasta() == null ) {
-			if ( filtro.getEmpresaId() != null && filtro.getEstado() != null ) {				
-				return repository.findByEmpresaIdAndEstado(filtro.getEmpresaId(), filtro.getEstado());
+			if ( filtro.getEmpresaId() != null && filtro.getEstado() != null ) {
+				if ( filtro.getEntidad() != null ) {
+					return repository.findByEmpresaIdAndEstadoAndEntidad(filtro.getEmpresaId(), filtro.getEstado(), filtro.getEntidad());
+				} else {
+					return repository.findByEmpresaIdAndEstado(filtro.getEmpresaId(), filtro.getEstado());
+				}
 			} else {
 				if ( filtro.getEmpresaId() != null ) {
 					return repository.findByEmpresaId(filtro.getEmpresaId());
