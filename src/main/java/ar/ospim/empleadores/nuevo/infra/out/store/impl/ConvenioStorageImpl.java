@@ -128,7 +128,7 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 					if ( filtro.getEstado() != null ) {		
 						return repository.findByCreatedOnBetweenAndEstado(localDateTimeDesde, localDateTimeHasta, filtro.getEstado());
 					} else {
-						return null;
+						return repository.findByCreatedOnBetween(localDateTimeDesde, localDateTimeHasta);
 					}
 				}
 			}
