@@ -41,7 +41,11 @@ public class ActaMolineros {
 	
 	@Column(name = "convenio_id")
     private Integer convenio_id;
-	@Column(name = "convenio_numero")
-    private String convenio_numero;
+	
+	@Column(name = "otros")
+    private BigDecimal otros;
     
+	@Column(name = "pago")
+    private BigDecimal pago;
+	
 }

@@ -324,8 +324,6 @@ public class RedLinkServiceImpl implements RedLinkService {
 		String ordenVencimiento = "1";
 		//String fechaVto = "250215";
 		//String importe = "000000000125";
-		
-		
 
 		DateTimeFormatter vtoFormatter = DateTimeFormatter.ofPattern("yyMMdd");
 		String fechaVto = boleta.getIntencionDePago().format(vtoFormatter);
