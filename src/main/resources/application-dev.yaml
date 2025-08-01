@@ -52,16 +52,10 @@ spring:
 
       
 logging:
-   file:
-      name: /logs/empleadores.log
    level:
       ROOT: DEBUG
       org: DEBUG
       org.hibernate: ERROR
-       
-   logback:
-      rollingpolicy:
-         max-file-size: 5MB # by size       
 app:
    seguridad:
       activacion-cuenta:

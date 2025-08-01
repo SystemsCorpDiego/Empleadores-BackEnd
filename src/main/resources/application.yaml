@@ -56,8 +56,8 @@ logging:
       #ar: DEBUG
    logback:
       rollingpolicy:
-         max-file-size: 5MB # by size       
-      #file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz # by date
+         #max-file-size: 5MB # by size       
+         file-name-pattern: /logs/empleadores.%d{yyyy-MM-dd}.%i.gz # by date
 #         springframework:
 #            transaction:
 #               interceptor: TRACE
