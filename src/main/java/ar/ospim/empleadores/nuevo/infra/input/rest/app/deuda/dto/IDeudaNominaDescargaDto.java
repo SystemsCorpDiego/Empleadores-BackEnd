@@ -22,5 +22,10 @@ public interface IDeudaNominaDescargaDto {
 	Integer  getBoletaPago_secuencia();
 	Integer  getActa_id();
 	Integer  getConvenio_id();
-		 
+	
+	String getConvenio_nro();
+	String getActa_nro();
+	BigDecimal getActa_pago();
+	BigDecimal getConvenio_pago();
+	
 }
