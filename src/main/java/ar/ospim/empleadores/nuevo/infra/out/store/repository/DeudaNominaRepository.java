@@ -26,7 +26,7 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 	@Query(value = "SELECT * FROM fdeudanomina_actualizar_x_log(?1);", nativeQuery = true)	
 	void actualizarCuit( @Param("p_cuit")  String p_cuit);
 	
-	@Query(value = "select sum(ch.importe) from convenio_cuota cu "
+	@Query(value = "select COALESCE( sum(ch.importe), 0) from convenio_cuota cu "
 			+ "	join convenio_cuota_cheque ch on ch.convenio_cuota_id = cu.id "
 			+ " where convenio_id = :convenioId ;", nativeQuery = true)
 	BigDecimal countChequesImporteTotal(@Param("convenioId") Integer convenioId);
