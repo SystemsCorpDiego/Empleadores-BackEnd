@@ -359,8 +359,11 @@ public class ConvenioServiceImpl implements ConvenioService {
 				importeTotalConvenio = importeTotalConvenio.add(convenio.getImporteIntereses());
 			
 			BigDecimal importeTotalCheques = deudaNominaRepository.countChequesImporteTotal(convenio.getId() );
+			//BigDecimal.ROUND_UNNECESSARY
+						
 			
-			if (importeTotalConvenio.compareTo(importeTotalCheques) != 0) {
+			//if (importeTotalConvenio.setScale(0, java.math.RoundingMode.DOWN).compareTo(importeTotalCheques.setScale(0, java.math.RoundingMode.DOWN)) != 0) {
+			if ( importeTotalConvenio.subtract(importeTotalCheques).abs().compareTo(new BigDecimal(1)) == 1 ) {
 				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.name(), String.format(errorMsg, importeTotalConvenio, importeTotalCheques));			   			
 			}
