@@ -235,7 +235,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 
 		 convenio.setEmpresa(empresa);
 		 convenio.setEntidad(dto.getEntidad());
-		 convenio.setEstado("PENDIENTE");
+		 convenio.setEstado( ConvenioEstadoEnum.PENDIENTE.getCodigo() );
 		 convenio.setCreatedOn(LocalDateTime.now());
 		 
 		 //Estos hay que calcularlos segun detalle
