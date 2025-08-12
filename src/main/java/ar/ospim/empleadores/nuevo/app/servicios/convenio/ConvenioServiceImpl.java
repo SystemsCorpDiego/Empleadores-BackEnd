@@ -341,7 +341,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private void validarCambioEstado(Convenio  convenio, String estadoNew) {
 		ConvenioEstadoEnum eEstadoNew = ConvenioEstadoEnum.map(estadoNew);
-		if ( eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.PRES.getCodigo()) ) {
+		if ( eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.PRES.getCodigo())
+				|| eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.APROB.getCodigo())
+				) {
 			
 			//La fecha de Intencion de PAgo debe ser futura.-
 			if ( convenio.getIntencionDePago() == null ||
