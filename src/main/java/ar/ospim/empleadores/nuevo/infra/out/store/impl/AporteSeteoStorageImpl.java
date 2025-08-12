@@ -59,5 +59,16 @@ public class AporteSeteoStorageImpl implements AporteSeteoStorage {
 	public void deleteById(Integer id) {
 		repository.deleteById( id );
 	}
+
+	@Override
+	public Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde) {
+		Optional<AporteSeteo> reg = repository.findContenido( entidad, aporte, desde);
+		return reg;
+	}
 	
+	@Override
+	public Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde, Integer id) {
+		Optional<AporteSeteo> reg = repository.findContenido( entidad, aporte, desde, id);
+		return reg;
+	}
 }

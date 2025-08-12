@@ -25,6 +25,7 @@ public enum CommonEnumException {
 	ERROR_FECHA_PASADA,
 	IMPORTE_NEGATIVO,
 	ATRIBUTO_MAYOR_A_CERO,
+	ATRIBUTO_BIGDECIMAL,
 	;
 	
 	public String getMsgKey() {

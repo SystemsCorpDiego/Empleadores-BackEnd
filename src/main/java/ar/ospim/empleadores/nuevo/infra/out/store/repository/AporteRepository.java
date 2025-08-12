@@ -30,7 +30,7 @@ public interface AporteRepository extends JpaRepository<Aporte, String> {
 	@Query(value ="select * FROM aporte a"
 							+ "where exists ( select * FROM aporte_seteo s"
 										+ "			   where  s.aporte = a.codigo"
-										+ "			   and    s.desde < ?1 "
+										+ "			   and    s.desde <= ?1 "
 										+ "			   and    COALESCE(s.hasta, ?1 ) >= ?1 "
 										+ "			  )", 
 				nativeQuery = true)

@@ -15,6 +15,7 @@ public interface AfipInteresStorage {
 	public AfipInteresBO findById(Integer id);	
 	public Optional<AfipInteresBO> findByDesde(LocalDate desde);
 	public Optional<AfipInteresBO> findContenido(LocalDate desde);
+	public Optional<AfipInteresBO> findContenido(LocalDate desde, Integer id);
 	
 	public  BigDecimal calcularInteres(BigDecimal capital, LocalDate desde, LocalDate hasta);
 	

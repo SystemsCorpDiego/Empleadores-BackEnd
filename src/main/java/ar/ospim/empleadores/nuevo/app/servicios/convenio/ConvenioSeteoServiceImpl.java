@@ -29,8 +29,7 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 		if ( reg.getCuit()!=null && "".equals(reg.getCuit().trim()) ) {
 			reg.setCuit(null);
 		}
-		validarVigenciaSolapada(reg.getCuit(), reg.getDesde(), reg.getId() );
-		validarVigenciaSolapada(reg.getCuit(), reg.getHasta(), reg.getId() );
+		validarVigenciaSolapada(reg);
 		
 		return storage.save(reg);
 	}
@@ -55,19 +54,34 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 		return storage.getAll();
 	}
 	
+	private void validarVigenciaSolapada(ConvenioSeteo reg) {
+		LocalDate vigencia =  reg.getDesde();		
+		validarVigenciaSolapada(reg.getCuit(), vigencia, reg.getId());
+		vigencia =  reg.getHasta();
+		if ( vigencia == null)
+			vigencia = LocalDate.now().plusYears(9000);
+		validarVigenciaSolapada(reg.getCuit(), vigencia, reg.getId());
+	}
+	
 	private void validarVigenciaSolapada(String cuit, LocalDate vigencia, Integer id) {
 		Optional<ConvenioSeteo> cons;
 		if ( cuit == null) {
-			cons = storage.findContenido(vigencia);
+			if ( id != null) {
+				cons = storage.findContenido(vigencia, id);
+			} else {
+				cons = storage.findContenido(vigencia);
+			}
 		} else {
-			cons = storage.findContenido(cuit, vigencia);
+			if ( id != null) {
+				cons = storage.findContenido(cuit, vigencia, id);
+			} else {
+				cons = storage.findContenido(cuit, vigencia);
+			}
 		}
 		
 		if ( cons.isPresent() ) {
-			if ( id == null || !cons.get().getId().equals(id) ) {
-				String errorMsg = messageSource.getMessage(CommonEnumException.FECHA_RANGO_EXISTENTE.getMsgKey(), null, new Locale("es"));
-				throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
-			}
+			String errorMsg = messageSource.getMessage(CommonEnumException.FECHA_RANGO_EXISTENTE.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
 		}
 	}
 	

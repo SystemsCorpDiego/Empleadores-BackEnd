@@ -16,10 +16,21 @@ public interface AporteVencimientoRepository extends JpaRepository<AporteVencimi
 	
 	@Query(value ="select * FROM aporte_vencimiento i "
 			+ " where ?2 BETWEEN i.desde and COALESCE(i.hasta, ?2) "
-			+ " and aporte = ?1 "
+			+ " and i.aporte = ?1 "
 			+ " order by i.desde desc "
 			+ " LIMIT 1 ",
 			nativeQuery = true
 			)
 	Optional<AporteVencimiento> findContenido(String aporte, LocalDate desde);
+	
+	@Query(value ="select * FROM aporte_vencimiento i "
+			+ " where ?2 BETWEEN i.desde and COALESCE(i.hasta, ?2) "
+			+ " and i.aporte = ?1 "
+			+ " and i.id <> ?3 "
+			+ " order by i.desde desc "
+			+ " LIMIT 1 ",
+			nativeQuery = true
+			)
+	Optional<AporteVencimiento> findContenido(String aporte, LocalDate desde, Integer id);
+
 }

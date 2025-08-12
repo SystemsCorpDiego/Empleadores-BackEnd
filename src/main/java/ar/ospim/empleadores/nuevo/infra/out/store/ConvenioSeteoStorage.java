@@ -14,7 +14,9 @@ public interface ConvenioSeteoStorage {
 	public List<ConvenioSeteo> getAll();
 	
 	public Optional<ConvenioSeteo> findContenido(String cuit, LocalDate desde);
+	public Optional<ConvenioSeteo> findContenido(String cuit, LocalDate desde, Integer id);
 	public Optional<ConvenioSeteo> findContenido(LocalDate desde);
+	public Optional<ConvenioSeteo> findContenido(LocalDate desde, Integer id);
 	
 	public ConvenioSeteo findVigente(String codigo, LocalDate periodo);
 	

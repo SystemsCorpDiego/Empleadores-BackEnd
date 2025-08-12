@@ -59,6 +59,14 @@ public class AfipInteresStorageImpl implements AfipInteresStorage {
 		AfipInteresBO reg = mapper.map(consulta.get());		
 		return Optional.of(reg);
 	}
+	public Optional<AfipInteresBO> findContenido(LocalDate desde, Integer id) {
+		Optional<AfipInteres> consulta = repository.findContenido(desde, id);
+		if ( consulta.isEmpty() ) {
+			return Optional.ofNullable(null);
+		}
+		AfipInteresBO reg = mapper.map(consulta.get());		
+		return Optional.of(reg);
+	}
 	
 	public AfipInteresBO save(AfipInteresBO regBO) {
 		AfipInteres registro;

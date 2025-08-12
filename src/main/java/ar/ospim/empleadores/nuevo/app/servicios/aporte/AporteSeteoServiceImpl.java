@@ -1,8 +1,10 @@
 package ar.ospim.empleadores.nuevo.app.servicios.aporte;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.MessageSource;
@@ -16,6 +18,7 @@ import ar.ospim.empleadores.nuevo.app.servicios.camara.CamaraService;
 import ar.ospim.empleadores.nuevo.app.servicios.entidad.EntidadService;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteSeteoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteSeteo;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -36,7 +39,7 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 		
 		validarFK(reg);
 		validarNulos(reg);
-		
+		validarVigenciaSolapada(reg);
 		//Validaciones
 		//Aporte obligatorio
 		//desde obligatorio
@@ -44,6 +47,7 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 		//si calculoTipo=PO =>debe existir calculoBase
 			//si calculoBase=PJ o PS => debe existir camara, camara_categoria y camara_antiguedad
 		
+		//Solapamiento para Entidad-Aporte
 
 		
 		return storage.save(reg);
@@ -72,13 +76,16 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Valor de Calculo"));
 		}		
+		
+		//Ahora valido nulos segun CalculoTipo
+		
 
-		//si calculoTipo=PO =>debe existir calculoBase
-		if ( reg.getCalculo().getTipo() != null  && reg.getCalculo().getTipo().equals("PO") ) {
+		//Calculo Tipo PO-Porcentual =>debe existir calculoBase
+		if ( reg.getCalculo().getTipo().equals("PO") ) {
 			if ( reg.getCalculo().getBase() == null ) {
 				String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Base de Calculo"));
-			}			
+			}						
 		}
 
 		//si calculoBase=PJ o PS => debe existir camara, camara_categoria y camara_antiguedad
@@ -97,19 +104,20 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 			}
 		}
 		
-		if( reg.getCategoria() != null && (reg.getCamara() == null || reg.getCamara().getCodigo() == null ) ) {
-			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Camara"));
-		}
 		
-		if( reg.getAntiguedad() != null && reg.getCategoria() == null ) {
+		//Camara+Categoria+Antiguedad deben ir TODOS o ninguno
+		if(    ( reg.getCategoria() != null ||
+				(reg.getCamara() != null && reg.getCamara().getCodigo() != null )  ||
+				reg.getAntiguedad() != null
+				) &&
+				( reg.getCategoria() == null ||
+				 (reg.getCamara() == null || reg.getCamara().getCodigo() == null )  ||
+				 reg.getAntiguedad() == null
+				) 
+			) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Categoria"));
-		}
-		if( reg.getAntiguedad() != null && (reg.getCamara() == null || reg.getCamara().getCodigo() == null )  ) {
-			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Camara"));
-		}
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Camara-Categoria-Antiguedad"));
+		}		
 		
 	}
 	
@@ -135,7 +143,7 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 				}
 			}
 			
-			if (reg.getCalculo().getBase() != null) {				
+			if (reg.getCalculo().getBase() != null && !reg.getCalculo().getBase().equals("") ) {				
 				if ( !calculoService.validarBase( reg.getCalculo().getBase()  ) ) {
 					String errorMsg = messageSource.getMessage(CommonEnumException.CODIGO_INVALIDO_NOMBRE.getMsgKey(), null, new Locale("es"));
 					throw new BusinessException(CommonEnumException.CODIGO_INVALIDO_NOMBRE.name(), String.format(errorMsg, "Base de Calculo"));
@@ -156,6 +164,29 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 				}
 			}
 						
+		}
+	}
+	
+	private void validarVigenciaSolapada(AporteSeteoBO reg) {
+		LocalDate vigencia =  reg.getDesde();		
+		validarVigenciaSolapada(reg.getEntidad().getCodigo(), reg.getAporte(), vigencia, reg.getId());
+		vigencia =  reg.getHasta();
+		if ( vigencia == null)
+			vigencia = LocalDate.now().plusYears(9000);
+		validarVigenciaSolapada(reg.getEntidad().getCodigo(), reg.getAporte(), vigencia, reg.getId());
+	}
+	
+	private void validarVigenciaSolapada(String entidad, String aporte,  LocalDate vigencia, Integer id) {
+		Optional<AporteSeteo> cons;
+		if ( id != null ) {
+			cons = storage.findContenido(entidad, aporte,  vigencia, id);
+		} else {
+			cons = storage.findContenido(entidad, aporte,  vigencia);
+		}
+		
+		if ( cons.isPresent() ) {			
+				String errorMsg = messageSource.getMessage(CommonEnumException.FECHA_RANGO_EXISTENTE.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
 		}
 	}
 	
