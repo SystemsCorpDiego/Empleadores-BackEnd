@@ -3,6 +3,8 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -11,7 +13,8 @@ import lombok.Data;
 public class ConvenioSeteoDto {
 
 	private Integer id;
-		
+	
+	@Size(max = 11, message = "El CUIT no puede ser mayor a 11 caracteres.")
 	private String cuit;
 	
 	private Integer cuotas;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioSeteoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;
 import lombok.AllArgsConstructor;
@@ -23,13 +23,14 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	
 	private final MessageSource messageSource;
 	private final ConvenioSeteoStorage storage;
-	
+	private final EmpresaService empresaService;
 	@Override
 	public ConvenioSeteo guardar(ConvenioSeteo reg) {
 		if ( reg.getCuit()!=null && "".equals(reg.getCuit().trim()) ) {
 			reg.setCuit(null);
 		}
 		validarVigenciaSolapada(reg);
+		validarCuit(reg);
 		
 		return storage.save(reg);
 	}
@@ -52,6 +53,12 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	@Override
 	public List<ConvenioSeteo> getAll() {
 		return storage.getAll();
+	}
+	
+	private void validarCuit(ConvenioSeteo reg) {
+		
+		empresaService.getEmpresa(reg.getCuit());
+		
 	}
 	
 	private void validarVigenciaSolapada(ConvenioSeteo reg) {
