@@ -131,7 +131,7 @@ public class AporteSeteoServiceImpl implements AporteSeteoService {
 				}
 			}
 			if (reg.getEntidad() != null) {
-				if ( !entidadService.validarCodigo( reg.getEntidad().getCodigo() ) ) {
+				if ( reg.getEntidad().getCodigo() == null || !entidadService.validarCodigo( reg.getEntidad().getCodigo() ) ) {
 					String errorMsg = messageSource.getMessage(CommonEnumException.CODIGO_INVALIDO_NOMBRE.getMsgKey(), null, new Locale("es"));
 					throw new BusinessException(CommonEnumException.CODIGO_INVALIDO_NOMBRE.name(), String.format(errorMsg, "Entidad"));
 				}
