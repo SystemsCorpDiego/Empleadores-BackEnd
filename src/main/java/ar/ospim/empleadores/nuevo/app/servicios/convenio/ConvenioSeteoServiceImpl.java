@@ -29,6 +29,7 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 		if ( reg.getCuit()!=null && "".equals(reg.getCuit().trim()) ) {
 			reg.setCuit(null);
 		}
+		validarNulos(reg);
 		validarVigenciaSolapada(reg);
 		validarCuit(reg);
 		
@@ -59,6 +60,18 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 		
 		empresaService.getEmpresa(reg.getCuit());
 		
+	}
+	
+	private void validarNulos(ConvenioSeteo reg) {
+		if ( reg.getDesde() == null) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Vigencia Desde"));
+		}
+		if ( reg.getCuotas() == null || reg.getCuotas().equals(0) ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Cant. Cuotas"));
+		}
+			
 	}
 	
 	private void validarVigenciaSolapada(ConvenioSeteo reg) {
