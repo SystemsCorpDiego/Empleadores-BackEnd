@@ -354,7 +354,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 		ConvenioEstadoEnum eEstado = ConvenioEstadoEnum.map(convenio.getEstado());
 		
 		// Presentado => solo puede hacerlo la empresa
-		if ( !usuarioInfo.validarEmpresa(convenio.getEmpresa().getId()) ) {
+		if ( !usuarioInfo.validarEmpresa(convenio.getEmpresa().getId()) 
+				&& eEstadoNew.equals( ConvenioEstadoEnum.PRES) ) {
 			String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_CAMBIO_PRESENTAR_SOLO_EMPLEADOR.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(ConvenioEnumException.ESTADO_CAMBIO_PRESENTAR_SOLO_EMPLEADOR.name(), errorMsg );			   						
 		}
