@@ -19,12 +19,29 @@ public interface ConvenioRepository  extends JpaRepository< Convenio, Integer>  
 	
 	public List<Convenio> findByEmpresaId(Integer empresaId);
 	public List<Convenio> findByEmpresaIdAndEstado(Integer empresaId, String estado);
+	
+	@Query(value =" select * FROM convenio "
+			+ " where empresa_id = ?1 "
+			+ " and creado_en between ?2 and ?3 ", nativeQuery = true)
 	public List<Convenio> findByEmpresaIdAndCreatedOnBetween(Integer empresaId, LocalDateTime desde, LocalDateTime hasta);
+	
+	@Query(value =" select * FROM convenio "
+			+ " where empresa_id = ?1 "
+			+ " and estado = ?2"
+			+ " and creado_en between ?3 and ?4 ", nativeQuery = true)
 	public List<Convenio> findByEmpresaIdAndEstadoAndCreatedOnBetween(Integer empresaId, String estado, LocalDateTime desde, LocalDateTime hasta);
+	
 	public List<Convenio> findByEmpresaIdAndEstadoAndEntidad(Integer empresaId, String estado, String entidad); 
 	
+	@Query(value =" select * FROM convenio "
+			+ " where creado_en between ?1 and ?2 ", nativeQuery = true)
 	public List<Convenio> findByCreatedOnBetween(LocalDateTime desde, LocalDateTime hasta);
+
+	@Query(value =" select * FROM convenio "
+			+ " where creado_en between ?1 and ?2 "
+			+ " and estado = ?3", nativeQuery = true)
 	public List<Convenio> findByCreatedOnBetweenAndEstado(LocalDateTime desde, LocalDateTime hasta, String estado);
+	
 	public List<Convenio> findByEstado(String estado);
 	
 	@Transactional

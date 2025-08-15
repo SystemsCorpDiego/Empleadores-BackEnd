@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
+import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
@@ -88,6 +89,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final AjusteRepository ajusteRepository; 
 	private final AfipInteresService afipInteresService;
 	private final DeudaService deudaService;
+	private final UsuarioInfo usuarioInfo;  
 	
 	@Override
 	@Transactional
@@ -112,8 +114,14 @@ public class ConvenioServiceImpl implements ConvenioService {
 		Convenio convenioNew = armarConvenio(dtoAlta);
 		convenioNew.setId( convenioOri.getId() );
 		convenioNew.setEstado( convenioOri.getEstado() );
-		convenioNew.setCreatedOn( convenioOri.getCreatedOn() );
 		
+		convenioNew.setCreatedOn( convenioOri.getCreatedOn() );
+		convenioNew.setCreatedBy( convenioOri.getCreatedBy() );
+		convenioNew.setUpdatedOn( convenioOri.getUpdatedOn() );
+		convenioNew.setUpdatedBy( convenioOri.getUpdatedBy() );
+		convenioNew.setDeletedOn( convenioOri.getDeletedOn() );
+		convenioNew.setDeletedBy( convenioOri.getDeletedBy() );
+		convenioNew.setDeleted( convenioOri.isDeleted() );
 		
 		//Guardo los Detalles nuevos.-
 		guardarConvenioDetalle( convenioNew );
@@ -236,7 +244,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 convenio.setEmpresa(empresa);
 		 convenio.setEntidad(dto.getEntidad());
 		 convenio.setEstado( ConvenioEstadoEnum.PENDIENTE.getCodigo() );
-		 convenio.setCreatedOn(LocalDateTime.now());
+		 convenio.setEstadoFecha(LocalDateTime.now());
 		 
 		 //Estos hay que calcularlos segun detalle
 		 convenio.setImporteDeuda( BigDecimal.ZERO );
@@ -310,27 +318,29 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 convenio.setAjustes(ajustes);
 	}
 	
-	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {
-		//cambio estado
-		Convenio  convenio = storage.getById(convenioId);
-		convenio.setEstado(estado);
-		convenio = storage.guardar(convenio);
-		
-		//TODO: falta enviar convenio a molineros !!!
-		
-		return convenio;		
+	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {		
+		//TODO: faltaria validar EmpresaId
+		return cambiarEstado(convenioId, estado);		
 	}
 	
 	public Convenio cambiarEstado(Integer convenioId, String estado) {
-		//cambio estado
+		//TODO: falta enviar convenio a molineros !!!
+		//TODO: Si estado es APROBADO => mandar mail a GENTE !!!!
+		
 		Convenio  convenio = storage.getById(convenioId);
+		
 		validarEstado(estado);
 		validarCambioEstado(convenio, estado);
+
+		if ( ConvenioEstadoEnum.PRES.getCodigo().equals(estado) ) {
+			convenio.setPresentadoFecha( LocalDateTime.now() );
+		}
 		
 		convenio.setEstado(estado);
+		convenio.setEstadoFecha(LocalDateTime.now());
+		
 		convenio = storage.guardar(convenio);
 		 
-		//TODO: falta enviar convenio a molineros !!!
 		
 		return convenio;		
 	}
@@ -341,6 +351,27 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private void validarCambioEstado(Convenio  convenio, String estadoNew) {
 		ConvenioEstadoEnum eEstadoNew = ConvenioEstadoEnum.map(estadoNew);
+		ConvenioEstadoEnum eEstado = ConvenioEstadoEnum.map(convenio.getEstado());
+		
+		// Presentado => solo puede hacerlo la empresa
+		if ( !usuarioInfo.validarEmpresa(convenio.getEmpresa().getId()) ) {
+			String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_CAMBIO_PRESENTAR_SOLO_EMPLEADOR.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(ConvenioEnumException.ESTADO_CAMBIO_PRESENTAR_SOLO_EMPLEADOR.name(), errorMsg );			   						
+		}
+		
+		
+		if ( ! eEstado.equals(eEstadoNew) ) {
+			if ( ( eEstadoNew.equals( ConvenioEstadoEnum.APROB ) ||
+					eEstadoNew.equals( ConvenioEstadoEnum.OBSR ) ||
+					eEstadoNew.equals( ConvenioEstadoEnum.RECH ) ) &&
+					convenio.getPresentadoFecha() == null
+				) {				
+				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_CAMBIO_SIN_PRESENTAR.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(ConvenioEnumException.ESTADO_CAMBIO_SIN_PRESENTAR.name(), errorMsg );			   			
+			}
+		}
+		 
+		
 		if ( eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.PRES.getCodigo())
 				|| eEstadoNew.getCodigo().equals(ConvenioEstadoEnum.APROB.getCodigo())
 				) {
@@ -365,7 +396,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 						
 			
 			//if (importeTotalConvenio.setScale(0, java.math.RoundingMode.DOWN).compareTo(importeTotalCheques.setScale(0, java.math.RoundingMode.DOWN)) != 0) {
-			if ( importeTotalConvenio.subtract(importeTotalCheques).abs().compareTo(new BigDecimal(1)) == 1 ) {
+			if ( importeTotalConvenio.subtract(importeTotalCheques).abs().compareTo(new BigDecimal(2)) == 1 ) {
 				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.name(), String.format(errorMsg, importeTotalConvenio, importeTotalCheques));			   			
 			}

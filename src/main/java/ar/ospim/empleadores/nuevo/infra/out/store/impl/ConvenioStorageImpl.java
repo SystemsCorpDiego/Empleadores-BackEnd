@@ -46,6 +46,7 @@ public class ConvenioStorageImpl implements ConvenioStorage {
 		 } else {
 			 log.debug( "imprimirconvenio() - convenio: NULL");
 		 }
+	 
 	 }
 	 
 	 @Override
