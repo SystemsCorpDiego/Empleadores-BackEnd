@@ -49,7 +49,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ Exception.class })
 	public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {		
 		HttpStatus status = HttpStatus.PRECONDITION_FAILED; 
-		WebServiceException wsError = new WebServiceException("-1", "Error inesperado", ex);
+		WebServiceException wsError = new WebServiceException("-1", "Error inesperado. No se pudo completar la transaccion solicitada", ex);
 		ApiErrorMessageDto error = new ApiErrorMessageDto(wsError.getErrorType(), wsError.getTicketError(), wsError.getCodigo(), wsError.getDescripcion() );
 
 		log.error("************  handleAll - INIT ************  ");       
@@ -72,7 +72,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleNoHandlerFoundException(
 	  NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-		WebServiceException wsError = new WebServiceException("-1", "Error inesperado", ex);
+		WebServiceException wsError = new WebServiceException("-1", "Error inesperado. No se pudo completar la transaccion solicitada", ex);
 		ApiErrorMessageDto error = new ApiErrorMessageDto(wsError.getErrorType(), wsError.getTicketError(), wsError.getCodigo(), wsError.getDescripcion() );
 		
 		log.error("************  handleNoHandlerFoundException - INIT ************  ");        
