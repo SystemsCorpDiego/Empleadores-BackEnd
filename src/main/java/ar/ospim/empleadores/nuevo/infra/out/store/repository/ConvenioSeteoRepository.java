@@ -50,4 +50,13 @@ public interface ConvenioSeteoRepository extends JpaRepository< ConvenioSeteo, I
 			)
 	Optional<ConvenioSeteo> findContenido(String cuit, LocalDate desde, Integer id);
 
+	@Query(value ="select * FROM convenio_seteo i "
+			+ " where i.cuit IS NULL "
+			+ " and     ?1 BETWEEN i.desde and COALESCE(i.hasta, ?1) "
+			+ " order by i.id "
+			+ " LIMIT 1 ",
+			nativeQuery = true
+			)
+	Optional<ConvenioSeteo> findContenidoGeneral( LocalDate desde );
+	
 }

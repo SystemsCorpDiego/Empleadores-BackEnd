@@ -11,6 +11,9 @@ public interface ConvenioSeteoService {
 	public void borrar(Integer id);	
 
 	public ConvenioSeteo get(Integer id);
+	
+	public ConvenioSeteo getVigentePorCuit(String cuit);
+	
 	public List<ConvenioSeteo> getAll();
 	
 	public List<ConvenioSeteo> findVigentes( LocalDate periodo );

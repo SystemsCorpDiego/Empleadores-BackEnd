@@ -118,11 +118,11 @@ public class RedLinkServiceImpl implements RedLinkService {
 			throw new WebServiceException( "2", "Error Remote Exception" + e.getMessage() , e);
 	    } catch ( BusinessException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
+				log.error("generarBep() - BusinessException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch ( WebServiceException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
+				log.error("generarBep() - WebServiceException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch (Exception e) {
 	    	log.error("generarBep() - Exception- Error al llamar a ws Red Link: {}",e);

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
+import ar.ospim.empleadores.comun.exception.WebServiceException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
@@ -617,11 +618,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return rta;
 	}
 	
-	public Convenio get(Integer empresaId, Integer convenioId) {		
+	public Convenio get(Integer empresaId, Integer convenioId) {	
 		Convenio convenio = storage.get(convenioId);		
 		if ( convenio.getCuotas() != null)
-			orderByNroCuota(convenio.getCuotas());
-		
+			orderByNroCuota(convenio.getCuotas());			
 		return convenio;
 	}
 	

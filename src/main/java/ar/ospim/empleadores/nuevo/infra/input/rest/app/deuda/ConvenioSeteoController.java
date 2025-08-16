@@ -1,9 +1,11 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.comun.exception.BusinessException;
+import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioSeteoService;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioSeteoCuitDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioSeteoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioSeteoMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;
@@ -27,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ConvenioSeteoController {
 
+	private final MessageSource messageSource;
 	private final ConvenioSeteoMapper mapper;
 	private final ConvenioSeteoService service;
 	
@@ -71,4 +77,21 @@ public class ConvenioSeteoController {
 		return ResponseEntity.ok( null);
 	}
 
+	@GetMapping(value = "/cuit/{cuit}")
+	public ResponseEntity<ConvenioSeteoCuitDto>  getVigentePorCuit(@PathVariable("cuit") String cuit) {
+		log.debug( "ConvenioSeteoController.getSeteosCuit - cuit:  " + cuit );  		
+		
+		if ( cuit == null) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "CUIT") );
+		}
+		
+		ConvenioSeteo reg = service.getVigentePorCuit(cuit);		
+		if ( reg == null)
+			return ResponseEntity.noContent().build();
+		
+		ConvenioSeteoCuitDto dto = mapper.run2(reg);
+		return ResponseEntity.ok( dto );
+	}
+	
 }

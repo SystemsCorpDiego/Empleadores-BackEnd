@@ -70,4 +70,10 @@ public class ConvenioSeteoStorageImpl implements ConvenioSeteoStorage {
 	public Optional<ConvenioSeteo> findContenido(LocalDate desde, Integer id) {
 		return repository.findContenido(desde, id);
 	}
+
+	@Override
+	public Optional<ConvenioSeteo> findContenidoGeneral(LocalDate desde) {
+		return repository.findContenidoGeneral(desde);		
+	}
+	
 }

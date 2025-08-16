@@ -24,6 +24,8 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	private final MessageSource messageSource;
 	private final ConvenioSeteoStorage storage;
 	private final EmpresaService empresaService;
+	
+	
 	@Override
 	public ConvenioSeteo guardar(ConvenioSeteo reg) {
 		if ( reg.getCuit()!=null && "".equals(reg.getCuit().trim()) ) {
@@ -55,6 +57,20 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	public List<ConvenioSeteo> getAll() {
 		return storage.getAll();
 	}
+	
+	public ConvenioSeteo getVigentePorCuit(String cuit) {
+		
+		Optional<ConvenioSeteo> cons = storage.findContenido(cuit, LocalDate.now() );
+		if ( cons.isPresent() )
+			return cons.get();
+		
+		cons = storage.findContenidoGeneral( LocalDate.now() );
+		if ( cons.isPresent() )
+			return cons.get();
+
+		return null;
+	}
+	
 	
 	private void validarCuit(ConvenioSeteo reg) {
 		
