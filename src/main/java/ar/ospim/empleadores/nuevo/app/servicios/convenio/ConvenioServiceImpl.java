@@ -17,12 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.comun.exception.WebServiceException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
+import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
@@ -90,6 +91,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final AjusteRepository ajusteRepository; 
 	private final AfipInteresService afipInteresService;
 	private final DeudaService deudaService;
+	private final FormaPagoService formaPagoService;
 	private final UsuarioInfo usuarioInfo;  
 	
 	@Override
@@ -253,8 +255,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 convenio.setImporteSaldoFavor( BigDecimal.ZERO );
 		 
 		 convenio.setIntencionDePago( dto.getFechaPago() );
+		 convenio.setMedioPago( dto.getMedioDePago() );
 		 convenio.setCuotasCanti(dto.getCantidadCuota());
-		 convenio.setMedioPago("CHEQUE");
+		 //convenio.setMedioPago("CHEQUE");
 		 
 		 armarDetalle(convenio, dto);
 		 
@@ -556,6 +559,11 @@ public class ConvenioServiceImpl implements ConvenioService {
 		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
+		if (! formaPagoService.existe( convenio.getMedioPago() ) ) {
+			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.name(), errorMsg );					
 		}
 		
 		ConvenioConsultaFiltroDto filtro = new ConvenioConsultaFiltroDto();

@@ -63,7 +63,9 @@ public class FormaPagoServiceImpl implements FormaPagoService {
 	public Boolean existe(String codigo) {
 		if ( FormaPagoEnum.VENTANILLA.getCodigo().equals(codigo) ||  
 				FormaPagoEnum.REDLINK.getCodigo().equals(codigo) || 
-				FormaPagoEnum.PMCUENTAS.getCodigo().equals(codigo) ) {
+				FormaPagoEnum.PMCUENTAS.getCodigo().equals(codigo) ||
+				FormaPagoEnum.CHEQUE.getCodigo().equals(codigo) ||
+				FormaPagoEnum.BANELCO.getCodigo().equals(codigo) ) {
 			return true;
 		} else {
 			return false;

@@ -15,6 +15,7 @@ public interface ConvenioSeteoRepository extends JpaRepository< ConvenioSeteo, I
 	
 	@Query(value ="select * FROM convenio_seteo i "
 			+ " where ?1 BETWEEN i.desde and COALESCE(i.hasta, ?1) "
+			+ " and     i.cuit IS NULL "
 			+ " order by i.id "
 			+ " LIMIT 1 ",
 			nativeQuery = true
@@ -23,6 +24,7 @@ public interface ConvenioSeteoRepository extends JpaRepository< ConvenioSeteo, I
 
 	@Query(value ="select * FROM convenio_seteo i "
 			+ " where ?1 BETWEEN i.desde and COALESCE(i.hasta, ?1) "
+			+ " and     i.cuit IS NULL "
 			+ " and     i.id <> ?2 "
 			+ " order by i.id "
 			+ " LIMIT 1 ",

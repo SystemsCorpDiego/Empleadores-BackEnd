@@ -73,8 +73,8 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	
 	
 	private void validarCuit(ConvenioSeteo reg) {
-		
-		empresaService.getEmpresa(reg.getCuit());
+		if ( reg.getCuit() != null )
+			empresaService.getEmpresa(reg.getCuit());
 		
 	}
 	
