@@ -12,6 +12,7 @@ public class ConvenioModiDto {
 	
 	private Integer cantidadCuota;
 	private LocalDate fechaPago;
+	private String medioDePago;
 	
 	private List<Integer> actas;
 	private List<Integer> ddjjs;

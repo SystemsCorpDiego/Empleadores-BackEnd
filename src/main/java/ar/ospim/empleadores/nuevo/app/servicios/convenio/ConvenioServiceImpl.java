@@ -98,22 +98,9 @@ public class ConvenioServiceImpl implements ConvenioService {
 	@Transactional
 	public Convenio actualizar(ConvenioModiDto dto) {
 		Convenio convenioOri = storage.get(dto.getConvenioId());
-
-		 
-		//TODO: Ver si se validan CHEQUES. Por ahora se borran...
-		 
-		
-		//Borro todos los Detalles del Contrato ...
-		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
-		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
-		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
-			convenioDdjjRepository.baja( reg.getId() );
-		}
-		
-
 		
 		ConvenioAltaDto dtoAlta = mapper.run(dto);
-		dtoAlta.setEntidad(convenioOri.getEntidad());		
+		dtoAlta.setEntidad(convenioOri.getEntidad());		//La entidad no puede cambiar
 		Convenio convenioNew = armarConvenio(dtoAlta);
 		convenioNew.setId( convenioOri.getId() );
 		convenioNew.setEstado( convenioOri.getEstado() );
@@ -125,6 +112,20 @@ public class ConvenioServiceImpl implements ConvenioService {
 		convenioNew.setDeletedOn( convenioOri.getDeletedOn() );
 		convenioNew.setDeletedBy( convenioOri.getDeletedBy() );
 		convenioNew.setDeleted( convenioOri.isDeleted() );
+		
+		
+		validarActualizacion(convenioNew);
+		 
+		//TODO: Ver si se validan CHEQUES. Por ahora se borran...
+		 
+		
+		//Borro todos los Detalles del Contrato ...
+		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
+		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
+		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
+			convenioDdjjRepository.baja( reg.getId() );
+		}
+		
 		
 		//Guardo los Detalles nuevos.-
 		guardarConvenioDetalle( convenioNew );
@@ -556,16 +557,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 	}
 	
 	private void validarAlta(Convenio convenio) {
-		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
-			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
-		}
-		
-		if (! formaPagoService.existe( convenio.getMedioPago() ) ) {
-			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.name(), errorMsg );					
-		}
-		
 		ConvenioConsultaFiltroDto filtro = new ConvenioConsultaFiltroDto();
 		filtro.setEmpresaId( convenio.getEmpresa().getId() );
 		filtro.setEstado( ConvenioEstadoEnum.PENDIENTE.getCodigo() );
@@ -581,7 +572,17 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	private void validarActualizacion(Convenio convenio) {
 		 
+		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
+			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
 		
+		if (! formaPagoService.existe( convenio.getMedioPago() ) ) {
+			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.name(), errorMsg );					
+		}
+		
+
 	}
 
 	
