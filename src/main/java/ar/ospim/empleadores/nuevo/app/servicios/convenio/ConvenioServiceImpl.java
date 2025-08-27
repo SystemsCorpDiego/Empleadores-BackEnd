@@ -19,8 +19,6 @@ import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
-import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
@@ -89,10 +87,11 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final ConvenioDdjjDeudaNominaRepository convenioDdjjDeudaNominaRepository;
 	private final DeudaNominaRepository deudaNominaRepository;
 	private final AjusteRepository ajusteRepository; 
-	private final AfipInteresService afipInteresService;
 	private final DeudaService deudaService;
 	private final FormaPagoService formaPagoService;
 	private final UsuarioInfo usuarioInfo;  
+	private final ConvenioInteresService convenioInteresService;
+	
 	
 	@Override
 	@Transactional
@@ -135,11 +134,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 		actualizarPlanPago( convenioOri, planPagoNew);
 		convenioNew.setCuotas(convenioOri.getCuotas());
 		
-		//storage.actualizarImportes(convenioNew.getId(), convenioNew.getImporteDeuda(), convenioNew.getImporteIntereses(), convenioNew.getImporteSaldoFavor());
-		//convenioNew.setAjustes(null);
-		//convenioNew.setActas(null);
-		//convenioNew.setDdjjs(null);
-		//convenioNew.setCuotas(null);
 		actualizarTotales(convenioNew);
 		convenioNew = storage.guardar(convenioNew);
 		
@@ -401,7 +395,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 			//BigDecimal.ROUND_UNNECESSARY
 						
 			
-			//if (importeTotalConvenio.setScale(0, java.math.RoundingMode.DOWN).compareTo(importeTotalCheques.setScale(0, java.math.RoundingMode.DOWN)) != 0) {
 			if ( importeTotalConvenio.subtract(importeTotalCheques).abs().compareTo(new BigDecimal(2)) == 1 ) {
 				String errorMsg = messageSource.getMessage(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(ConvenioEnumException.ESTADO_PRESENTADA_IMPCUOTAS_DIF_IMPCHEQUES.name(), String.format(errorMsg, importeTotalConvenio, importeTotalCheques));			   			
@@ -417,25 +410,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		Integer cantiCuotas = convenio.getCuotasCanti();
 		LocalDate vencimiento = convenio.getIntencionDePago();
 		
-		/*
-		BigDecimal importeCuota = calcularImporteCuota(capital, cantiCuotas, vencimiento);
-		convenio.setCuotas( new ArrayList<ConvenioCuota>() );
-		for (int cuotaNro = 1; cuotaNro <= cantiCuotas; cuotaNro++) {
-			cuota = new ConvenioCuota();
-			cuota.setConvenio(convenio);
-			cuota.setCuotaNro(cuotaNro);
-			cuota.setVencimiento( vencimiento );
-			cuota.setImporte( importeCuota );
-			convenio.getCuotas().add(cuota);
-			vencimiento = vencimiento.plusMonths(1); 
-		}
-		
-		BigDecimal imptotalAPagar = BigDecimal.ZERO;		
-		imptotalAPagar = importeCuota.multiply(BigDecimal.valueOf(cantiCuotas));
-				
-		convenio.setImporteIntereses( imptotalAPagar.subtract( capital ) );
-		*/
-		List<CalcularCuotasCalculadaDto> lst = calcularCuotas( capital, cantiCuotas, vencimiento);
+		List<CalcularCuotasCalculadaDto> lst = calcularCuotas(convenio.getEmpresa().getCuit(), capital, cantiCuotas, vencimiento);
 		convenio.setCuotas( new ArrayList<ConvenioCuota>() );		
 		for (CalcularCuotasCalculadaDto cuotaDto : lst) {
 			cuota = new ConvenioCuota();
@@ -451,31 +426,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		convenio.setImporteIntereses( totalInteres );
 	}
 	
-	public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
-		BigDecimal importeCuota = BigDecimal.ZERO;
-		BigDecimal interesCuota1 = null;
-		BigDecimal capitalCuota1 = null;		
-		
-		if ( cuotas.equals(1)) {
-			capitalCuota1 = capital;
-			interesCuota1 = afipInteresService.calcularInteres(capitalCuota1, LocalDate.now(), vencimiento);
-			importeCuota = capitalCuota1.add(interesCuota1) ;
-		} else {
-			capitalCuota1 =  capital.divide( BigDecimal.valueOf(cuotas), 2, RoundingMode.HALF_EVEN );			
-			interesCuota1 = afipInteresService.calcularInteres(capitalCuota1, LocalDate.now(), vencimiento);
-			BigDecimal capitalCuotaN = capital.subtract(capitalCuota1);
-			
-			BigDecimal importeCuotaN =  calcularCuotaImporteSF(capitalCuotaN, (cuotas-1));
-			
-			importeCuota = importeCuotaN.multiply(BigDecimal.valueOf((cuotas-1)) ).add(capitalCuota1).add(interesCuota1);
-			importeCuota = importeCuota.divide(BigDecimal.valueOf(cuotas) , 2, RoundingMode.HALF_EVEN );
-		}
-		
-		return importeCuota;
-	}
-	
-	public List<CalcularCuotasCalculadaDto> calcularCuotas(BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
-		
+	public List<CalcularCuotasCalculadaDto> calcularCuotas(String cuit, BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
 		if ( capital == null || capital.compareTo(BigDecimal.ZERO) < 1 ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.name(), String.format(errorMsg, "El Capital de las Cuotas ") );			
@@ -499,7 +450,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		cuota.setNumero(cuotaNro);
 		cuota.setImporte(capitalCuota);
 		cuota.setVencimiento(calculoFechaVtoCuota);
-		cuota.setInteres( afipInteresService.calcularInteres(capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+		cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
 		lst.add(cuota);
 		
 		for ( cuotaNro = 2;  cuotaNro<=cuotas;  cuotaNro++) {
@@ -509,12 +460,31 @@ public class ConvenioServiceImpl implements ConvenioService {
 			cuota.setNumero(cuotaNro);
 			cuota.setImporte(capitalCuota);
 			cuota.setVencimiento(calculoFechaVtoCuota);
-			cuota.setInteres( afipInteresService.calcularInteres(capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+			cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
 			
 			lst.add(cuota);
 		}
 			
-		return lst;
+		return lst;	
+	}
+	
+	public List<CalcularCuotasCalculadaDto> calcularCuotas(Integer empresaId, BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
+		
+		if (empresaId == null) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, " empresaId") );			
+		}
+		
+		String cuit = null;
+		try {
+			Empresa empresa = empresaRepository.getById(empresaId);
+			cuit = empresa.getCuit();
+		} catch (Exception e) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), String.format(errorMsg,  " Empresa ( " + empresaId + ") " ) );			
+		}
+		
+		return calcularCuotas(cuit, capital, cuotas, vencimiento );
 	}
 
 	private BigDecimal getCapitalConvenio(Convenio convenio) {
@@ -525,35 +495,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 		if ( convenio.getImporteSaldoFavor() != null)
 			importe = importe.subtract(convenio.getImporteSaldoFavor());
 		return importe;
-	}
-	
-	private BigDecimal calcularCuotaImporteSF(BigDecimal capital, Integer cuotas) {
-		BigDecimal importeCuotaSF = BigDecimal.ZERO; 
-				
-		AfipInteresBO afipInteres = afipInteresService.getContenido( LocalDate.now() );
-		BigDecimal interes = afipInteres.getIndice().multiply( BigDecimal.valueOf(30) );
-		BigDecimal uno = BigDecimal.valueOf(1);
-		BigDecimal auxPaso = null;
-
-		//C = V / ( (1 - ((1/(1+i)) exp N) ) / i)		
-		//C = cuota
-		//V = capital 
-		//i = interes mensual
-		//N = nro de cuotas
-		auxPaso = uno.divide( uno.add(interes), 2, RoundingMode.HALF_EVEN );
-		auxPaso = auxPaso.pow(cuotas);
-		auxPaso = uno.subtract( auxPaso  ); 
-		auxPaso = auxPaso.divide(interes, 2, RoundingMode.HALF_EVEN);
-		importeCuotaSF = capital.divide(auxPaso, 2, RoundingMode.HALF_EVEN );
-		
-		// V * ( i / ( 1-( 1/ ((1+i)exp c) ) ) )
-		auxPaso = uno.add(interes).pow(cuotas); //((1+i)exp c)
-		auxPaso = uno.divide(auxPaso, 2, RoundingMode.HALF_EVEN); //( 1/ ((1+i)exp c) )
-		auxPaso = uno.subtract(auxPaso); //( 1-( 1/ ((1+i)exp c) ) )
-		auxPaso = interes.divide(auxPaso, 2, RoundingMode.HALF_EVEN); //( i / ( 1-( 1/ ((1+i)exp c) ) ) )
-		auxPaso = capital.multiply(auxPaso); // V * ( i / ( 1-( 1/ ((1+i)exp c) ) ) )
-				
-		return importeCuotaSF;
 	}
 	
 	private void validarAlta(Convenio convenio) {
@@ -581,11 +522,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.name(), errorMsg );					
 		}
-		
-
 	}
 
-	
 	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio) {
 		ConvenioDeudaDto rta = mapper.run3(convenio);
 		rta.setDeclaracionesJuradas( convenioDeudaMapper.run(convenio.getDdjjs() ) );
@@ -775,7 +713,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 		return acta;
 	}
-	
+
 	public  void borrarAjuste(Integer empresaId, Integer convenioId, Integer ajusteId) {
 		convenioAjusteRepository.deleteById(ajusteId);
 		actualizarConvenioImportes(convenioId);
@@ -806,47 +744,44 @@ public class ConvenioServiceImpl implements ConvenioService {
 		return ajuste;
 	}
 	
+	
 	private Convenio calcularConvenioImportes(Convenio convenio) {
 		//Recalcula los importes del convenio ( tabla convenio y convenio_cuota
 		actualizarTotales(convenio);
 		 
 		BigDecimal capital = getCapitalConvenio(convenio);
+		BigDecimal interes = BigDecimal.ZERO; 
 		Integer cantiCuotas = convenio.getCuotasCanti();
 		LocalDate vencimiento = convenio.getIntencionDePago();
 			
-		BigDecimal importeCuota = calcularImporteCuota(capital, cantiCuotas, vencimiento);
-		for (ConvenioCuota reg : convenio.getCuotas()) {
-			reg.setImporte(importeCuota);
+		//TODO: aca hay que usar Intereses Seteo de Convenios 
+		//BigDecimal importeCuota = calcularImporteCuota(convenio.getEmpresa().getCuit(), capital, cantiCuotas, vencimiento);
+		
+		List<CalcularCuotasCalculadaDto> lstCuotas = calcularCuotas(convenio.getEmpresa().getCuit(), capital, cantiCuotas,  vencimiento );
+		for (CalcularCuotasCalculadaDto regCuotaNew : lstCuotas) {
+			for (ConvenioCuota regCuota : convenio.getCuotas()) {
+				if ( regCuota.getCuotaNro().equals(regCuotaNew.getNumero())  ) {
+					regCuota.setImporte(regCuotaNew.getImporte());
+					regCuota.setInteres(regCuotaNew.getInteres());
+					interes = interes.add(regCuotaNew.getInteres());
+				}
+			}
 		}
 		
-		convenio.setImporteIntereses( importeCuota.multiply( BigDecimal.valueOf(cantiCuotas) ).subtract(capital) );		
+		convenio.setImporteIntereses( interes );		
 		
-		return convenio;
-	}
-	
-	private Convenio calcularConvenioImportes(Integer convenioId) {
-		Convenio convenio = storage.get(convenioId);
-		calcularConvenioImportes(convenio);
 		return convenio;
 	}
 	
 	private Convenio actualizarConvenioImportes(Integer convenioId) {
 		Convenio convenio = storage.get(convenioId);
 		//imprimirconvenio( convenio);
-		
 		convenio = actualizarConvenioImportes(convenio);
 		return convenio;
-	}
-	
-	private void imprimirconvenio(Convenio convenio) {
-		 if ( convenio != null) {
-			 log.debug( "imprimirconvenio() - convenio: " + convenio.toString() );
-		 } else {
-			 log.debug( "imprimirconvenio() - convenio: NULL");
-		 }
-	 }
+	}	 
 	
 	private Convenio actualizarConvenioImportes(Convenio convenio) {
+		//Actualizar importes de Cuotas cada vez que se modifican los detalles de Actas, DDJJ y Ajustes.-
 		//Los importes estan en tabla convenio y convenio_cuotas
 		
 		convenio = calcularConvenioImportes(convenio);
@@ -859,13 +794,12 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 		return convenio;
 	}
-
+	
 	public  void borrarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId) {
 		
 		ConvenioDdjj convenioDdjj = convenioDdjjRepository.findByConvenioIdAndDdjjId(convenioId, ddjjId);
 		convenioDdjjRepository.baja(convenioDdjj.getId());
-		actualizarConvenioImportes(convenioId);
-		
+		actualizarConvenioImportes(convenioId);		
 	}
 	
 	public ConvenioDdjj asignarDDJJ(Integer empresaId, Integer convenioId, Integer ddjjId) {
@@ -917,7 +851,6 @@ public class ConvenioServiceImpl implements ConvenioService {
 		storage.actualizarModoPago(convenio.getId(), convenio.getCuotasCanti(), convenio.getIntencionDePago());
 		
 		return convenio;
-
 	}
 	
 	public Convenio actualizarPlanPago(Integer empresaId, Integer convenioId, PlanPagoDto planPago) {
@@ -943,5 +876,5 @@ public class ConvenioServiceImpl implements ConvenioService {
 			}
 		}
 	}
-	
+
 }

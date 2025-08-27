@@ -14,6 +14,8 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.AporteSeteoV
 public interface AporteSeteoMapper {
 	
 	@Mapping(target = "camara", source = "camara.codigo")
+	@Mapping(target = "camaraCategoria", source = "categoria")
+	@Mapping(target = "camaraAntiguedad", source = "antiguedad")			
 	@Mapping(target = "entidad", source = "entidad.codigo")
 	@Mapping(target = "calculoTipo", source = "calculo.tipo")
 	@Mapping(target = "calculoValor", source = "calculo.valor") 
@@ -23,14 +25,18 @@ public interface AporteSeteoMapper {
 	
 	
 	@Mapping(target = "camara", source = "camara.codigo")
+	@Mapping(target = "camaraCategoria", source = "categoria")
+	@Mapping(target = "camaraAntiguedad", source = "antiguedad")	
 	@Mapping(target = "entidad", source = "entidad.codigo")
 	@Mapping(target = "calculoTipo", source = "calculo.tipo")
 	@Mapping(target = "calculoValor", source = "calculo.valor") 
 	@Mapping(target = "calculoBase", source = "calculo.base")
-	@Mapping(target = "socio", source = "esSocio")
+	@Mapping(target = "socio", source = "esSocio")	
 	AporteSeteo map(AporteSeteoBO reg);
 	
 	@Mapping(target = "camara.codigo", source = "camara")
+	@Mapping(target = "categoria", source = "camaraCategoria")
+	@Mapping(target = "antiguedad", source = "camaraAntiguedad")		
 	@Mapping(target = "entidad.codigo", source = "entidad")
 	@Mapping(target = "calculo.tipo", source = "calculoTipo")
 	@Mapping(target = "calculo.valor", source = "calculoValor") 

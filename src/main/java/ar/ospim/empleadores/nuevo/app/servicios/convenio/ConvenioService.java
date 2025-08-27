@@ -32,8 +32,8 @@ public interface ConvenioService {
 	public Convenio get(Integer empresaId, Integer convenioId);	
 	public List<Convenio> get(ConvenioConsultaFiltroDto filtro);
 	
-	public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
-	public List<CalcularCuotasCalculadaDto> calcularCuotas(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
+	//public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
+	public List<CalcularCuotasCalculadaDto> calcularCuotas(Integer empresaId, BigDecimal capital, Integer cuotas, LocalDate vencimiento );
 	
 	public List<ConvenioCuotaConsultaDto> getCuotas(Integer empresaId, Integer convenioId);
 	public List<ConvenioCuotaCheque> getCheques(Integer empresaId, Integer convenioId, Integer cuotaId);

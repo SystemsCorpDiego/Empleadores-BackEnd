@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -61,4 +62,9 @@ public interface ConvenioSeteoRepository extends JpaRepository< ConvenioSeteo, I
 			)
 	Optional<ConvenioSeteo> findContenidoGeneral( LocalDate desde );
 	
+	
+	@Query( value ="select getintereses_convenio as interes from public.getintereses_convenio(?1, ?2, ?3, cast(?4 as timestamp) , cast(?5 as timestamp) )" ,
+			nativeQuery = true)
+	BigDecimal calcularInteres(String cuit, BigDecimal capital, BigDecimal interes, LocalDate desde, LocalDate hasta);
+
 }

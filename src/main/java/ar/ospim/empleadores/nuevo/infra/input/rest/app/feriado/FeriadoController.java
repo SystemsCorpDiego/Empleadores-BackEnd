@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("feriados")
+@RequestMapping("/feriados")
 @RequiredArgsConstructor
 @CrossOrigin(origins="http://127.0.0.1:5173/")
 public class FeriadoController {

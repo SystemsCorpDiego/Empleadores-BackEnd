@@ -13,6 +13,11 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Feriado;
 @Repository
 public interface FeriadoRepository  extends JpaRepository<Feriado, Integer> {
 
+	@Query(value ="select f from Feriado f "
+			+ "order by f.fecha "
+			)
+	public List<Feriado> findAllOrderByFechaDesc();
+	                   
 	
 	@Query(value ="select f from Feriado f "
 			+ "where f.fecha >  ?1  "
@@ -24,6 +29,7 @@ public interface FeriadoRepository  extends JpaRepository<Feriado, Integer> {
 
 	@Query(value ="select f from Feriado f "
 			+ "where f.fecha BETWEEN ?1 and ?2 "
+			+ " order by fecha desc "
 			)
 	public  List<Feriado> getFeriados(LocalDate desde, LocalDate hasta);
 }

@@ -68,7 +68,7 @@ public class FeriadoStorageImpl implements FeriadoStorage {
 	}
 	
 	public List<FeriadoBO> findAll() {
-		List<Feriado> consulta = repository.findAll();
+		List<Feriado> consulta = repository.findAllOrderByFechaDesc();
 		return mapper.map(consulta); 
 	}
 

@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -75,5 +76,11 @@ public class ConvenioSeteoStorageImpl implements ConvenioSeteoStorage {
 	public Optional<ConvenioSeteo> findContenidoGeneral(LocalDate desde) {
 		return repository.findContenidoGeneral(desde);		
 	}
-	
+
+	public  BigDecimal calcularInteres(String cuit, BigDecimal capital, LocalDate desde, LocalDate hasta) {
+		
+		BigDecimal aux = repository.calcularInteres(cuit, capital, BigDecimal.ZERO, desde, hasta);
+		
+		return aux;
+	}
 }
