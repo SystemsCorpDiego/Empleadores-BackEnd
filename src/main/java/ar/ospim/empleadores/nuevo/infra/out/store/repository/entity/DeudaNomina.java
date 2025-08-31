@@ -25,11 +25,8 @@ public class DeudaNomina {
 	@Column(name = "id")
     private Integer id;
 
-	@Column(name = "ddjj_id")
-    private Integer ddjjId;
-	
-	@Column(name = "boleta_id")
-    private Integer boletaId;
+	@Column(name = "entidad")
+    private String entidad;
 	
 	@Column(name = "cuit")
     private String cuit;
@@ -37,16 +34,21 @@ public class DeudaNomina {
 	@Column(name = "periodo")
     private LocalDate periodo;
 	
-	@Column(name = "fecha_info")
-    private LocalDate fechaInfor;
-	
-	//@Column(name = "aporte")
-    //private String aporte;
-
 	@OneToOne
 	@JoinColumn(name = "aporte")
 	private Aporte aporte;
 
+	
+	@Column(name = "ddjj_id")
+    private Integer ddjjId;
+	
+	@Column(name = "boleta_id")
+    private Integer boletaId;
+	
+
+	@Column(name = "fecha_info")
+    private LocalDate fechaInfor;
+	
 	
 	@Column(name = "aporte_importe")
     private BigDecimal importe;

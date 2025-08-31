@@ -28,6 +28,8 @@ public class DeudaController {
 	private final  DeudaService deudaService;
 	private final  DeudaMapper mapper;
 	
+	/*
+	 * TODO: ver si se usa. Hay que agregarle ENTIDAD a esto. 
 	@GetMapping(value = "/empresa/{empresaId}/deuda")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId) {
 		GestionDeudaDto rta = null;
@@ -40,6 +42,7 @@ public class DeudaController {
 
 		return ResponseEntity.ok( rta );
 	}
+	*/
 
 	@GetMapping(value = "/empresa/{empresaId}/deuda/entidad/{entidadCodigo}")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId, @PathVariable("entidadCodigo") String entidadCodigo) {
