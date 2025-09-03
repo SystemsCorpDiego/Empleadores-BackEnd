@@ -99,11 +99,17 @@ public class Convenio extends SGXAuditableEntity<Integer> {
 	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
 	private List<ConvenioActa> actas;
 
+	/*
 	@JsonManagedReference
 	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
 	private List<ConvenioDdjj> ddjjs;
-
+	 */
 	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
+	private List<ConvenioPeriodoDetalle> periodos;
+
+		
 	@JsonManagedReference
 	@OneToMany(mappedBy = "convenio", cascade = { CascadeType.MERGE})
 	private List<ConvenioAjuste> ajustes;
@@ -116,13 +122,14 @@ public class Convenio extends SGXAuditableEntity<Integer> {
 	
 	@Override
 	public String toString() {
-		return "Convenio [id=" + id + ", entidad=" + entidad + ", estado=" + estado + ", empresa=" + empresa
-				+ ", importeDeuda=" + importeDeuda + ", importeIntereses=" + importeIntereses + ", importeSaldoFavor="
-				+ importeSaldoFavor + ", intencionDePago=" + intencionDePago + ", cuotasCanti=" + cuotasCanti
-				+ ", medioPago=" + medioPago + ", actaIdDDJJ=" + actaIdDDJJ + ", convenioIdMolineros="
-				+ convenioIdMolineros + ", convenioNumeroMolineros=" + convenioNumeroMolineros + ", actas=" + actas
-				+ ", ddjjs=" + ddjjs + ", ajustes=" + ajustes + ", cuotas=" + cuotas + "]";
+		return "Convenio [id=" + id + ", entidad=" + entidad + ", estado=" + estado + ", estadoFecha=" + estadoFecha
+				+ ", presentadoFecha=" + presentadoFecha + ", empresa=" + empresa + ", importeDeuda=" + importeDeuda
+				+ ", importeIntereses=" + importeIntereses + ", importeSaldoFavor=" + importeSaldoFavor
+				+ ", intencionDePago=" + intencionDePago + ", cuotasCanti=" + cuotasCanti + ", medioPago=" + medioPago
+				+ ", actaIdDDJJ=" + actaIdDDJJ + ", convenioIdMolineros=" + convenioIdMolineros
+				+ ", convenioNumeroMolineros=" + convenioNumeroMolineros + ", actas=" + actas 
+				+ ", periodos=" + periodos + ", ajustes=" + ajustes + ", cuotas=" + cuotas + "]";
 	}
 
-	
+ 
 }

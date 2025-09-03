@@ -63,7 +63,7 @@ public interface ConvenioSeteoRepository extends JpaRepository< ConvenioSeteo, I
 	Optional<ConvenioSeteo> findContenidoGeneral( LocalDate desde );
 	
 	
-	@Query( value ="select getintereses_convenio as interes from public.getintereses_convenio(?1, ?2, ?3, cast(?4 as timestamp) , cast(?5 as timestamp) )" ,
+	@Query( value ="select getintereses_convenio as interes from public.getintereses_convenio(?1, ?2, ?3, cast(?4 as date) , cast(?5 as date) )" ,
 			nativeQuery = true)
 	BigDecimal calcularInteres(String cuit, BigDecimal capital, BigDecimal interes, LocalDate desde, LocalDate hasta);
 

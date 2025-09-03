@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
@@ -48,6 +49,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioCuotaCheque
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioCuotaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjDeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioDdjjRepository;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.ConvenioPeriodoDetalleRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DDJJRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRepository;
@@ -60,6 +62,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuot
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioPeriodoDetalle;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Empresa;
 import lombok.AllArgsConstructor;
@@ -80,6 +83,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final ActaMolinerosRepository actaMolinerosRepository;
 	private final ConvenioActaRepository convenioActaRepository;  
 	private final ConvenioDdjjRepository convenioDdjjRepository;
+	private final ConvenioPeriodoDetalleRepository convenioPeriodoDetalleRepository;
 	private final ConvenioAjusteRepository convenioAjusteRepository;
 	private final ConvenioCuotaRepository convenioCuotaRepository;
 	private final ConvenioCuotaChequeRepository convenioCuotaChequeRepository;
@@ -97,6 +101,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 	@Transactional
 	public Convenio actualizar(ConvenioModiDto dto) {
 		Convenio convenioOri = storage.get(dto.getConvenioId());
+				
+		//dto = castConvenioPeriodoDetalleIdADeudaNominaId(dto);
 		
 		ConvenioAltaDto dtoAlta = mapper.run(dto);
 		dtoAlta.setEntidad(convenioOri.getEntidad());		//La entidad no puede cambiar
@@ -121,9 +127,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		//Borro todos los Detalles del Contrato ...
 		convenioActaRepository.deleteByConvenioId(convenioOri.getId());
 		convenioAjusteRepository.deleteByConvenioId(convenioOri.getId());
-		for ( ConvenioDdjj reg : convenioOri.getDdjjs() ) {
-			convenioDdjjRepository.baja( reg.getId() );
-		}
+		convenioPeriodoDetalleRepository.deleteByConvenioId(convenioOri.getId());
 		
 		
 		//Guardo los Detalles nuevos.-
@@ -137,8 +141,21 @@ public class ConvenioServiceImpl implements ConvenioService {
 		actualizarTotales(convenioNew);
 		convenioNew = storage.guardar(convenioNew);
 		
-
 		return convenioNew;		
+	}
+	
+	private ConvenioModiDto castConvenioPeriodoDetalleIdADeudaNominaId(ConvenioModiDto dto) {
+		List<Integer> lst = new ArrayList<Integer>();
+		Optional<ConvenioPeriodoDetalle> reg = null;
+		for ( Integer deudaNominaId : dto.getDdjjs() ) {
+			//busco convenioPeriodoDetalle
+			reg = convenioPeriodoDetalleRepository.findById(deudaNominaId);
+			if ( reg.isPresent() ) {
+				lst.add(reg.get().getDeudaNominaId());
+			}
+		}
+		dto.setDdjjs(lst);
+		return dto;
 	}
 	
 	private void actualizarTotales(Convenio convenio) {
@@ -156,17 +173,17 @@ public class ConvenioServiceImpl implements ConvenioService {
 				 }
 			 }
 		 }
-		 if ( convenio.getDdjjs() != null ) { 
-			for (ConvenioDdjj cd:  convenio.getDdjjs()) {
-				 for (ConvenioDdjjDeudaNomina cddn:  cd.getDdjjDeudaNomina()) {
-					 if ( cddn.getAporteImporte() != null )
-						 capitalDeuda = capitalDeuda.add(cddn.getAporteImporte());
-					 if ( cddn.getInteres()!= null )
-						 capitalDeuda = capitalDeuda.add(cddn.getInteres());					 
-				 }
-			}
-		 }
-		 if ( convenio.getAjustes() != null ) { 
+		 
+		 if ( convenio.getPeriodos() != null ) {
+			 for (ConvenioPeriodoDetalle cp:  convenio.getPeriodos()) {
+				 if ( cp.getImporte()!=null)
+					 capitalDeuda = capitalDeuda.add(cp.getImporte());
+				 if ( cp.getInteres()!=null)
+					 capitalDeuda = capitalDeuda.add(cp.getInteres());
+			 }
+		 }			 
+		 
+		if ( convenio.getAjustes() != null ) { 
 				for (ConvenioAjuste caj:  convenio.getAjustes()) {
 					if ( caj.getImporte()  != null )
 						saldoAFavorDeuda = saldoAFavorDeuda.add(caj.getImporte());
@@ -210,15 +227,14 @@ public class ConvenioServiceImpl implements ConvenioService {
 			 for (ConvenioActa ca:  convenio.getActas()) {
 				 ca = convenioActaRepository.save(ca);				 
 			 }
-		 }
-		 if ( convenio.getDdjjs() != null ) { 
-			for (ConvenioDdjj cd:  convenio.getDdjjs()) {
-				 cd = convenioDdjjRepository.save(cd);
-				 for (ConvenioDdjjDeudaNomina cddn:  cd.getDdjjDeudaNomina()) {
-					 cddn = convenioDdjjDeudaNominaRepository.save(cddn);
-				 }
+		 }		 
+		 
+		 if ( convenio.getPeriodos() != null ) { 
+			for (ConvenioPeriodoDetalle cp:  convenio.getPeriodos()) {
+				cp = convenioPeriodoDetalleRepository.save(cp);					
 			}
-		 }
+		 }			 
+		 
 		 if ( convenio.getAjustes() != null ) { 
 				for (ConvenioAjuste caj:  convenio.getAjustes()) {
 					caj = convenioAjusteRepository.save(caj);
@@ -226,8 +242,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 		}
 		
 		 if ( convenio.getCuotas() != null ) {
-			 for (ConvenioCuota caj:  convenio.getCuotas()) {
-					caj = convenioCuotaRepository.save(caj);
+			 for (ConvenioCuota cc:  convenio.getCuotas()) {
+					cc = convenioCuotaRepository.save(cc);
 				}
 		 }
 		 
@@ -263,6 +279,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 
 
 	private void armarDetalle(Convenio convenio, ConvenioAltaDto dto) {
+		
+		//Armado de ACTAS
 		List<ConvenioActa> actas = new ArrayList<ConvenioActa>();
 		 ConvenioActa aux = null;
 		 for(Integer reg : dto.getActas()) {
@@ -273,33 +291,33 @@ public class ConvenioServiceImpl implements ConvenioService {
 		 }		 		 
 		 convenio.setActas(actas);
 		 
-		 List<ConvenioDdjj> ddjjs = new ArrayList<ConvenioDdjj>();
-		 ConvenioDdjj auxDDJJ = null;
+		 
+		 //Armado de PERIODOS	 
+		 List<ConvenioPeriodoDetalle> periodos = new ArrayList<ConvenioPeriodoDetalle>();
+		 ConvenioPeriodoDetalle periodo = null;
+		 DeudaNomina dn = null;
 		 for(Integer reg : dto.getDdjjs()) {
-			 auxDDJJ = new ConvenioDdjj();
-			 auxDDJJ.setConvenio(convenio);
-			 auxDDJJ.setDdjj( ddjjRepository.getById(reg) );
+			 periodo = new ConvenioPeriodoDetalle();
+			 dn = deudaNominaRepository.getById( reg.longValue() );
 			 
-			 List<DeudaNomina> lstDeudaNomina = deudaNominaRepository.findByDdjjIdAndEntidadAndActaIdIsNull(reg, convenio.getEntidad() );
-			 auxDDJJ.setDdjjDeudaNomina( new ArrayList<ConvenioDdjjDeudaNomina>());
-			 ConvenioDdjjDeudaNomina auxCDDN = null;
-			 for ( DeudaNomina dn: lstDeudaNomina) {
-				 auxCDDN = new ConvenioDdjjDeudaNomina();
-				 auxCDDN.setConvenioDdjj(auxDDJJ);
-				 
-				 auxCDDN.setAporte(dn.getAporte().getCodigo());
-				 auxCDDN.setAporteImporte(dn.getImporte());
-				 auxCDDN.setInteres(dn.getInteres());
-				 auxCDDN.setVencimiento( dn.getVencimiento() );
-				 
-				 auxDDJJ.getDdjjDeudaNomina().add(auxCDDN);
-			 }
+			 periodo.setConvenio(convenio); 
 			 
-			 ddjjs.add( auxDDJJ );
+			 periodo.setDeudaNominaId(reg);
+			 periodo.setPeriodo(dn.getPeriodo());
+			 periodo.setAporte(dn.getAporte().getCodigo());
+			 periodo.setImporte(dn.getImporte());
+			 periodo.setInteres(dn.getInteres());
+
+			 periodo.setDdjjId( dn.getDdjjId() );
+			 periodo.setBoletaId(dn.getBoletaId() );
+			 
+			 periodos.add(periodo);
 		 }
-		 convenio.setDdjjs(ddjjs);
+		 convenio.setPeriodos(periodos);			 
 		 
 		 
+		 
+		 //Armado de AJUSTES
 		 List<ConvenioAjuste> ajustes = new ArrayList<ConvenioAjuste>();
 		 ConvenioAjuste auxAjuste = null;
 		 for(Integer reg : dto.getAjustes()) {
@@ -313,7 +331,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 			 auxAjuste.setImporte( auxAjuste.getImporte().multiply(BigDecimal.valueOf(-1)) );
 			 
 			 ajustes.add(auxAjuste);
-		 }
+		 }		 
 		 convenio.setAjustes(ajustes);
 	}
 	
@@ -526,7 +544,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 
 	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio) {
 		ConvenioDeudaDto rta = mapper.run3(convenio);
-		rta.setDeclaracionesJuradas( convenioDeudaMapper.run(convenio.getDdjjs() ) );
+		
+		rta.setDeclaracionesJuradas( convenioDeudaMapper.run2(convenio.getPeriodos() ) );
 		
 		//Ahora Agrego registros posibles...		
 		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(convenio.getEmpresa().getId(), convenio.getEntidad());
@@ -550,7 +569,8 @@ public class ConvenioServiceImpl implements ConvenioService {
 				rta.getSaldosAFavor().add(reg);
 			}
 		}
-				
+		
+		
 		List<IGestionDeudaDDJJDto>  lstDdjjs = deudaService.getDDJJDto(convenio.getEmpresa().getId(), convenio.getEntidad());
 		if ( lstDdjjs != null && lstDdjjs.size()>0 ) {
 			if ( rta.getDeclaracionesJuradas() == null )
@@ -561,6 +581,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 				rta.getDeclaracionesJuradas().add(reg);
 			}
 		}
+	
 		
 		return rta;
 	}

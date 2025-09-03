@@ -3,6 +3,7 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -24,6 +25,9 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDt
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
@@ -31,6 +35,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeud
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioPeriodoDetalle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -56,7 +61,10 @@ public class ConvenioController {
 				
 		Convenio convenioNew = service.generar(convenio);
 		
-		return ResponseEntity.ok( mapper.run(convenioNew) );
+		ConvenioDto dto = mapper.run(convenioNew); 		
+		dto = castPeriodos(convenioNew, dto);
+		
+		return ResponseEntity.ok( dto );
 	}
 	
 	@PutMapping(value = "/{convenioId}")
@@ -67,7 +75,11 @@ public class ConvenioController {
 		convenio.setEmpresaId(empresaId);
 		Convenio convenioNew = service.actualizar(convenio);
 		
-		return ResponseEntity.ok( mapper.run(convenioNew) );
+
+		ConvenioDto dto = mapper.run(convenioNew); 		
+		dto = castPeriodos(convenioNew, dto);
+		
+		return ResponseEntity.ok( dto );
 	}
 	
 	@GetMapping(value = "/{convenioId}/imprimir")
@@ -98,7 +110,8 @@ public class ConvenioController {
 		Convenio convenio = service.get(empresaId, convenioId);
 		
 		ConvenioDeudaDto rta = mapper.run3(convenio);
-		rta.setDeclaracionesJuradas( convenioDeudaMapper.run(convenio.getDdjjs() ) );
+		
+		rta.setDeclaracionesJuradas( convenioDeudaMapper.run2(convenio.getPeriodos() ) );
 		
 		return ResponseEntity.ok( rta );
 	}
@@ -154,4 +167,38 @@ public class ConvenioController {
 		return ResponseEntity.ok( aux );
 	}
 
+	private ConvenioDto castPeriodos(Convenio convenio, ConvenioDto dto) {
+		
+		if ( "OSPIM".equals( convenio.getEntidad() ) ) {
+			if ( convenio.getPeriodos() != null ) {
+				List<ConvenioDDJJDto> ddjjs = new ArrayList<ConvenioDDJJDto>();
+				ConvenioDDJJDto ddjj = null;
+				List<ConvenioDDJJDeudaNominaDto> deudaNominas = null;
+				ConvenioDDJJDeudaNominaDto deudaNominaDto = null;
+				for ( ConvenioPeriodoDetalle reg : convenio.getPeriodos()) {
+					ddjj = new ConvenioDDJJDto();
+					ddjj.setId( reg.getId() );
+					ddjj.setDdjjId( reg.getDeudaNominaId() );
+					ddjj.setPeriodo( reg.getPeriodo());
+					
+					deudaNominas = new ArrayList<ConvenioDDJJDeudaNominaDto>();
+					deudaNominaDto = new ConvenioDDJJDeudaNominaDto();
+					deudaNominaDto.setAporte( reg.getAporte());
+					deudaNominaDto.setAporteDescripcion(null);
+					deudaNominaDto.setBoletaId(null);
+					deudaNominaDto.setId(reg.getDeudaNominaId() );
+					deudaNominaDto.setImporte(reg.getImporte());
+					deudaNominaDto.setInteres(reg.getInteres());
+					deudaNominas.add(deudaNominaDto);
+					ddjj.setDeudaNominas(deudaNominas);
+					
+					ddjjs.add(ddjj);
+				}
+				dto.setDdjjs(ddjjs);				
+			}
+		}
+		
+		return dto;
+	}
+	
 }

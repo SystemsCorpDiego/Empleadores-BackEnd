@@ -8,15 +8,15 @@ import lombok.Data;
 @Data
 public class ConvenioAltaDto {
 	
-	private Integer empresaId;
-	
+	private Integer empresaId;	
 	private String entidad;
+	
 	private Integer cantidadCuota;
 	private LocalDate fechaPago;
 	private String medioDePago;
 	
 	private List<Integer> actas;
-	private List<Integer> ddjjs;
+	private List<Integer> ddjjs; // viene deuda_nomina.id
 	private List<Integer> ajustes;
 	
 }

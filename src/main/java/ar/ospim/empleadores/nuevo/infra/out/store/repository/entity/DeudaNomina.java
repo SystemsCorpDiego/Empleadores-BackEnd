@@ -23,7 +23,7 @@ public class DeudaNomina {
 
 	@Id 
 	@Column(name = "id")
-    private Integer id;
+    private Long id;
 
 	@Column(name = "entidad")
     private String entidad;

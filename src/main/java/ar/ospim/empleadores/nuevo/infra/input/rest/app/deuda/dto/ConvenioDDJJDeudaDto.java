@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ConvenioDDJJDeudaDto {
 
-	private Integer convenioDdjjId;
+	private Integer convenioDdjjId; //Contiene deuda_nomina.id
 	
 	private Integer id;
 	private LocalDate periodo;

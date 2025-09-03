@@ -6,16 +6,17 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ConvenioModiDto {
-	private Integer convenioId;
+public class ConvenioModiDto {	
+	
 	private Integer empresaId;
+	private Integer convenioId;
 	
 	private Integer cantidadCuota;
 	private LocalDate fechaPago;
 	private String medioDePago;
 	
 	private List<Integer> actas;
-	private List<Integer> ddjjs;
+	private List<Integer> ddjjs;  //viene deuda_nomina.id
 	private List<Integer> ajustes;
 	
 
