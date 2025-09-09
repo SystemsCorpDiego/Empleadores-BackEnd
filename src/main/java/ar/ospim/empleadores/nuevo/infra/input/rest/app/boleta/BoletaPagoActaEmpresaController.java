@@ -32,6 +32,7 @@ public class BoletaPagoActaEmpresaController {
 	
 	@PostMapping
 	public ResponseEntity<IdGeneradoDto> generar(@PathVariable Integer empresaId, @RequestBody BoletaPagoDto dato, HttpServletRequest request) {
+		log.debug("dato: {}", dato);
 		
 		BoletaPagoBO registro = mapper.map(dato, empresaId);
 		registro = service.guardar(registro);		

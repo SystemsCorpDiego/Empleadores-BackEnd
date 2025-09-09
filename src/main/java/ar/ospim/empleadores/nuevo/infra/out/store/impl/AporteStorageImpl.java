@@ -68,7 +68,8 @@ public class AporteStorageImpl implements AporteStorage {
 
 	public AporteBO findAporteActaByEntidad(String entidad) {
 		AporteBO aporte = null;
-		Optional<Aporte> cons = repository.getByEntidadAndDdjj( entidad, false);
+															      
+		Optional<Aporte> cons = repository.getByEntidadAndDdjjAndCodigoNot( entidad, false, "OSPIM");
 		if (cons.isPresent() )
 			aporte = mapper.map(cons.get()); 
 		

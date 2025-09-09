@@ -20,7 +20,7 @@ public interface AporteRepository extends JpaRepository<Aporte, String> {
     void deleteByCodigo(String codigo);
 	
 	Optional<Aporte> getByCodigo(String codigo);
-	Optional<Aporte> getByEntidadAndDdjj(String entidad, Boolean ddjj);
+	Optional<Aporte> getByEntidadAndDdjjAndCodigoNot(String entidad, Boolean ddjj, String codigo);
 	
 	
 	List<Aporte> findAllByOrderByOrdenAsc();
