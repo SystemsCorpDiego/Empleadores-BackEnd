@@ -490,7 +490,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 			throw new BusinessException(CommonEnumException.IMPORTE_NEGATIVO.name(), String.format(errorMsg, "Importe"));			
 		}		
 		
-		List<ConvenioCuotaCheque> lst = convenioCuotaChequeRepository.findByConvenioCuotaId(reg.getId());
+		List<ConvenioCuotaCheque> lst = convenioCuotaChequeRepository.findByConvenioCuotaId(reg.getConvenioCuota().getId());
 		for (ConvenioCuotaCheque cheque: lst) {
 			if ( reg.getId() == null || !cheque.getId().equals(reg.getId()) ) {
 				ImporteTotalCheques = ImporteTotalCheques.add(cheque.getImporte());

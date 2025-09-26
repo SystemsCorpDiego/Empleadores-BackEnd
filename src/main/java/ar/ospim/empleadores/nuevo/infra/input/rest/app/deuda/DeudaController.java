@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,9 @@ public class DeudaController {
 		List<IGestionDeudaDDJJDto> lst = deudaService.getDDJJDto(empresaId, entidadCodigo);
 		List<GestionDeudaDDJJDto> lst2 =  mapper.runNomina2(lst);
 		lst2 =   mapper.runCastIdString(lst2 );
+		
+		if (lst2 == null )
+			lst2 = new ArrayList<GestionDeudaDDJJDto>();
 		
 		rta.setDeclaracionesJuradas( lst2  );
 		//rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
