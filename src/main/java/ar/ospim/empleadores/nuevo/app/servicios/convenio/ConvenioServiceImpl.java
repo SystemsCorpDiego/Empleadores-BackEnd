@@ -16,10 +16,12 @@ import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
+import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
@@ -31,6 +33,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioChequeEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ConvenioEstadoEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
@@ -72,7 +75,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final DeudaService deudaService;
 	private final UsuarioInfo usuarioInfo;  
 	private final ConvenioCuotasCalcular cuotasCalcular;
-
+	private final UsuarioStorage usuarioStorage;
 
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {		
 		//TODO: faltaria validar EmpresaId
@@ -500,5 +503,20 @@ public class ConvenioServiceImpl implements ConvenioService {
 			String errorMsg = messageSource.getMessage(ConvenioEnumException.CUOTA_IMPORTE_MENOR_TOTAL_CHEQUES.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(ConvenioEnumException.CUOTA_IMPORTE_MENOR_TOTAL_CHEQUES.name(), String.format(errorMsg, ImporteTotalCheques, ImporteTotalCuota));			   			
 		}
+	}
+	
+	
+	public List<ConvenioConsultaDto> addUsuarioDescrip(List<ConvenioConsultaDto> lst) {
+		Integer id;
+		UsuarioBO usuario ;
+		for( ConvenioConsultaDto dto: lst) {
+			try {
+				id = Integer.valueOf(dto.getUsuario());
+				usuario = usuarioStorage.getUsuario(id );
+				if ( usuario != null)
+					dto.setUsuario(usuario.getDescripcion());
+			} catch(Exception e) {}
+		}
+		return lst;
 	}
 }

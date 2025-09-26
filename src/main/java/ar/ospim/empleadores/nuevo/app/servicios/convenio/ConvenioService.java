@@ -6,6 +6,7 @@ import java.util.List;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioConsultaFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaChequeAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
@@ -26,6 +27,7 @@ public interface ConvenioService {
 	
 	public Convenio get(Integer empresaId, Integer convenioId);	
 	public List<Convenio> get(ConvenioConsultaFiltroDto filtro);
+	public List<ConvenioConsultaDto> addUsuarioDescrip(List<ConvenioConsultaDto> lst); 
 	
 	//public BigDecimal calcularImporteCuota(BigDecimal capital, Integer cuotas, LocalDate vencimiento );
 	public List<CalcularCuotasCalculadaDto> calcularCuotas(Integer empresaId, BigDecimal capital, Integer cuotas, LocalDate vencimiento );

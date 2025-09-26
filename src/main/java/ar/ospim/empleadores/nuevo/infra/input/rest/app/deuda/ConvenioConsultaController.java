@@ -45,6 +45,7 @@ public class ConvenioConsultaController {
 		
 		List<Convenio> lstAux = service.get(filtro);
 		lst = mapper.run4( lstAux );
+		lst = service.addUsuarioDescrip(lst);
 		
 		return ResponseEntity.ok( lst );
 	}

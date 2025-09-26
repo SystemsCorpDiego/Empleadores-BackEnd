@@ -85,6 +85,8 @@ public interface ConvenioMapper {
 	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")
 	@Mapping(target = "numero", source = "convenioNumeroMolineros")	 
 	@Mapping(target = "cuotas", source = "cuotasCanti")
+	@Mapping(target = "usuario", source = "creationable.createdBy")
+	
 	public ConvenioConsultaDto run2 (Convenio dto);
 	
 	
