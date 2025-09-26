@@ -65,6 +65,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		 return rta;
 	}
 	
+	/*
 	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit) {
 		List<IGestionDeudaDDJJDto> rta = null;
 		try {
@@ -74,7 +75,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		 }
 		return rta;
 	}
-	
+	*/
 	
 	public void actualizarCuit( String p_cuit ) {
 		nominaRepository.actualizarCuit(p_cuit);

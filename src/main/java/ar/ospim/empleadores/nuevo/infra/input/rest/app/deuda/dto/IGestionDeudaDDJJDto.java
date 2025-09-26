@@ -2,6 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public interface IGestionDeudaDDJJDto {
 	 
@@ -11,6 +12,7 @@ public interface IGestionDeudaDDJJDto {
 		String getAporteCodigo();
 		String getAporteDescripcion();
 	    BigDecimal getImporte();
-	    BigDecimal getInteres(); 
-	    
+	    BigDecimal getInteres();
+	    BigDecimal getPago();
+		
 }

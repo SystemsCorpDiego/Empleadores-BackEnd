@@ -16,7 +16,7 @@ public class ConvenioModiDto {
 	private String medioDePago;
 	
 	private List<Integer> actas;
-	private List<Integer> ddjjs;  //viene deuda_nomina.id
+	private List<String> ddjjs;       //viene periodo+aporte  //old: viene deuda_nomina.id
 	private List<Integer> ajustes;
 	
 

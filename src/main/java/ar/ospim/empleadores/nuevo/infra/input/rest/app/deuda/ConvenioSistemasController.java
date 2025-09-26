@@ -44,6 +44,7 @@ public class ConvenioSistemasController {
 
 	@GetMapping(value = "/{id}/deudaDto")
 	public ResponseEntity<ConvenioDeudaDto>  getDeudaDto(@PathVariable("empresaId") Integer empresaId, @PathVariable("id") Integer convenioId) {
+		//Consulta para Edicion de Convenio
 		log.debug( "ConvenioController.getDeudaDto - convenioId:  " + convenioId.toString() );  
 		
 		Convenio convenio = service.get(empresaId, convenioId);		
@@ -94,21 +95,4 @@ public class ConvenioSistemasController {
 		return ResponseEntity.ok( null );
 	}
 
-	@PostMapping(value = "/{convenioId}/ddjj/{ddjjId}")
-	public ResponseEntity<Void> ddjjAlta(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ddjjId") Integer ddjjId) {
-		
-		service.asignarDDJJ(empresaId, convenioId, ddjjId);		
-		
-		return ResponseEntity.ok( null );
-	}
-	
-	@DeleteMapping(value = "/{convenioId}/ddjj/{ddjjId}")
-	public ResponseEntity<Void> ddjjBorrar(@PathVariable("empresaId") Integer empresaId, @PathVariable("convenioId") Integer convenioId, @PathVariable("ddjjId") Integer ddjjId) {
-		
-		service.borrarDDJJ(empresaId, convenioId, ddjjId);		
-		
-		return ResponseEntity.ok( null );
-	}
-	
-	
 }

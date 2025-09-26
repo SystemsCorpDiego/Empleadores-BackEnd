@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class ConvenioDDJJDeudaNominaDto {
-	private Integer id;									//convenio_ddjj_deuda_nomina.id						//convenio_periodo_detalle.id
+	private Long id;									//convenio_ddjj_deuda_nomina.id						//convenio_periodo_detalle.id
 	private Integer boletaId;							//convenio_ddjj_deuda_nomina.boleta_id			//convenio_periodo_detalle.boleta_id
 	
 	private String aporte;								//convenio_ddjj_deuda_nomina.aporte				//convenio_periodo_detalle.aporte

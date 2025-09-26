@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ConvenioDDJJDto {
 	private Integer id;					//convenio_ddjj.id					//convenio_periodo_detalle.id
-	private Integer ddjjId;				//ddjj.id								   //deuda_nomina_id
+	private Long ddjjId;				//ddjj.id								   //deuda_nomina_id
 	private LocalDate periodo;		//ddjj.periodo						  // convenio_periodo_detalle.periodo
 	private Integer secuencia;		//ddjj.secuencia					 // null
 	

@@ -13,7 +13,7 @@ public interface DeudaService {
 	
 	public List<ActaMolineros>  getMolinerosActas(Integer empresaId);
 	public List<ActaMolineros>  getMolinerosActas(Integer empresaId, String entidad); 
-	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId);
+	//public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId);
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId, String entidad);	 
 	
 	public List<IGestionDeudaAjustesDto>  getAjustesDto(Integer empresaId, String entidad);	 

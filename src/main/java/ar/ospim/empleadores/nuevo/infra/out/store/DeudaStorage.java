@@ -9,7 +9,7 @@ public interface DeudaStorage {
 
 	public List<ActaMolineros> getActasMolineros(String cuit);
 	public List<ActaMolineros> getActasMolineros(String cuit, String entidad); 
-	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit);
+	//public List<IGestionDeudaDDJJDto> getNominaDto(String cuit);
 	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit, String entidad);
 	
 	public void actualizarCuit( String p_cuit );

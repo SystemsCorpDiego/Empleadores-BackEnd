@@ -29,14 +29,16 @@ public interface DeudaMapper {
 	
 	List<GestionDeudaDDJJDto> runNomina(List<DeudaNomina> lst);
 		
-	@Mapping(target = "id", source = "ddjjId")
+	
+	//@Mapping(target = "id", source = "ddjjId")
+	@Mapping(target = "id", source = "idString")
 	@Mapping(target = "periodo", source = "periodo")	
 	@Mapping(target = "aporteCodigo", source = "aporte.codigo")	
 	@Mapping(target = "importe", source = "importe")		
 	@Mapping(target = "intereses", source = "interes")		
-	GestionDeudaDDJJDto run(DeudaNomina reg);
+	GestionDeudaDDJJDto run(DeudaNomina reg); 
 	
-	@Mapping(target = "intereses", source = "interes")		
+	@Mapping(target = "intereses", source = "interes") 		
 	GestionDeudaDDJJDto run(IGestionDeudaDDJJDto reg);
 	
 	List<GestionDeudaDDJJDto> runNomina2(List<IGestionDeudaDDJJDto> lst);
@@ -44,4 +46,12 @@ public interface DeudaMapper {
 	
 	List<GestionDeudaAjustesDto> run2( List<IGestionDeudaAjustesDto> lst);
 	
+	
+	@Mapping(target = "id", source = "idString")
+	GestionDeudaDDJJDto runCastIdString(GestionDeudaDDJJDto reg);
+	List<GestionDeudaDDJJDto> runCastIdString(List<GestionDeudaDDJJDto> lst);
+	
+	default String convertIntegerToString(Integer value) {
+        return String.valueOf(value);
+    }
 }

@@ -19,13 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioActualizarService;
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioCrearService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
@@ -49,6 +50,8 @@ public class ConvenioController {
 	private final ConvenioMapper mapper;
 	private final ConvenioDeudaMapper convenioDeudaMapper; 
 	private final ConvenioService service;
+	private final ConvenioActualizarService actualizarService;
+	private final ConvenioCrearService crearService;
 	private final ConvenioImprimirService imprimirService;
 	private final AfipInteresStorage afipInteresStorage;
 	
@@ -59,7 +62,7 @@ public class ConvenioController {
 		convenio.setEmpresaId(empresaId);
 		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
 				
-		Convenio convenioNew = service.generar(convenio);
+		Convenio convenioNew = crearService.run(convenio);
 		
 		ConvenioDto dto = mapper.run(convenioNew); 		
 		dto = castPeriodos(convenioNew, dto);
@@ -73,8 +76,7 @@ public class ConvenioController {
 		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
 		convenio.setConvenioId(convenioId);
 		convenio.setEmpresaId(empresaId);
-		Convenio convenioNew = service.actualizar(convenio);
-		
+		Convenio convenioNew = actualizarService.run(convenio);		
 
 		ConvenioDto dto = mapper.run(convenioNew); 		
 		dto = castPeriodos(convenioNew, dto);
@@ -116,25 +118,6 @@ public class ConvenioController {
 		return ResponseEntity.ok( rta );
 	}
 	
-
-	//TODO: Este hay que eliminarlo
-	/*
-	@PostMapping("/calcular-cuota-old")
-	public ResponseEntity<CalcularCuotaDto> getCuota(@PathVariable("empresaId") Integer empresaId, @RequestBody @Valid CalcularCuotaDto dto) {
-		
-		dto.setImporteCuota(BigDecimal.ZERO);
-		dto.setImporteInteresTotal(BigDecimal.ZERO);
-		log.debug( "calcular-cuota - dto: " + dto.toString() );
-				
-		BigDecimal aux = service.calcularImporteCuota(dto.getImporteDeuda(), dto.getCantidadCuota(), dto.getFechaIntencionPago() );
-		
-		dto.setImporteCuota(aux);
-		if ( !BigDecimal.ZERO.equals(aux) )  
-			dto.setImporteInteresTotal(aux.multiply( BigDecimal.valueOf( dto.getCantidadCuota() ) ).subtract(dto.getImporteDeuda()));
-		
-		return ResponseEntity.ok( dto );		 
-	}
-	*/
 	
 	//CalcularCuotasCalculadaDto
 	@PostMapping("/calcular-cuota")

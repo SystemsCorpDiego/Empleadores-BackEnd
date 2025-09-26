@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,15 +14,17 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 
 public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> {
 	
-	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit)", nativeQuery = true)	
-	List<IGestionDeudaDDJJDto> get(String cuit);
+	//@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit)", nativeQuery = true)	
+	//List<IGestionDeudaDDJJDto> get(String cuit);
 
-	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
+	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes, pago FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
 	List<IGestionDeudaDDJJDto> get(String cuit, String entidad);
 		
 	@Query(value = "SELECT a FROM DeudaNomina a WHERE a.ddjjId = :ddjjId and a.actaId IS NULL and a.aporte.entidad = :entidad")	
 	List<DeudaNomina> findByDdjjIdAndEntidadAndActaIdIsNull(Integer ddjjId, String entidad);
 	
+	
+	DeudaNomina findByEntidadAndCuitAndPeriodoAndAporteCodigo(String entidad, String cuit, LocalDate periodo, String aporte);
 	
 	@Query(value = "SELECT * FROM fdeudanomina_actualizar_x_log(?1);", nativeQuery = true)	
 	void actualizarCuit( @Param("p_cuit")  String p_cuit);

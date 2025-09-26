@@ -40,14 +40,20 @@ public class ConvenioPeriodoDetalle {
 
 	private LocalDate periodo;
 	private String aporte;
+	
 	@Column(name = "aporte_importe")
 	private BigDecimal importe;
+	
 	private BigDecimal interes;
 	
+	private BigDecimal pago;
+	
 	@Column(name = "deuda_nomina_id")
-	private Integer deudaNominaId;
+	private Long deudaNominaId;
+	
 	@Column(name = "ddjj_id")
 	private Integer ddjjId;
+	
 	@Column(name = "boleta_id")
 	private Integer boletaId;
 

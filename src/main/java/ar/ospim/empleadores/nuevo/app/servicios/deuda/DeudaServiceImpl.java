@@ -65,6 +65,7 @@ public class DeudaServiceImpl implements DeudaService {
 		return rta; 
     }
 	
+    /*
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId) {
 		String cuit = null;
 		
@@ -78,6 +79,7 @@ public class DeudaServiceImpl implements DeudaService {
 		return deudaStorage.getNominaDto( empresa.get().getCuit() );
 		
 	}
+	*/
 	
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId, String entidad) {
 		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
