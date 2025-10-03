@@ -12,10 +12,21 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAj
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 
 @Mapper
 public interface DeudaMapper {
 
+	List<GestionDeudaActaDto> run3(List<ActaMolinerosI> lst);	
+	@Mapping(target = "id", source = "id")
+	@Mapping(target = "nroActa", source = "numero")
+	@Mapping(target = "estadoDeuda", source = "estado")
+	@Mapping(target = "fechaActa", source = "fecha")
+	@Mapping(target = "importe", source = "capital")
+	@Mapping(target = "intereses", source = "interes")
+	
+	GestionDeudaActaDto run(ActaMolinerosI reg);
+	
 	List<GestionDeudaActaDto> run(List<ActaMolineros> lst);	
 	
 	@Mapping(target = "id", source = "id")

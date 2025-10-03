@@ -10,6 +10,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,11 +25,12 @@ public class DeudaStorageImpl  implements DeudaStorage {
 	@Autowired
 	private DeudaNominaRepository nominaRepository; 
 	
-	public List<ActaMolineros> getActasMolineros(String cuit) {
-		List<ActaMolineros>  rta = null;
+	
+	public List<ActaMolinerosI> getActasMolineros2(String cuit, String entidad) {
+		List<ActaMolinerosI>  rta = null;
 		
 		try {
-			 rta = ActaRepository.getByCuit(cuit); //"30537582916"
+			 rta = ActaRepository.getByCuitAndEntidad2(cuit, entidad); //"30537582916"
 				if ( rta != null ) {
 					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
 				}			 
@@ -38,6 +40,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		
 		return rta;
 	}
+	
 	
 	public List<ActaMolineros> getActasMolineros(String cuit, String entidad) {
 		List<ActaMolineros>  rta = null;

@@ -17,7 +17,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaDes
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,9 +50,9 @@ public class DeudaController {
 		//Gestion Deuda: Consulta deuda desde Snapshot para un CUIT+Entidad
 		GestionDeudaDto rta = null;
 		
-		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(empresaId, entidadCodigo);
+		List<ActaMolinerosI> lstActas = deudaService.getMolinerosActas2(empresaId, entidadCodigo);
 		rta = new  GestionDeudaDto();
-		rta.setActas( mapper.run(lstActas) );
+		rta.setActas( mapper.run3(lstActas) );		 
 		
 		List<IGestionDeudaDDJJDto> lst = deudaService.getDDJJDto(empresaId, entidadCodigo);
 		List<GestionDeudaDDJJDto> lst2 =  mapper.runNomina2(lst);
