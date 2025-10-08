@@ -60,8 +60,10 @@ public class DeudaStorageImpl  implements DeudaStorage {
 	
 	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit, String entidad){
 		 List<IGestionDeudaDDJJDto> rta = null;
-		 try {
+		 try {			 
+			 log.error("DeudaStorageImpl.getNominaDto() - cuit: " + cuit + " - entidad: " + entidad);
 			 rta = nominaRepository.get(cuit, entidad);
+			 log.error("DeudaStorageImpl.getNominaDto() - rta: " + rta );
 		 }  catch ( Exception e) {
 			 log.debug( e.toString() );			
 		 }

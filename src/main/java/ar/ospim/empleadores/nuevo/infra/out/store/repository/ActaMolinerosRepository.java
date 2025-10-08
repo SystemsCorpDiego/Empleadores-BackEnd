@@ -23,4 +23,7 @@ public interface ActaMolinerosRepository extends JpaRepository<ActaMolineros, In
 	@Query(value = "SELECT id, periodo, rectificativa, aporteCodigo, aporteDescripcion, importe, interes FROM public.fGestion_deuda_periodos_consul(:cuit, :entidad)", nativeQuery = true)	
 	List<IGestionDeudaDDJJDto> get(String cuit, String entidad);
 
+	@Query(value = "SELECT devmolineros_acta_periodos_consul as periodos FROM public.devmolineros_acta_periodos_consul(:entidad, :actaId)", nativeQuery = true)	
+	String actaPeriodosGet(String entidad, Integer actaId);
+	
 }

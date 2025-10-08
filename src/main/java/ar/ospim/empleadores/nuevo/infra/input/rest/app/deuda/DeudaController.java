@@ -48,6 +48,7 @@ public class DeudaController {
 	@GetMapping(value = "/empresa/{empresaId}/deuda/entidad/{entidadCodigo}")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId, @PathVariable("entidadCodigo") String entidadCodigo) {
 		//Gestion Deuda: Consulta deuda desde Snapshot para un CUIT+Entidad
+		log.error("DeudaController.get() - empresaId: " + empresaId + " - entidadCodigo: " + entidadCodigo );
 		GestionDeudaDto rta = null;
 		
 		List<ActaMolinerosI> lstActas = deudaService.getMolinerosActas2(empresaId, entidadCodigo);

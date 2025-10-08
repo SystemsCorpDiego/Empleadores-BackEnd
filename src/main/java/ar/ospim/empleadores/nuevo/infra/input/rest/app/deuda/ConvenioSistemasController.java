@@ -1,7 +1,5 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
-import java.math.BigDecimal;
-
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;

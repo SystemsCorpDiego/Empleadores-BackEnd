@@ -126,6 +126,13 @@ public class ConvenioServiceImpl implements ConvenioService {
 			}
 		}
 		
+		// cargar los periodos de las actas
+		String periodosAux;
+		for (ConvenioActaDeudaDto reg : rta.getActas() ) {
+			periodosAux = actaMolinerosRepository.actaPeriodosGet(convenio.getEntidad(), reg.getId() );
+			reg.setPeriodos(periodosAux);
+		}
+		
 		List<IGestionDeudaAjustesDto>  lstAjustes = deudaService.getAjustesDto(convenio.getEmpresa().getId(), convenio.getEntidad());
 		if ( lstAjustes != null && lstAjustes.size()>0 ) {
 			if ( rta.getSaldosAFavor() == null )
@@ -519,4 +526,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 		}
 		return lst;
 	}
+	
+	
+	
 }
