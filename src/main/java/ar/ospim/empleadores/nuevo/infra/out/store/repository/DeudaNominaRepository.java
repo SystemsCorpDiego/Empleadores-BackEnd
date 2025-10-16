@@ -35,6 +35,7 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 	BigDecimal countChequesImporteTotal(@Param("convenioId") Integer convenioId);
 	
 	//			+ " where d.aporte_importe+coalesce(d.interes,0) > coalesce( aporte_pago,0 ) "
+	// Se agrega tolerancia de 10 pesos para conciderar deuda
 	@Query(value = "select d.id, d.cuit, to_char(d.periodo, 'MM/YYYY') periodo, a.entidad, d.aporte, a.descripcion aporteDescripcion, "
 			+ "       d.aporte_importe, to_char(d.vencimiento, 'dd/MM/YYYY')  vencimiento, d.interes, "
 			+ "	   d.aporte_pago, to_char(d.aporte_pago_fecha_info, 'dd/MM/YYYY') aporte_pago_fecha_info, "
@@ -46,7 +47,7 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 			+ "       join aporte a on a.codigo = d.aporte "
 			+ "	   left outer join ddjj dj on dj.id  = d.ddjj_id "
 			+ "	   left outer join boleta_pago bp on bp.id  = d.boleta_id "
-			+ " where d.aporte_importe+coalesce(d.interes,0) > coalesce( aporte_pago,0 ) "
+			+ " where d.aporte_importe+coalesce(d.interes,0) > coalesce( aporte_pago,0 )+10 "
 			+ "order by d.cuit, d.periodo desc, a.entidad, d.aporte", nativeQuery = true)
 	List<IDeudaNominaDescargaDto> getDeudaNominaAll();
 	 
