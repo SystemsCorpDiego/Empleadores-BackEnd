@@ -146,7 +146,7 @@ public class ConvenioCuotasCalcularImpl implements ConvenioCuotasCalcular {
 		List<CalcularCuotasCalculadaDto> lst = new ArrayList<CalcularCuotasCalculadaDto>();
 		CalcularCuotasCalculadaDto cuota = new CalcularCuotasCalculadaDto();
 		BigDecimal capitalCuota = capital.divide( BigDecimal.valueOf(cuotas), 2, RoundingMode.HALF_UP);
-		LocalDate calculoFechaInicio = LocalDate.now();
+		LocalDate calculoFechaInicio = LocalDate.now(); //TODO: ver esto !!
 		LocalDate calculoFechaVtoCuota = vencimiento;
 		int cuotaNro = 1;
 		

@@ -47,7 +47,16 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 			+ "       join aporte a on a.codigo = d.aporte "
 			+ "	   left outer join ddjj dj on dj.id  = d.ddjj_id "
 			+ "	   left outer join boleta_pago bp on bp.id  = d.boleta_id "
-			+ " where d.aporte_importe+coalesce(d.interes,0) > coalesce( aporte_pago,0 )+10 "
+			+ " where ( d.aporte_importe+coalesce(d.interes,0) > coalesce( aporte_pago,0 )+10 "
+			+ "              and    acta_id is null " 
+			+ "              and    convenio_id is null ) "
+			+ " or "
+			+ "	        (d.aporte_importe+coalesce(d.interes,0) > coalesce( acta_pago,0 )+10 "
+			+ "	         and    acta_id is not null "
+			+ "	         and    convenio_id is null ) "
+			+ " or "
+			+ "	 	   (d.aporte_importe+coalesce(d.interes,0) > coalesce( convenio_pago,0 )+10"
+			+ "			 and    convenio_id is not null ) "
 			+ "order by d.cuit, d.periodo desc, a.entidad, d.aporte", nativeQuery = true)
 	List<IDeudaNominaDescargaDto> getDeudaNominaAll();
 	 
