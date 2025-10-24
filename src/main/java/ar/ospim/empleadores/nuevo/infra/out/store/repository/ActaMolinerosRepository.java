@@ -16,7 +16,7 @@ public interface ActaMolinerosRepository extends JpaRepository<ActaMolineros, In
     List<ActaMolineros> getByCuitAndEntidad(String cuit, String entidad);
 
 
-	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, otros, pago, periodos FROM public.fGestion_deuda_actas_consulta2(:cuit, :entidad)", nativeQuery = true)	
+	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, otros, pago, periodos, interes_empleadores  FROM public.fGestion_deuda_actas_consulta2(:cuit, :entidad)", nativeQuery = true)	
     List<ActaMolinerosI> getByCuitAndEntidad2(String cuit, String entidad);
 
 	

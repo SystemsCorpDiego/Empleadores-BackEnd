@@ -18,13 +18,14 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinero
 public interface DeudaMapper {
 
 	List<GestionDeudaActaDto> run3(List<ActaMolinerosI> lst);	
+	
 	@Mapping(target = "id", source = "id")
 	@Mapping(target = "nroActa", source = "numero")
 	@Mapping(target = "estadoDeuda", source = "estado")
 	@Mapping(target = "fechaActa", source = "fecha")
-	@Mapping(target = "importe", source = "capital")
-	@Mapping(target = "intereses", source = "interes")
-	
+	//@Mapping(target = "importe", source = "capital")
+	@Mapping(target = "importe", expression = "java( reg.getCapital().add(reg.getInteres())  )")
+	@Mapping(target = "intereses", source = "interes_Empleadores")	
 	GestionDeudaActaDto run(ActaMolinerosI reg);
 	
 	List<GestionDeudaActaDto> run(List<ActaMolineros> lst);	

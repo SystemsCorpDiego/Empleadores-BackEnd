@@ -13,6 +13,7 @@ public interface ActaMolinerosI {
 	public LocalDate getFecha();	
 	public BigDecimal getCapital();
 	public BigDecimal getInteres();	
+	public BigDecimal getInteres_Empleadores();	
 	public Integer getConvenio_id();
 	public BigDecimal getOtros();
     public BigDecimal getPago();
