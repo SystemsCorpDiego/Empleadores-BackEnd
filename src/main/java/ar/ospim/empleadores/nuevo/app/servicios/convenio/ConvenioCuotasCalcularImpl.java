@@ -153,7 +153,8 @@ public class ConvenioCuotasCalcularImpl implements ConvenioCuotasCalcular {
 		cuota.setNumero(cuotaNro);
 		cuota.setImporte(capitalCuota);
 		cuota.setVencimiento(calculoFechaVtoCuota);
-		cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+		//cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+		cuota.setInteres( BigDecimal.ZERO  ); //20251024> la 1er cuota va sin interes.-
 		lst.add(cuota);
 		
 		for ( cuotaNro = 2;  cuotaNro<=cuotas;  cuotaNro++) {
