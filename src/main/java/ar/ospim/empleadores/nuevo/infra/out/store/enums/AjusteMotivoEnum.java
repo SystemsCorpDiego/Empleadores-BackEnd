@@ -8,6 +8,7 @@ public enum AjusteMotivoEnum {
 	DI("DI", "Devolución de Intereses"),
 	DPD("DPD", "Devolución por pago duplicado"),   
 	IPF("IPF", "Interes por Pago fuera de término"),
+	REP("REP", "Reimputación de Pago"),
 	O("O", "Otros"),   
 	;
 
