@@ -27,6 +27,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDt
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
@@ -87,11 +88,13 @@ public class ConvenioController {
 	@GetMapping(value = "/{convenioId}/imprimir")
 	public ResponseEntity<?> imprimir(@PathVariable Integer empresaId, @PathVariable Integer convenioId)   throws JRException, SQLException {
 		log.debug("empresaId: " + empresaId + "id: " + convenioId );
-		 
-		byte[] auxPdf = imprimirService.run(convenioId);
+		
+		Convenio convenio = service.get(empresaId, convenioId);
+		List<ConvenioCuotaConsultaDto>  lstCuotas = service.getCuotas(empresaId, convenioId);
+		byte[] auxPdf = imprimirService.run(convenio, lstCuotas);
 		
 		String contentType = "application/octet-stream";
-        String headerValue = "attachment; filename=\"" + "ddjj_1.pdf" + "\"";
+        String headerValue = "attachment; filename=\"" + "convenio.pdf" + "\"";
          
 
         log.debug("FIN" );
@@ -99,10 +102,7 @@ public class ConvenioController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .body(auxPdf);  
-        
-		//return ResponseEntity.noContent().<Void>build();
-		//return ResponseEntity.ok(aux);
+                .body(auxPdf);           
 	}
 	
 	@GetMapping(value = "/{id}/deudaDto/all")

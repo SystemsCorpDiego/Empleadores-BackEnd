@@ -38,8 +38,6 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 
 	private JasperReport convenioJasper;	
 	
-	@Autowired
-	private final ConvenioService service;
 	
 	@Autowired
 	private DateTimeProvider dtProvider;
@@ -71,11 +69,14 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 	 }
 	
 	@Override
-	public byte[] run(Integer id)  throws JRException, SQLException {
+	public byte[] run(Convenio convenio, List<ConvenioCuotaConsultaDto>  lstCuotas)  throws JRException, SQLException {
+		
+		
+		//List<ConvenioCuotaConsultaDto>  lst = service.getCuotas(1,  convenio.getId());
 		byte[] pdfBytes = null;
 		
-		HashMap<String, Object> params =  getParameters(id);
-		Vector vecDetalle = getDetalle(id);
+		HashMap<String, Object> params =  getParameters(convenio);
+		Vector vecDetalle = getDetalle(convenio, lstCuotas);
 		
 		JRDataSource dataSourceDetalle = new JRMapCollectionDataSource(vecDetalle); //Son Fields en el jasper
 		
@@ -87,17 +88,12 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 		return pdfBytes;
 	}
 	
-	private HashMap<String, Object> getParameters(Integer convenioId) {		
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		
-		Convenio convenio = service.get(1, convenioId);
+	private HashMap<String, Object> getParameters(Convenio convenio) {		
+		HashMap<String, Object> params = new HashMap<String, Object>();		 
 				 
-		
 		EntidadEnum entidad = EntidadEnum.map(  convenio.getEntidad() );
 		params.put("tituloEntidad", entidad.getDescripcion()); 
-		
 		params.put("P_logoPath", "reportes/UOMA-trad.jpg");	    	
-		
 		
 		
 		params.put("empresaRazonSocial", convenio.getEmpresa().getRazonSocial());
@@ -159,17 +155,16 @@ public class ConvenioImprimirServiceImpl implements ConvenioImprimirService {
 		return params;
 	}
 	
-	private Vector getDetalle(Integer convenioId) {		
-		
-		List<ConvenioCuotaConsultaDto>  lst = service.getCuotas(1,  convenioId);
+	private Vector getDetalle(Convenio convenio, List<ConvenioCuotaConsultaDto>  lstCuotas) {		
+		 
 		
 		Vector vecDetalle	= null;
 		
-		if ( lst != null && lst.size() > 0) {
+		if ( lstCuotas != null && lstCuotas.size() > 0) {
 			vecDetalle	= new Vector(); //vector que va al jasper
 			HashMap registro = null; 
 			
-			for(ConvenioCuotaConsultaDto cuota :lst) {
+			for(ConvenioCuotaConsultaDto cuota :lstCuotas) {
 				registro = new HashMap(); 
 				if ( cuota.getNumero() != null) {
 					registro.put("cuotaNro", cuota.getNumero().toString());

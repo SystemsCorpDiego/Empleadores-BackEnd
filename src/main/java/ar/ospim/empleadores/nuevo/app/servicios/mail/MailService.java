@@ -20,6 +20,6 @@ public interface MailService {
 	public void runMailRecuperoClave(String mail,  String usuario, String token);
 	public void runMailRecuperoClave(String mail,  String usuario, String token, SetDFABo  dfaDto);
 	
-	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio);
+	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file);
 	
 }

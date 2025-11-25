@@ -7,18 +7,22 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -29,6 +33,7 @@ import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +60,7 @@ public class MailServiceImpl implements MailService {
 	 @Autowired
 	 private UsuarioPersonaStorage storage;
 	 
+	
 	 
 	 @Value("${app.mail.cambio-clave.titulo}")
 	 private String CC_titulo;
@@ -227,27 +233,40 @@ public class MailServiceImpl implements MailService {
 	}	
 	
 	
-	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio) {
+	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file) {
 		log.error("MailService.runMailConvenioPresentado - INIT");
 		try {
-			MimeMessage mimeMessage = emailSender.createMimeMessage();
 			String empresa = convenio.getEmpresa().getRazonSocial();
 			String entidad = convenio.getEntidad();
-			String importeTotal = currencyFormat(convenio.getImporteDeuda()) ;
-			String cuerpo = String.format(CP_cuerpo, empresa, entidad, importeTotal);
 			
-			mimeMessage.setContent(cuerpo, "text/html");
+			BigDecimal importeTotalConvenio = convenio.getImporteDeuda();
+			if ( convenio.getImporteSaldoFavor() != null ) 
+				importeTotalConvenio = importeTotalConvenio.subtract(convenio.getImporteSaldoFavor());
+			if ( convenio.getImporteIntereses() != null ) 
+				importeTotalConvenio = importeTotalConvenio.add(convenio.getImporteIntereses());
 			
-			if ( springProfile.equals("dev") ) {
-				 mimeMessage.setSubject("(Desarrollo) - " + CP_titulo);
-	        } else {
-	        	mimeMessage.setSubject(CP_titulo);
-		    }
+			String importeTotal = currencyFormat(importeTotalConvenio) ;
+			String cuerpo = String.format(CP_cuerpo, empresa, entidad, "$ "+importeTotal);
+			
+			MimeMessage mimeMessage = emailSender.createMimeMessage();	
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 			 
-			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailEmpresa));
-			mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(CP_cc));
+			if ( springProfile.equals("dev") ) {
+				helper.setSubject("(Desarrollo) - " + CP_titulo);
+	        } else {
+	        	helper.setSubject(CP_titulo);
+		    }			
+			helper.setTo(mailEmpresa);
+			helper.setCc(CP_cc);
+			helper.setText(cuerpo, true);
 			
+
+			DataSource dataSource = new ByteArrayDataSource(file, "application/pdf");
+			helper.addAttachment("convenio.pdf", dataSource);
+			   
+	        
 	        emailSender.send(mimeMessage);
+	        
 	        log.error("MailService.runClaveNueva - PASO emailSender.send(mimeMessage); !!!! ");			
 		} catch( Exception e) {
 			//log.error("MailService.runMailConvenioPresentado - ERROR - usuario - -> {}", usuario);

@@ -123,9 +123,10 @@ app:
          cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar su <b>nuevo Token</b> de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br>Los Token generados anteriormente fueron dados de baja. Por favor descartelos.<br>Gracias"
       convenio-presentar:
          titulo: Portal de Empleadores - Alta de Convenio de Pago
-         cuerpo: La empresa <b>%s</b>, ha generado un Convenio <b>%s</b> por un importe total de pesos %s
-         cc: rdecandido@ospim.org.ar
-         #cc: buenodiegomartin@gmail.com   
+         cuerpo: La empresa <b>%s</b>, ha generado un Convenio <b>%s</b> por un importe total de pesos %s<br><br><br>Se adjunto PDF con el detalle del mismo.
+         cc: buenodiegomartin@gmail.com
+         #cc: rdecandido@ospim.org.ar
+            
 getwayPago:
    pagoMisCuentas:
       habilitado: true

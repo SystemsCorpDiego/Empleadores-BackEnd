@@ -80,7 +80,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final UsuarioStorage usuarioStorage;
 	private final MailService mailService;
 	private final UsuarioMailGet usuarioMailGet;
-	
+	private final ConvenioImprimirService convenioImprimirService;
 	
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {		
 		//TODO: faltaria validar EmpresaId
@@ -109,8 +109,14 @@ public class ConvenioServiceImpl implements ConvenioService {
 			
 			Integer usuarioId = UsuarioInfo.getCurrentAuditor();
 			String mailEmpresa = usuarioMailGet.run(usuarioId);
+			List<ConvenioCuotaConsultaDto> lstCuotas = getCuotas(convenio.getEmpresa().getId(), convenio.getId());
 			
-			mailService.runMailConvenioPresentado(mailEmpresa, convenio); 
+			byte[] file = null;
+			try {
+				file = convenioImprimirService.run( convenio, lstCuotas );
+			} catch (Exception e) {}
+			
+			mailService.runMailConvenioPresentado(mailEmpresa, convenio, file); 
 		}
 		
 		return convenio;		
