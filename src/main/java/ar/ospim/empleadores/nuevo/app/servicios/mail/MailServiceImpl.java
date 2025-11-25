@@ -1,6 +1,9 @@
 package ar.ospim.empleadores.nuevo.app.servicios.mail;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +30,7 @@ import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -77,6 +81,14 @@ public class MailServiceImpl implements MailService {
 	 @Value("${app.mail.recupero-clave.cuerpo-dfa}")
 	 private String RC_cuerpo_dfa;
 
+	 @Value("${app.mail.convenio-presentar.titulo}")
+	 private String CP_titulo;
+	 @Value("${app.mail.convenio-presentar.cuerpo}")
+	 private String CP_cuerpo;
+	 @Value("${app.mail.convenio-presentar.cc}")
+	 private String CP_cc;
+
+	 
 	 private String springProfile = "";
 	 
 	 public MailServiceImpl() {
@@ -155,7 +167,6 @@ public class MailServiceImpl implements MailService {
 		}				
 	}
 
-	
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa) {
 		//Informa a Usuarios Internos con Notificaciones=true, los datos de la nueva empresa
 		
@@ -214,6 +225,37 @@ public class MailServiceImpl implements MailService {
 			log.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
 		}
 	}	
+	
+	
+	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio) {
+		log.error("MailService.runMailConvenioPresentado - INIT");
+		try {
+			MimeMessage mimeMessage = emailSender.createMimeMessage();
+			String empresa = convenio.getEmpresa().getRazonSocial();
+			String entidad = convenio.getEntidad();
+			String importeTotal = currencyFormat(convenio.getImporteDeuda()) ;
+			String cuerpo = String.format(CP_cuerpo, empresa, entidad, importeTotal);
+			
+			mimeMessage.setContent(cuerpo, "text/html");
+			
+			if ( springProfile.equals("dev") ) {
+				 mimeMessage.setSubject("(Desarrollo) - " + CP_titulo);
+	        } else {
+	        	mimeMessage.setSubject(CP_titulo);
+		    }
+			 
+			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailEmpresa));
+			mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(CP_cc));
+			
+	        emailSender.send(mimeMessage);
+	        log.error("MailService.runClaveNueva - PASO emailSender.send(mimeMessage); !!!! ");			
+		} catch( Exception e) {
+			//log.error("MailService.runMailConvenioPresentado - ERROR - usuario - -> {}", usuario);
+			log.error("MailService.runMailConvenioPresentado - ERROR - -> {}", e);
+		}
+		log.error("MailService.runMailConvenioPresentado - FIN");
+		 
+	}
 	
 	private void runMailInt(String mailTo,  String mailAsunto,  String mailCuerpo) {
 		try {			
@@ -335,4 +377,14 @@ public class MailServiceImpl implements MailService {
 		*/
 	}
 
+	private String currencyFormat(BigDecimal importe) {
+		String dfStr = "#,##0.00";
+		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+		DecimalFormat df = null; 
+  		decimalFormatSymbols.setDecimalSeparator(',');
+		decimalFormatSymbols.setGroupingSeparator('.');
+		df =  new DecimalFormat(dfStr, decimalFormatSymbols);
+
+	    return df.format(importe);
+	}
 }

@@ -10,6 +10,7 @@ import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
+import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,6 +20,13 @@ public class UsuarioMailGetImpl implements UsuarioMailGet {
 	private final EmpresaContactoService empresaContactoService;
 	private final EmpresaService empresaService;
 	private final ConsultarUsuarioInterno consultarUsuarioInterno; 
+	private final UsuarioStorage usuarioStorage;
+	
+	@Override
+	public String run(Integer usuarioId) {
+		UsuarioBO usuario = usuarioStorage.getUsuario(usuarioId);
+		return run( usuario);
+	}
 	
 	@Override
 	public String run(UsuarioBO usuario) {		

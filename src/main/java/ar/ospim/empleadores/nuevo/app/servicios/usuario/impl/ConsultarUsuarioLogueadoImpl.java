@@ -55,6 +55,12 @@ public class ConsultarUsuarioLogueadoImpl implements ConsultarUsuarioLogueado {
 		  .findAny()
 		  .orElse(null);
 		
+		if ( rol == null) {
+			rol = rolesAsignados.stream().filter(rolAsig -> rolAsig.getId().equals(ERol.EMPLEADOR_TEST.getId()) )
+					  .findAny()
+					  .orElse(null);
+		}
+		
 		Optional<UsuarioEmpresaInfoBO> usuarioEmpresa = Optional.empty();
 		if ( rol != null) {
 			usuarioEmpresa = empresaUsuarioStorage.getUsuarioEmpresaInfo( usuario.getId() );

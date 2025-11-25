@@ -18,6 +18,8 @@ import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
+import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
+import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAjusteDeudaDto;
@@ -76,7 +78,10 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final UsuarioInfo usuarioInfo;  
 	private final ConvenioCuotasCalcular cuotasCalcular;
 	private final UsuarioStorage usuarioStorage;
-
+	private final MailService mailService;
+	private final UsuarioMailGet usuarioMailGet;
+	
+	
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {		
 		//TODO: faltaria validar EmpresaId
 		return cambiarEstado(convenioId, estado);		
@@ -100,9 +105,17 @@ public class ConvenioServiceImpl implements ConvenioService {
 		
 		convenio = storage.guardar(convenio);
 		 
+		if ( ConvenioEstadoEnum.PRES.getCodigo().equals(estado) ) {
+			
+			Integer usuarioId = UsuarioInfo.getCurrentAuditor();
+			String mailEmpresa = usuarioMailGet.run(usuarioId);
+			
+			mailService.runMailConvenioPresentado(mailEmpresa, convenio); 
+		}
 		
 		return convenio;		
 	}
+	 
 	
 	public List<CalcularCuotasCalculadaDto> calcularCuotas(Integer empresaId, BigDecimal capital, Integer cuotas, LocalDate vencimiento ) {
 		return cuotasCalcular.run(empresaId, capital, cuotas, vencimiento );	
@@ -171,7 +184,13 @@ public class ConvenioServiceImpl implements ConvenioService {
 	
 	
 	public List<Convenio> get(ConvenioConsultaFiltroDto filtro) {
-		List<Convenio> lst = null;		
+		List<Convenio> lst = null;	
+		
+		//Si el usuario logueado es empleador => fuerzo empresaId
+		Integer empresaId = usuarioInfo.getUsuarioLogeadoEmpresaId();
+		if ( empresaId != null)
+			filtro.setEmpresaId(empresaId);
+		
 		lst = storage.get(filtro);		
 		return lst;
 	}

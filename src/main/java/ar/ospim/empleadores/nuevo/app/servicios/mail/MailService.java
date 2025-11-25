@@ -4,6 +4,7 @@ import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
 import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 
 public interface MailService {
 
@@ -18,4 +19,7 @@ public interface MailService {
 	
 	public void runMailRecuperoClave(String mail,  String usuario, String token);
 	public void runMailRecuperoClave(String mail,  String usuario, String token, SetDFABo  dfaDto);
+	
+	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio);
+	
 }
