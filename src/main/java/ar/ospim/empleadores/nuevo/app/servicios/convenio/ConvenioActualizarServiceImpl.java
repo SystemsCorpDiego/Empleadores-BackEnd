@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.auth.usuario.SecurityContextUtils;
+import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
@@ -21,6 +22,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.PlanPagoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.ConvenioStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
@@ -41,12 +43,15 @@ public class ConvenioActualizarServiceImpl implements ConvenioActualizarService 
 	private final ConvenioCuotasCalcular cuotasCalcular;
 	private final ConvenioDetalleService detalleService;
 	
+	private final ConvenioSeteoService convenioSeteoService;
+	private final DateTimeProvider dtProvider;
+	
 	@Override
 	@Transactional
 	public Convenio run(ConvenioModiDto dto) {
 		Convenio convenio = storage.get(dto.getConvenioId());
 		
-		validarActualizacion(dto, convenio.getEmpresa().getId() );
+		validarActualizacion(dto, convenio.getEmpresa().getId(), convenio.getEmpresa().getCuit() );
 		
 		convenio.setUpdatedBy( SecurityContextUtils.getUserDetails().userId  );
 		
@@ -101,17 +106,26 @@ public class ConvenioActualizarServiceImpl implements ConvenioActualizarService 
 		 convenio.setImporteIntereses(interesDeuda);
 	}
 	
-	private void validarActualizacion(ConvenioModiDto dto, Integer empresaId) {
+	private void validarActualizacion(ConvenioModiDto dto, Integer empresaId, String cuit) {
 		
 		if ( empresaId==null ||  !empresaId.equals(dto.getEmpresaId()) ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.USUARIO_EMPRESA_DIFERENTE.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.USUARIO_EMPRESA_DIFERENTE.name(), errorMsg);			
 		}
 		
+		//Intencion de Pago: validar fecha Pasada		
 		if ( dto.getFechaPago() == null || dto.getFechaPago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}
+		
+		//Intencion de Pago: validar que la fecha no sea superior al seteo de config Convenios		
+		
+				if (  ! convenioSeteoService.validarFechaPago(cuit, dto.getFechaPago() ) ) {
+					LocalDate fMaxima = convenioSeteoService.getFechaPagoMaxima(cuit );
+					String errorMsg = messageSource.getMessage(ConvenioEnumException.SETEO_FECHAPAGO_CANTMAXDIAS.getMsgKey(), null, new Locale("es"));
+					throw new BusinessException(ConvenioEnumException.SETEO_FECHAPAGO_CANTMAXDIAS.name(), String.format(errorMsg, dtProvider.getDateToString(fMaxima) ) );			
+				}
 		
 		if (! formaPagoService.existe( dto.getMedioDePago() ) ) {
 			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
