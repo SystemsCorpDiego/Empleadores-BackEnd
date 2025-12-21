@@ -18,4 +18,8 @@ public interface ConvenioSeteoService {
 	
 	public List<ConvenioSeteo> findVigentes( LocalDate periodo );
 
+	public Boolean validarFechaPago(String cuit, LocalDate fechaPago);
+	
+	public LocalDate getFechaPagoMaxima(String cuit);
+	
 }

@@ -27,6 +27,29 @@ public class ConvenioSeteoServiceImpl implements ConvenioSeteoService {
 	
 	
 	@Override
+	public LocalDate getFechaPagoMaxima(String cuit) {
+		ConvenioSeteo convenioSeteo = getVigentePorCuit( cuit );
+		
+		if ( convenioSeteo != null && convenioSeteo.getIntencionPagoDiasMax()!= null && convenioSeteo.getIntencionPagoDiasMax()>0) {
+			LocalDate fMaxima = LocalDate.now();
+			fMaxima = fMaxima.plusDays(convenioSeteo.getIntencionPagoDiasMax());
+			return fMaxima;
+		}
+		return null;
+	}
+	
+	@Override
+	public Boolean validarFechaPago(String cuit, LocalDate fechaPago) {
+		LocalDate fMaxima = getFechaPagoMaxima( cuit);
+		if ( fMaxima != null ) {
+			if ( fechaPago.isAfter(fMaxima)  ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	@Override
 	public ConvenioSeteo guardar(ConvenioSeteo reg) {
 		if ( reg.getCuit()!=null && "".equals(reg.getCuit().trim()) ) {
 			reg.setCuit(null);

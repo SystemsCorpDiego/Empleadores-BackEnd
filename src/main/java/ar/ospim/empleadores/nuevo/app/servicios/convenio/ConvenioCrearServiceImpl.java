@@ -23,6 +23,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioPeriodoDetalle;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Empresa;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class ConvenioCrearServiceImpl implements ConvenioCrearService {
 	private final DateTimeProvider dateTimeProvider;
 	private final ConvenioCuotasCalcular cuotasCalcular;
 	private final ConvenioDetalleService detalleService;
-	
+	private final ConvenioSeteoService convenioSeteoService;
+	private final DateTimeProvider dtProvider;
 	
 	@Override
 	public Convenio run(ConvenioAltaDto dto) { 
@@ -94,10 +96,19 @@ public class ConvenioCrearServiceImpl implements ConvenioCrearService {
 			throw new BusinessException(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   						
 		}
 		
+		//Intencion de Pago: validar fecha Pasada		
 		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}
+		
+		//Intencion de Pago: validar que la fecha no sea superior al seteo de config Convenios		
+		if (  ! convenioSeteoService.validarFechaPago(convenio.getEmpresa().getCuit(), convenio.getIntencionDePago()) ) {
+			LocalDate fMaxima = convenioSeteoService.getFechaPagoMaxima(convenio.getEmpresa().getCuit());
+			String errorMsg = messageSource.getMessage(ConvenioEnumException.SETEO_FECHAPAGO_CANTMAXDIAS.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(ConvenioEnumException.SETEO_FECHAPAGO_CANTMAXDIAS.name(), String.format(errorMsg, dtProvider.getDateToString(fMaxima) ) );			
+		}
+		
 		
 		if (! formaPagoService.existe( convenio.getMedioPago() ) ) {
 			String errorMsg = messageSource.getMessage(BoletaPagoEnumException.FORMA_PAGO_INEXISTENTE.getMsgKey(), null, new Locale("es"));
