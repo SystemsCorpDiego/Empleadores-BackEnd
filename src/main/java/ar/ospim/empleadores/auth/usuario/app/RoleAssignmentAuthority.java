@@ -31,4 +31,5 @@ public class RoleAssignmentAuthority implements GrantedAuthority {
 	public RolAsignado assignment() {
 		return this.rolAsignado;
 	}
+	
 }

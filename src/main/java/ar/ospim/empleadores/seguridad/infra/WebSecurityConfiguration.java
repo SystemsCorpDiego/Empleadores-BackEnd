@@ -26,7 +26,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String PASSWORD_RESET = "/password-reset";
 	
-	private static final String BACKOFFICE = "/backoffice";
 
 	private static final String PUBLIC = "/public";
 
@@ -35,7 +34,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			"/swagger-ui/**"
 	};
 
-	private String[] BOOKING_API_RESOURCES = new String[]{};
+	//private String[] BOOKING_API_RESOURCES = new String[]{};
 
 	private final AuthenticationTokenFilter authenticationTokenFilter;
 
@@ -82,20 +81,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/actuator/**").access(actuatorConfiguration.getAccessInfo())
 				.antMatchers( "/auth/**").permitAll()
 				.antMatchers(SWAGGER_RESOURCES).permitAll()
-				.antMatchers(BACKOFFICE + "/properties").hasAnyAuthority(
-						ERol.ROOT.getValue(),
-						ERol.ADMINISTRADOR.getValue())
-				.antMatchers(BACKOFFICE + "/**").hasAnyAuthority(
-					ERol.ROOT.getValue(),
-					ERol.ADMINISTRADOR.getValue())
 				.antMatchers(RECAPTCHA + "/**").permitAll()
 				.antMatchers("/oauth/**").permitAll()
 				.antMatchers(HttpMethod.POST, PASSWORD_RESET).permitAll()
-				.antMatchers(HttpMethod.GET, "/bed/reports/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/assets/**").permitAll()
-				.antMatchers("/fhir/**").permitAll()
-				.antMatchers(BOOKING_API_RESOURCES).permitAll()
-				//.antMatchers("/public-api/**").hasAnyAuthority(ERol.API_CONSUMER.getValue())
+				//.antMatchers(BOOKING_API_RESOURCES).permitAll()
 				.antMatchers("/**").authenticated()
 		.anyRequest().authenticated();
 

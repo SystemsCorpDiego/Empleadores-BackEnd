@@ -48,6 +48,6 @@ public class AuthenticationTokenFilter  extends JWTFilter {
 				.filter(c -> "token".equals(c.getName()))
 				.map(Cookie::getValue)
 				.findFirst();
-
 	}
+	
 }

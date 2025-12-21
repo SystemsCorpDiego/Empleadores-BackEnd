@@ -2,6 +2,7 @@ package ar.ospim.empleadores.seguridad.infra.filtro;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -64,6 +65,16 @@ public class PublicApiAuthenticationFilter  extends OncePerRequestFilter {
 
 	private Collection<GrantedAuthority> getAuthorities(Integer id) {
 		log.debug("Get authorities from user {}", id);
+		
+		List<SigecoGrantedAuthority> lst;
+		lst = userAssignmentService.getRolAsignado(id).stream()
+						.map(SigecoGrantedAuthority::new)
+						.collect(Collectors.toList());
+		
+		for(SigecoGrantedAuthority auth : lst ) {
+			userAssignmentService.getRolFuncionalidadActiva(auth.getAuthority());
+		}
+		
 		return userAssignmentService.getRolAsignado(id).stream()
 				.map(SigecoGrantedAuthority::new)
 				.collect(Collectors.toList());

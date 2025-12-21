@@ -2,10 +2,13 @@ package ar.ospim.empleadores.auth.usuario.app;
 
 import java.util.List;
 
+import ar.ospim.empleadores.nuevo.infra.input.rest.auth.rol.dto.FuncionalidadesDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ERol;
 
 public interface UsuarioRolAsignacionService {
 	List<RolAsignado> getRolAsignado(Integer userId);
+	
+	List<FuncionalidadesDto> getRolFuncionalidadActiva(String rol);
 
 	void saveUsuarioRol(Integer userId, ERol role);
 	

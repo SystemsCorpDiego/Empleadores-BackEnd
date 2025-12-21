@@ -81,6 +81,25 @@ public class RolFuncionalidadServiceImpl implements RolFuncionalidadService {
 		List<RolFuncionalidadAltaDto> lst = cargarFuncionalidades(consRol);
 		return lst;
     }
+
+    public List<FuncionalidadesDto> getFuncionalidadesActivasByRol(String rolDescrip) {
+		List<FuncionalidadesDto> lst = new ArrayList<FuncionalidadesDto>();
+		FuncionalidadesDto funcDto = null;
+		
+		List<RolFuncionalidad>  cons2 = storage.findByRol( rolDescrip );
+		if (cons2 != null && cons2.size() >0) {
+			for ( RolFuncionalidad regRF : cons2) {
+				if ( regRF.isActivo() ) {
+					funcDto = new FuncionalidadesDto();
+					funcDto.setActivo( regRF.isActivo());
+					funcDto.setDescripcion( regRF.getFuncionalidad() );
+					funcDto.setId(regRF.getId());
+					lst.add(funcDto);
+				}
+			}
+		}
+    	return lst;
+    }
     
     private List<RolFuncionalidadAltaDto> cargarFuncionalidades(List<RolBO> consRol) {
     	List<RolFuncionalidadAltaDto> lst = new ArrayList<RolFuncionalidadAltaDto>();
@@ -123,4 +142,5 @@ public class RolFuncionalidadServiceImpl implements RolFuncionalidadService {
 		
 		return lst;
 	}
+
 }
