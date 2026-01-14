@@ -31,7 +31,7 @@ from  boleta_pago b
 	  join ddjj_deta dd on b.ddjj_id = dd.ddjj_id
 	  join ddjj_deta_aporte da on da.ddjj_deta_id = dd.id and da.aporte = b.aporte
 	  join ddjj d on d.id = b.ddjj_id
-	  join afiliado a on a.cuil_titular = dd.afiliado_cuil_titular
+	  join afiliado a on a.cuil_titular = dd.afiliado_cuil_titular and a.inte = 0
 	  join empresa e on e.id = b.empresa_id
 	  join aporte ap on ap.codigo = b.aporte
 where b.id = cast($P{boletaId} as integer)]]>
