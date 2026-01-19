@@ -113,8 +113,14 @@ public class ConvenioActualizarServiceImpl implements ConvenioActualizarService 
 			throw new BusinessException(CommonEnumException.USUARIO_EMPRESA_DIFERENTE.name(), errorMsg);			
 		}
 		
+		
+		if ( dto.getFechaPago() == null ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
 		//Intencion de Pago: validar fecha Pasada		
-		if ( dto.getFechaPago() == null || dto.getFechaPago().isBefore(LocalDate.now()) ) {			
+		if ( dto.getFechaPago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}
@@ -144,7 +150,14 @@ public class ConvenioActualizarServiceImpl implements ConvenioActualizarService 
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.name(), String.format(errorMsg, "La cantida de Cuotas") );			
 		}
-		if ( vencimiento == null || vencimiento.isBefore(LocalDate.now()) ) {			
+		
+
+		if ( vencimiento == null ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+
+		if ( vencimiento.isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}

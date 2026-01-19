@@ -138,7 +138,14 @@ public class ConvenioCuotasCalcularImpl implements ConvenioCuotasCalcular {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_MAYOR_A_CERO.name(), String.format(errorMsg, "La cantida de Cuotas") );			
 		}
-		if ( vencimiento == null || vencimiento.isBefore(LocalDate.now()) ) {			
+		
+
+		if ( vencimiento == null ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+		
+		if ( vencimiento.isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}

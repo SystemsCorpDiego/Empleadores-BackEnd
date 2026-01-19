@@ -96,8 +96,13 @@ public class ConvenioCrearServiceImpl implements ConvenioCrearService {
 			throw new BusinessException(ConvenioEnumException.ESTADO_PENDIENTE_EXISTENTE.name(), String.format(errorMsg, dateTimeProvider.getDateToString(convenio.getIntencionDePago())) );			   						
 		}
 		
+		if ( convenio.getIntencionDePago()  == null ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Intención de Pago") );			
+		}
+
 		//Intencion de Pago: validar fecha Pasada		
-		if ( convenio.getIntencionDePago() == null || convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
+		if ( convenio.getIntencionDePago().isBefore(LocalDate.now()) ) {			
 			String errorMsg = messageSource.getMessage(CommonEnumException.ERROR_FECHA_PASADA.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ERROR_FECHA_PASADA.name(), String.format(errorMsg, "Intención de Pago") );			
 		}
