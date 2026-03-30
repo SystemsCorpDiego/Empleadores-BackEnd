@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.postgresql.util.PSQLException;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -259,7 +260,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMessageNotReadable(
 	        HttpMessageNotReadableException ex, HttpHeaders headers,
 	        HttpStatus status, WebRequest request) {
+		//Tiene Vector de errores: "errores", pero no genera Nro Ticket
 		CustomException ticket = new CustomException(ExceptionEnum.APP_USE.getCodigo(), "Metodo o Argumentos Invalidos");
+		//Genera Nro Ticket
 		BusinessException bTicket = new BusinessException(ExceptionEnum.APP_USE.getCodigo().toString(), "Metodo o Argumentos Invalidos");
 		
 		log.error("************  handleHttpMessageNotReadable  - INIT ************  ");		
@@ -267,9 +270,10 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		log.error("error -> {}", ex);
 		
 		Throwable cause = ex.getCause();
-		 
+				
 		Map<String, String> errors = new HashMap<>();
-		 
+		ticket.setErrores(errors);
+		
 		try {
 			if ( cause instanceof MismatchedInputException ) {
 				ticket.setDescripcion( ex.getMessage() );
@@ -280,9 +284,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 				for(JsonMappingException.Reference error : ((UnrecognizedPropertyException) cause).getPath() ) {
 					ticket.setDescripcion( ticket.getDescripcion()+"."+error.getFieldName() );
 				}
-				errors.put(ticket.getDescripcion(), "propiedad inexistente" );
-				ticket.setErrores(errors);
-				
+				ticket.getErrores().put(ticket.getDescripcion(), "propiedad inexistente" );								
 				ticket.setDescripcion("propiedad inexistente: " + ticket.getDescripcion() );
 				
 			} else {
@@ -299,9 +301,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 								}
 							}
 						}
-						errors.put(ticket.getDescripcion(), ((JsonMappingException) cause).getCause().getMessage() );
-						ticket.setErrores(errors);
-						
+						ticket.getErrores().put(ticket.getDescripcion(), ((JsonMappingException) cause).getCause().getMessage() );												
 						ticket.setDescripcion( ticket.getDescripcion() + ": " + ((JsonMappingException) cause).getCause().getMessage()  );
 						
 					} else {
@@ -309,8 +309,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 							for(JsonMappingException.Reference error : ((InvalidFormatException) cause).getPath()) {
 								ticket.setDescripcion( ticket.getDescripcion()+"."+error.getFieldName() );
 							}
-							errors.put(ticket.getDescripcion(), "El valor informado (" + ((InvalidFormatException) cause).getValue() + ") no pudo convertirse al tipo de dato '" + ((InvalidFormatException) cause).getTargetType() + "'." );
-							ticket.setErrores(errors);
+							ticket.getErrores().put(ticket.getDescripcion(), "El valor informado (" + ((InvalidFormatException) cause).getValue() + ") no pudo convertirse al tipo de dato '" + ((InvalidFormatException) cause).getTargetType() + "'." );
 							ticket.setDescripcion( ticket.getDescripcion() +":"+ errors.get( ticket.getDescripcion() ));
 						} else {
 							ticket.setDescripcion(  ( (JsonMappingException) cause).getMessage() );
@@ -327,10 +326,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		} catch (Exception e) {
 			ticket.setDescripcion("Error no esperado: " + ex.getMessage());
 		}
-		bTicket.setDescripcion(ticket.getDescripcion());
-		ticket.setErrores(errors);
 
-		ApiErrorMessageDto error = new ApiErrorMessageDto(bTicket.getErrorType(), bTicket.getTicketError(), null, ex.getMessage());
+		bTicket.setDescripcion(ticket.getDescripcion());
+		ApiErrorMessageDto error = new ApiErrorMessageDto(bTicket.getErrorType(), bTicket.getTicketError(), null, bTicket.getDescripcion());
 		
 		log.error("ticket: {}", ticket );			
 		log.error("ApiErrorMessageDto: {}", error );

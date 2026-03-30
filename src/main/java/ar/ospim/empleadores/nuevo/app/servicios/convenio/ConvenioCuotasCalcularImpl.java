@@ -160,9 +160,17 @@ public class ConvenioCuotasCalcularImpl implements ConvenioCuotasCalcular {
 		cuota.setNumero(cuotaNro);
 		cuota.setImporte(capitalCuota);
 		cuota.setVencimiento(calculoFechaVtoCuota);
-		//20260214: Analia => hay q ponerle intereses a la 1er cuota. 
-		cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
-		//cuota.setInteres( BigDecimal.ZERO  ); //20251024> la 1er cuota va sin interes.-
+		
+		//20251024: la 1er cuota va sin interés.-". 
+		//20260214: Analia => hay q ponerle intereses a la 1er cuota.
+		//20260330: Si el convenio tiene 1 cuota se calcula interes, sino la 1er cuota va sin interes.-
+		if ( cuotas == 1 ) {
+			cuota.setInteres( convenioInteresService.calcularInteres(cuit, capitalCuota, calculoFechaInicio, calculoFechaVtoCuota) );
+		} else {
+			cuota.setInteres( BigDecimal.ZERO );
+		}
+		
+		
 		lst.add(cuota);
 		
 		for ( cuotaNro = 2;  cuotaNro<=cuotas;  cuotaNro++) {
