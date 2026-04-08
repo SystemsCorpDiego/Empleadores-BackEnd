@@ -4,6 +4,6 @@ import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 
 public interface CrearUsuarioEmpresa {
 	
-		public EmpresaBO run(EmpresaBO empresa, String clave);
+	public EmpresaBO run(String urlDomain, EmpresaBO empresa, String clave);
 		
 }

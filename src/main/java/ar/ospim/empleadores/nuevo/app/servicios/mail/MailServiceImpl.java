@@ -11,12 +11,10 @@ import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.InternetHeaders;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +23,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
@@ -33,7 +32,6 @@ import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
-import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-	 
-	 @Autowired 
-	 private HttpServletRequest request;
 	 
 	 @Value("${server.servlet.context-path}")
 	 private String serverServletContextPath;
@@ -146,10 +141,10 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail) {
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail) {
 		try {
 			String token = tokenActivacion.crearParaUsuario(usuarioBO);
-			String sUrlLink = getUrlActivacionCuenta( token ); 
+			String sUrlLink = getUrlActivacionCuenta(urlDomain, token ); 
 			String mailCuerpo = String.format(AC_cuerpo, sUrlLink);	
 			
 			runMailInt(usuarioMail, AC_titulo, mailCuerpo);
@@ -160,10 +155,10 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto) {
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto) {
 		try {
 			String token = tokenActivacion.crearParaUsuario(usuarioBO, dfaDto.getSharedSecret());
-			String sUrlLink = getUrlActivacionCuenta( token ); 
+			String sUrlLink = getUrlActivacionCuenta( urlDomain, token ); 
 			String mailCuerpo = String.format(AC_cuerpo_dfa, usuarioBO.getDescripcion(), sUrlLink, dfaDto.getSharedSecret(), dfaDto.generateAuthenticatorBarCode());	
 			
 			runMailIntWithAttach(usuarioMail, AC_titulo, mailCuerpo);			 
@@ -212,9 +207,9 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailRecuperoClave(String mail, String usuario, String token, SetDFABo dfaDto) {
+	public void runMailRecuperoClave(String urlDomain, String mail, String usuario, String token, SetDFABo dfaDto) {
 		try {	
-			String sUrlLink = getUrlRecuperoClave(token);
+			String sUrlLink = getUrlRecuperoClave(urlDomain, token);
 			String mailCuerpo = String.format(RC_cuerpo_dfa, usuario, sUrlLink, dfaDto.getSharedSecret(), dfaDto.generateAuthenticatorBarCode());
 			runMailIntWithAttach(mail, RC_titulo, mailCuerpo);
 		} catch( Exception e) {
@@ -222,9 +217,9 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
-	public void runMailRecuperoClave(String mail,  String usuario,String token) {
+	public void runMailRecuperoClave(String urlDomain, String mail,  String usuario,String token) {
 		try {			
-			String sUrlLink = getUrlRecuperoClave(token);
+			String sUrlLink = getUrlRecuperoClave(urlDomain, token);
 			String mailCuerpo = String.format(RC_cuerpo, usuario, sUrlLink);	
 			runMailInt(mail, RC_titulo, mailCuerpo);			 
 		} catch( Exception e) {
@@ -336,12 +331,16 @@ public class MailServiceImpl implements MailService {
 		}	
 	}
 	
-	private String getUrlRecuperoClave(String token) {
-		return  "https://" + getDomain() + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
+	private String getUrlRecuperoClave(String urlDomain, String token) {
+    	if( !StringUtils.hasText(urlDomain) )
+    		urlDomain = "https://uomaempleadores.org.ar";
+		return urlDomain + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
 	}
 	
-    private  String getUrlActivacionCuenta(String token) {
-		return "https://" + getDomain() + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
+    private  String getUrlActivacionCuenta(String urlDomain, String token) {
+    	if( !StringUtils.hasText(urlDomain) )
+    		urlDomain = "https://uomaempleadores.org.ar";
+		return urlDomain + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
 	}
 
 	private List<String> getMailsNotifAltaEmpre() {
@@ -376,25 +375,7 @@ public class MailServiceImpl implements MailService {
 		}
 		return "";
 	}
-	
-	private String getDomain() {
-		//request.getRequestURL();
-		//request.getRequestURI();
 		
-		return "uomaempleadores.org.ar";
-		/*
-		try {
-			return request.getRequestURL().toString().split("/")[2];
-		} catch ( Exception e ) {
-			if ( request == null ) {
-				log.error("MailService.getDomain() - ERROR - request NULLL ");
-			} else {
-				log.error("MailService.getDomain() - ERROR - request.getRequestURL():  ", request.getRequestURL());
-			}
-			return "";
-		}
-		*/
-	}
 
 	private String currencyFormat(BigDecimal importe) {
 		String dfStr = "#,##0.00";

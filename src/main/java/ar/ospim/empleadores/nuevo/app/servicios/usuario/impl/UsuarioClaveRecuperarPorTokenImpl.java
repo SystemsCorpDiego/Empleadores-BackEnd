@@ -39,7 +39,7 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 	
 	
 	@Override
-	public UsuarioRecuperoClaveTokenDto runGenTokenByUsuarioDescrip(String descripcion) {
+	public UsuarioRecuperoClaveTokenDto runGenTokenByUsuarioDescrip(String urlDomain, String descripcion) {
 		UsuarioRecuperoClaveTokenDto dto = null;
 		UsuarioBO usuario = usuarioStorage.getUsuario(descripcion);
 		if (usuario == null) {
@@ -56,7 +56,7 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 			String errorMsg = messageSource.getMessage(UsuarioStorageEnumException.USUARIO_SIN_MAIL.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(UsuarioStorageEnumException.USUARIO_SIN_MAIL.name(), errorMsg);
 		}
-		String tokenMail = runGenToken(usuario, mail);
+		String tokenMail = runGenToken(urlDomain, usuario, mail);
 		
 		if ( tokenMail != null ) {
 			dto = new UsuarioRecuperoClaveTokenDto();
@@ -67,7 +67,7 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 	}
 	
 	@Override
-	public UsuarioRecuperoClaveTokenDto runGenTokenByMail(String mail) {
+	public UsuarioRecuperoClaveTokenDto runGenTokenByMail(String urlDomain, String mail) {
 		UsuarioRecuperoClaveTokenDto dto = null;
 		UsuarioBO usuario = usuarioStorage.getUsuarioPorMail(mail);
 		
@@ -76,7 +76,7 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 			throw new BusinessException(UsuarioStorageEnumException.MAIL_SIN_USUARIO.name(), errorMsg);
 		}
 		
-		String tokenMail = runGenToken(usuario, mail);
+		String tokenMail = runGenToken(urlDomain, usuario, mail);
 		
 		if ( tokenMail != null ) {
 			dto = new UsuarioRecuperoClaveTokenDto();
@@ -103,7 +103,7 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 		usuarioStorage.habilitarCuenta(usuarioId);
 	}
 
-	private String runGenToken(UsuarioBO usuario, String mail) {
+	private String runGenToken(String urlDomain, UsuarioBO usuario, String mail) {
 		String tokenMail = "";
 		if ( usuario.isDfaHabilitado() ) {
 			//TODO: generar nuevo dfaToken y enviarlo en el mail
@@ -116,10 +116,10 @@ public class UsuarioClaveRecuperarPorTokenImpl implements UsuarioClaveRecuperarP
 			//usuarioStorage.setDFAToken(usuarioBO.getId(), tokenDFA);
 			
 			tokenMail = tokenGestionUsuario.crearParaMail(usuario, mail, tokenDFA);
-			mailService.runMailRecuperoClave(mail, usuario.getDescripcion(), tokenMail, dfaDto);
+			mailService.runMailRecuperoClave(urlDomain, mail, usuario.getDescripcion(), tokenMail, dfaDto);
 		} else {
 			tokenMail = tokenGestionUsuario.crearParaMail(usuario, mail);
-			mailService.runMailRecuperoClave(mail, usuario.getDescripcion(), tokenMail);
+			mailService.runMailRecuperoClave(urlDomain, mail, usuario.getDescripcion(), tokenMail);
 		}
 		
 		usuarioStorage.desHabilitarCuenta(usuario.getId());

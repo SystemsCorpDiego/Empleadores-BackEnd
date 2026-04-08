@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -42,14 +43,15 @@ public class UsuarioEmpresaController {
     
     @PostMapping(value={"/", "/public/"} )
     @Transactional
-    public ResponseEntity<IdGeneradoDto> crearUsuarioEmpresa (
+    public ResponseEntity<IdGeneradoDto> crearUsuarioEmpresa (HttpServletRequest request,
             @RequestBody @Valid UsuarioEmpresaAltaDto usuarioEmpresaAltaDto) throws URISyntaxException {
         LOG.debug("Crear empresa con usuario-> {}", usuarioEmpresaAltaDto);
  
+        String urlDomain = request.getScheme() + "://" + request.getHeader("host");
         EmpresaBO empresaNueva = mapper.map(usuarioEmpresaAltaDto);
         mapperAux(empresaNueva, usuarioEmpresaAltaDto);
         
-        EmpresaBO empresaCreada = crearUsuarioEmpresa.run(empresaNueva, usuarioEmpresaAltaDto.getClave() );
+        EmpresaBO empresaCreada = crearUsuarioEmpresa.run(urlDomain, empresaNueva, usuarioEmpresaAltaDto.getClave() );
         
         
         LOG.debug("Empresa creada -> {}", empresaCreada);

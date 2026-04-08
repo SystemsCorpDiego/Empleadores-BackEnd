@@ -93,7 +93,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.POST, PASSWORD_RESET).permitAll()
 				.antMatchers(HttpMethod.GET, "/bed/reports/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/assets/**").permitAll()
-				.antMatchers("/fhir/**").permitAll()
 				.antMatchers(BOOKING_API_RESOURCES).permitAll()
 				//.antMatchers("/public-api/**").hasAnyAuthority(ERol.API_CONSUMER.getValue())
 				.antMatchers("/**").authenticated()

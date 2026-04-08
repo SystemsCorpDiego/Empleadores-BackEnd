@@ -41,7 +41,7 @@ public class CrearUsuarioEmpresaImpl implements CrearUsuarioEmpresa {
 	private final MailService mailService;
 	
 	@Override
-	public EmpresaBO run(EmpresaBO empresa, String clave) {
+	public EmpresaBO run(String urlDomain, EmpresaBO empresa, String clave) {
 		UsuarioBO usuarioBo = new UsuarioBO(empresa.getCuit());
 		usuarioBo.setUsuarioClaveBo(clave, "", "");
 
@@ -70,9 +70,9 @@ public class CrearUsuarioEmpresaImpl implements CrearUsuarioEmpresa {
 		
 		//TODO: envio mail de Activacion
 		if ( dfaEmpleadorEnabled ) {        	
-			mailService.runMailActivacionCuenta(usuarioBO, mail.get().getValor(), dfaDto);
+			mailService.runMailActivacionCuenta(urlDomain, usuarioBO, mail.get().getValor(), dfaDto);
         } else {
-        	mailService.runMailActivacionCuenta(usuarioBO, mail.get().getValor());
+        	mailService.runMailActivacionCuenta(urlDomain, usuarioBO, mail.get().getValor());
         }
 		mailService.runMailCuentaEmpresaNuevaInfo(empresaCreada);
 		

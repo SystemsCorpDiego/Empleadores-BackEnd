@@ -3,6 +3,8 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.procesos;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -54,15 +56,16 @@ public class GeneracionDFAEmpleadoresController {
 	
 
 	@PostMapping("")
-	public ResponseEntity<String> generarDFA() {		
+	public ResponseEntity<String> generarDFA(HttpServletRequest request) {		
 		Integer maxRegProcesar = batchCantidad; //50;
 		Integer totalProcesados = 0;
+		String urlDomain = request.getScheme() + "://" + request.getHeader("host");
 		
 		List<EmpresaBO> lstEmpresa = empresaService.findAll();
 		
 		for (EmpresaBO reg : lstEmpresa) {
 			if ( totalProcesados <= maxRegProcesar) {
-				if ( procesar(reg) ) {
+				if ( procesar(urlDomain, reg) ) {
 					totalProcesados = totalProcesados +1;
 				}
 			}
@@ -71,9 +74,10 @@ public class GeneracionDFAEmpleadoresController {
 	}
 	
 	@PostMapping("/cuit/{sCUIT}")
-	public ResponseEntity<String> generarDFACuit(@PathVariable("sCUIT") String cuit) {
+	public ResponseEntity<String> generarDFACuit(HttpServletRequest request, @PathVariable("sCUIT") String cuit) {
 		Boolean rta = false;
 		EmpresaBO empresa = null;
+		String urlDomain = request.getScheme() + "://" + request.getHeader("host");
 		try {
 			empresa = empresaService.getEmpresa(cuit);
 		} catch (Exception e) {
@@ -90,7 +94,7 @@ public class GeneracionDFAEmpleadoresController {
 				//Inicializar Clave
 				claveRepository.updatePassword(usuario.get(), claveDefault);
 				
-				rta = procesar(empresa);		
+				rta = procesar(urlDomain, empresa);		
 			} else {
 				log.error( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT.");
 				return ResponseEntity.status(HttpStatus.SC_BAD_GATEWAY).body( "PROCESO-DFA-EMPLEADORES - ERROR - CUIT " + empresa.getCuit() + " - No se encontro el usuario para el CUIT." );
@@ -104,7 +108,7 @@ public class GeneracionDFAEmpleadoresController {
 		return ResponseEntity.ok( rta.toString()  );
 	}
 	
-	private Boolean procesar(EmpresaBO empresa) {
+	private Boolean procesar(String urlDomain, EmpresaBO empresa) {
 		//Los Usuarios Empresa nacen DESHABILITADOS.
 		//SOLO a los DESHABILITADOS, se les manda mail de activacion de cuenta y DFA.-
 		//El mail manda link para que el usuario se habilite la cuenta y lleva el DFA en el texto.-
@@ -127,7 +131,7 @@ public class GeneracionDFAEmpleadoresController {
 						SetDFABo authenticationBo = generateTwoFactorAuthentication.run(usuarioBO.getId());
 									
 						//mando Mail con la clave
-						 mailService.runMailActivacionCuenta(usuarioBO, mailPpal.getValor(), authenticationBo);
+						 mailService.runMailActivacionCuenta(urlDomain, usuarioBO, mailPpal.getValor(), authenticationBo);
 						 log.error( "PROCESO-DFA-EMPLEADORES - VAL - CUIT: " + empresa.getCuit() + " - MAIL ENVIADO OK !!!");
 						 return true;
 					} else {

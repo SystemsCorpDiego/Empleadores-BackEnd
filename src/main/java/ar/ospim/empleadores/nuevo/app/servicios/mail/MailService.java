@@ -12,13 +12,13 @@ public interface MailService {
 	
 	public void runCambioDeClave(String usuario, String claveNueva, String usuarioMail,  String usuarioModificaMail);
 	
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto);
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail);
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto);
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail);
 	
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa);
 	
-	public void runMailRecuperoClave(String mail,  String usuario, String token);
-	public void runMailRecuperoClave(String mail,  String usuario, String token, SetDFABo  dfaDto);
+	public void runMailRecuperoClave(String urlDomain, String mail,  String usuario, String token);
+	public void runMailRecuperoClave(String urlDomain, String mail,  String usuario, String token, SetDFABo  dfaDto);
 	
 	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file);
 	
