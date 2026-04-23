@@ -144,6 +144,8 @@ public class ConvenioCrearServiceImpl implements ConvenioCrearService {
 						 capitalDeuda = capitalDeuda.add(ca.getActa().getCapital());
 					 if ( ca.getActa().getInteres() != null )
 						 capitalDeuda = capitalDeuda.add(ca.getActa().getInteres());
+					 if ( ca.getActa().getInteresEmpleadores() != null )
+						 capitalDeuda = capitalDeuda.add(ca.getActa().getInteresEmpleadores());
 				 }
 			 }
 		 }
