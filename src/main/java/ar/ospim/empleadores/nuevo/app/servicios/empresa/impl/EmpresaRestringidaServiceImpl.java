@@ -67,6 +67,7 @@ public class EmpresaRestringidaServiceImpl implements EmpresaRestringidaService 
 			}
 			return razonSocial;
 		}
+		
 		@Override
 		public Boolean esRestringido(String cuit) {
 			Optional<EmpresaRestringidaBO> cons = storage.findByCuit(cuit);

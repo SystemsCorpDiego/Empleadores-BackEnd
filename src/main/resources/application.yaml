@@ -126,6 +126,8 @@ app:
          cuerpo: La empresa <b>%s</b>, ha generado un Convenio <b>%s</b> por un importe total de pesos %s<br><br><br>Se adjunto PDF con el detalle del mismo.
          cc: buenodiegomartin@gmail.com
          #cc: rdecandido@ospim.org.ar
+      deuda-info:
+         titulo: Portal de Empleadores - Aviso de Deuda
             
 getwayPago:
    pagoMisCuentas:

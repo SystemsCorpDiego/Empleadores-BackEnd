@@ -1,6 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -31,11 +32,9 @@ public class GestionDeudaMailConfigController {
 	private final DeudaNominaMailConfigDtoMapper mapper;
 
 	@GetMapping
-	public ResponseEntity<DeudaNominaMailConfigDto> consultar() {
-		DeudaNominaMailConfigBO reg = service.consultar();
-		if (reg == null)
-			return ResponseEntity.noContent().build();
-		return ResponseEntity.ok(mapper.map(reg));
+	public ResponseEntity<List<DeudaNominaMailConfigDto>> consultar() {
+		List<DeudaNominaMailConfigBO> lst = service.consultar();		
+		return ResponseEntity.ok(mapper.map(lst));
 	}
 
 	@PostMapping

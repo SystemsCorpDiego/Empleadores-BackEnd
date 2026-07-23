@@ -89,7 +89,9 @@ public class MailServiceImpl implements MailService {
 	 @Value("${app.mail.convenio-presentar.cc}")
 	 private String CP_cc;
 
-	 
+	 @Value("${app.mail.deuda-info.titulo}")
+     private String DI_titulo;
+			 
 	 private String springProfile = "";
 	 
 	 public MailServiceImpl() {
@@ -271,6 +273,25 @@ public class MailServiceImpl implements MailService {
 		 
 	}
 	
+	
+	@Override
+	public void runMailDeudaNotif(String mailEmpresa, String cuerpo) {
+		log.error("MailService.runMailDeudaNotif - mailEmpresa: {} ", mailEmpresa);
+		try {
+			
+			//TODO: quitar esto 
+			mailEmpresa = "buenodiegomartin@gmail.com";
+			
+			runMailInt(mailEmpresa,  DI_titulo,  cuerpo);
+		} catch( Exception e) {
+			log.error("MailService.runMailDeudaNotif - ERROR - -> {}", e);
+			throw e;
+			//Lanzo error para guardarlo en LOG
+		}
+		log.error("MailService.runMailDeudaNotif - FIN");
+	}
+	
+	
 	private void runMailInt(String mailTo,  String mailAsunto,  String mailCuerpo) {
 		try {			
 			MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -387,4 +408,6 @@ public class MailServiceImpl implements MailService {
 
 	    return df.format(importe);
 	}
+
+
 }

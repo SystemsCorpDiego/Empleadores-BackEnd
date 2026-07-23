@@ -12,7 +12,8 @@ import lombok.ToString;
 public class DeudaNominaMailConfigDto {
 
 	private Long id;
-	private LocalDate fechaEnvio;
+	private LocalDate fechaProceso;
 	private String cuerpoMail;
+	private Boolean habilitado;
 
 }

@@ -1,11 +1,14 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
@@ -25,12 +28,26 @@ public class DeudaNominaMailConfigStorageImpl implements DeudaNominaMailConfigSt
 	private final DeudaNominaMailConfigRepository repository;
 	private final DeudaNominaMailConfigMapper mapper;
 
+	
 	@Override
-	public DeudaNominaMailConfigBO findFirst() {
-		List<DeudaNominaMailConfig> lista = repository.findAll();
-		if (lista.isEmpty())
-			return null;
-		return mapper.map(lista.get(0));
+	public Optional<LocalDate> getFechaProcesoVigente() {
+		LocalDate aux = repository.getFechaProcesoVigente();
+		return Optional.ofNullable(aux);
+	}
+	
+	@Override
+	public List<DeudaNominaMailConfigBO> findAll() {
+		List<DeudaNominaMailConfig> lista = repository.findAll( Sort.by(Sort.Direction.DESC, "fechaProceso") );
+		return mapper.map(lista);
+	}
+	
+	@Override
+	public Optional<DeudaNominaMailConfigBO> findVigente() {
+		Optional<DeudaNominaMailConfig> cons = repository.findVigente();
+		if (cons.isEmpty())
+			return Optional.ofNullable( new DeudaNominaMailConfigBO() );
+		
+		return Optional.ofNullable(mapper.map(cons.get()));
 	}
 
 	@Override
@@ -54,4 +71,17 @@ public class DeudaNominaMailConfigStorageImpl implements DeudaNominaMailConfigSt
 		return mapper.map(registro);
 	}
 
+	@Override
+	public Optional<DeudaNominaMailConfigBO> findByFecha(LocalDate fechaProceso) {
+		DeudaNominaMailConfigBO rta = null;
+		
+		Optional<DeudaNominaMailConfig> registro = repository.findByFechaProceso(fechaProceso);
+		if ( registro.isEmpty() ) 
+			return Optional.ofNullable(rta);
+
+		rta = mapper.map(registro.get());
+		
+		return Optional.ofNullable(rta);		
+	}
+	
 }

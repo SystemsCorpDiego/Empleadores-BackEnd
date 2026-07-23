@@ -22,4 +22,5 @@ public interface MailService {
 	
 	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file);
 	
+	public void runMailDeudaNotif(String mailEmpresa, String cuerpo);
 }
