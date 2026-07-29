@@ -29,6 +29,7 @@ public class DeudaNominaMailConfigServiceImpl implements DeudaNominaMailConfigSe
 		return storage.findAll();
 	}
 
+
 	@Override
 	public Optional<DeudaNominaMailConfigBO> consultarVigente() {
 		return storage.findVigente();
