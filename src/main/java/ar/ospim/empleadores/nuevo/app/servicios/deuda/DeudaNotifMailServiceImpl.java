@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -50,9 +48,7 @@ public class DeudaNotifMailServiceImpl implements DeudaNotifMailService {
 	}
 
 
-	// Ejecuta cada 10 minutos entre las 00:00 y las 05:50 hs, todos los días.
-	// 0 (segundos) 0/10 (cada 10 minutos) 0-5 (de 0 a 5hs) * (todos los dias) * (todos los meses) * (todos los dias de la semana)
-	@Scheduled(cron = "0 0/10 0-5 * * *")
+    @Scheduled(cron = "${app.cron.ejecucion-frecuencia}")
 	@Override
 	public void run() {
 		log.debug("Scheduler - Notificacion Deuda - INIT");

@@ -128,7 +128,12 @@ app:
          #cc: rdecandido@ospim.org.ar
       deuda-info:
          titulo: Portal de Empleadores - Aviso de Deuda
-            
+   cron:
+      habilitado: false
+	  #// Ejecuta cada 10 minutos entre las 00:00 y las 05:50 hs, todos los días.
+	  #// 0 (segundos) 0/10 (cada 10 minutos) 0-5 (de 0 a 5hs) * (todos los dias) * (todos los meses) * (todos los dias de la semana)
+      ejecucion-frecuencia: 0 0/10 0-5 * * * 
+	  
 getwayPago:
    pagoMisCuentas:
       habilitado: true
