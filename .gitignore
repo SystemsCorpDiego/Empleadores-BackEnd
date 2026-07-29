@@ -1,6 +1,6 @@
-<<<<<<< HEAD
 HELP.md
 target/
+.metadata
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -51,4 +51,5 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
->>>>>>> branch 'develop' of git@github.com:SystemsCorpDiego/Empleadores-BackEnd.git
+
+/*.md
