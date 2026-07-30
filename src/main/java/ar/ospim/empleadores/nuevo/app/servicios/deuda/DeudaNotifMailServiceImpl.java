@@ -48,7 +48,7 @@ public class DeudaNotifMailServiceImpl implements DeudaNotifMailService {
 	}
 
 
-    @Scheduled(cron = "${app.cron.ejecucion-frecuencia}")
+    @Scheduled(cron = "${app.cron.frecuencia}")
 	@Override
 	public void run() {
 		log.debug("Scheduler - Notificacion Deuda - INIT");
