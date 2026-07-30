@@ -25,6 +25,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String PASSWORD_RESET = "/password-reset";
 	
+	private static final String BACKOFFICE = "/backoffice";
+
 	private static final String PUBLIC = "/public";
 
 	private static final String[] SWAGGER_RESOURCES = {
@@ -68,6 +70,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(  HttpMethod.POST,  "/**"+ PUBLIC + "/**").permitAll()
 				.antMatchers( "/auth/**").permitAll()
 				.antMatchers(SWAGGER_RESOURCES).permitAll()
+				.antMatchers(BACKOFFICE + "/properties").hasAnyAuthority(
+						ERol.ROOT.getValue(),
+						ERol.ADMINISTRADOR.getValue())
+				.antMatchers(BACKOFFICE + "/**").hasAnyAuthority(
+					ERol.ROOT.getValue(),
+					ERol.ADMINISTRADOR.getValue())				
 				.antMatchers(RECAPTCHA + "/**").permitAll()
 				.antMatchers("/oauth/**").permitAll()
 				.antMatchers(HttpMethod.POST, PASSWORD_RESET).permitAll()
@@ -75,6 +83,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/**").authenticated()
 		.anyRequest().authenticated();
 
+		httpSecurity.cors(cors -> cors.disable());
+		
 		// @formatter:on
 		httpSecurity.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 		httpSecurity.addFilterAfter(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
