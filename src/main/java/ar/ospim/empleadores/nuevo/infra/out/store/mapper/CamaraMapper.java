@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.VCamara;
 
 @Mapper 

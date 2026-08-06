@@ -5,7 +5,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Empresa;
 
 @Mapper 

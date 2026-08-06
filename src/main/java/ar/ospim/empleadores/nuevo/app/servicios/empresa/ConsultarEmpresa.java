@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import ar.ospim.empleadores.comun.infra.input.service.BasicDataEmpresaDto;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 
 public interface ConsultarEmpresa {
 	

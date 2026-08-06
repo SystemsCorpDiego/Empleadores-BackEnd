@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.empresa;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaRestringidaBO;
 
 public interface EmpresaRestringidaService {
 

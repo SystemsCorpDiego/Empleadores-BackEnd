@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteSeteoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.camara.CamaraService;
 import ar.ospim.empleadores.nuevo.app.servicios.entidad.EntidadService;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteSeteoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteSeteoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteSeteo;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;

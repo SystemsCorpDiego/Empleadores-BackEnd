@@ -1,6 +1,6 @@
 package ar.ospim.empleadores.nuevo.app.servicios.usuario.empresa;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 
 public interface CrearUsuarioEmpresa {
 	

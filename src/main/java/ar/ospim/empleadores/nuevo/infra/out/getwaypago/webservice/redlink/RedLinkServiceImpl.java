@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.exception.WebServiceException;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.BepBoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAbarcativa;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAltaDeDeudasRequest;

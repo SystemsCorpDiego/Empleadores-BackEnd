@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoAjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ajuste.AjusteService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularAjustesService;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoAjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.BoletaPagoDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAjusteDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleDto;

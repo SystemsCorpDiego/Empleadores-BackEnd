@@ -4,9 +4,9 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.PersonaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.PersonaBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.UsuarioPersona;
 
 @Mapper 

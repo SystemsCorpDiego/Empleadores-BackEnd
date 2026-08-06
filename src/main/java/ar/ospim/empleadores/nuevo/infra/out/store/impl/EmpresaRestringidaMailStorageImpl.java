@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaMailBO;
+import ar.ospim.empleadores.nuevo.dominio.MailTipoEmpresaRestringidaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaRestringidaMailStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.EmpresaRestringidaMailMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRestringidaMailRepository;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.EmpresaRestringidaMail;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.MailTipoEmpresaRestringida;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -27,8 +27,8 @@ public class EmpresaRestringidaMailStorageImpl implements EmpresaRestringidaMail
 	private final EmpresaRestringidaMailMapper mapper;
 
 	@Override
-	public EmpresaRestringidaMailBO save(EmpresaRestringidaMailBO regBO) {
-		EmpresaRestringidaMail registro;
+	public MailTipoEmpresaRestringidaBO save(MailTipoEmpresaRestringidaBO regBO) {
+		MailTipoEmpresaRestringida registro;
 
 		if (regBO.getId() != null) {
 			try {
@@ -53,14 +53,14 @@ public class EmpresaRestringidaMailStorageImpl implements EmpresaRestringidaMail
 	}
 
 	@Override
-	public List<EmpresaRestringidaMailBO> findAll() {
-		List<EmpresaRestringidaMail> consulta = repository.findAll();
+	public List<MailTipoEmpresaRestringidaBO> findAll() {
+		List<MailTipoEmpresaRestringida> consulta = repository.findAll();
 		return mapper.map(consulta);
 	}
 
 	@Override
-	public Optional<EmpresaRestringidaMailBO> findByCuit(String cuit) {
-		Optional<EmpresaRestringidaMail> cons = repository.findByCuit(cuit);
+	public Optional<MailTipoEmpresaRestringidaBO> findByCuit(String cuit) {
+		Optional<MailTipoEmpresaRestringida> cons = repository.findByCuit(cuit);
 		if (cons.isEmpty())
 			return Optional.empty();
 		return Optional.of(mapper.map(cons.get()));

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.LocalidadBO;
+import ar.ospim.empleadores.nuevo.dominio.LocalidadBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.LocalidadStorage;
 import lombok.AllArgsConstructor;
 

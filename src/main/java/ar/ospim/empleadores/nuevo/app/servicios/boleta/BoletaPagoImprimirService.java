@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.boleta;
 
 import java.sql.SQLException;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import net.sf.jasperreports.engine.JRException;
 
 public interface BoletaPagoImprimirService {	

@@ -5,17 +5,17 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaMailBO;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaRestringidaMailDto;
+import ar.ospim.empleadores.nuevo.dominio.MailTipoEmpresaRestringidaBO;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.mail.dto.MailTipoEmpresaRestringidaDto;
 
 @Mapper
 public interface EmpresaRestringidaMailDtoMapper {
 
-	List<EmpresaRestringidaMailDto> map(List<EmpresaRestringidaMailBO> listado);
+	List<MailTipoEmpresaRestringidaDto> map(List<MailTipoEmpresaRestringidaBO> listado);
 
-	EmpresaRestringidaMailDto map(EmpresaRestringidaMailBO reg);
-	EmpresaRestringidaMailBO map(EmpresaRestringidaMailDto reg);
+	MailTipoEmpresaRestringidaDto map(MailTipoEmpresaRestringidaBO reg);
+	MailTipoEmpresaRestringidaBO map(MailTipoEmpresaRestringidaDto reg);
 
 	@Mapping(target = "id", source = "id")
-	EmpresaRestringidaMailBO map(Integer id, EmpresaRestringidaMailDto reg);
+	MailTipoEmpresaRestringidaBO map(Integer id, MailTipoEmpresaRestringidaDto reg);
 }

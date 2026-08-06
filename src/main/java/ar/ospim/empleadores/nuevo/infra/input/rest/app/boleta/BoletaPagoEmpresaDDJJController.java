@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoDDJJCrearService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.DDJJBoletaPagoAltaDto;
 import lombok.RequiredArgsConstructor;
 

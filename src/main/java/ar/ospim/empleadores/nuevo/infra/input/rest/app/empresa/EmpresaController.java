@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.EmpresaModiDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto.EmpresaDto;

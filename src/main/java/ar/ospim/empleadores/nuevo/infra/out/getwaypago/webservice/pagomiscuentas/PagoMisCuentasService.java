@@ -1,6 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 
 public interface PagoMisCuentasService {
 

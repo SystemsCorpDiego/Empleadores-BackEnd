@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.PublicacionBO;
 import ar.ospim.empleadores.nuevo.app.servicios.publicacion.PublicacionService;
+import ar.ospim.empleadores.nuevo.dominio.PublicacionBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.publicaciones.dto.PublicacionDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.publicaciones.dto.PublicacionVigenteDto;
 import lombok.RequiredArgsConstructor;

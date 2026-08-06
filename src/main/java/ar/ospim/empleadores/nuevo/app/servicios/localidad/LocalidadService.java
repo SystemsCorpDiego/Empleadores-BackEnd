@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.localidad;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.LocalidadBO;
+import ar.ospim.empleadores.nuevo.dominio.LocalidadBO;
 
 public interface LocalidadService {
 

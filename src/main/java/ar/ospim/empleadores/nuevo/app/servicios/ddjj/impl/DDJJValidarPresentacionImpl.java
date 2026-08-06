@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarPresentacion;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJValidarErrorDto;
 
 @Service

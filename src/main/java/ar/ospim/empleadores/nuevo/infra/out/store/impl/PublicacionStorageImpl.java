@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.PublicacionBO;
+import ar.ospim.empleadores.nuevo.dominio.PublicacionBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.PublicacionStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.PublicacionMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.PublicacionRepository;

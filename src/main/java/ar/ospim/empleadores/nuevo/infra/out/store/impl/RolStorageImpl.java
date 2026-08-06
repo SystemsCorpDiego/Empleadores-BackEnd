@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.RolStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.RolMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.FuncionalidadRepository;

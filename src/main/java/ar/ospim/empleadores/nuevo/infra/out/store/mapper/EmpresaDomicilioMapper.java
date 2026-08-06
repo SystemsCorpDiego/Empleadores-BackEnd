@@ -6,9 +6,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaDomicilioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.LocalidadBO;
-import ar.ospim.empleadores.nuevo.app.dominio.ProvinciaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaDomicilioBO;
+import ar.ospim.empleadores.nuevo.dominio.LocalidadBO;
+import ar.ospim.empleadores.nuevo.dominio.ProvinciaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.EmpresaDomicilio;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Localidad;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Provincia;

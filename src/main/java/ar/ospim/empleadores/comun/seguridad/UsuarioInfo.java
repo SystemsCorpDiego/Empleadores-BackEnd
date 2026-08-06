@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.auth.usuario.SecurityContextUtils;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.FuncionalidadRepository;
 import lombok.RequiredArgsConstructor;

@@ -9,11 +9,6 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoAporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularAjustesService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularInteresService;
@@ -22,6 +17,11 @@ import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJBoletaPagoArmadoService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJConsultarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJUtils;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoAporteBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.BoletaPagoDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAfiliadoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAjusteDto;

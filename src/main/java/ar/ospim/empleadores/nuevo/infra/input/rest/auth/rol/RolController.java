@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.auth.usuario.app.RolService;
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.comun.dto.IdDescripDto;
 import lombok.RequiredArgsConstructor;
 

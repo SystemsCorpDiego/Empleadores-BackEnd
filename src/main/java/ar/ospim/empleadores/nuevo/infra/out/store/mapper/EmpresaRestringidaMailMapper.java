@@ -6,17 +6,17 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaMailBO;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.EmpresaRestringidaMail;
+import ar.ospim.empleadores.nuevo.dominio.MailTipoEmpresaRestringidaBO;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.MailTipoEmpresaRestringida;
 
 @Mapper
 public interface EmpresaRestringidaMailMapper {
 
-	EmpresaRestringidaMail map(EmpresaRestringidaMailBO reg);
-	EmpresaRestringidaMailBO map(EmpresaRestringidaMail reg);
+	MailTipoEmpresaRestringida map(MailTipoEmpresaRestringidaBO reg);
+	MailTipoEmpresaRestringidaBO map(MailTipoEmpresaRestringida reg);
 
 	@Mapping(target = "id", ignore = true)
-	void map(EmpresaRestringidaMailBO reg, @MappingTarget EmpresaRestringidaMail regNew);
+	void map(MailTipoEmpresaRestringidaBO reg, @MappingTarget MailTipoEmpresaRestringida regNew);
 
-	List<EmpresaRestringidaMailBO> map(List<EmpresaRestringidaMail> listado);
+	List<MailTipoEmpresaRestringidaBO> map(List<MailTipoEmpresaRestringida> listado);
 }

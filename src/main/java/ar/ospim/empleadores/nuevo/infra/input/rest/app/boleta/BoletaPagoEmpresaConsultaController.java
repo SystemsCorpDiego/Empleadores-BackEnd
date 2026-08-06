@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoDDJJConsultaService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoConsConDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoConsDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoFiltroDto;

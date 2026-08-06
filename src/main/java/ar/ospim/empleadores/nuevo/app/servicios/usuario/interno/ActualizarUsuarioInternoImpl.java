@@ -12,11 +12,11 @@ import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.UsuarioStorage
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.mail.MailHelper;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.ActualizarUsuario;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMapper;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import lombok.AllArgsConstructor;
 

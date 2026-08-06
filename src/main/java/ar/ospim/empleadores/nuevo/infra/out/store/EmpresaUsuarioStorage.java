@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioEmpresaInfoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioEmpresaInfoBO;
 
 public interface EmpresaUsuarioStorage {
 	

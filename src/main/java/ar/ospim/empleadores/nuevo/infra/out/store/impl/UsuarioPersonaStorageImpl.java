@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.RolStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.UsuarioPersonaMapper;

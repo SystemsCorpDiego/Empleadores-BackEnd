@@ -1,9 +1,9 @@
 package ar.ospim.empleadores.nuevo.app.servicios.mail;
 
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.MailBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 
 public interface MailService {

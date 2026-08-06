@@ -2,8 +2,8 @@ package ar.ospim.empleadores.nuevo.app.servicios.ddjj;
 
 import java.time.LocalDate;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 
 public interface DDJJAportesCalcularService {
 	

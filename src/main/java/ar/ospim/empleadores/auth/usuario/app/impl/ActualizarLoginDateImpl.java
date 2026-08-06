@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.app.ActualizarLoginDate;
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.extern.slf4j.Slf4j;
 

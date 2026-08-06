@@ -13,9 +13,9 @@ import ar.ospim.empleadores.auth.usuario.app.HabilitarUsuario;
 import ar.ospim.empleadores.auth.usuario.app.ObtenerUsuarioConDFAHabilitado;
 import ar.ospim.empleadores.auth.usuario.app.ResetTwoFA;
 import ar.ospim.empleadores.auth.usuario.infra.input.servicio.dto.UsuarioInfoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.CrearUsuario;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 
 @Service

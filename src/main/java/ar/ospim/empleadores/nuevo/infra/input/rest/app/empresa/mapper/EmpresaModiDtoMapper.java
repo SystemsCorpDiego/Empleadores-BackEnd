@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaModiDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto.EmpresaDto;
 

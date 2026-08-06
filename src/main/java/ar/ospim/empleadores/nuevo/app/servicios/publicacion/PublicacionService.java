@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
-import ar.ospim.empleadores.nuevo.app.dominio.PublicacionBO;
+import ar.ospim.empleadores.nuevo.dominio.PublicacionBO;
 
 public interface PublicacionService {
 	

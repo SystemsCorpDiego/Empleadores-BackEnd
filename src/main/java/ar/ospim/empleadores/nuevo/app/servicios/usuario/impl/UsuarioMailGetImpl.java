@@ -3,13 +3,13 @@ package ar.ospim.empleadores.nuevo.app.servicios.usuario.impl;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.RequiredArgsConstructor;
 

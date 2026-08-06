@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 
 public interface UsuarioStorage {
 	public UsuarioBO guardar(UsuarioBO user) ;

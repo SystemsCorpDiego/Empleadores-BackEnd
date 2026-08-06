@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaRestringidaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaRestringidaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.EmpresaRestringidaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaRestringidaRepository;

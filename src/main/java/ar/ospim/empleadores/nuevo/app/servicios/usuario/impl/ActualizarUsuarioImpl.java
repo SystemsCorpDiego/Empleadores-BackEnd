@@ -12,13 +12,13 @@ import ar.ospim.empleadores.auth.usuario.dominio.clave.ClaveEncriptador;
 import ar.ospim.empleadores.auth.usuario.dominio.usuarioclave.ValidatorClave;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.ActualizarUsuario;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.RegistrarUsuarioEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.extern.slf4j.Slf4j;
 

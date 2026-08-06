@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.FeriadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.feriado.FeriadoService;
+import ar.ospim.empleadores.nuevo.dominio.FeriadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.feriado.dto.FeriadoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

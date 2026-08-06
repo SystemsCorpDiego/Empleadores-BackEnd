@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJActualizarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJAltaService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJBajaService;
@@ -38,6 +36,8 @@ import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJPresentarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarNomina;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarPresentacion;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.impl.DDJJAportesCalcularServiceImpl;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJConsultaFiltroDto;

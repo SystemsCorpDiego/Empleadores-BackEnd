@@ -1,7 +1,7 @@
 package ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink;
 
 import ar.ospim.empleadores.comun.exception.WebServiceException;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 
 public interface RedLinkService { 
 

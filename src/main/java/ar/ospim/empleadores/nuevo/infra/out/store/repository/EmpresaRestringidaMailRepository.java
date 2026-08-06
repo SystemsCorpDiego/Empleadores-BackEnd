@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.EmpresaRestringidaMail;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.MailTipoEmpresaRestringida;
 
-public interface EmpresaRestringidaMailRepository extends JpaRepository<EmpresaRestringidaMail, Integer> {
+public interface EmpresaRestringidaMailRepository extends JpaRepository<MailTipoEmpresaRestringida, Integer> {
 
-	public Optional<EmpresaRestringidaMail> findByCuit(String cuit);
+	public Optional<MailTipoEmpresaRestringida> findByCuit(String cuit);
 
 }

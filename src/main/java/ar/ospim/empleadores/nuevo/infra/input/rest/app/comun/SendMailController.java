@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.MailBO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

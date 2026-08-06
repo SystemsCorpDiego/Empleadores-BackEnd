@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.auth.usuario.SgxUserDetails;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 
 @Service

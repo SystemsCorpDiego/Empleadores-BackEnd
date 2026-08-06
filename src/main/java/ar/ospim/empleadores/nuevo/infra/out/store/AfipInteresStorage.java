@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 
 public interface AfipInteresStorage {
 	public List<AfipInteresBO> findAll();

@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
 import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteService;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioPeriodoDetalle;

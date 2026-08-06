@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ajuste.AjusteService;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ajuste.dto.AjusteDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

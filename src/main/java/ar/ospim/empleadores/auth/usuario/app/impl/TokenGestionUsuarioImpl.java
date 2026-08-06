@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.RegistrarUsuarioEnumException;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwsHeader;

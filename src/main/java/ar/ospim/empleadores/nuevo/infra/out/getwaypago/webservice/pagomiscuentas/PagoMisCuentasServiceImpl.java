@@ -24,8 +24,8 @@ import com.google.gson.JsonParser;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.WebServiceException;
-import ar.ospim.empleadores.nuevo.app.dominio.BancoMovimientoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BancoMovimientoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas.dto.Due_Dates;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.pagomiscuentas.dto.Factura;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;

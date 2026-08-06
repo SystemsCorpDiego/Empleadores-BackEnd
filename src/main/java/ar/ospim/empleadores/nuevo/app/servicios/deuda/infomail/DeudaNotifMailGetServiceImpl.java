@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DeudaMailInfoBO;
+import ar.ospim.empleadores.nuevo.dominio.DeudaMailInfoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaNotifMailDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 

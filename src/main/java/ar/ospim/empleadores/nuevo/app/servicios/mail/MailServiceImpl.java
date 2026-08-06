@@ -27,11 +27,11 @@ import org.springframework.util.StringUtils;
 
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.MailBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.extern.slf4j.Slf4j;

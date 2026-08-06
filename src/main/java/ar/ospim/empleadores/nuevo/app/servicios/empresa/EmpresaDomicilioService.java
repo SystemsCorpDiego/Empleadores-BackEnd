@@ -2,8 +2,8 @@ package ar.ospim.empleadores.nuevo.app.servicios.empresa;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DomicilioTipoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaDomicilioBO;
+import ar.ospim.empleadores.nuevo.dominio.DomicilioTipoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaDomicilioBO;
 
 public interface EmpresaDomicilioService {
 

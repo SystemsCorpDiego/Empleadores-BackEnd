@@ -5,9 +5,9 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoAjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoAjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoActualizarDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoConsConDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoConsSinDDJJDto;

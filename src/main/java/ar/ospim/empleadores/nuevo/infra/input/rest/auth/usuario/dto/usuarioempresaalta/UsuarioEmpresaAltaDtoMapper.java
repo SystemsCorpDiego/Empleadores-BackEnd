@@ -7,9 +7,9 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import ar.ospim.empleadores.comun.infra.input.service.BasicDataEmpresaDto;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaDomicilioBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaDomicilioBO;
 
 @Mapper(collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface UsuarioEmpresaAltaDtoMapper { 

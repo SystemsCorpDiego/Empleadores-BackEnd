@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.empresa.CrearUsuarioEmpresa;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.usuarioempresaalta.UsuarioEmpresaAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.usuarioempresaalta.UsuarioEmpresaAltaDtoMapper;
 

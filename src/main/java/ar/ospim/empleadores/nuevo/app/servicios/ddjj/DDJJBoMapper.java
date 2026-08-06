@@ -4,8 +4,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 
 @Mapper 
 public interface DDJJBoMapper {

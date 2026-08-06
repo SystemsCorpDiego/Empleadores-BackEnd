@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AfipInteresMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AfipInteresRepository;

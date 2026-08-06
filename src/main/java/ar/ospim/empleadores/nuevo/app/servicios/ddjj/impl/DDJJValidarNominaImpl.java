@@ -6,12 +6,12 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoService;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.ValidarCUIL;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarNomina;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJValidarCuilDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJValidarErrorDto;
 import lombok.AllArgsConstructor;

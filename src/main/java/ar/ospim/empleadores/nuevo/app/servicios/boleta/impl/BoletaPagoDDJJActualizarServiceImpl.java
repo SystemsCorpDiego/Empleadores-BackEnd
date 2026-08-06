@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoDDJJActualizarService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.BoletaPagoStorage;
 import lombok.AllArgsConstructor;
 

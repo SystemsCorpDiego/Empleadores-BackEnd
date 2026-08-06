@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfiliadoActu;
 
 public interface AfiliadoStorage {

@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.LocalidadBO;
+import ar.ospim.empleadores.nuevo.dominio.LocalidadBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Localidad;
 
 @Mapper

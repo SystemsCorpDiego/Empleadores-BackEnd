@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoAjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoAjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAjusteDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleDto;
 

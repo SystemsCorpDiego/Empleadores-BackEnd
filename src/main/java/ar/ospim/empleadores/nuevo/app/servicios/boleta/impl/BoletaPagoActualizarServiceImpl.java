@@ -2,11 +2,11 @@ package ar.ospim.empleadores.nuevo.app.servicios.boleta.impl;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoActaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoActualizarService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoDDJJActualizarService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoValidaModiDto;
 import lombok.AllArgsConstructor;
 

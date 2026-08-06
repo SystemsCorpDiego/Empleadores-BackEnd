@@ -6,7 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 
 @Mapper
 public interface AfipInteresDtoMapper {

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.comun.dto.CodigoDescripDto;
 
 public interface AjusteService {

@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.usuario.interno;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 
 public interface ConsultarUsuarioInterno {
 	List<UsuarioInternoBO> run();

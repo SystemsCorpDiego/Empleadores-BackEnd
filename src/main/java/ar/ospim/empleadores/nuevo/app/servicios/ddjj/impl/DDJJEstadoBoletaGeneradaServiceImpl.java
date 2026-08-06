@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJEstadoBoletaGeneradaService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJStorageEnumException;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.DDJJEstadoEnum;
 import lombok.AllArgsConstructor;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FormaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.FormaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.FormaPagoEnum;
 import lombok.AllArgsConstructor;
 

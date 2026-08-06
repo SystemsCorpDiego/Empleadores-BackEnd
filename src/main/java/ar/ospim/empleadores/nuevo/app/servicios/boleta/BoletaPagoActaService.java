@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.boleta;
 
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 
 public interface BoletaPagoActaService {	
 	

@@ -2,8 +2,8 @@ package ar.ospim.empleadores.auth.usuario.infra.input.servicio;
 
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
 import ar.ospim.empleadores.auth.usuario.infra.input.servicio.dto.UsuarioInfoDto;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 
 public interface UsuarioExternalService {
 

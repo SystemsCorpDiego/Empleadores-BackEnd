@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteSeteoBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteSeteoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteSeteoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AporteSeteoMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AporteSeteoRepository;
