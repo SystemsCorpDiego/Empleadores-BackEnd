@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
@@ -61,8 +62,8 @@ public class MailTipoEmpresaRestringidaController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MailTipoEmpresaRestringidaDto>> consultar() {
-		List<MailTipoEmpresaRestringidaBO> consulta = service.consultar();
+	public ResponseEntity<List<MailTipoEmpresaRestringidaDto>> consultar(@RequestParam(required = false) Integer mailId) {
+		List<MailTipoEmpresaRestringidaBO> consulta = service.consultar(mailId);
 		List<MailTipoEmpresaRestringidaDto> consultaDto = mapper.map(consulta);
 		return ResponseEntity.ok(consultaDto);
 	}

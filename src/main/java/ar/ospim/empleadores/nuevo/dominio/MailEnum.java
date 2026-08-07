@@ -4,7 +4,8 @@ import ar.ospim.empleadores.comun.exception.NotFoundException;
 
 public enum MailEnum {
 
-	AVISO_DEUDA(1, "Notificacion de Deuda")   
+	AVISO_DEUDA(1, "Notificacion de Deuda"),
+	PRUEBA(2, "Notificacion de PRUEBA") 
 	;
 	
 	private Integer id;

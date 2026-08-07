@@ -8,7 +8,7 @@ public interface MailTipoEmpresaRestringidaService {
 
 	public MailTipoEmpresaRestringidaBO registrar(MailTipoEmpresaRestringidaBO reg);
 	public void borrar(Integer id);
-	public List<MailTipoEmpresaRestringidaBO> consultar();
+	public List<MailTipoEmpresaRestringidaBO> consultar(Integer mailId);
 	public Boolean esRestringido(String cuit);
 
 }

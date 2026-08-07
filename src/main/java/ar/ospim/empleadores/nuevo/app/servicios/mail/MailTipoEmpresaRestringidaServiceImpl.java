@@ -3,6 +3,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.mail;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
@@ -48,8 +49,11 @@ public class MailTipoEmpresaRestringidaServiceImpl implements MailTipoEmpresaRes
 	}
 
 	@Override
-	public List<MailTipoEmpresaRestringidaBO> consultar() {
+	public List<MailTipoEmpresaRestringidaBO> consultar(Integer mailId) {
 		List<MailTipoEmpresaRestringidaBO> lst = storage.findAll();
+		if (mailId != null) {
+			lst = lst.stream().filter(reg -> mailId.equals(reg.getMailId())).collect(Collectors.toList());
+		}
 		for (MailTipoEmpresaRestringidaBO reg : lst) {
 			reg.setRazonSocial(getEmpresaDescrip(reg.getCuit()));
 		}
