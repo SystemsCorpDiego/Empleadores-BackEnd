@@ -115,7 +115,7 @@ public class MailScheduledDeudaNotifServiceImpl implements MailScheduledDeudaNot
 			
 			//genero Mail
 			try {
-				mailService.runMailDeudaNotif(empresaDeuda.getEmail(), cuerpoMail);
+				mailService.runMailDeudaNotif(empresaDeuda.getEmail(), mailTipoConfigBO.get().getAsuntoMail(), cuerpoMail);
 				mailLog.setEstado("OK");
 			} catch ( Exception e) {
 				mailLog.setEstado("ERROR: " + e.toString() );

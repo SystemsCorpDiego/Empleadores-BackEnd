@@ -88,9 +88,7 @@ public class MailServiceImpl implements MailService {
 	 private String CP_cuerpo;
 	 @Value("${app.mail.convenio-presentar.cc}")
 	 private String CP_cc;
-
-	 @Value("${app.mail.deuda-info.titulo}")
-     private String DI_titulo;
+	 
 			 
 	 private String springProfile = "";
 	 
@@ -275,14 +273,14 @@ public class MailServiceImpl implements MailService {
 	
 	
 	@Override
-	public void runMailDeudaNotif(String mailEmpresa, String cuerpo) {
+	public void runMailDeudaNotif(String mailEmpresa, String asunto, String cuerpo) {
 		log.error("MailService.runMailDeudaNotif - mailEmpresa: {} ", mailEmpresa);
 		try {
 			
 			//TODO: quitar esto 
 			mailEmpresa = "buenodiegomartin@gmail.com";
 			
-			runMailInt(mailEmpresa,  DI_titulo,  cuerpo);
+			runMailInt(mailEmpresa,  asunto,  cuerpo);
 		} catch( Exception e) {
 			log.error("MailService.runMailDeudaNotif - ERROR - -> {}", e);
 			throw e;

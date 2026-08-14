@@ -58,9 +58,9 @@ public class MailTipoConfiguracionServiceImpl implements MailTipoConfiguracionSe
 		String errorMsg = null;
 		//TODO: falta definir valiables del "CuerpoMail" y validarlas.-
 		
-		if (reg == null || StringHelper.isNullOrWhiteSpace(reg.getCuerpoMail()) || reg.getDiaProceso() == null ) {
+		if (reg == null || StringHelper.isNullOrWhiteSpace(reg.getCuerpoMail()) || StringHelper.isNullOrWhiteSpace(reg.getAsuntoMail()) || reg.getDiaProceso() == null ) {
 			errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg,  "Dia de Proceso y Cuerpo del Mail" ));
+			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg,  "Dia de Proceso, Asunto y Cuerpo del Mail" ));
 		}					
 		
 		if ( reg.getMailId() == null ) {

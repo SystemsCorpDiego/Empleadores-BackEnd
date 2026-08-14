@@ -29,9 +29,11 @@ public class MailTipoConfiguracion {
 	@Column(name = "dia_proceso")
     private Integer diaProceso;
 	
+	@Column(name = "asunto_mail")
+    private String asuntoMail;
+	
 	@Column(name = "cuerpo_mail")
     private String cuerpoMail;
-	
 	
 	private Boolean habilitado;
 	

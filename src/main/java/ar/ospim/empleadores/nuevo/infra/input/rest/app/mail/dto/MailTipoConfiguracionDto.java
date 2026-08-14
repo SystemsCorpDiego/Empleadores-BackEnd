@@ -12,6 +12,7 @@ public class MailTipoConfiguracionDto {
 	private Long id;
 	private Integer mailId;
 	private Integer diaProceso;
+	private String asuntoMail;
 	private String cuerpoMail;
 	private Boolean habilitado;
 
