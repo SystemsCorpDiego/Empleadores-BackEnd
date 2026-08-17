@@ -289,6 +289,13 @@ public class MailServiceImpl implements MailService {
 		log.error("MailService.runMailDeudaNotif - FIN");
 	}
 	
+	@Override
+	public void runMailDdjjPendienteNotif(String mailEmpresa, String asunto, String cuerpo) {
+		
+		//TODO: por ahora son IGUALES....
+		runMailDeudaNotif(mailEmpresa, asunto, cuerpo);
+	}
+	
 	
 	private void runMailInt(String mailTo,  String mailAsunto,  String mailCuerpo) {
 		try {			

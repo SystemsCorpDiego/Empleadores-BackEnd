@@ -23,4 +23,5 @@ public interface MailService {
 	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file);
 	
 	public void runMailDeudaNotif(String mailEmpresa, String asunto, String cuerpo);
+	public void runMailDdjjPendienteNotif(String mailEmpresa, String asunto, String cuerpo);
 }

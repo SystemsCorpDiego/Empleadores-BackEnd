@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.nuevo.app.servicios.mail.MailTipoConfigValidarCuerpoMail;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailTipoConfiguracionService;
 import ar.ospim.empleadores.nuevo.dominio.MailTipoConfiguracionBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.mapper.MailTipoConfiguracionDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.mail.dto.MailTipoConfiguracionDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.mail.dto.MailTipoConfiguracionVariablesDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +33,7 @@ public class MailTipoConfiguracionController {
 
 	private final MailTipoConfiguracionService service;
 	private final MailTipoConfiguracionDtoMapper mapper;
+	private final MailTipoConfigValidarCuerpoMail validarCuerpoMail;
 
 	@GetMapping
 	public ResponseEntity<List<MailTipoConfiguracionDto>> consultar(@RequestParam(required = false) Integer mailId) {
@@ -54,6 +57,13 @@ public class MailTipoConfiguracionController {
 		MailTipoConfiguracionBO reg = mapper.map(id, dato);
 		reg = service.actualizar(id, reg);
 		return ResponseEntity.ok(mapper.map(reg));
+	}
+
+	@GetMapping(value = "/{mailTipoId}/variables")
+	public ResponseEntity<MailTipoConfiguracionVariablesDto> consultarVariables(@PathVariable(required = true) Integer mailTipoId) {
+		MailTipoConfiguracionVariablesDto rta = new MailTipoConfiguracionVariablesDto();
+		rta.setDescripcion(validarCuerpoMail.getVariables(mailTipoId));
+		return ResponseEntity.ok(rta);
 	}
 
 }

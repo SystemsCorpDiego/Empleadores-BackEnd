@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DeudaMailInfoBO {
+public class MailTipoDeudaInfoBO {
 
 	private String cuit;
 	private String email;

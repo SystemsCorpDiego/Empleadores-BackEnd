@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto;
 
 import java.math.BigDecimal;
 
-public interface IDeudaNominaNotifMailDto {
+public interface IMailTipoDeudaInfoDto {
 
 	String getCuit();
 	String getEntidad();

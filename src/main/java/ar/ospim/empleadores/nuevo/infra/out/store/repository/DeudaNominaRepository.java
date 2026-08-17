@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaDescargaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaNotifMailDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IMailTipoDeudaInfoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
 
@@ -63,6 +63,6 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 	 
 	
 	@Query(value = "select cuit, mail, entidad, capital, interes, pago from fmail_notificacion_deuda_consul();", nativeQuery = true)
-	List<IDeudaNominaNotifMailDto> getDeudaNominaNotifMail();
+	List<IMailTipoDeudaInfoDto> getMailTipoNotificacionesDeudaNomina();
 	
 }

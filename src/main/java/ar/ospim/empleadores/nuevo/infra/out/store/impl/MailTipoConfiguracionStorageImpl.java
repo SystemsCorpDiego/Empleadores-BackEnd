@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -69,6 +70,17 @@ public class MailTipoConfiguracionStorageImpl implements MailTipoConfiguracionSt
 
 		registro = repository.save(registro);
 		return mapper.map(registro);
+	}
+	
+
+	@Override
+	public Optional<LocalDate> getFechaEnvioDesde(Integer mailId) {
+		return repository.getFechaEnvioDesde(mailId);
+	}
+	
+	@Override
+	public Optional<LocalDate> getFechaEnvioHasta() {
+		return repository.getFechaEnvioHasta();
 	}
 	
 	

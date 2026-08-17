@@ -1,5 +1,6 @@
 package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,11 @@ public interface MailTipoConfiguracionRepository extends JpaRepository<MailTipoC
 			+ "(select max(c2.id) from MailTipoConfiguracion c2 where c2.mailId = c.mailId )")
 	public Optional<MailTipoConfiguracion> findVigente(@Param("mailId") Integer mailId);
 
+	
+	@Query(value = "select fmail_notificacion_fechaEnvioDesde_consul as fecha from fmail_notificacion_fechaEnvioDesde_consul( :mailId ) ", nativeQuery = true)
+	public Optional<LocalDate> getFechaEnvioDesde(@Param("mailId") Integer mailId);
+	
+	@Query(value = "select fmail_notificacion_fechaEnvioHasta_consul as fecha from fmail_notificacion_fechaEnvioHasta_consul() ", nativeQuery = true)
+	public Optional<LocalDate> getFechaEnvioHasta();
+	
 }
