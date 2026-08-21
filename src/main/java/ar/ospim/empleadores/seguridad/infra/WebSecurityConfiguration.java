@@ -25,8 +25,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String PASSWORD_RESET = "/password-reset";
 	
-	private static final String BACKOFFICE = "/backoffice";
-
 	private static final String PUBLIC = "/public";
 
 	private static final String[] SWAGGER_RESOURCES = {
@@ -69,13 +67,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.requestMatchers(req-> req.getRequestURI().contains(PUBLIC)).permitAll()
 				.antMatchers(  HttpMethod.POST,  "/**"+ PUBLIC + "/**").permitAll()
 				.antMatchers( "/auth/**").permitAll()
-				.antMatchers(SWAGGER_RESOURCES).permitAll()
-				.antMatchers(BACKOFFICE + "/properties").hasAnyAuthority(
-						ERol.ROOT.getValue(),
-						ERol.ADMINISTRADOR.getValue())
-				.antMatchers(BACKOFFICE + "/**").hasAnyAuthority(
-					ERol.ROOT.getValue(),
-					ERol.ADMINISTRADOR.getValue())				
+				.antMatchers(SWAGGER_RESOURCES).permitAll()				
 				.antMatchers(RECAPTCHA + "/**").permitAll()
 				.antMatchers("/oauth/**").permitAll()
 				.antMatchers(HttpMethod.POST, PASSWORD_RESET).permitAll()

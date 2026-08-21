@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-	 
+
 	 @Value("${server.servlet.context-path}")
 	 private String serverServletContextPath;
 		    	  
@@ -49,8 +49,11 @@ public class MailServiceImpl implements MailService {
 	 @Value("${spring.mail.username}")
 	 private String fromMail;
 	 
+	 @Value("${spring.mail.testing-mailTo:#{null}}")
+	 private String testingMailTo;
+
 	 @Autowired
-	private TokenGestionUsuario tokenActivacion;
+	 private TokenGestionUsuario tokenActivacion;
 	 
 	 @Autowired
 	 private UsuarioPersonaStorage storage;
@@ -113,7 +116,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runCambioDeClave(String usuario, String claveNueva, String usuarioMail,  String usuarioModificaMail) {
+	public void runCambioDeClave(String usuario, String claveNueva, String mailTo,  String usuarioModificaMail) {
 		log.error("MailService.runClaveNueva - INIT");
 		try {
 			MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -128,7 +131,7 @@ public class MailServiceImpl implements MailService {
 	        	mimeMessage.setSubject(CC_titulo);
 		    }
 			 
-			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(usuarioMail));
+			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
 			if ( usuarioModificaMail != null)
 				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(usuarioModificaMail));
 			
@@ -276,9 +279,8 @@ public class MailServiceImpl implements MailService {
 	public void runMailDeudaNotif(String mailEmpresa, String asunto, String cuerpo) {
 		log.error("MailService.runMailDeudaNotif - mailEmpresa: {} ", mailEmpresa);
 		try {
-			
-			//TODO: quitar esto 
-			mailEmpresa = "buenodiegomartin@gmail.com";
+			if ( testingMailTo != null)
+				mailEmpresa = testingMailTo;
 			
 			runMailInt(mailEmpresa,  asunto,  cuerpo);
 		} catch( Exception e) {

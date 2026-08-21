@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import ar.ospim.empleadores.auth.jwt.app.BadRefreshTokenException;
-import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerateToken;
+import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerarTokenLogin;
 import ar.ospim.empleadores.auth.jwt.app.login.LoginEnumException;
 import ar.ospim.empleadores.auth.jwt.dominio.JWTokenBo;
 import ar.ospim.empleadores.auth.jwt.dominio.TokenTipoEnum;
@@ -23,7 +23,7 @@ public class RefrescarTokenImpl implements RefrescarToken {
 	
     private final UsuarioInfoStorage userInfoStorage;
 
-    private final GenerateToken generateToken;
+    private final GenerarTokenLogin generateToken;
 
     private final RefrescarOAuthToken refreshOAuthToken;
 
@@ -34,7 +34,7 @@ public class RefrescarTokenImpl implements RefrescarToken {
 
     public RefrescarTokenImpl(@Value("${token.secret}") String secret,
     		UsuarioInfoStorage userInfoStorage,
-    		GenerateToken generateToken,
+    		GenerarTokenLogin generateToken,
     		RefrescarOAuthToken refreshOAuthToken,
     		MessageSource messageSource) {
         this.userInfoStorage = userInfoStorage;

@@ -34,6 +34,7 @@ spring:
       #password: bvgfwlhaygfnuxmw
       username: noresponder@uoma.org.ar      
       password: ecvtpakrnwtmdfys
+      testing-mailTo: bueno.diego.sc@gmail.com
 #      username: mailprueba038@gmail.com
 #      password: hlzcllevrqvrxqhp
       protocol: smtp

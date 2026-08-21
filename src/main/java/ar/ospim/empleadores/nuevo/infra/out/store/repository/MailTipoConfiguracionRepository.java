@@ -19,10 +19,10 @@ public interface MailTipoConfiguracionRepository extends JpaRepository<MailTipoC
 	public Optional<MailTipoConfiguracion> findVigente(@Param("mailId") Integer mailId);
 
 	
-	@Query(value = "select fmail_notificacion_fechaEnvioDesde_consul as fecha from fmail_notificacion_fechaEnvioDesde_consul( :mailId ) ", nativeQuery = true)
+	@Query(value = "select fmail_notificacion_fechaEnvioDesde_consul as fecha from fmail_notificacion_fechaEnvioDesde_consul( :mailId, now()\\:\\:date ) ", nativeQuery = true)
 	public Optional<LocalDate> getFechaEnvioDesde(@Param("mailId") Integer mailId);
 	
-	@Query(value = "select fmail_notificacion_fechaEnvioHasta_consul as fecha from fmail_notificacion_fechaEnvioHasta_consul() ", nativeQuery = true)
+	@Query(value = "select fmail_notificacion_fechaEnvioHasta_consul as fecha from fmail_notificacion_fechaEnvioHasta_consul( now()\\:\\:date ) ", nativeQuery = true)
 	public Optional<LocalDate> getFechaEnvioHasta();
 	
 }

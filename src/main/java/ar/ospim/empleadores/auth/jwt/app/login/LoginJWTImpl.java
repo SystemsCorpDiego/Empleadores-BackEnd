@@ -7,7 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.jwt.app.GeneratePartiallyAuthenticationToken;
-import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerateToken;
+import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerarTokenLogin;
 import ar.ospim.empleadores.auth.jwt.dominio.JWTokenBo;
 import ar.ospim.empleadores.auth.jwt.dominio.LoginBo;
 import ar.ospim.empleadores.auth.jwt.dominio.usuario.UsuarioInfoBo;
@@ -38,7 +38,7 @@ public class LoginJWTImpl  implements Login {
 	
 	private final ClaveEncriptador passwordEncryptor;
 
-	private final GenerateToken generateToken;
+	private final GenerarTokenLogin generateToken;
 
 	private final GeneratePartiallyAuthenticationToken generatePartiallyAuthenticationToken;
 

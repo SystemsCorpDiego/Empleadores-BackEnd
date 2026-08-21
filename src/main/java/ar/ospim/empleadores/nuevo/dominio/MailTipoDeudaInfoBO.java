@@ -12,6 +12,7 @@ import lombok.ToString;
 public class MailTipoDeudaInfoBO {
 
 	private String cuit;
+	private String razonSocial;
 	private String email;
 	private String entidad;
 	private BigDecimal importe;

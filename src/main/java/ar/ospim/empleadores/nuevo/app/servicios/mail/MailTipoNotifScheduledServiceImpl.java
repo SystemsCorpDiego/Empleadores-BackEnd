@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerarTokenDwnldDeuda;
 import ar.ospim.empleadores.nuevo.dominio.MailEnum;
 import ar.ospim.empleadores.nuevo.dominio.MailTipoConfiguracionBO;
 import ar.ospim.empleadores.nuevo.dominio.MailTipoDdjjPendienteBO;
 import ar.ospim.empleadores.nuevo.dominio.MailTipoDeudaInfoBO;
+import ar.ospim.empleadores.nuevo.infra.out.store.enums.EntidadEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.MailTipoEnvio;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +32,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 	private final MailService mailService;
 	private final MailTipoEnvioRegistrarService mailTipoEnvioRegistrarService;
 	private final MailTipoConfigValidarCuerpoMail mailTipoConfigValidarCuerpoMail;
-	 
+	private final GenerarTokenDwnldDeuda generarTokenDwnldDeuda;
 	
 	
 	public MailTipoNotifScheduledServiceImpl(MailTipoConsultarNotifDeudaService deudaNotifMailGetService,
@@ -38,7 +40,8 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			MailTipoConfiguracionService mailTipoConfiguracionService, 
 			MailService mailService,
 			MailTipoEnvioRegistrarService mailTipoEnvioRegistrarService,
-			MailTipoConfigValidarCuerpoMail mailTipoConfigValidarCuerpoMail) {
+			MailTipoConfigValidarCuerpoMail mailTipoConfigValidarCuerpoMail,
+			GenerarTokenDwnldDeuda generarTokenDwnldDeuda) {
 		super();
 		this.mailTipoConsultarDeudaNotifService = deudaNotifMailGetService;
 		this.mailTipoConsultarNotifDdjjPendienteService = mailTipoConsultarNotifDdjjPendienteService;
@@ -46,6 +49,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 		this.mailService = mailService;
 		this.mailTipoEnvioRegistrarService = mailTipoEnvioRegistrarService;
 		this.mailTipoConfigValidarCuerpoMail = mailTipoConfigValidarCuerpoMail;
+		this.generarTokenDwnldDeuda = generarTokenDwnldDeuda;
 	}
 
 
@@ -74,20 +78,36 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 		
 		log.debug("Scheduler - Notificacion Deuda - registros: {}", lst.size() );
 		//2 recorro cada CUIT y genero mail.-
+		String linkPdfToken;
+		Boolean deudaAMTIMA = false;
+		Boolean deudaOSPIM = false;
+		Boolean deudaUOMA = false;
+		
 		for (List<MailTipoDeudaInfoBO> lstEmpresaDeuda : lst) {
 
 			//TODO: hay que definir como se muestra la INFO !!!!
 			//TESTING: sumo toda la deuda y la imprimo.-
+			deudaAMTIMA = false;
+			deudaOSPIM = false;
+			deudaUOMA = false;
 			MailTipoDeudaInfoBO empresaDeuda = new MailTipoDeudaInfoBO();
 			empresaDeuda.setImporte(BigDecimal.ZERO);
 			empresaDeuda.setInteres(BigDecimal.ZERO);
 			
 			for (MailTipoDeudaInfoBO reg : lstEmpresaDeuda) {
 				empresaDeuda.setCuit(reg.getCuit());
+				empresaDeuda.setRazonSocial(reg.getRazonSocial());
 				empresaDeuda.setEmail(reg.getEmail());
 				empresaDeuda.setEntidad(reg.getEntidad());
 				empresaDeuda.setImporte( reg.getImporte().add(empresaDeuda.getImporte()));
 				empresaDeuda.setInteres( reg.getInteres().add(empresaDeuda.getInteres()));
+				
+				if ( EntidadEnum.AMTIMA.getCodigo().equals(reg.getEntidad()) )
+					deudaAMTIMA = true;
+				if ( EntidadEnum.UOMA.getCodigo().equals(reg.getEntidad()) )
+					deudaUOMA = true;
+				if ( EntidadEnum.OSPIM.getCodigo().equals(reg.getEntidad()) )
+					deudaOSPIM = true;
 			}
 			
 			//TODO: hay que definir como se muestra la INFO !!!!
@@ -95,10 +115,38 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			String cuerpoMail = mailTipoConfigBO.get().getCuerpoMail().replace("{{capital}}", empresaDeuda.getImporte().toString() );
 			cuerpoMail = cuerpoMail.replace("{{interes}}", empresaDeuda.getInteres().toString() );
 
+			cuerpoMail = cuerpoMail.replace("{{cuit}}", empresaDeuda.getCuit() );
+			cuerpoMail = cuerpoMail.replace("{{razon_social}}", empresaDeuda.getRazonSocial() );
+
 			//"https://uomaempleadores.org.ar/empleadores/#/login"
 			//"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda"
 			if ( cuerpoMail.indexOf("{{login}}") > -1 ) {
-				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink()+ "/empleadores/#/login?redirect=gestiondeuda\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+			}
+			
+			if ( cuerpoMail.indexOf("{{linkPdfUOMA}}") > -1 ) {
+				if ( deudaUOMA ) {
+					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.UOMA.getCodigo());
+					cuerpoMail = cuerpoMail.replace("{{linkPdfUOMA}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link UOMA</a>" );
+				} else {
+					cuerpoMail = cuerpoMail.replace("{{linkPdfUOMA}}", "<b>Sin Deuda</b>" );
+				}
+			}
+			if ( cuerpoMail.indexOf("{{linkPdfAMTIMA}}") > -1 ) {
+				if ( deudaAMTIMA ) {
+					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.AMTIMA.getCodigo());
+					cuerpoMail = cuerpoMail.replace("{{linkPdfAMTIMA}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link AMTIMA</a>" );
+				} else {
+					cuerpoMail = cuerpoMail.replace("{{linkPdfAMTIMA}}", "<b>Sin Deuda</b>" );
+				}
+			}
+			if ( cuerpoMail.indexOf("{{linkPdfOSPIM}}") > -1 ) {
+				if ( deudaOSPIM ) {
+					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.OSPIM.getCodigo());
+					cuerpoMail = cuerpoMail.replace("{{linkPdfOSPIM}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link OSPIM</a>" );
+				} else {
+					cuerpoMail = cuerpoMail.replace("{{linkPdfOSPIM}}", "<b>Sin Deuda</b>" );
+				}
 			}
 			
 			//genero Mail
@@ -137,15 +185,21 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			return;
 		}
 		
+		String linkDominio = "https://uomaempleadores.org.ar";
+		if ( System.getProperty("spring.profiles.active").equals("dev") ) {
+			linkDominio = "http://127.0.0.1:8400";
+		}
+
 		for (MailTipoDdjjPendienteBO reg : lst) {
 			String cuerpoMail = mailTipoConfigBO.get().getCuerpoMail().replace("{{periodo}}", reg.getPeriodo() );
 			cuerpoMail = cuerpoMail.replace("{{cuit}}", reg.getCuit() );
 			cuerpoMail = cuerpoMail.replace("{{razon_social}}", reg.getRazonSocial() );
 
-				//"https://uomaempleadores.org.ar/empleadores/#/login"
+			
+			//"https://uomaempleadores.org.ar/empleadores/#/login"
 			//"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda"
 			if ( cuerpoMail.indexOf("{{login}}") > -1 ) {
-				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"https://uomaempleadores.org.ar/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +linkDominio+ "/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
 			}
 
 			//genero Mail
@@ -205,7 +259,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			return mailTipoConfigBO;
 		}
 		
-		if( mailTipoConfigValidarCuerpoMail.run(mailId, mailTipoConfigBO.get().getCuerpoMail()) ) {
+		if( !mailTipoConfigValidarCuerpoMail.run(mailId, mailTipoConfigBO.get().getCuerpoMail()) ) {
 			log.debug("Scheduler - " +MailEnum.map(mailId).getDescripcion()+ " - SIN PROCESAR - Plantilla de Cuerpo de Mail con variables mal configuradas. Se debe incluir: " + mailTipoConfigValidarCuerpoMail.getVariables(mailId) );			
 		}
 		
@@ -238,4 +292,11 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
     	return lst;
     }
     
+    private String getDominioLink() {
+		String linkDominio = "https://uomaempleadores.org.ar";
+		if ( System.getProperty("spring.profiles.active").equals("dev") ) {
+			linkDominio = "http://127.0.0.1:8400";
+		}
+		return linkDominio;
+    }
 }

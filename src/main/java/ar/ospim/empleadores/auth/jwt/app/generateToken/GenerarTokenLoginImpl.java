@@ -11,7 +11,7 @@ import ar.ospim.empleadores.auth.jwt.dominio.TokenTipoEnum;
 import ar.ospim.empleadores.comun.token.JWTUtils;
 
 @Service
-public class GenerateTokenImpl implements GenerateToken {
+public class GenerarTokenLoginImpl implements GenerarTokenLogin {
 
     private final String secret;
 
@@ -19,7 +19,7 @@ public class GenerateTokenImpl implements GenerateToken {
 
     private final Duration refreshTokenExpiration;
 
-    public GenerateTokenImpl(
+    public GenerarTokenLoginImpl(
             @Value("${token.secret}") String secret,
             @Value("${token.expiration}") Duration tokenExpiration,
             @Value("${refreshToken.expiration}") Duration refreshTokenExpiration) {
@@ -38,7 +38,7 @@ public class GenerateTokenImpl implements GenerateToken {
     private String createRefreshToken(String username) {
         Map<String, Object> claims = Map.of(
                 JWTUtils.TOKEN_CLAIM_TYPE, TokenTipoEnum.REFRESH
-        );
+        );        
         return JWTUtils.generate(claims, username, secret, refreshTokenExpiration);
     }
 

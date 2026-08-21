@@ -1,14 +1,23 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.auth.jwt.dominio.TokenDownloadBo;
+import ar.ospim.empleadores.auth.jwt.dominio.TokenTipoEnum;
+import ar.ospim.empleadores.auth.jwt.infra.output.token.TokenUtils;
+import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
@@ -20,14 +29,16 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DeudaController {
-	
+
 	private final  DeudaService deudaService;
 	private final  DeudaMapper mapper;
+	
 	
 	/*
 	 * TODO: ver si se usa. Hay que agregarle ENTIDAD a esto. 
@@ -80,9 +91,10 @@ public class DeudaController {
 	
 	@GetMapping(value = "/deuda/")
 	public ResponseEntity<List<IDeudaNominaDescargaDto>> getDeudaNominaCarteraCompleta() {
-		
+
 		return ResponseEntity.ok( deudaService.getDeudaNominaAll() );
-				
+
 	}
-	
+
+
 }

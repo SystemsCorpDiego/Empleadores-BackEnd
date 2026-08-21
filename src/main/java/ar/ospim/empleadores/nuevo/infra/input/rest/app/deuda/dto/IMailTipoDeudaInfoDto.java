@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public interface IMailTipoDeudaInfoDto {
 
 	String getCuit();
+	String getRazon_social();
 	String getEntidad();
 	String getMail();
     BigDecimal getCapital();

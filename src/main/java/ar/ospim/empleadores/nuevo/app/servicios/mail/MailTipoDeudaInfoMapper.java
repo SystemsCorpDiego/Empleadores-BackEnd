@@ -14,6 +14,7 @@ public interface MailTipoDeudaInfoMapper {
     
     @Mapping(target = "importe", source = "capital")
     @Mapping(target = "email", source = "mail")
+    @Mapping(target = "razonSocial", source = "razon_social")
 	MailTipoDeudaInfoBO run(IMailTipoDeudaInfoDto dto);
 	List<MailTipoDeudaInfoBO> run(List<IMailTipoDeudaInfoDto> dto);
 	

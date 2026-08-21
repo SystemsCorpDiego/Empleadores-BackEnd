@@ -21,7 +21,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 	//private DataSource dataSource; 
 
 	@Autowired
-	private ActaMolinerosRepository ActaRepository;
+	private ActaMolinerosRepository actaRepository;
 	@Autowired
 	private DeudaNominaRepository nominaRepository; 
 	
@@ -30,7 +30,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		List<ActaMolinerosI>  rta = null;
 		
 		try {
-			 rta = ActaRepository.getByCuitAndEntidad2(cuit, entidad); //"30537582916"
+			 rta = actaRepository.getByCuitAndEntidad2(cuit, entidad); //"30537582916"
 				if ( rta != null ) {
 					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
 				}			 
@@ -46,7 +46,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		List<ActaMolineros>  rta = null;
 		
 		try {
-			 rta = ActaRepository.getByCuitAndEntidad(cuit, entidad); //"30537582916"
+			 rta = actaRepository.getByCuitAndEntidad(cuit, entidad); //"30537582916"
 				if ( rta != null ) {
 					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
 				}			 

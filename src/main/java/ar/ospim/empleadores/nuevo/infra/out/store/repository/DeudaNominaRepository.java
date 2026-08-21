@@ -62,7 +62,7 @@ public interface DeudaNominaRepository extends JpaRepository<DeudaNomina, Long> 
 	List<IDeudaNominaDescargaDto> getDeudaNominaAll();
 	 
 	
-	@Query(value = "select cuit, mail, entidad, capital, interes, pago from fmail_notificacion_deuda_consul();", nativeQuery = true)
+	@Query(value = "select cuit, razon_social, mail, entidad, capital, interes, pago from fmail_notificacion_deuda_consul() ;", nativeQuery = true)
 	List<IMailTipoDeudaInfoDto> getMailTipoNotificacionesDeudaNomina();
 	
 }

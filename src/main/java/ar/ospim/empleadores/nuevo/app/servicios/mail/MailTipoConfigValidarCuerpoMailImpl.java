@@ -13,15 +13,17 @@ public class MailTipoConfigValidarCuerpoMailImpl implements MailTipoConfigValida
 		
 		if ( MailEnum.DDJJ_PENDIENTE.getId().equals(mailTipo)) {			
 			if ( cuerpo.indexOf("{{cuit}}") == -1 || 
-					cuerpo.indexOf("{{razon_social}}") == -1 ||
-					cuerpo.indexOf("{{periodo}}") == -1 ) {
+				 cuerpo.indexOf("{{razon_social}}") == -1 ||
+				 cuerpo.indexOf("{{periodo}}") == -1 ) {
 				return false;
 			}		
 		}
 		
 		if ( MailEnum.AVISO_DEUDA.getId().equals(mailTipo)) {
-			if ( cuerpo.indexOf("{{capital}}") == -1 || 
-					cuerpo.indexOf("{{interes}}") == -1 ) {
+			if ( cuerpo.indexOf("{{cuit}}") == -1 || 
+				 cuerpo.indexOf("{{razon_social}}") == -1 ||
+				 cuerpo.indexOf("{{capital}}") == -1 || 
+				 cuerpo.indexOf("{{interes}}") == -1 ) {
 				return false;
 			}					
 		}
@@ -35,8 +37,9 @@ public class MailTipoConfigValidarCuerpoMailImpl implements MailTipoConfigValida
 			return "Variables obligatorias: {{cuit}}, {{razon_social}} y {{periodo}}. Variable opcional: {{login}}";
 		}
 		if ( MailEnum.AVISO_DEUDA.getId().equals(mailTipo)) {
-			return "Variables obligatorias: {{capital}} e {{interes}}. Variable opcional: {{login}}";
+			return "Variables obligatorias: {{cuit}}, {{razon_social}}, {{capital}} e {{interes}}. Variable opcional: {{login}}, {{linkPdfUOMA}}, {{linkPdfAMTIMA}}, {{linkPdfOSPIM}}";
 		}
 		return "ERROR";
 	}
+	
 }

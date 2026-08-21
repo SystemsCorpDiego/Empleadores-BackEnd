@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerateToken;
+import ar.ospim.empleadores.auth.jwt.app.generateToken.GenerarTokenLogin;
 import ar.ospim.empleadores.auth.jwt.dominio.JWTokenBo;
 import ar.ospim.empleadores.auth.jwt.dominio.usuario.UsuarioInfoBo;
 import ar.ospim.empleadores.auth.jwt.dominio.usuario.UsuarioInfoStorage;
@@ -22,7 +22,7 @@ public class LoginDFAImpl  implements LoginDFA {
 	private final MessageSource messageSource;
 	private final DFAStorage twoFactorAuthenticationStorage;
 	private final UsuarioInfoStorage userInfoStorage;
-	private final GenerateToken generateToken;
+	private final GenerarTokenLogin generateToken;
 
 	@Value("${app.seguridad.login.tunel-activo}")
 	private Boolean loginTunelActivo;

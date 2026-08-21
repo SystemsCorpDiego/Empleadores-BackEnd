@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="deudaGestionDDJJSub" pageWidth="812" pageHeight="595" columnWidth="812" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7b6f7e9a-1a2b-4c3d-8e4f-5a6b7c8d9e01">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="periodo" class="java.time.LocalDate"/>
+	<field name="rectificativa" class="java.lang.Integer"/>
+	<field name="aporteCodigo" class="java.lang.String"/>
+	<field name="aporteDescripcion" class="java.lang.String"/>
+	<field name="importe" class="java.math.BigDecimal"/>
+	<field name="interes" class="java.math.BigDecimal"/>
+	<field name="pago" class="java.math.BigDecimal"/>
+	<variable name="totalImporte" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalInteres" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{interes}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalPago" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{pago}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="812" height="20" uuid="1a1a1a1a-0001-4001-8001-000000000001"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Declaraciones Juradas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="90" height="20" uuid="1a1a1a1a-0002-4001-8001-000000000002"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Período]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="90" y="0" width="70" height="20" uuid="1a1a1a1a-0003-4001-8001-000000000003"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Rectif.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="0" width="92" height="20" uuid="1a1a1a1a-0004-4001-8001-000000000004"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Aporte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="0" width="260" height="20" uuid="1a1a1a1a-0005-4001-8001-000000000005"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="512" y="0" width="100" height="20" uuid="1a1a1a1a-0006-4001-8001-000000000006"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Importe]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="612" y="0" width="100" height="20" uuid="1a1a1a1a-0007-4001-8001-000000000007"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Interés]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="712" y="0" width="100" height="20" uuid="1a1a1a1a-0008-4001-8001-000000000008"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Pago]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="812" height="1" uuid="1a1a1a1a-0009-4001-8001-000000000009"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="0" y="0" width="90" height="18" uuid="1a1a1a1a-0010-4001-8001-000000000010"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="0" width="70" height="18" uuid="1a1a1a1a-0011-4001-8001-000000000011"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{rectificativa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="0" width="92" height="18" uuid="1a1a1a1a-0012-4001-8001-000000000012"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{aporteCodigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="0" width="260" height="18" uuid="1a1a1a1a-0013-4001-8001-000000000013"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{aporteDescripcion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="512" y="0" width="100" height="18" uuid="1a1a1a1a-0014-4001-8001-000000000014"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{importe}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="612" y="0" width="100" height="18" uuid="1a1a1a1a-0015-4001-8001-000000000015"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{interes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="712" y="0" width="100" height="18" uuid="1a1a1a1a-0016-4001-8001-000000000016"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{pago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement x="512" y="0" width="300" height="1" uuid="1a1a1a1a-0017-4001-8001-000000000017"/>
+			</line>
+			<staticText>
+				<reportElement x="252" y="2" width="260" height="18" uuid="1a1a1a1a-0018-4001-8001-000000000018"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Totales:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="512" y="2" width="100" height="18" uuid="1a1a1a1a-0019-4001-8001-000000000019"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalImporte}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="612" y="2" width="100" height="18" uuid="1a1a1a1a-0020-4001-8001-000000000020"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalInteres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="712" y="2" width="100" height="18" uuid="1a1a1a1a-0021-4001-8001-000000000021"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalPago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

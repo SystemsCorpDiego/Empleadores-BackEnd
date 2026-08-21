@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="deudaGestionActasSub" pageWidth="812" pageHeight="595" columnWidth="812" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2b6f7e9a-1a2b-4c3d-8e4f-5a6b7c8d9e02">
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="entidad" class="java.lang.String"/>
+	<field name="cuit" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fecha" class="java.time.LocalDate"/>
+	<field name="capital" class="java.math.BigDecimal"/>
+	<field name="interes" class="java.math.BigDecimal"/>
+	<field name="interes_Empleadores" class="java.math.BigDecimal"/>
+	<field name="convenio_id" class="java.lang.Integer"/>
+	<field name="otros" class="java.math.BigDecimal"/>
+	<field name="pago" class="java.math.BigDecimal"/>
+	<field name="periodos" class="java.lang.String"/>
+	<variable name="totalCapital" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{capital}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalInteres" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{interes}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalInteresEmpleadores" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{interes_Empleadores}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalOtros" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{otros}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="totalPago" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{pago}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="812" height="20" uuid="2a1a1a1a-0001-4001-8001-000000000001"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actas]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="55" height="20" uuid="2a1a1a1a-0002-4001-8001-000000000002"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="55" y="0" width="55" height="20" uuid="2a1a1a1a-0003-4001-8001-000000000003"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Entidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="80" height="20" uuid="2a1a1a1a-0004-4001-8001-000000000004"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Cuit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="0" width="55" height="20" uuid="2a1a1a1a-0005-4001-8001-000000000005"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="0" width="65" height="20" uuid="2a1a1a1a-0006-4001-8001-000000000006"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="117" height="20" uuid="2a1a1a1a-0007-4001-8001-000000000007"/>
+				<textElement><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Períodos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="0" width="80" height="20" uuid="2a1a1a1a-0008-4001-8001-000000000008"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Capital]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="507" y="0" width="75" height="20" uuid="2a1a1a1a-0009-4001-8001-000000000009"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Interés]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="582" y="0" width="80" height="20" uuid="2a1a1a1a-0010-4001-8001-000000000010"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Int. Empl.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="662" y="0" width="70" height="20" uuid="2a1a1a1a-0011-4001-8001-000000000011"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Otros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="732" y="0" width="80" height="20" uuid="2a1a1a1a-0012-4001-8001-000000000012"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Pago]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="19" width="812" height="1" uuid="2a1a1a1a-0013-4001-8001-000000000013"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="55" height="18" uuid="2a1a1a1a-0020-4001-8001-000000000020"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="0" width="55" height="18" uuid="2a1a1a1a-0021-4001-8001-000000000021"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{entidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="0" width="80" height="18" uuid="2a1a1a1a-0022-4001-8001-000000000022"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{cuit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="190" y="0" width="55" height="18" uuid="2a1a1a1a-0023-4001-8001-000000000023"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="245" y="0" width="65" height="18" uuid="2a1a1a1a-0024-4001-8001-000000000024"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="310" y="0" width="117" height="18" uuid="2a1a1a1a-0025-4001-8001-000000000025"/>
+				<textElement><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{periodos}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="427" y="0" width="80" height="18" uuid="2a1a1a1a-0026-4001-8001-000000000026"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{capital}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="507" y="0" width="75" height="18" uuid="2a1a1a1a-0027-4001-8001-000000000027"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{interes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="582" y="0" width="80" height="18" uuid="2a1a1a1a-0028-4001-8001-000000000028"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{interes_Empleadores}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="662" y="0" width="70" height="18" uuid="2a1a1a1a-0029-4001-8001-000000000029"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{otros}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="732" y="0" width="80" height="18" uuid="2a1a1a1a-0030-4001-8001-000000000030"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans"/></textElement>
+				<textFieldExpression><![CDATA[$F{pago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement x="427" y="0" width="385" height="1" uuid="2a1a1a1a-0031-4001-8001-000000000031"/>
+			</line>
+			<staticText>
+				<reportElement x="310" y="2" width="117" height="18" uuid="2a1a1a1a-0032-4001-8001-000000000032"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<text><![CDATA[Totales:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="427" y="2" width="80" height="18" uuid="2a1a1a1a-0033-4001-8001-000000000033"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalCapital}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="507" y="2" width="75" height="18" uuid="2a1a1a1a-0034-4001-8001-000000000034"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalInteres}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="582" y="2" width="80" height="18" uuid="2a1a1a1a-0035-4001-8001-000000000035"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalInteresEmpleadores}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="662" y="2" width="70" height="18" uuid="2a1a1a1a-0036-4001-8001-000000000036"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalOtros}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="732" y="2" width="80" height="18" uuid="2a1a1a1a-0037-4001-8001-000000000037"/>
+				<textElement textAlignment="Right"><font fontName="DejaVu Sans" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$V{totalPago}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

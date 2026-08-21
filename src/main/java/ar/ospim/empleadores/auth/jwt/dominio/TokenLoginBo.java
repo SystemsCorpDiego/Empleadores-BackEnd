@@ -1,6 +1,6 @@
 package ar.ospim.empleadores.auth.jwt.dominio;
 
-public class TokenData {
+public class TokenLoginBo {
 
 	public final TokenTipoEnum tipo;
 
@@ -8,7 +8,7 @@ public class TokenData {
 
 	public final Integer usuarioId;
 
-	public TokenData(TokenTipoEnum type, String usuario, Integer usuarioId) {
+	public TokenLoginBo(TokenTipoEnum type, String usuario, Integer usuarioId) {
 		this.tipo = type;
 		this.usuario = usuario;
 		this.usuarioId = usuarioId;
