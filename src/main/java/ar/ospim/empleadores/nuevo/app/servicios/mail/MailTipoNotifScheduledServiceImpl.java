@@ -184,12 +184,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			log.debug("Scheduler - Notificacion DDJJ Pendiente - registros: NULL" );
 			return;
 		}
-		
-		String linkDominio = "https://uomaempleadores.org.ar";
-		if ( System.getProperty("spring.profiles.active").equals("dev") ) {
-			linkDominio = "http://127.0.0.1:8400";
-		}
-
+				
 		for (MailTipoDdjjPendienteBO reg : lst) {
 			String cuerpoMail = mailTipoConfigBO.get().getCuerpoMail().replace("{{periodo}}", reg.getPeriodo() );
 			cuerpoMail = cuerpoMail.replace("{{cuit}}", reg.getCuit() );
@@ -199,7 +194,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//"https://uomaempleadores.org.ar/empleadores/#/login"
 			//"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda"
 			if ( cuerpoMail.indexOf("{{login}}") > -1 ) {
-				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +linkDominio+ "/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink()+ "/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
 			}
 
 			//genero Mail
@@ -294,7 +289,9 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
     
     private String getDominioLink() {
 		String linkDominio = "https://uomaempleadores.org.ar";
-		if ( System.getProperty("spring.profiles.active").equals("dev") ) {
+		String prop = System.getProperty("spring.profiles.active");
+		
+		if ( prop != null && "dev".equals(prop) ) {
 			linkDominio = "http://127.0.0.1:8400";
 		}
 		return linkDominio;
