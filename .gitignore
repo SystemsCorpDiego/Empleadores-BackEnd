@@ -49,6 +49,8 @@ buildNumber.properties
 # Eclipse m2e generated files
 # Eclipse Core
 .project
+.metadata
+/*.md
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 >>>>>>> branch 'develop' of git@github.com:SystemsCorpDiego/Empleadores-BackEnd.git
