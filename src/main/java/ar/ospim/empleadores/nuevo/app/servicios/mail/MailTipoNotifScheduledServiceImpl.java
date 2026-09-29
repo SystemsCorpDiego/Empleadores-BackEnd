@@ -121,13 +121,13 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//"https://uomaempleadores.org.ar/empleadores/#/login"
 			//"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda"
 			if ( cuerpoMail.indexOf("{{login}}") > -1 ) {
-				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink()+ "/empleadores/#/login?redirect=gestiondeuda\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink("FRONT")+ "/empleadores/#/login?redirect=gestiondeuda\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
 			}
 			
 			if ( cuerpoMail.indexOf("{{linkPdfUOMA}}") > -1 ) {
 				if ( deudaUOMA ) {
 					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.UOMA.getCodigo());
-					cuerpoMail = cuerpoMail.replace("{{linkPdfUOMA}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link UOMA</a>" );
+					cuerpoMail = cuerpoMail.replace("{{linkPdfUOMA}}", "<a href=\"" +getDominioLink("BACK")+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link UOMA</a>" );
 				} else {
 					cuerpoMail = cuerpoMail.replace("{{linkPdfUOMA}}", "<b>Sin Deuda</b>" );
 				}
@@ -135,7 +135,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			if ( cuerpoMail.indexOf("{{linkPdfAMTIMA}}") > -1 ) {
 				if ( deudaAMTIMA ) {
 					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.AMTIMA.getCodigo());
-					cuerpoMail = cuerpoMail.replace("{{linkPdfAMTIMA}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link AMTIMA</a>" );
+					cuerpoMail = cuerpoMail.replace("{{linkPdfAMTIMA}}", "<a href=\"" +getDominioLink("BACK")+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link AMTIMA</a>" );
 				} else {
 					cuerpoMail = cuerpoMail.replace("{{linkPdfAMTIMA}}", "<b>Sin Deuda</b>" );
 				}
@@ -143,7 +143,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			if ( cuerpoMail.indexOf("{{linkPdfOSPIM}}") > -1 ) {
 				if ( deudaOSPIM ) {
 					linkPdfToken = generarTokenDwnldDeuda.run(empresaDeuda.getCuit(), EntidadEnum.OSPIM.getCodigo());
-					cuerpoMail = cuerpoMail.replace("{{linkPdfOSPIM}}", "<a href=\"" +getDominioLink()+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link OSPIM</a>" );
+					cuerpoMail = cuerpoMail.replace("{{linkPdfOSPIM}}", "<a href=\"" +getDominioLink("BACK")+ "/empleadores/public/doc/download/NotifiDeuda/"+linkPdfToken+"\" rel=\"noopener noreferrer\" target=\"_blank\">link OSPIM</a>" );
 				} else {
 					cuerpoMail = cuerpoMail.replace("{{linkPdfOSPIM}}", "<b>Sin Deuda</b>" );
 				}
@@ -194,7 +194,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//"https://uomaempleadores.org.ar/empleadores/#/login"
 			//"https://uomaempleadores.org.ar/empleadores/#/login?redirect=gestiondeuda"
 			if ( cuerpoMail.indexOf("{{login}}") > -1 ) {
-				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink()+ "/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
+				cuerpoMail = cuerpoMail.replace("{{login}}", "<a href=\"" +getDominioLink("FRONT")+ "/empleadores/#/login?redirect=ddjj/alta\" rel=\"noopener noreferrer\" target=\"_blank\">link</a>" );
 			}
 
 			//genero Mail
@@ -287,12 +287,16 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
     	return lst;
     }
     
-    private String getDominioLink() {
+    private String getDominioLink(String tipo) {
 		String linkDominio = "https://uomaempleadores.org.ar";
 		String prop = System.getProperty("spring.profiles.active");
 		
 		if ( prop != null && "dev".equals(prop) ) {
-			linkDominio = "http://127.0.0.1:8400";
+			if ( "BACK".equals(tipo)) {
+				linkDominio = "http://127.0.0.1:8400";
+			} else {
+				linkDominio = "http://127.0.0.1:5173";
+			}
 		}
 		return linkDominio;
     }
