@@ -1,13 +1,23 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.auth.jwt.dominio.TokenDownloadBo;
+import ar.ospim.empleadores.auth.jwt.dominio.TokenTipoEnum;
+import ar.ospim.empleadores.auth.jwt.infra.output.token.TokenUtils;
+import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
@@ -16,18 +26,22 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IDeudaNominaDes
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class DeudaController {
-	
+
 	private final  DeudaService deudaService;
 	private final  DeudaMapper mapper;
 	
+	
+	/*
+	 * TODO: ver si se usa. Hay que agregarle ENTIDAD a esto. 
 	@GetMapping(value = "/empresa/{empresaId}/deuda")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId) {
 		GestionDeudaDto rta = null;
@@ -40,17 +54,25 @@ public class DeudaController {
 
 		return ResponseEntity.ok( rta );
 	}
+	*/
 
 	@GetMapping(value = "/empresa/{empresaId}/deuda/entidad/{entidadCodigo}")
 	public ResponseEntity<GestionDeudaDto>  get(@PathVariable("empresaId") Integer empresaId, @PathVariable("entidadCodigo") String entidadCodigo) {
+		//Gestion Deuda: Consulta deuda desde Snapshot para un CUIT+Entidad
+		log.error("DeudaController.get() - empresaId: " + empresaId + " - entidadCodigo: " + entidadCodigo );
 		GestionDeudaDto rta = null;
 		
-		List<ActaMolineros> lstActas = deudaService.getMolinerosActas(empresaId, entidadCodigo);
+		List<ActaMolinerosI> lstActas = deudaService.getMolinerosActas2(empresaId, entidadCodigo);
 		rta = new  GestionDeudaDto();
-		rta.setActas( mapper.run(lstActas) );
+		rta.setActas( mapper.run3(lstActas) );		 
 		
 		List<IGestionDeudaDDJJDto> lst = deudaService.getDDJJDto(empresaId, entidadCodigo);
 		List<GestionDeudaDDJJDto> lst2 =  mapper.runNomina2(lst);
+		lst2 =   mapper.runCastIdString(lst2 );
+		
+		if (lst2 == null )
+			lst2 = new ArrayList<GestionDeudaDDJJDto>();
+		
 		rta.setDeclaracionesJuradas( lst2  );
 		//rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
 		
@@ -69,9 +91,10 @@ public class DeudaController {
 	
 	@GetMapping(value = "/deuda/")
 	public ResponseEntity<List<IDeudaNominaDescargaDto>> getDeudaNominaCarteraCompleta() {
-		
+
 		return ResponseEntity.ok( deudaService.getDeudaNominaAll() );
-				
+
 	}
-	
+
+
 }

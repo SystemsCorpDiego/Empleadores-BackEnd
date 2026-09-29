@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.dominio.clave.ClaveEncriptador;
 import ar.ospim.empleadores.auth.usuario.dominio.usuarioclave.ValidatorClave;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.AllArgsConstructor;
 

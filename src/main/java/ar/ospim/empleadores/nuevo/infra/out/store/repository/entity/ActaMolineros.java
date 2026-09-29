@@ -37,8 +37,10 @@ public class ActaMolineros {
 	@Column(name = "capital")
     private BigDecimal capital;
 	@Column(name = "interes")
-    private BigDecimal interes;	
-	
+    private BigDecimal interes;		
+	@Column(name = "interes_empleadores")
+    private BigDecimal interesEmpleadores;	
+
 	@Column(name = "convenio_id")
     private Integer convenio_id;
 	

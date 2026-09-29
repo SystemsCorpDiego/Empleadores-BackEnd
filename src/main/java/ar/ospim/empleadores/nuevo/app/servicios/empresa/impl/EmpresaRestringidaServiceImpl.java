@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.cui.CuilUtils;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaRestringidaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaExceptionEnum;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaRestringidaService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaRestringidaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaRestringidaStorage;
 import lombok.RequiredArgsConstructor;
 
@@ -67,6 +67,7 @@ public class EmpresaRestringidaServiceImpl implements EmpresaRestringidaService 
 			}
 			return razonSocial;
 		}
+		
 		@Override
 		public Boolean esRestringido(String cuit) {
 			Optional<EmpresaRestringidaBO> cons = storage.findByCuit(cuit);

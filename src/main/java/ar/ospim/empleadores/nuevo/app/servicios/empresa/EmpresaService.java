@@ -3,7 +3,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.empresa;
 import java.util.List;
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO; 
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO; 
 
 public interface EmpresaService {
 	

@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.mail.MailHelper;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoValidar;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaExceptionEnum;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaContactoStorage;
 import lombok.RequiredArgsConstructor;
 

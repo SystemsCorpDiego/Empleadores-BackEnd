@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import ar.ospim.empleadores.auth.usuario.app.RolAsignado;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInfoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInfoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto.UsuarioInfoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.jwt.dto.UsuarioInfoUsuarioRolDto;
 

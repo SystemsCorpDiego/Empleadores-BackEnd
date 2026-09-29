@@ -3,7 +3,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 import java.time.LocalDate;
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EscalaSalarialBO;
+import ar.ospim.empleadores.nuevo.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.escalasalarial.dto.AntiguedadDto;
 
 public interface EscalaSalarialStorage {

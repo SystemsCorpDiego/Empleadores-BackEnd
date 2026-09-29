@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.exception.WebServiceException;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.BepBoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAbarcativa;
 import ar.ospim.empleadores.nuevo.infra.out.getwaypago.webservice.redlink.linkpagos.altadeuda.WsAltaDeDeudasRequest;
@@ -118,11 +118,11 @@ public class RedLinkServiceImpl implements RedLinkService {
 			throw new WebServiceException( "2", "Error Remote Exception" + e.getMessage() , e);
 	    } catch ( BusinessException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
+				log.error("generarBep() - BusinessException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch ( WebServiceException e) {
 	    	if ( requestAltaDeDeudas != null)
-				log.error("generarBep() - RemoteException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
+				log.error("generarBep() - WebServiceException - requestAltaDeDeudas: {}", requestAltaDeDeudas);
 	    	throw e;
 	    } catch (Exception e) {
 	    	log.error("generarBep() - Exception- Error al llamar a ws Red Link: {}",e);

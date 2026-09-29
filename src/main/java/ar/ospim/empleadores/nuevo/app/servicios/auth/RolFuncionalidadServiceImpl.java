@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.rol.dto.FuncionalidadesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.rol.dto.RolFuncionalidadAltaDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.RolFuncionalidadStorage;

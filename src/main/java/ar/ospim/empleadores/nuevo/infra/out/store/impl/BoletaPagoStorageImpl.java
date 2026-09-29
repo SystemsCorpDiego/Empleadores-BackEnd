@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoFiltroDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.BoletaPagoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.BoletaPagoMapper;

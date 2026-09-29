@@ -6,7 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoDto;
 

@@ -10,6 +10,7 @@ import ar.ospim.empleadores.nuevo.infra.out.store.DeudaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.ActaMolinerosRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.DeudaNominaRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,15 +21,16 @@ public class DeudaStorageImpl  implements DeudaStorage {
 	//private DataSource dataSource; 
 
 	@Autowired
-	private ActaMolinerosRepository ActaRepository;
+	private ActaMolinerosRepository actaRepository;
 	@Autowired
 	private DeudaNominaRepository nominaRepository; 
 	
-	public List<ActaMolineros> getActasMolineros(String cuit) {
-		List<ActaMolineros>  rta = null;
+	
+	public List<ActaMolinerosI> getActasMolineros2(String cuit, String entidad) {
+		List<ActaMolinerosI>  rta = null;
 		
 		try {
-			 rta = ActaRepository.getByCuit(cuit); //"30537582916"
+			 rta = actaRepository.getByCuitAndEntidad2(cuit, entidad); //"30537582916"
 				if ( rta != null ) {
 					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
 				}			 
@@ -39,11 +41,12 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		return rta;
 	}
 	
+	
 	public List<ActaMolineros> getActasMolineros(String cuit, String entidad) {
 		List<ActaMolineros>  rta = null;
 		
 		try {
-			 rta = ActaRepository.getByCuitAndEntidad(cuit, entidad); //"30537582916"
+			 rta = actaRepository.getByCuitAndEntidad(cuit, entidad); //"30537582916"
 				if ( rta != null ) {
 					log.error("lst NO NULAAA !! - lst.size(): " + rta.size());					
 				}			 
@@ -57,14 +60,17 @@ public class DeudaStorageImpl  implements DeudaStorage {
 	
 	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit, String entidad){
 		 List<IGestionDeudaDDJJDto> rta = null;
-		 try {
+		 try {			 
+			 log.error("DeudaStorageImpl.getNominaDto() - cuit: " + cuit + " - entidad: " + entidad);
 			 rta = nominaRepository.get(cuit, entidad);
+			 log.error("DeudaStorageImpl.getNominaDto() - rta: " + rta );
 		 }  catch ( Exception e) {
 			 log.debug( e.toString() );			
 		 }
 		 return rta;
 	}
 	
+	/*
 	public List<IGestionDeudaDDJJDto> getNominaDto(String cuit) {
 		List<IGestionDeudaDDJJDto> rta = null;
 		try {
@@ -74,7 +80,7 @@ public class DeudaStorageImpl  implements DeudaStorage {
 		 }
 		return rta;
 	}
-	
+	*/
 	
 	public void actualizarCuit( String p_cuit ) {
 		nominaRepository.actualizarCuit(p_cuit);

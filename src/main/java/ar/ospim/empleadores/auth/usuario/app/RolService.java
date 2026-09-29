@@ -2,7 +2,7 @@ package ar.ospim.empleadores.auth.usuario.app;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 
 public interface RolService {
 	

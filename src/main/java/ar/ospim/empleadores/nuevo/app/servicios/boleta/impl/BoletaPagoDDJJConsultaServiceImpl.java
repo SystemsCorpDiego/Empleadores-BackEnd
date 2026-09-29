@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.FormaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ajuste.AjusteService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoDDJJConsultaService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJConsultarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJUtils;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.FormaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.BoletaPagoDtoMapper;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAfiliadoDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAjusteDto;

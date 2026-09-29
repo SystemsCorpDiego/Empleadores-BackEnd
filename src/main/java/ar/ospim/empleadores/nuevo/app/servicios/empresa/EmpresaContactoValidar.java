@@ -2,8 +2,8 @@ package ar.ospim.empleadores.nuevo.app.servicios.empresa;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 
 public interface EmpresaContactoValidar {
 

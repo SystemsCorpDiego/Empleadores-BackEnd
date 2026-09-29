@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraCategoriaBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraCategoriaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.CamaraCategoriaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.CamaraCategoriaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.CamaraCategoriaRepository;

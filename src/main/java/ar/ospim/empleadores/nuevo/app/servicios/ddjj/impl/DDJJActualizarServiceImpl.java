@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJActualizarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJAportesCalcularService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJBoMapper;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJConsultarService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarService;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.DDJJEmpresaController;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import lombok.AllArgsConstructor;

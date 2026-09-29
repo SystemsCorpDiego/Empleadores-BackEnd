@@ -2,6 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store.repository.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,16 +24,13 @@ import lombok.ToString;
 @Getter
 @Setter
 public class DeudaNomina {
-
+ 
 	@Id 
 	@Column(name = "id")
-    private Integer id;
+    private Long id;
 
-	@Column(name = "ddjj_id")
-    private Integer ddjjId;
-	
-	@Column(name = "boleta_id")
-    private Integer boletaId;
+	@Column(name = "entidad")
+    private String entidad;
 	
 	@Column(name = "cuit")
     private String cuit;
@@ -37,16 +38,21 @@ public class DeudaNomina {
 	@Column(name = "periodo")
     private LocalDate periodo;
 	
-	@Column(name = "fecha_info")
-    private LocalDate fechaInfor;
-	
-	//@Column(name = "aporte")
-    //private String aporte;
-
 	@OneToOne
 	@JoinColumn(name = "aporte")
 	private Aporte aporte;
 
+	
+	@Column(name = "ddjj_id")
+    private Integer ddjjId;
+	
+	@Column(name = "boleta_id")
+    private Integer boletaId;
+	
+
+	@Column(name = "fecha_info")
+    private LocalDate fechaInfor;
+	
 	
 	@Column(name = "aporte_importe")
     private BigDecimal importe;
@@ -75,4 +81,8 @@ public class DeudaNomina {
 	@Column(name = "convenio_id")
     private Long convenioId;
     
+	public String getIdString() {
+		DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");    	
+		return CUSTOM_FORMATTER.format(periodo) + aporte.getCodigo();
+	} 
 }

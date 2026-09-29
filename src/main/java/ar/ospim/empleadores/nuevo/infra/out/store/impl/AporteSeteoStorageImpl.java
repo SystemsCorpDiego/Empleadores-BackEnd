@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteSeteoBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteSeteoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteSeteoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AporteSeteoMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AporteSeteoRepository;
@@ -59,5 +59,16 @@ public class AporteSeteoStorageImpl implements AporteSeteoStorage {
 	public void deleteById(Integer id) {
 		repository.deleteById( id );
 	}
+
+	@Override
+	public Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde) {
+		Optional<AporteSeteo> reg = repository.findContenido( entidad, aporte, desde);
+		return reg;
+	}
 	
+	@Override
+	public Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde, Integer id) {
+		Optional<AporteSeteo> reg = repository.findContenido( entidad, aporte, desde, id);
+		return reg;
+	}
 }

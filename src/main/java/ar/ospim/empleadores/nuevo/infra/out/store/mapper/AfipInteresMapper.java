@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfipInteres;
 
 @Mapper

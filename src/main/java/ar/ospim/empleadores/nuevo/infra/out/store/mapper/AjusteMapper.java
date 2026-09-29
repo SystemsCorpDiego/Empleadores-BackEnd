@@ -7,9 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoAjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoAjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Ajuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.BoletaPago;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.BoletaPagoAjuste;

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AjusteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AjusteMapper;

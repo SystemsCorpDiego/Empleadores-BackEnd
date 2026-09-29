@@ -8,14 +8,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoAporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteSeteoService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJAportesCalcularService;
 import ar.ospim.empleadores.nuevo.app.servicios.escalasalarial.EscalaSalarialService;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoAporteBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
+import ar.ospim.empleadores.nuevo.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EntidadEnum;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteSeteo;

@@ -5,8 +5,8 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.UsuarioRecup
 
 public interface UsuarioClaveRecuperarPorToken {
 
-	public UsuarioRecuperoClaveTokenDto runGenTokenByMail(String mail);
-	public UsuarioRecuperoClaveTokenDto runGenTokenByUsuarioDescrip(String descripcion);
+	public UsuarioRecuperoClaveTokenDto runGenTokenByMail(String urlDomain, String mail);
+	public UsuarioRecuperoClaveTokenDto runGenTokenByUsuarioDescrip(String urlDomain, String descripcion);
 	
 	public UsuarioClaveRecuperarPorTokenDto runConsul(String token);
 	

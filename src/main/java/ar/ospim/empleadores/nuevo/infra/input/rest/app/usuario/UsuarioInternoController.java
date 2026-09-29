@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ActualizarPersonaUsuarioLogueado;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ActualizarUsuarioInterno;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.CrearUsuarioInterno;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.usuario.dto.UsuarioInternoDto;
 import lombok.RequiredArgsConstructor;

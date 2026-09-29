@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BancoMovimientoBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.BancoMovimientoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AporteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AporteMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AporteRepository;
@@ -68,7 +68,8 @@ public class AporteStorageImpl implements AporteStorage {
 
 	public AporteBO findAporteActaByEntidad(String entidad) {
 		AporteBO aporte = null;
-		Optional<Aporte> cons = repository.getByEntidadAndDdjj( entidad, false);
+															      
+		Optional<Aporte> cons = repository.getByEntidadAndDdjjAndCodigoNot( entidad, false, "OSPIM");
 		if (cons.isPresent() )
 			aporte = mapper.map(cons.get()); 
 		

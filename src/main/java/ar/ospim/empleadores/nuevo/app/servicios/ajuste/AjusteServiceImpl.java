@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.aporte.AporteService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.comun.dto.CodigoDescripDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.AjusteStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.BoletaPagoStorage;
@@ -59,16 +59,17 @@ public class AjusteServiceImpl implements AjusteService {
 			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "Aporte"));			
 		}
 		
-		//['DI'-'Devolución de Intereses', 'DPD''Devolución por pago duplicado', 'O'-'Otros', 'AJ'-'Interes retroactivo', 'IPF'-'Interes Pago Fuera Termino']
-		if ( reg.getMotivo() != null && !"DI".equals(reg.getMotivo()) && 
-				!"DPD".equals(reg.getMotivo()) && 
-				!"O".equals(reg.getMotivo()) && 
-				!"AJ".equals(reg.getMotivo()) && 
-				!"IPF".equals(reg.getMotivo()) ) {
-			String errorMsg = messageSource.getMessage(CommonEnumException.CODIGO_INVALIDO_NOMBRE.getMsgKey(), null, new Locale("es"));
-			throw new BusinessException(CommonEnumException.CODIGO_INVALIDO_NOMBRE.name(), String.format(errorMsg, "Motivo"));			
+		
+		if ( reg.getMotivo() != null ) {
+			try {
+				AjusteMotivoEnum.map(reg.getMotivo());
+			} catch ( Exception e) {
+				String errorMsg = messageSource.getMessage(CommonEnumException.CODIGO_INVALIDO_NOMBRE.getMsgKey(), null, new Locale("es"));
+				throw new BusinessException(CommonEnumException.CODIGO_INVALIDO_NOMBRE.name(), String.format(errorMsg, "Motivo"));						
+			}  
 		}
 		
+
 		if ( reg.getEmpresa() == null ) {
 			String errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg, "CUIT"));			
@@ -101,8 +102,7 @@ public class AjusteServiceImpl implements AjusteService {
 				//ERROR: No se puede actualizar un Ajuste copn Boletas Pago Asignadas
 				String errorMsg = messageSource.getMessage(AjusteStorageEnumException.AJUSTE_CON_BOLETA.getMsgKey(), null, new Locale("es"));
 				throw new BusinessException(AjusteStorageEnumException.AJUSTE_CON_BOLETA.name(), errorMsg);
-			}
-			
+			}			
 		}
 		
 		//TODO: validar que no se modifique un Ajuste que ya esta asignado a Boleta Pago.

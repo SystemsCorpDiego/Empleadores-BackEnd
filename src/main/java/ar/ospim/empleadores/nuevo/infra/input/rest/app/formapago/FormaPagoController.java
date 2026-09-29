@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FormaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.formapago.FormaPagoService;
+import ar.ospim.empleadores.nuevo.dominio.FormaPagoBO;
 import lombok.RequiredArgsConstructor;
 
 @RestController

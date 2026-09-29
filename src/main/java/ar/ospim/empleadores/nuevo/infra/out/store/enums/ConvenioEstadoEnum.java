@@ -10,6 +10,7 @@ public enum ConvenioEstadoEnum {
 	RECH("RECH", "Rechazado"),
 	OBSR("OBSR", "Observado"),
 	CAIDO("CAIDO", "Caido"),
+	JUDICIAL("JUDICIAL", "Judicializado"),
 	;
 
     private String codigo;

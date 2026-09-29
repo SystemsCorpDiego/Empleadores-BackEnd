@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoTipoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoValidar;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaExceptionEnum;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoTipoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaContactoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EmpresaContactoTipoEnum;

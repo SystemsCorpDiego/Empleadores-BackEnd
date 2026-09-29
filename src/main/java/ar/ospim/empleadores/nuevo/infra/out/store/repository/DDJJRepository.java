@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.IMailTipoDdjjPendienteDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DDJJ;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.BoletaPagoDDJJEmpleadosConsultaI;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.DDJJSecuenciaI;
@@ -225,4 +226,8 @@ public interface DDJJRepository extends JpaRepository<DDJJ, Integer> {
 	  nativeQuery = true)
 	public List<DDJJSecuenciaI> getSecuenciasPosterioresEnElPeriodo(Integer empresaId, Integer ddjjId);
 	
+	
+	@Query(value = "select cuit, razon_social, mail, periodo from fmail_notificacion_ddjj_pendiente_consul();", nativeQuery = true)
+	List<IMailTipoDdjjPendienteDto> getMailTipoNotificacionesDdjjPendiente();
+
 }

@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoActaService;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.boleta.dto.BoletaPagoDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +32,7 @@ public class BoletaPagoActaEmpresaController {
 	
 	@PostMapping
 	public ResponseEntity<IdGeneradoDto> generar(@PathVariable Integer empresaId, @RequestBody BoletaPagoDto dato, HttpServletRequest request) {
+		log.debug("dato: {}", dato);
 		
 		BoletaPagoBO registro = mapper.map(dato, empresaId);
 		registro = service.guardar(registro);		

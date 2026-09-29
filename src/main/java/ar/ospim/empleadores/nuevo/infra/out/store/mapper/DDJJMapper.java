@@ -8,10 +8,10 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoAporteBO;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoAporteBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.ddjj.dto.DDJJBoletaArmadoDetalleAfiliadoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Afiliado;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Aporte;

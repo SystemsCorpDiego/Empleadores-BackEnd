@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.app.servicios.camara.CamaraService;
 import ar.ospim.empleadores.nuevo.app.servicios.escalasalarial.EscalaSalarialService;
+import ar.ospim.empleadores.nuevo.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.escalasalarial.dto.AntiguedadDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.escalasalarial.dto.CamaraDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.escalasalarial.dto.CategoriaDto;

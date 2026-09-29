@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaContactoAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.empresa.dto.EmpresaContactoDto;
 

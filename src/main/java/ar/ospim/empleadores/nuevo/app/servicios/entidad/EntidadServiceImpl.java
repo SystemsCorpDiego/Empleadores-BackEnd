@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EntidadBO;
+import ar.ospim.empleadores.nuevo.dominio.EntidadBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.EntidadEnum;
 
 @Service

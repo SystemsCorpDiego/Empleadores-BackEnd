@@ -3,6 +3,7 @@ package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,12 +19,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioActualizarService;
+import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioCrearService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioImprimirService;
 import ar.ospim.empleadores.nuevo.app.servicios.convenio.ConvenioService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.CalcularCuotasCalculadaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCambioEstadoDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
+import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
@@ -31,6 +37,7 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioDeud
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.ConvenioMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioPeriodoDetalle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -44,6 +51,8 @@ public class ConvenioController {
 	private final ConvenioMapper mapper;
 	private final ConvenioDeudaMapper convenioDeudaMapper; 
 	private final ConvenioService service;
+	private final ConvenioActualizarService actualizarService;
+	private final ConvenioCrearService crearService;
 	private final ConvenioImprimirService imprimirService;
 	private final AfipInteresStorage afipInteresStorage;
 	
@@ -54,9 +63,12 @@ public class ConvenioController {
 		convenio.setEmpresaId(empresaId);
 		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
 				
-		Convenio convenioNew = service.generar(convenio);
+		Convenio convenioNew = crearService.run(convenio);
 		
-		return ResponseEntity.ok( mapper.run(convenioNew) );
+		ConvenioDto dto = mapper.run(convenioNew); 		
+		dto = castPeriodos(convenioNew, dto);
+		
+		return ResponseEntity.ok( dto );
 	}
 	
 	@PutMapping(value = "/{convenioId}")
@@ -65,19 +77,24 @@ public class ConvenioController {
 		log.debug( "ConvenioController.generar - convenio " + convenio.toString() );  
 		convenio.setConvenioId(convenioId);
 		convenio.setEmpresaId(empresaId);
-		Convenio convenioNew = service.actualizar(convenio);
+		Convenio convenioNew = actualizarService.run(convenio);		
+
+		ConvenioDto dto = mapper.run(convenioNew); 		
+		dto = castPeriodos(convenioNew, dto);
 		
-		return ResponseEntity.ok( mapper.run(convenioNew) );
+		return ResponseEntity.ok( dto );
 	}
 	
 	@GetMapping(value = "/{convenioId}/imprimir")
 	public ResponseEntity<?> imprimir(@PathVariable Integer empresaId, @PathVariable Integer convenioId)   throws JRException, SQLException {
 		log.debug("empresaId: " + empresaId + "id: " + convenioId );
-		 
-		byte[] auxPdf = imprimirService.run(convenioId);
+		
+		Convenio convenio = service.get(empresaId, convenioId);
+		List<ConvenioCuotaConsultaDto>  lstCuotas = service.getCuotas(empresaId, convenioId);
+		byte[] auxPdf = imprimirService.run(convenio, lstCuotas);
 		
 		String contentType = "application/octet-stream";
-        String headerValue = "attachment; filename=\"" + "ddjj_1.pdf" + "\"";
+        String headerValue = "attachment; filename=\"" + "convenio.pdf" + "\"";
          
 
         log.debug("FIN" );
@@ -85,10 +102,7 @@ public class ConvenioController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
-                .body(auxPdf);  
-        
-		//return ResponseEntity.noContent().<Void>build();
-		//return ResponseEntity.ok(aux);
+                .body(auxPdf);           
 	}
 	
 	@GetMapping(value = "/{id}/deudaDto/all")
@@ -98,28 +112,12 @@ public class ConvenioController {
 		Convenio convenio = service.get(empresaId, convenioId);
 		
 		ConvenioDeudaDto rta = mapper.run3(convenio);
-		rta.setDeclaracionesJuradas( convenioDeudaMapper.run(convenio.getDdjjs() ) );
+		
+		rta.setDeclaracionesJuradas( convenioDeudaMapper.run2(convenio.getPeriodos() ) );
 		
 		return ResponseEntity.ok( rta );
 	}
 	
-
-	//TODO: Este hay que eliminarlo
-	@PostMapping("/calcular-cuota-old")
-	public ResponseEntity<CalcularCuotaDto> getCuota(@PathVariable("empresaId") Integer empresaId, @RequestBody @Valid CalcularCuotaDto dto) {
-		
-		dto.setImporteCuota(BigDecimal.ZERO);
-		dto.setImporteInteresTotal(BigDecimal.ZERO);
-		log.debug( "calcular-cuota - dto: " + dto.toString() );
-				
-		BigDecimal aux = service.calcularImporteCuota(dto.getImporteDeuda(), dto.getCantidadCuota(), dto.getFechaIntencionPago() );
-		
-		dto.setImporteCuota(aux);
-		if ( !BigDecimal.ZERO.equals(aux) )  
-			dto.setImporteInteresTotal(aux.multiply( BigDecimal.valueOf( dto.getCantidadCuota() ) ).subtract(dto.getImporteDeuda()));
-		
-		return ResponseEntity.ok( dto );		 
-	}
 	
 	//CalcularCuotasCalculadaDto
 	@PostMapping("/calcular-cuota")
@@ -128,7 +126,7 @@ public class ConvenioController {
 		dto.setImporteInteresTotal(BigDecimal.ZERO);
 		log.debug( "calcular-cuota-new - dto: " + dto.toString() );
 				
-		List<CalcularCuotasCalculadaDto> lst = service.calcularCuotas(dto.getImporteDeuda(), dto.getCantidadCuota(), dto.getFechaIntencionPago() );
+		List<CalcularCuotasCalculadaDto> lst = service.calcularCuotas(empresaId, dto.getImporteDeuda(), dto.getCantidadCuota(), dto.getFechaIntencionPago() );
 				
 		return ResponseEntity.ok( lst );		 
 	}
@@ -152,4 +150,38 @@ public class ConvenioController {
 		return ResponseEntity.ok( aux );
 	}
 
+	private ConvenioDto castPeriodos(Convenio convenio, ConvenioDto dto) {
+		
+		if ( "OSPIM".equals( convenio.getEntidad() ) ) {
+			if ( convenio.getPeriodos() != null ) {
+				List<ConvenioDDJJDto> ddjjs = new ArrayList<ConvenioDDJJDto>();
+				ConvenioDDJJDto ddjj = null;
+				List<ConvenioDDJJDeudaNominaDto> deudaNominas = null;
+				ConvenioDDJJDeudaNominaDto deudaNominaDto = null;
+				for ( ConvenioPeriodoDetalle reg : convenio.getPeriodos()) {
+					ddjj = new ConvenioDDJJDto();
+					ddjj.setId( reg.getId() );
+					ddjj.setDdjjId( reg.getDeudaNominaId() );
+					ddjj.setPeriodo( reg.getPeriodo());
+					
+					deudaNominas = new ArrayList<ConvenioDDJJDeudaNominaDto>();
+					deudaNominaDto = new ConvenioDDJJDeudaNominaDto();
+					deudaNominaDto.setAporte( reg.getAporte());
+					deudaNominaDto.setAporteDescripcion(null);
+					deudaNominaDto.setBoletaId(null);
+					deudaNominaDto.setId(reg.getDeudaNominaId() );
+					deudaNominaDto.setImporte(reg.getImporte());
+					deudaNominaDto.setInteres(reg.getInteres());
+					deudaNominas.add(deudaNominaDto);
+					ddjj.setDeudaNominas(deudaNominas);
+					
+					ddjjs.add(ddjj);
+				}
+				dto.setDdjjs(ddjjs);				
+			}
+		}
+		
+		return dto;
+	}
+	
 }

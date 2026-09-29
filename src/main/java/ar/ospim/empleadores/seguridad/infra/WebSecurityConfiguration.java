@@ -11,7 +11,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import ar.ospim.empleadores.auth.jwt.infra.input.rest.filtro.AuthenticationTokenFilter;
 import ar.ospim.empleadores.auth.oauth.infra.input.OAuth2AuthenticationFilter;
-import ar.ospim.empleadores.comun.actuator.infra.config.ActuatorConfiguration;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.ERol;
 import ar.ospim.empleadores.seguridad.infra.filtro.AuthorizationFilter;
 import ar.ospim.empleadores.seguridad.infra.filtro.PublicApiAuthenticationFilter;
@@ -26,8 +25,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String PASSWORD_RESET = "/password-reset";
 	
-	private static final String BACKOFFICE = "/backoffice";
-
 	private static final String PUBLIC = "/public";
 
 	private static final String[] SWAGGER_RESOURCES = {
@@ -35,11 +32,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			"/swagger-ui/**"
 	};
 
-	private String[] BOOKING_API_RESOURCES = new String[]{};
-
 	private final AuthenticationTokenFilter authenticationTokenFilter;
-
-	private final ActuatorConfiguration actuatorConfiguration;
 
 	private final AuthorizationFilter authorizationFilter;
 
@@ -50,13 +43,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private final TwoFactorAuthenticationFilter twoFactorAuthenticationFilter;
 
 	public WebSecurityConfiguration(AuthenticationTokenFilter authenticationTokenFilter,
-									ActuatorConfiguration actuatorConfiguration,
 									AuthorizationFilter authorizationFilter,
 									PublicApiAuthenticationFilter publicApiAuthenticationFilter,
 									OAuth2AuthenticationFilter oAuth2AuthenticationFilter,
 									TwoFactorAuthenticationFilter twoFactorAuthenticationFilter) {
 		this.authenticationTokenFilter = authenticationTokenFilter;
-		this.actuatorConfiguration = actuatorConfiguration;
 		this.authorizationFilter = authorizationFilter;
 		this.publicApiAuthenticationFilter = publicApiAuthenticationFilter;
 		this.oAuth2AuthenticationFilter = oAuth2AuthenticationFilter;
@@ -75,30 +66,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 				.requestMatchers(req-> req.getRequestURI().contains(PUBLIC)).permitAll()
 				.antMatchers(  HttpMethod.POST,  "/**"+ PUBLIC + "/**").permitAll()
-				.antMatchers("/actuator/health").permitAll()
-				.antMatchers("/actuator/env/**").hasAnyAuthority(
-						ERol.ROOT.getValue(),
-						ERol.ADMINISTRADOR.getValue())
-				.antMatchers("/actuator/**").access(actuatorConfiguration.getAccessInfo())
 				.antMatchers( "/auth/**").permitAll()
-				.antMatchers(SWAGGER_RESOURCES).permitAll()
-				.antMatchers(BACKOFFICE + "/properties").hasAnyAuthority(
-						ERol.ROOT.getValue(),
-						ERol.ADMINISTRADOR.getValue())
-				.antMatchers(BACKOFFICE + "/**").hasAnyAuthority(
-					ERol.ROOT.getValue(),
-					ERol.ADMINISTRADOR.getValue())
+				.antMatchers(SWAGGER_RESOURCES).permitAll()				
 				.antMatchers(RECAPTCHA + "/**").permitAll()
 				.antMatchers("/oauth/**").permitAll()
 				.antMatchers(HttpMethod.POST, PASSWORD_RESET).permitAll()
-				.antMatchers(HttpMethod.GET, "/bed/reports/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/assets/**").permitAll()
-				.antMatchers("/fhir/**").permitAll()
-				.antMatchers(BOOKING_API_RESOURCES).permitAll()
-				//.antMatchers("/public-api/**").hasAnyAuthority(ERol.API_CONSUMER.getValue())
 				.antMatchers("/**").authenticated()
 		.anyRequest().authenticated();
 
+		httpSecurity.cors(cors -> cors.disable());
+		
 		// @formatter:on
 		httpSecurity.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 		httpSecurity.addFilterAfter(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);

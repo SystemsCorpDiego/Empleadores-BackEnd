@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.formapago;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FormaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.FormaPagoBO;
 
 public interface FormaPagoService {
 	public FormaPagoBO get(String codigo);

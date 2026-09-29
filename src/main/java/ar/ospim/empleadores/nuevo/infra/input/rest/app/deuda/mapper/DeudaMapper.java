@@ -12,10 +12,22 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaAj
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.IGestionDeudaDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ActaMolineros;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.DeudaNomina;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 
 @Mapper
 public interface DeudaMapper {
 
+	List<GestionDeudaActaDto> run3(List<ActaMolinerosI> lst);	
+	
+	@Mapping(target = "id", source = "id")
+	@Mapping(target = "nroActa", source = "numero")
+	@Mapping(target = "estadoDeuda", source = "estado")
+	@Mapping(target = "fechaActa", source = "fecha")
+	//@Mapping(target = "importe", source = "capital")
+	@Mapping(target = "importe", expression = "java( reg.getCapital().add(reg.getInteres())  )")
+	@Mapping(target = "intereses", source = "interes_Empleadores")	
+	GestionDeudaActaDto run(ActaMolinerosI reg);
+	
 	List<GestionDeudaActaDto> run(List<ActaMolineros> lst);	
 	
 	@Mapping(target = "id", source = "id")
@@ -29,14 +41,16 @@ public interface DeudaMapper {
 	
 	List<GestionDeudaDDJJDto> runNomina(List<DeudaNomina> lst);
 		
-	@Mapping(target = "id", source = "ddjjId")
+	
+	//@Mapping(target = "id", source = "ddjjId")
+	@Mapping(target = "id", source = "idString")
 	@Mapping(target = "periodo", source = "periodo")	
 	@Mapping(target = "aporteCodigo", source = "aporte.codigo")	
 	@Mapping(target = "importe", source = "importe")		
 	@Mapping(target = "intereses", source = "interes")		
-	GestionDeudaDDJJDto run(DeudaNomina reg);
+	GestionDeudaDDJJDto run(DeudaNomina reg); 
 	
-	@Mapping(target = "intereses", source = "interes")		
+	@Mapping(target = "intereses", source = "interes") 		
 	GestionDeudaDDJJDto run(IGestionDeudaDDJJDto reg);
 	
 	List<GestionDeudaDDJJDto> runNomina2(List<IGestionDeudaDDJJDto> lst);
@@ -44,4 +58,12 @@ public interface DeudaMapper {
 	
 	List<GestionDeudaAjustesDto> run2( List<IGestionDeudaAjustesDto> lst);
 	
+	
+	@Mapping(target = "id", source = "idString")
+	GestionDeudaDDJJDto runCastIdString(GestionDeudaDDJJDto reg);
+	List<GestionDeudaDDJJDto> runCastIdString(List<GestionDeudaDDJJDto> lst);
+	
+	default String convertIntegerToString(Integer value) {
+        return String.valueOf(value);
+    }
 }

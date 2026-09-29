@@ -9,11 +9,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afipinteres.AfipInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularInteresService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularVtoService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

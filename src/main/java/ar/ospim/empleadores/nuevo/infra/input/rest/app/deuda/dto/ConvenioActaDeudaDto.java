@@ -16,6 +16,7 @@ public class ConvenioActaDeudaDto {
 		private LocalDate fechaActa;
 		private BigDecimal importe;
 		private BigDecimal intereses;
+		private String periodos;
 		
 		public BigDecimal getImporteTotal() {
 			if ( importe != null && intereses != null)

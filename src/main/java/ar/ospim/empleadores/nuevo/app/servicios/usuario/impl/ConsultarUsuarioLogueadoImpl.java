@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.auth.jwt.app.login.LoginEnumException;
 import ar.ospim.empleadores.auth.usuario.app.RolAsignado;
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioEmpresaInfoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInfoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.ConsultarUsuarioLogueado;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioInfoMapper;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioEmpresaInfoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInfoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaUsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioSesionStorage;
@@ -54,6 +54,12 @@ public class ConsultarUsuarioLogueadoImpl implements ConsultarUsuarioLogueado {
 		RolAsignado rol = rolesAsignados.stream().filter(rolAsig -> rolAsig.getId().equals(ERol.EMPLEADOR.getId()) )
 		  .findAny()
 		  .orElse(null);
+		
+		if ( rol == null) {
+			rol = rolesAsignados.stream().filter(rolAsig -> rolAsig.getId().equals(ERol.EMPLEADOR_TEST.getId()) )
+					  .findAny()
+					  .orElse(null);
+		}
 		
 		Optional<UsuarioEmpresaInfoBO> usuarioEmpresa = Optional.empty();
 		if ( rol != null) {

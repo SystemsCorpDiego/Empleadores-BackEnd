@@ -34,6 +34,7 @@ spring:
       #password: bvgfwlhaygfnuxmw
       username: noresponder@uoma.org.ar      
       password: ecvtpakrnwtmdfys
+      testing-mailTo: bueno.diego.sc@gmail.com
 #      username: mailprueba038@gmail.com
 #      password: hlzcllevrqvrxqhp
       protocol: smtp
@@ -121,6 +122,17 @@ app:
          titulo: Portal de Empleadores - Gestión de Cuentas de Usuario
          cuerpo: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso. "
          cuerpo-dfa: "Solicitud de recupero de Clave.<br><br><b>Usuario: %s</b><br><br>Utilice el siguiente <a href='%s'>link</a> para poder ingresar su nueva clave de acceso.<br><br>Para loguearse debe registrar su <b>nuevo Token</b> de Doble Factor de Autenticación en su aplicación preferida:<br><br>Token:<b>%s</b><br>URL Token:<b>%s</b><br><br>Los Token generados anteriormente fueron dados de baja. Por favor descartelos.<br>Gracias"
+      convenio-presentar:
+         titulo: Portal de Empleadores - Alta de Convenio de Pago
+         cuerpo: La empresa <b>%s</b>, ha generado un Convenio <b>%s</b> por un importe total de pesos %s<br><br><br>Se adjunto PDF con el detalle del mismo.
+         cc: buenodiegomartin@gmail.com
+         #cc: rdecandido@ospim.org.ar
+   cron:
+      habilitado: false
+      #// Ejecuta cada 10 minutos entre las 00:00 y las 05:50 hs, todos los días.
+      #// 0 (segundos) 0/10 (cada 10 minutos) 0-5 (de 0 a 5hs) * (todos los dias) * (todos los meses) * (todos los dias de la semana)
+      frecuencia: 0 0/10 0-5 * * * 
+
 getwayPago:
    pagoMisCuentas:
       habilitado: true

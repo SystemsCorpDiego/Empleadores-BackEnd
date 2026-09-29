@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.FeriadoBO;
+import ar.ospim.empleadores.nuevo.dominio.FeriadoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.FeriadoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.FeriadoMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.FeriadoRepository;
@@ -68,7 +68,7 @@ public class FeriadoStorageImpl implements FeriadoStorage {
 	}
 	
 	public List<FeriadoBO> findAll() {
-		List<Feriado> consulta = repository.findAll();
+		List<Feriado> consulta = repository.findAllOrderByFechaDesc();
 		return mapper.map(consulta); 
 	}
 

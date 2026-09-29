@@ -1,41 +1,45 @@
 package ar.ospim.empleadores.nuevo.app.servicios.mail;
 
 import java.io.File;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.activation.DataSource;
 import javax.mail.Message;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpServletRequest;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 
 import ar.ospim.empleadores.auth.dfa.dominio.SetDFABo;
 import ar.ospim.empleadores.auth.usuario.app.TokenGestionUsuario;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.MailBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.MailBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.Convenio;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class MailServiceImpl implements MailService {
-	 
-	 @Autowired 
-	 private HttpServletRequest request;
-	 
+
 	 @Value("${server.servlet.context-path}")
 	 private String serverServletContextPath;
 		    	  
@@ -45,12 +49,16 @@ public class MailServiceImpl implements MailService {
 	 @Value("${spring.mail.username}")
 	 private String fromMail;
 	 
+	 @Value("${spring.mail.testing-mailTo:#{null}}")
+	 private String testingMailTo;
+
 	 @Autowired
-	private TokenGestionUsuario tokenActivacion;
+	 private TokenGestionUsuario tokenActivacion;
 	 
 	 @Autowired
 	 private UsuarioPersonaStorage storage;
 	 
+	
 	 
 	 @Value("${app.mail.cambio-clave.titulo}")
 	 private String CC_titulo;
@@ -77,6 +85,14 @@ public class MailServiceImpl implements MailService {
 	 @Value("${app.mail.recupero-clave.cuerpo-dfa}")
 	 private String RC_cuerpo_dfa;
 
+	 @Value("${app.mail.convenio-presentar.titulo}")
+	 private String CP_titulo;
+	 @Value("${app.mail.convenio-presentar.cuerpo}")
+	 private String CP_cuerpo;
+	 @Value("${app.mail.convenio-presentar.cc}")
+	 private String CP_cc;
+	 
+			 
 	 private String springProfile = "";
 	 
 	 public MailServiceImpl() {
@@ -100,7 +116,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runCambioDeClave(String usuario, String claveNueva, String usuarioMail,  String usuarioModificaMail) {
+	public void runCambioDeClave(String usuario, String claveNueva, String mailTo,  String usuarioModificaMail) {
 		log.error("MailService.runClaveNueva - INIT");
 		try {
 			MimeMessage mimeMessage = emailSender.createMimeMessage();
@@ -115,7 +131,7 @@ public class MailServiceImpl implements MailService {
 	        	mimeMessage.setSubject(CC_titulo);
 		    }
 			 
-			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(usuarioMail));
+			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
 			if ( usuarioModificaMail != null)
 				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(usuarioModificaMail));
 			
@@ -128,10 +144,10 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail) {
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail) {
 		try {
 			String token = tokenActivacion.crearParaUsuario(usuarioBO);
-			String sUrlLink = getUrlActivacionCuenta( token ); 
+			String sUrlLink = getUrlActivacionCuenta(urlDomain, token ); 
 			String mailCuerpo = String.format(AC_cuerpo, sUrlLink);	
 			
 			runMailInt(usuarioMail, AC_titulo, mailCuerpo);
@@ -142,10 +158,10 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailActivacionCuenta(UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto) {
+	public void runMailActivacionCuenta(String urlDomain, UsuarioBO usuarioBO, String usuarioMail, SetDFABo  dfaDto) {
 		try {
 			String token = tokenActivacion.crearParaUsuario(usuarioBO, dfaDto.getSharedSecret());
-			String sUrlLink = getUrlActivacionCuenta( token ); 
+			String sUrlLink = getUrlActivacionCuenta( urlDomain, token ); 
 			String mailCuerpo = String.format(AC_cuerpo_dfa, usuarioBO.getDescripcion(), sUrlLink, dfaDto.getSharedSecret(), dfaDto.generateAuthenticatorBarCode());	
 			
 			runMailIntWithAttach(usuarioMail, AC_titulo, mailCuerpo);			 
@@ -155,7 +171,6 @@ public class MailServiceImpl implements MailService {
 		}				
 	}
 
-	
 	public void runMailCuentaEmpresaNuevaInfo(EmpresaBO empresa) {
 		//Informa a Usuarios Internos con Notificaciones=true, los datos de la nueva empresa
 		
@@ -195,9 +210,9 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void runMailRecuperoClave(String mail, String usuario, String token, SetDFABo dfaDto) {
+	public void runMailRecuperoClave(String urlDomain, String mail, String usuario, String token, SetDFABo dfaDto) {
 		try {	
-			String sUrlLink = getUrlRecuperoClave(token);
+			String sUrlLink = getUrlRecuperoClave(urlDomain, token);
 			String mailCuerpo = String.format(RC_cuerpo_dfa, usuario, sUrlLink, dfaDto.getSharedSecret(), dfaDto.generateAuthenticatorBarCode());
 			runMailIntWithAttach(mail, RC_titulo, mailCuerpo);
 		} catch( Exception e) {
@@ -205,15 +220,84 @@ public class MailServiceImpl implements MailService {
 		}
 	}
 
-	public void runMailRecuperoClave(String mail,  String usuario,String token) {
+	public void runMailRecuperoClave(String urlDomain, String mail,  String usuario,String token) {
 		try {			
-			String sUrlLink = getUrlRecuperoClave(token);
+			String sUrlLink = getUrlRecuperoClave(urlDomain, token);
 			String mailCuerpo = String.format(RC_cuerpo, usuario, sUrlLink);	
 			runMailInt(mail, RC_titulo, mailCuerpo);			 
 		} catch( Exception e) {
 			log.error("MailService.runMailRecuperoClave - ERROR - -> {}", e);
 		}
 	}	
+	
+	
+	public 	void runMailConvenioPresentado(String mailEmpresa, Convenio convenio, byte[] file) {
+		log.error("MailService.runMailConvenioPresentado - INIT");
+		try {
+			String empresa = convenio.getEmpresa().getRazonSocial();
+			String entidad = convenio.getEntidad();
+			
+			BigDecimal importeTotalConvenio = convenio.getImporteDeuda();
+			if ( convenio.getImporteSaldoFavor() != null ) 
+				importeTotalConvenio = importeTotalConvenio.subtract(convenio.getImporteSaldoFavor());
+			if ( convenio.getImporteIntereses() != null ) 
+				importeTotalConvenio = importeTotalConvenio.add(convenio.getImporteIntereses());
+			
+			String importeTotal = currencyFormat(importeTotalConvenio) ;
+			String cuerpo = String.format(CP_cuerpo, empresa, entidad, "$ "+importeTotal);
+			
+			MimeMessage mimeMessage = emailSender.createMimeMessage();	
+			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			 
+			if ( springProfile.equals("dev") ) {
+				helper.setSubject("(Desarrollo) - " + CP_titulo);
+	        } else {
+	        	helper.setSubject(CP_titulo);
+		    }			
+			helper.setTo(mailEmpresa);
+			helper.setCc(CP_cc);
+			helper.setText(cuerpo, true);
+			
+
+			DataSource dataSource = new ByteArrayDataSource(file, "application/pdf");
+			helper.addAttachment("convenio.pdf", dataSource);
+			   
+	        
+	        emailSender.send(mimeMessage);
+	        
+	        log.error("MailService.runClaveNueva - PASO emailSender.send(mimeMessage); !!!! ");			
+		} catch( Exception e) {
+			//log.error("MailService.runMailConvenioPresentado - ERROR - usuario - -> {}", usuario);
+			log.error("MailService.runMailConvenioPresentado - ERROR - -> {}", e);
+		}
+		log.error("MailService.runMailConvenioPresentado - FIN");
+		 
+	}
+	
+	
+	@Override
+	public void runMailDeudaNotif(String mailEmpresa, String asunto, String cuerpo) {
+		log.error("MailService.runMailDeudaNotif - mailEmpresa: {} ", mailEmpresa);
+		try {
+			if ( testingMailTo != null)
+				mailEmpresa = testingMailTo;
+			
+			runMailInt(mailEmpresa,  asunto,  cuerpo);
+		} catch( Exception e) {
+			log.error("MailService.runMailDeudaNotif - ERROR - -> {}", e);
+			throw e;
+			//Lanzo error para guardarlo en LOG
+		}
+		log.error("MailService.runMailDeudaNotif - FIN");
+	}
+	
+	@Override
+	public void runMailDdjjPendienteNotif(String mailEmpresa, String asunto, String cuerpo) {
+		
+		//TODO: por ahora son IGUALES....
+		runMailDeudaNotif(mailEmpresa, asunto, cuerpo);
+	}
+	
 	
 	private void runMailInt(String mailTo,  String mailAsunto,  String mailCuerpo) {
 		try {			
@@ -275,12 +359,16 @@ public class MailServiceImpl implements MailService {
 		}	
 	}
 	
-	private String getUrlRecuperoClave(String token) {
-		return  "https://" + getDomain() + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
+	private String getUrlRecuperoClave(String urlDomain, String token) {
+    	if( !StringUtils.hasText(urlDomain) )
+    		urlDomain = "https://uomaempleadores.org.ar";
+		return urlDomain + serverServletContextPath + "/#/usuario/recuperar-clave/" + token;
 	}
 	
-    private  String getUrlActivacionCuenta(String token) {
-		return "https://" + getDomain() + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
+    private  String getUrlActivacionCuenta(String urlDomain, String token) {
+    	if( !StringUtils.hasText(urlDomain) )
+    		urlDomain = "https://uomaempleadores.org.ar";
+		return urlDomain + serverServletContextPath + "/#/usuario/empresa/activar/" + token;
 	}
 
 	private List<String> getMailsNotifAltaEmpre() {
@@ -315,24 +403,18 @@ public class MailServiceImpl implements MailService {
 		}
 		return "";
 	}
-	
-	private String getDomain() {
-		//request.getRequestURL();
-		//request.getRequestURI();
 		
-		return "uomaempleadores.org.ar";
-		/*
-		try {
-			return request.getRequestURL().toString().split("/")[2];
-		} catch ( Exception e ) {
-			if ( request == null ) {
-				log.error("MailService.getDomain() - ERROR - request NULLL ");
-			} else {
-				log.error("MailService.getDomain() - ERROR - request.getRequestURL():  ", request.getRequestURL());
-			}
-			return "";
-		}
-		*/
+
+	private String currencyFormat(BigDecimal importe) {
+		String dfStr = "#,##0.00";
+		DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+		DecimalFormat df = null; 
+  		decimalFormatSymbols.setDecimalSeparator(',');
+		decimalFormatSymbols.setGroupingSeparator('.');
+		df =  new DecimalFormat(dfStr, decimalFormatSymbols);
+
+	    return df.format(importe);
 	}
+
 
 }

@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
-import ar.ospim.empleadores.nuevo.app.dominio.ContactoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.empresa.CrearUsuarioEmpresa;
+import ar.ospim.empleadores.nuevo.dominio.ContactoBO;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.usuarioempresaalta.UsuarioEmpresaAltaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.auth.usuario.dto.usuarioempresaalta.UsuarioEmpresaAltaDtoMapper;
 
@@ -42,14 +43,15 @@ public class UsuarioEmpresaController {
     
     @PostMapping(value={"/", "/public/"} )
     @Transactional
-    public ResponseEntity<IdGeneradoDto> crearUsuarioEmpresa (
+    public ResponseEntity<IdGeneradoDto> crearUsuarioEmpresa (HttpServletRequest request,
             @RequestBody @Valid UsuarioEmpresaAltaDto usuarioEmpresaAltaDto) throws URISyntaxException {
         LOG.debug("Crear empresa con usuario-> {}", usuarioEmpresaAltaDto);
  
+        String urlDomain = request.getScheme() + "://" + request.getHeader("host");
         EmpresaBO empresaNueva = mapper.map(usuarioEmpresaAltaDto);
         mapperAux(empresaNueva, usuarioEmpresaAltaDto);
         
-        EmpresaBO empresaCreada = crearUsuarioEmpresa.run(empresaNueva, usuarioEmpresaAltaDto.getClave() );
+        EmpresaBO empresaCreada = crearUsuarioEmpresa.run(urlDomain, empresaNueva, usuarioEmpresaAltaDto.getClave() );
         
         
         LOG.debug("Empresa creada -> {}", empresaCreada);

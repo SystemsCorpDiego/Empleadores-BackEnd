@@ -15,10 +15,10 @@ import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.OAuthUsuarioMa
 import ar.ospim.empleadores.auth.usuario.dominio.usuarioclave.ValidatorClave;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.CrearUsuario;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.RegistrarUsuarioEnumException;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.extern.slf4j.Slf4j; 
 

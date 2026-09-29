@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class PlanPagoDto {
+	private String medioPago;
 	private LocalDate intencionPago;
 	private Integer cantidadCuota;
 }

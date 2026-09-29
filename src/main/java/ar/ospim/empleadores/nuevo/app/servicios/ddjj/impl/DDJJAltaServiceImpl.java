@@ -4,13 +4,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJAltaService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJAportesCalcularService;
 import ar.ospim.empleadores.nuevo.app.servicios.ddjj.DDJJValidarService;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.DDJJStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.enums.DDJJEstadoEnum;
 import lombok.AllArgsConstructor;

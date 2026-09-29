@@ -75,25 +75,32 @@ public final class CuilUtils {
 	 **/
 
 	public static boolean validar(String cuit) {
-		String xyStr, dniStr, digitoStr;
-		int digitoTmp;
-		int n = cuit.lastIndexOf("-");
-		if (cuit.length() < 11){
-			return false;
-		}
-		
+		String cuitVal = "";
+
 		if (cuit.equals("11111111111") )
 			return true;
-		
-		if (n != -1) {
-			xyStr = cuit.substring(0, 2);
-			dniStr = cuit.substring(cuit.indexOf("-") + 1, n);
-			digitoStr = cuit.substring(n + 1, n + 2);
-		} else {
-			xyStr = cuit.substring(0, 2);
-			dniStr = cuit.substring(2, cuit.length() - 1);
-			digitoStr = cuit.substring(cuit.length() - 1);
+
+		if (cuit.length() != 11 && cuit.length() != 13 ) {
+			return false;
 		}
+
+		if ( cuit.length() == 13 ) {
+			if ( !cuit.substring(2, 3).equals("-") )
+				return false;
+			if ( !cuit.substring(11, 12).equals("-") )
+				return false;			
+		}
+		cuitVal = cuit.replaceAll("-","");
+		
+		String xyStr, dniStr, digitoStr;
+		int digitoTmp;
+		 
+		
+		
+		xyStr = cuitVal.substring(0, 2);
+		dniStr = cuitVal.substring(2, cuitVal.length() - 1);
+		digitoStr = cuitVal.substring(cuitVal.length() - 1);
+
 		if (xyStr.length() != 2 || dniStr.length() > 8
 				|| digitoStr.length() != 1)
 			return false;

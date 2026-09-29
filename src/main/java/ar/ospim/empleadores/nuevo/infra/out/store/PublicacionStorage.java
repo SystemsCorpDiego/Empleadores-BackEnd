@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.PublicacionBO;
+import ar.ospim.empleadores.nuevo.dominio.PublicacionBO;
 
 public interface PublicacionStorage {
 

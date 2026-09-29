@@ -104,6 +104,20 @@ public class DateTimeProvider {
     	return CUSTOM_FORMATTER.format(date);
     }    
     
+    public LocalDate getDateBEP(String sFecha) {
+    	DateTimeFormatter CUSTOM_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+    	//return CUSTOM_FORMATTER.format(sFecha);
+    	
+    	LocalDate dateTime = null;
+    	if ( StringHelper.isNullOrWhiteSpace(sFecha)  ) 
+    		return dateTime;
+    	try {    	 
+	    	dateTime = LocalDate.parse(sFecha, CUSTOM_FORMATTER);
+    	} catch ( Exception e ) {    	}
+    	
+    	return dateTime; 
+    }    
+    
     public String getDesdeToStringSql(LocalDate date) {
     	if ( date == null)
     		return "1900-01-01";

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.exception.NotFoundException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.ActualizarEmpresa;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.ConsultarEmpresa;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.CrearEmpresa;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
 
 @Service
 public class EmpresaServiceImpl implements EmpresaService {

@@ -3,13 +3,14 @@ package ar.ospim.empleadores.nuevo.app.servicios.usuario.impl;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaContactoService;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.EmpresaService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.interno.ConsultarUsuarioInterno;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,6 +20,13 @@ public class UsuarioMailGetImpl implements UsuarioMailGet {
 	private final EmpresaContactoService empresaContactoService;
 	private final EmpresaService empresaService;
 	private final ConsultarUsuarioInterno consultarUsuarioInterno; 
+	private final UsuarioStorage usuarioStorage;
+	
+	@Override
+	public String run(Integer usuarioId) {
+		UsuarioBO usuario = usuarioStorage.getUsuario(usuarioId);
+		return run( usuario);
+	}
 	
 	@Override
 	public String run(UsuarioBO usuario) {		

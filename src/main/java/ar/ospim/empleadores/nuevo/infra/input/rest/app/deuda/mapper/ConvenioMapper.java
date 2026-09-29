@@ -1,11 +1,9 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioActaDto;
@@ -18,8 +16,6 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaCh
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaConsultaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioCuotaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDeudaNominaDto;
-import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDDJJDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDeudaDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.ConvenioModiDto;
@@ -32,14 +28,12 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioActa
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuota;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioCuotaCheque;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjj;
-import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioDdjjDeudaNomina;
 
 @Mapper
 public interface ConvenioMapper {
-  	
-	
+  		
 	@Mapping(target = "intencionPago", source = "fechaPago")
+	@Mapping(target = "medioPago", source = "medioDePago")	
 	PlanPagoDto run2 (ConvenioModiDto dto);
 	
 	@Mapping(target = "cantidadCuota", source = "cantidadCuota")
@@ -68,21 +62,7 @@ public interface ConvenioMapper {
 	public ConvenioActaDto run(ConvenioActa dto);
 	
 	
-	public List<ConvenioDDJJDto> run2(List<ConvenioDdjj> lst);
-	
-	@Mapping(target = "id", source = "id")
-	@Mapping(target = "ddjjId", source = "ddjj.id")
-	@Mapping(target = "periodo", source = "ddjj.periodo")
-	@Mapping(target = "secuencia", source = "ddjj.secuencia")
-	@Mapping(target = "deudaNominas", source = "ddjjDeudaNomina")	 
-	public ConvenioDDJJDto run(ConvenioDdjj dto);
-	
 
-	public List<ConvenioDDJJDeudaNominaDto> run5(List<ConvenioDdjjDeudaNomina> lst);
-	
-	@Mapping(target = "importe", source = "aporteImporte")	 
-	public ConvenioDDJJDeudaNominaDto run(ConvenioDdjjDeudaNomina dto);
-	
 	
 	public List<ConvenioAjusteDto> run3(List<ConvenioAjuste> lst);
 	
@@ -105,6 +85,8 @@ public interface ConvenioMapper {
 	@Mapping(target = "saldoFavor", source = "importeSaldoFavor")
 	@Mapping(target = "numero", source = "convenioNumeroMolineros")	 
 	@Mapping(target = "cuotas", source = "cuotasCanti")
+	@Mapping(target = "usuario", source = "creationable.createdBy")
+	
 	public ConvenioConsultaDto run2 (Convenio dto);
 	
 	
@@ -176,4 +158,8 @@ public interface ConvenioMapper {
 	List<ConvenioDDJJDeudaDto> run10(List<IGestionDeudaDDJJDto> dto);
 	ConvenioDDJJDeudaDto run10(IGestionDeudaDDJJDto dto);
 	
+	@Mapping(target = "id", source = "idString")
+	ConvenioDDJJDeudaDto runCastIdString(ConvenioDDJJDeudaDto reg);
+	List<ConvenioDDJJDeudaDto> runCastIdString(List<ConvenioDDJJDeudaDto> lst);
+
 }

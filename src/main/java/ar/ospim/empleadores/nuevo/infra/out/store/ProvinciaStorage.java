@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.ProvinciaBO;
+import ar.ospim.empleadores.nuevo.dominio.ProvinciaBO;
 
 public interface ProvinciaStorage {
 

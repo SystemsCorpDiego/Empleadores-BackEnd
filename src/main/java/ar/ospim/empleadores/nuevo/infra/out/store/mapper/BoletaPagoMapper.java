@@ -7,11 +7,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoAjusteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BoletaPagoBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJBO;
-import ar.ospim.empleadores.nuevo.app.dominio.DDJJEmpleadoAporteBO;
+import ar.ospim.empleadores.nuevo.dominio.AjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoAjusteBO;
+import ar.ospim.empleadores.nuevo.dominio.BoletaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJBO;
+import ar.ospim.empleadores.nuevo.dominio.DDJJEmpleadoAporteBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.BoletaPago;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.BoletaPagoAjuste;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.BoletaPagoDDJJConsulta;

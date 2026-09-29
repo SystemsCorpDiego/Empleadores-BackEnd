@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import lombok.AllArgsConstructor;
 
@@ -75,12 +75,15 @@ public class AfipInteresServiceImpl implements AfipInteresService {
 	}
 	
 	private void validarVigenciaSolapada(LocalDate vigencia, Integer id) {
-		Optional<AfipInteresBO> cons = storage.findContenido(vigencia);
+		Optional<AfipInteresBO> cons;
+		if ( id != null ) {
+			cons = storage.findContenido(vigencia, id);
+		} else {
+			cons = storage.findContenido(vigencia);
+		}
 		if ( cons.isPresent() ) {
-			if ( id == null || !cons.get().getId().equals(id) ) {
-				String errorMsg = messageSource.getMessage(CommonEnumException.FECHA_RANGO_EXISTENTE.getMsgKey(), null, new Locale("es"));
-				throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
-			}
+			String errorMsg = messageSource.getMessage(CommonEnumException.FECHA_RANGO_EXISTENTE.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.FECHA_RANGO_EXISTENTE.name(), errorMsg);
 		}
 	}
 

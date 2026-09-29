@@ -15,7 +15,8 @@ public class GestionDeudaActaDto {
     private String nroActa;
     private LocalDate fechaActa;
     private BigDecimal importe;
-    private BigDecimal intereses; 
+    private BigDecimal intereses;
+    private String periodos;
     
     public BigDecimal getImporteTotal() {
     	if ( intereses != null && importe != null ) 

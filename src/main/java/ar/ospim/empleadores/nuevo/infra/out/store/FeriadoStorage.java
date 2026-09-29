@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FeriadoBO;
+import ar.ospim.empleadores.nuevo.dominio.FeriadoBO;
 
 public interface FeriadoStorage {
 

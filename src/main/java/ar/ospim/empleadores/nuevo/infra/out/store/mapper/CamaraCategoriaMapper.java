@@ -6,7 +6,7 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraCategoriaBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraCategoriaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.VCamaraCategoria;
 
 @Mapper 

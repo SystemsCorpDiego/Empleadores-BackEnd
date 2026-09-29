@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.aporte;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
 
 public interface AporteService {
 	

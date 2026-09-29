@@ -1,11 +1,8 @@
 package ar.ospim.empleadores.auth.usuario.infra.output.clave;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.auth.usuario.app.impl.DeshabilitarUsuarioImpl;
 import ar.ospim.empleadores.auth.usuario.dominio.clave.ClaveEncriptador;
 import lombok.extern.slf4j.Slf4j;
 

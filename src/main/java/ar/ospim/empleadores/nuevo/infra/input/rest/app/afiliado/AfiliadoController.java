@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.ospim.empleadores.comun.infra.output.dto.IdGeneradoDto;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoService;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.afiliado.dto.AfiliadoDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfiliadoActu;
 import lombok.RequiredArgsConstructor;

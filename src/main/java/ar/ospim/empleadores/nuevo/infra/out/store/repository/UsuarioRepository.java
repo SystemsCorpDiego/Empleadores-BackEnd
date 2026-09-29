@@ -27,11 +27,13 @@ public interface UsuarioRepository  extends JpaRepository<Usuario, Integer> {
 	@Query("SELECT u.id FROM Usuario u WHERE u.descripcion = :descripcion")
 	Optional<Integer> getUsuarioId(@Param("descripcion") String usuario);
 
+	/*
 	@Transactional
 	@Modifying
 	@Query("UPDATE Usuario AS u SET u.habilitado = :status WHERE u.id = :id")
 	void changeEstadoCuenta(@Param("id") Integer id, @Param("status") Boolean status);
-
+	 */
+	
 	@Transactional
 	@Modifying
 	@Query("UPDATE Usuario AS u SET u.dfaSecreto = :secret WHERE u.id = :id")

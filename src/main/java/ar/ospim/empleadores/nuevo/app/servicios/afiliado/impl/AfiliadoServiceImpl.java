@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoService;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfiliadoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfiliadoActu;
 import lombok.AllArgsConstructor;

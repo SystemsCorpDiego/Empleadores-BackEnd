@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.infra.input.servicio.UsuarioExternalService;
-import ar.ospim.empleadores.nuevo.app.dominio.EmpresaBO;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioEmpresaInfoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.empresa.ConsultarEmpresa;
+import ar.ospim.empleadores.nuevo.dominio.EmpresaBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioEmpresaInfoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.EmpresaUsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.EmpresaUsuarioRepository;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioEmpresaRepository;

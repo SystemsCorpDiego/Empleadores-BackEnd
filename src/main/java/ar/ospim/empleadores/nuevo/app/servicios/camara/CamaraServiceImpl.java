@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraBO;
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraCategoriaBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraCategoriaBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.CamaraCategoriaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.CamaraStorage;
 import lombok.AllArgsConstructor;

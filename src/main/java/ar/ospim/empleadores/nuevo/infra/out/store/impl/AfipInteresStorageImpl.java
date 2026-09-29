@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfipInteresStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AfipInteresMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AfipInteresRepository;
@@ -53,6 +53,14 @@ public class AfipInteresStorageImpl implements AfipInteresStorage {
 	
 	public Optional<AfipInteresBO> findContenido(LocalDate desde) {
 		Optional<AfipInteres> consulta = repository.findContenido(desde);
+		if ( consulta.isEmpty() ) {
+			return Optional.ofNullable(null);
+		}
+		AfipInteresBO reg = mapper.map(consulta.get());		
+		return Optional.of(reg);
+	}
+	public Optional<AfipInteresBO> findContenido(LocalDate desde, Integer id) {
+		Optional<AfipInteres> consulta = repository.findContenido(desde, id);
 		if ( consulta.isEmpty() ) {
 			return Optional.ofNullable(null);
 		}

@@ -3,8 +3,8 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 import java.time.LocalDate;
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AporteBO;
-import ar.ospim.empleadores.nuevo.app.dominio.BancoMovimientoBO;
+import ar.ospim.empleadores.nuevo.dominio.AporteBO;
+import ar.ospim.empleadores.nuevo.dominio.BancoMovimientoBO;
 
 public interface AporteStorage {
 

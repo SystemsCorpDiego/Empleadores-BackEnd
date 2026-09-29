@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.LocalidadBO;
+import ar.ospim.empleadores.nuevo.dominio.LocalidadBO;
 
 public interface LocalidadStorage {
 	public List<LocalidadBO> findAll();   

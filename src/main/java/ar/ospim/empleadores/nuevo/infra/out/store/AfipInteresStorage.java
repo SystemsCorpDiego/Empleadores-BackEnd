@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import ar.ospim.empleadores.nuevo.app.dominio.AfipInteresBO;
+import ar.ospim.empleadores.nuevo.dominio.AfipInteresBO;
 
 public interface AfipInteresStorage {
 	public List<AfipInteresBO> findAll();
@@ -15,6 +15,7 @@ public interface AfipInteresStorage {
 	public AfipInteresBO findById(Integer id);	
 	public Optional<AfipInteresBO> findByDesde(LocalDate desde);
 	public Optional<AfipInteresBO> findContenido(LocalDate desde);
+	public Optional<AfipInteresBO> findContenido(LocalDate desde, Integer id);
 	
 	public  BigDecimal calcularInteres(BigDecimal capital, LocalDate desde, LocalDate hasta);
 	

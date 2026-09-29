@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.UsuarioStorageEnumException;
 import ar.ospim.empleadores.comun.exception.BusinessException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMapper;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.RolStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioClaveRepository;

@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EntidadBO;
 import ar.ospim.empleadores.nuevo.app.servicios.entidad.EntidadService;
+import ar.ospim.empleadores.nuevo.dominio.EntidadBO;
 import lombok.RequiredArgsConstructor;
 
 @RestController

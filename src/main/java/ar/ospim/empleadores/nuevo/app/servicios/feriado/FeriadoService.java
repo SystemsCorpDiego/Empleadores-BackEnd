@@ -3,7 +3,7 @@ package ar.ospim.empleadores.nuevo.app.servicios.feriado;
 import java.time.LocalDate;
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FeriadoBO;
+import ar.ospim.empleadores.nuevo.dominio.FeriadoBO;
 
 public interface FeriadoService {
 

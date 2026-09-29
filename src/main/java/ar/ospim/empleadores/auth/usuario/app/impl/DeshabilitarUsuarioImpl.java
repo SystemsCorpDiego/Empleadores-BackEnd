@@ -3,7 +3,7 @@ package ar.ospim.empleadores.auth.usuario.app.impl;
 import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.app.DeshabilitarUsuario;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.extern.slf4j.Slf4j;
 

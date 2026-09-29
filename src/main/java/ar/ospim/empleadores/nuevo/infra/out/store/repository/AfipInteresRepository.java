@@ -26,9 +26,18 @@ public interface AfipInteresRepository   extends JpaRepository<AfipInteres, Inte
 			nativeQuery = true
 			)
 	Optional<AfipInteres> findContenido(LocalDate desde);
+
+	@Query(value ="select * FROM afip_interes i "
+			+ " where ?1 BETWEEN i.desde and COALESCE(i.hasta, ?1) "
+			+ " and     id <> ?2 "
+			+ " order by i.id "
+			+ " LIMIT 1 ",
+			nativeQuery = true
+			)
+	Optional<AfipInteres> findContenido(LocalDate desde, Integer id);
 	
 	
-	@Query( value ="select getintereses as interes from public.getintereses( ?1, ?2, cast(?3 as timestamp) , cast(?4 as timestamp) )" ,
+	@Query( value ="select getintereses as interes from public.getintereses_afip( ?1, ?2, cast(?3 as timestamp) , cast(?4 as timestamp) )" ,
 			nativeQuery = true)
 	BigDecimal calcularInteres(BigDecimal capital, BigDecimal interes, LocalDate desde, LocalDate hasta);
 	

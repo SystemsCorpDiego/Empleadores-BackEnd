@@ -2,8 +2,8 @@ package ar.ospim.empleadores.nuevo.app.servicios.camara;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraBO;
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraCategoriaBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraCategoriaBO;
 
 public interface CamaraService {
 

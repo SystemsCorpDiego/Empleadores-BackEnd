@@ -2,7 +2,7 @@ package ar.ospim.empleadores.nuevo.infra.out.store;
 
 import java.util.List;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraCategoriaBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraCategoriaBO;
 
 public interface CamaraCategoriaStorage {
 	public List<CamaraCategoriaBO> findAll();   

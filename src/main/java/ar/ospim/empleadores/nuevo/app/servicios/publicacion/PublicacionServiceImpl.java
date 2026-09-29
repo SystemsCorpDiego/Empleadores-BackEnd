@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.PublicacionBO;
+import ar.ospim.empleadores.nuevo.dominio.PublicacionBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.PublicacionStorage;
 import lombok.AllArgsConstructor;
 

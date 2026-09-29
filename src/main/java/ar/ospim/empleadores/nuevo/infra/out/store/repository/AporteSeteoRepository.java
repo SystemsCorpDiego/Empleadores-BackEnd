@@ -2,11 +2,13 @@ package ar.ospim.empleadores.nuevo.infra.out.store.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteSeteo;
+import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.ConvenioSeteo;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.AporteSeteoVigenteConsultaI;
 
 public interface AporteSeteoRepository extends JpaRepository<AporteSeteo, Integer> {
@@ -32,4 +34,27 @@ public interface AporteSeteoRepository extends JpaRepository<AporteSeteo, Intege
 	nativeQuery = true)
 	List<AporteSeteoVigenteConsultaI> getVigentes(LocalDate periodo);
 	
+	
+	
+	@Query(value ="select * FROM aporte_seteo i "
+			+ " where i.entidad = ?1 "
+			+ " and     i.aporte = ?2 "
+			+ " and     ?3 BETWEEN i.desde and COALESCE(i.hasta, ?3) "
+			+ " order by i.id "
+			+ " LIMIT 1 ",
+			nativeQuery = true
+			)
+	Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde);
+
+	@Query(value ="select * FROM aporte_seteo i "
+			+ " where i.entidad = ?1 "
+			+ " and     i.aporte = ?2 "
+			+ " and     ?3 BETWEEN i.desde and COALESCE(i.hasta, ?3) "
+			+ " and     i.id  <> ?4 "
+			+ " order by i.id "
+			+ " LIMIT 1 ",
+			nativeQuery = true
+			)
+	Optional<AporteSeteo> findContenido(String entidad, String aporte, LocalDate desde, Integer id);
+
 }

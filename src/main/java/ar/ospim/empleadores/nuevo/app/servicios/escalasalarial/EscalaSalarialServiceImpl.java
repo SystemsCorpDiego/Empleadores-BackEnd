@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.EscalaSalarialBO;
+import ar.ospim.empleadores.nuevo.dominio.EscalaSalarialBO;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.escalasalarial.dto.AntiguedadDto;
 import ar.ospim.empleadores.nuevo.infra.out.store.EscalaSalarialStorage;
 import lombok.AllArgsConstructor;

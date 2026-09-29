@@ -21,5 +21,6 @@ public class ConvenioConsultaDto {
 	private Integer cuotas;
 	private String medioPago;
 	private String estado;
+	private String usuario;
 	
 }

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import ar.ospim.empleadores.auth.usuario.app.RolService;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioInternoBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioInternoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioPersonaStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioRolRepository;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.strings.StringHelper;
 import ar.ospim.empleadores.exception.CommonEnumException;
-import ar.ospim.empleadores.nuevo.app.dominio.RolBO;
+import ar.ospim.empleadores.nuevo.dominio.RolBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.RolStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.UsuarioRolRepository;
 import lombok.RequiredArgsConstructor;

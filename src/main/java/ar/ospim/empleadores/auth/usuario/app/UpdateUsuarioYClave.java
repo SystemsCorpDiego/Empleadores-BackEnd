@@ -10,7 +10,7 @@ import ar.ospim.empleadores.auth.usuario.dominio.ClaveResetTokenBo;
 import ar.ospim.empleadores.auth.usuario.dominio.usuario.modelo.OAuthUsuarioBo;
 import ar.ospim.empleadores.auth.usuario.dominio.usuario.servicio.OAuthUsuarioManagementStorage;
 import ar.ospim.empleadores.auth.usuario.dominio.usuarioclave.ValidatorClave;
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.ClaveResetTokenStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.UsuarioStorage;
 import lombok.RequiredArgsConstructor;

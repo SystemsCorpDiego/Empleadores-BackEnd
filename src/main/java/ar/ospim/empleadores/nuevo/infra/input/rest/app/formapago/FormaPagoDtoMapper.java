@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import ar.ospim.empleadores.nuevo.app.dominio.FormaPagoBO;
+import ar.ospim.empleadores.nuevo.dominio.FormaPagoBO;
 
 @Mapper
 public interface FormaPagoDtoMapper {

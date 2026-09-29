@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.ospim.empleadores.nuevo.app.dominio.CamaraBO;
+import ar.ospim.empleadores.nuevo.dominio.CamaraBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.CamaraStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.CamaraMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.CamaraRepository;

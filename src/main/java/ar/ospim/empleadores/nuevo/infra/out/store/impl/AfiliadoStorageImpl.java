@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
-import ar.ospim.empleadores.nuevo.app.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.app.servicios.afiliado.AfiliadoEnumException;
+import ar.ospim.empleadores.nuevo.dominio.AfiliadoBO;
 import ar.ospim.empleadores.nuevo.infra.out.store.AfiliadoStorage;
 import ar.ospim.empleadores.nuevo.infra.out.store.mapper.AfiliadoMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.AfiliadoActuRepository;

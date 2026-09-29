@@ -1,6 +1,6 @@
 package ar.ospim.empleadores.auth.usuario.app;
 
-import ar.ospim.empleadores.nuevo.app.dominio.UsuarioBO;
+import ar.ospim.empleadores.nuevo.dominio.UsuarioBO;
 
 public interface TokenGestionUsuario {
 
