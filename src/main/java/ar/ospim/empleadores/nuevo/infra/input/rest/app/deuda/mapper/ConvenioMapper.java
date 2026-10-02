@@ -147,8 +147,10 @@ public interface ConvenioMapper {
 	@Mapping(target = "nroActa", source = "numero") 	
 	@Mapping(target = "estadoDeuda", source = "estado") 	
 	@Mapping(target = "fechaActa", source = "fecha") 	
-	@Mapping(target = "importe", source = "capital")
-	@Mapping(target = "intereses", source = "interes")
+	//@Mapping(target = "importe", source = "capital")
+	//@Mapping(target = "intereses", source = "interes")
+	@Mapping(target = "importe", expression = "java( dto.getCapital().add(dto.getInteres())  )")
+	@Mapping(target = "intereses", source = "interesEmpleadores")	
 	ConvenioActaDeudaDto run8 ( ActaMolineros dto);
 		
 	
