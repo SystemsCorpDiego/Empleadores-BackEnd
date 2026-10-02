@@ -11,11 +11,8 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinero
 
 public interface ActaMolinerosRepository extends JpaRepository<ActaMolineros, Integer> {
 
-<<<<<<< HEAD
 	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, otros, pago FROM public.fGestion_deuda_actas_consulta(:cuit)", nativeQuery = true)	
     List<ActaMolineros> getByCuit(String cuit);
-=======
->>>>>>> refs/remotes/origin/master
 
 	@Query(value = "SELECT id, numero, entidad, cuit, estado, fecha, capital, interes, convenio_id, otros, pago FROM public.fGestion_deuda_actas_consulta(:cuit, :entidad)", nativeQuery = true)	
     List<ActaMolineros> getByCuitAndEntidad(String cuit, String entidad);
