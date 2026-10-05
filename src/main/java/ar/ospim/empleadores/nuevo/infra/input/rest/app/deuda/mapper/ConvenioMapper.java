@@ -54,7 +54,7 @@ public interface ConvenioMapper {
 	public List<ConvenioActaDto> run(List<ConvenioActa> lst);	
 	
 	@Mapping(target = "capital", source = "acta.capital")
-	@Mapping(target = "interes", source = "acta.interes")
+	@Mapping(target = "interes", expression = "java( dto.getActa().getInteres().add(dto.getActa().getInteresEmpleadores()) )" )
 	@Mapping(target = "actaId", source = "acta.id")
 	@Mapping(target = "numero", source = "acta.numero")
 	@Mapping(target = "estado", source = "acta.estado")
@@ -139,7 +139,8 @@ public interface ConvenioMapper {
 	@Mapping(target = "estadoDeuda", source = "acta.estado")
 	@Mapping(target = "fechaActa", source = "acta.fecha")
 	@Mapping(target = "importe", source = "acta.capital")
-	@Mapping(target = "intereses", source = "acta.interes")	
+	//@Mapping(target = "intereses", source = "acta.interes")	
+	@Mapping(target = "intereses", expression = "java( convenioActa.getActa().getInteres().add(convenioActa.getActa().getInteresEmpleadores()) )" )
 	ConvenioActaDeudaDto convenioActaToConvenioActaDeudaDto(ConvenioActa convenioActa);
 	
 	List<ConvenioActaDeudaDto> run8 ( List<ActaMolineros> dto);
@@ -149,8 +150,8 @@ public interface ConvenioMapper {
 	@Mapping(target = "fechaActa", source = "fecha") 	
 	//@Mapping(target = "importe", source = "capital")
 	//@Mapping(target = "intereses", source = "interes")
-	@Mapping(target = "importe", expression = "java( dto.getCapital().add(dto.getInteres())  )")
-	@Mapping(target = "intereses", source = "interesEmpleadores")	
+	@Mapping(target = "importe", source = "capital")
+	@Mapping(target = "intereses", expression = "java( dto.getInteres().add(dto.getInteresEmpleadores())  )")
 	ConvenioActaDeudaDto run8 ( ActaMolineros dto);
 		
 	
