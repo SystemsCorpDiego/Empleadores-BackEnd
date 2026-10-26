@@ -20,4 +20,6 @@ public interface AjusteStorage {
 	public void generarAjusteAutomaticoIPF(String p_aporte, Integer p_empresa_id);
 	
 	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustes(Integer empresaId, String entidad);
+	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustesUltimoAnio(Integer empresaId, String entidad);
+	
 }

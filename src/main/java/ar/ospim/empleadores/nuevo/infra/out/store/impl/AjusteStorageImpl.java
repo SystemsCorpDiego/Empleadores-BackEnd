@@ -106,4 +106,7 @@ public class AjusteStorageImpl  implements AjusteStorage {
 		return repository.getGestionDeudaAjustes(empresaId, entidad);
 	}
 	
+	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustesUltimoAnio(Integer empresaId, String entidad) {
+		return repository.getGestionDeudaAjustesUltimoAnio(empresaId, entidad);
+	}
 }

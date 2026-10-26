@@ -1,23 +1,15 @@
 package ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.ospim.empleadores.auth.jwt.dominio.TokenDownloadBo;
-import ar.ospim.empleadores.auth.jwt.dominio.TokenTipoEnum;
-import ar.ospim.empleadores.auth.jwt.infra.output.token.TokenUtils;
-import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaImprimirService;
+import ar.ospim.empleadores.nuevo.app.servicios.ajuste.AjusteService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaAjustesDto;
 import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.dto.GestionDeudaDDJJDto;
@@ -29,7 +21,6 @@ import ar.ospim.empleadores.nuevo.infra.input.rest.app.deuda.mapper.DeudaMapper;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.querys.ActaMolinerosI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @RestController
@@ -37,6 +28,7 @@ import net.sf.jasperreports.engine.JRException;
 public class DeudaController {
 
 	private final  DeudaService deudaService;
+	private final AjusteService ajusteService;
 	private final  DeudaMapper mapper;
 	
 	
@@ -74,16 +66,16 @@ public class DeudaController {
 			lst2 = new ArrayList<GestionDeudaDDJJDto>();
 		
 		rta.setDeclaracionesJuradas( lst2  );
-		//rta.setDeclaracionesJuradas( mapper.runNomina2(deudaService.getDDJJDto(empresaId, entidadCodigo))  );
 		
-		List<IGestionDeudaAjustesDto> iLst =  deudaService.getAjustesDto(empresaId, entidadCodigo);
+		List<IGestionDeudaAjustesDto> iLst =  deudaService.getAjustesDtoUltimoAnio(empresaId, entidadCodigo);
 		List<GestionDeudaAjustesDto> lst3 = mapper.run2(iLst);
 		
 		for(GestionDeudaAjustesDto reg :  lst3) {
 			reg.setImporte( reg.getImporte( ).multiply( BigDecimal.valueOf(-1)) );
+			reg.setMotivo( ajusteService.getMotivoDescripcion( reg.getMotivo() ));
 		}
 		
-		rta.setSaldosAFavor( lst3  );
+		rta.setSaldosAFavor( lst3 );
 		
 		return ResponseEntity.ok( rta );
 	}

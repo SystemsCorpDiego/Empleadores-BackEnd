@@ -49,6 +49,10 @@ public interface AjusteRepository  extends JpaRepository<Ajuste, Integer> {
 			nativeQuery = true)
 	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustes(Integer empresaId, String entidad);
 	
+	@Query(value =" select * FROM fGestion_deuda_ajuste_consul( :empresaId, :entidad) where vigencia > DATE_TRUNC('day', (now()- INTERVAL '1 year')) ", 
+			nativeQuery = true)
+	public List<IGestionDeudaAjustesDto> getGestionDeudaAjustesUltimoAnio(Integer empresaId, String entidad);
+	
 	@Transactional 
 	@Modifying(clearAutomatically = true)
 	@Procedure(value = "Ajuste.generarAjusteAutomaticoIPF")

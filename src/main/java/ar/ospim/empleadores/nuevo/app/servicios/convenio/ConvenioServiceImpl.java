@@ -16,6 +16,7 @@ import ar.ospim.empleadores.comun.dates.DateTimeProvider;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.comun.seguridad.UsuarioInfo;
 import ar.ospim.empleadores.exception.CommonEnumException;
+import ar.ospim.empleadores.nuevo.app.servicios.ajuste.AjusteService;
 import ar.ospim.empleadores.nuevo.app.servicios.deuda.DeudaService;
 import ar.ospim.empleadores.nuevo.app.servicios.mail.MailService;
 import ar.ospim.empleadores.nuevo.app.servicios.usuario.UsuarioMailGet;
@@ -81,6 +82,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 	private final MailService mailService;
 	private final UsuarioMailGet usuarioMailGet;
 	private final ConvenioImprimirService convenioImprimirService;
+	private final AjusteService ajusteService;
 	
 	public Convenio cambiarEstado(Integer empresaId, Integer convenioId, String estado) {		
 		//TODO: faltaria validar EmpresaId
@@ -129,7 +131,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 
 	
 	public ConvenioDeudaDto getConvenioDeudaDto(Convenio convenio) {
-		ConvenioDeudaDto rta = mapper.run3(convenio);
+		ConvenioDeudaDto rta = mapper.run3(convenio);		
 		
 		rta.setDeclaracionesJuradas( convenioDeudaMapper.run2(convenio.getPeriodos() ) );
 		
@@ -152,6 +154,13 @@ public class ConvenioServiceImpl implements ConvenioService {
 			reg.setPeriodos(periodosAux);
 		}
 		
+		
+		if ( rta.getSaldosAFavor()!=null && rta.getSaldosAFavor().size()>0 ) {
+			for ( ConvenioAjusteDeudaDto regAjuste : rta.getSaldosAFavor()) {
+				regAjuste.setMotivo( ajusteService.getMotivoDescripcion( regAjuste.getMotivo() )  );
+			}
+		}
+				
 		List<IGestionDeudaAjustesDto>  lstAjustes = deudaService.getAjustesDto(convenio.getEmpresa().getId(), convenio.getEntidad());
 		if ( lstAjustes != null && lstAjustes.size()>0 ) {
 			if ( rta.getSaldosAFavor() == null )
@@ -160,6 +169,7 @@ public class ConvenioServiceImpl implements ConvenioService {
 			for ( ConvenioAjusteDeudaDto reg : lstAjustesPosibles) {
 				reg.setConvenioAjusteId(null);
 				rta.getSaldosAFavor().add(reg);
+				reg.setMotivo( ajusteService.getMotivoDescripcion( reg.getMotivo() )  );
 			}
 		}
 		

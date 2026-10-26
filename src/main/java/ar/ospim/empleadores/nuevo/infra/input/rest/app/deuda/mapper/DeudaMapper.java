@@ -23,9 +23,9 @@ public interface DeudaMapper {
 	@Mapping(target = "nroActa", source = "numero")
 	@Mapping(target = "estadoDeuda", source = "estado")
 	@Mapping(target = "fechaActa", source = "fecha")
-	@Mapping(target = "importe", source = "capital")
-	//@Mapping(target = "importe", expression = "java( reg.getCapital().add(reg.getInteres())  )")
-	@Mapping(target = "intereses", expression = "java( reg.getInteres_Empleadores().add(reg.getInteres())  )" )	
+	//@Mapping(target = "importe", source = "capital")
+	@Mapping(target = "importe", expression = "java( reg.getCapital().add(reg.getInteres())  )")
+	@Mapping(target = "intereses", source = "interes_Empleadores" )	
 	GestionDeudaActaDto run(ActaMolinerosI reg);
 	
 	List<GestionDeudaActaDto> run(List<ActaMolineros> lst);	
@@ -58,6 +58,8 @@ public interface DeudaMapper {
 	
 	List<GestionDeudaAjustesDto> run2( List<IGestionDeudaAjustesDto> lst);
 	
+	
+	//GestionDeudaAjustesDto run2( IGestionDeudaAjustesDto lst);
 	
 	@Mapping(target = "id", source = "idString")
 	GestionDeudaDDJJDto runCastIdString(GestionDeudaDDJJDto reg);

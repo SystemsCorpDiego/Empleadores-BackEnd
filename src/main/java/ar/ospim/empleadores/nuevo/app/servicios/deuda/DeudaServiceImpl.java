@@ -96,6 +96,19 @@ public class DeudaServiceImpl implements DeudaService {
 		
 		return ajusteStorage.getGestionDeudaAjustes(empresaId, entidad);
 	}
+	
+	public List<IGestionDeudaAjustesDto>  getAjustesDtoUltimoAnio(Integer empresaId, String entidad) {
+		Optional<EmpresaBO> empresa = empresaStorage.findById(empresaId);
+		if ( empresa.isEmpty()  ) {
+			String errorMsg = messageSource.getMessage(CommonEnumException.REGISTRO_INEXISTENTE_ID.getMsgKey(), null, new Locale("es"));
+			throw new BusinessException(CommonEnumException.REGISTRO_INEXISTENTE_ID.name(), 
+					String.format(errorMsg, empresaId)  );
+		}
+		
+		deudaStorage.actualizarCuit(empresa.get().getCuit());	
+		
+		return ajusteStorage.getGestionDeudaAjustesUltimoAnio(empresaId, entidad);
+	}
  	 
 	public List<IDeudaNominaDescargaDto> getDeudaNominaAll() {
 		return deudaNominaRepository.getDeudaNominaAll();

@@ -18,6 +18,7 @@ public interface DeudaService {
 	public List<IGestionDeudaDDJJDto>  getDDJJDto(Integer empresaId, String entidad);	 
 	
 	public List<IGestionDeudaAjustesDto>  getAjustesDto(Integer empresaId, String entidad);	 
+	public List<IGestionDeudaAjustesDto>  getAjustesDtoUltimoAnio(Integer empresaId, String entidad);
 	
 	public List<IDeudaNominaDescargaDto> getDeudaNominaAll();
 	
