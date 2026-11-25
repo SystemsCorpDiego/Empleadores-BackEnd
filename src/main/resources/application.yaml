@@ -34,7 +34,7 @@ spring:
       #password: bvgfwlhaygfnuxmw
       username: noresponder@uoma.org.ar      
       password: ecvtpakrnwtmdfys
-      testing-mailTo: bueno.diego.sc@gmail.com
+      #testing-mailTo: bueno.diego.sc@gmail.com
 #      username: mailprueba038@gmail.com
 #      password: hlzcllevrqvrxqhp
       protocol: smtp
@@ -129,11 +129,11 @@ app:
          #cc: buenodiegomartin@gmail.com
    cron:
       habilitado: false
-      #// Ejecuta cada 10 minutos entre las 00:00 y las 05:50 hs, todos los días.
+      #// Ejecuta cada 10 minutos entre las 07:00 y las 10:00 hs, todos los días.
       #// 0 (segundos) 0/10 (cada 10 minutos) 0-5 (de 0 a 5hs) * (todos los dias) * (todos los meses) * (todos los dias de la semana)
-      #frecuencia: 0 0/10 0-5 * * *
+      frecuencia: 0 0/10 7-10 * * *
       #// Ejecuta cada 5 minutos entre las 11:00 y las 15:00 hs, todos los días.
-      frecuencia: 0 0/5 11-17 * * *
+      #frecuencia: 0 0/5 11-17 * * *
 
 getwayPago:
    pagoMisCuentas:
