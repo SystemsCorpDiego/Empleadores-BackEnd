@@ -75,8 +75,7 @@ public class MailTipoConfiguracionServiceImpl implements MailTipoConfiguracionSe
 			throw new BusinessException(CommonEnumException.REGISTRO_DUPLICADO.name(), errorMsg );
 		}
 		
-		if ( !mailTipoConfigValidarCuerpoMail.run(reg.getMailId(), reg.getCuerpoMail()) ) {
-			
+		if ( !mailTipoConfigValidarCuerpoMail.run(reg.getMailId(), reg.getAsuntoMail(), reg.getCuerpoMail()) ) {
 			errorMsg = messageSource.getMessage(CommonEnumException.ATRIBUTO_OBLIGADO.getMsgKey(), null, new Locale("es"));
 			throw new BusinessException(CommonEnumException.ATRIBUTO_OBLIGADO.name(), String.format(errorMsg,  mailTipoConfigValidarCuerpoMail.getVariables(reg.getMailId()) ) );
 		}

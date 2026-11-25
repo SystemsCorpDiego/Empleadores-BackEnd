@@ -10,4 +10,5 @@ import lombok.ToString;
 public class EntidadBO {
 	private String codigo;
 	private String descripcion;	
+	private String cuit;
 }

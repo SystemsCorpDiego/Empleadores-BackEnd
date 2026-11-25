@@ -19,6 +19,7 @@ public class EntidadServiceImpl implements EntidadService {
 			reg = new EntidadBO() ;
 			reg.setCodigo(entidadEnum.getCodigo());
 			reg.setDescripcion(entidadEnum.getDescripcion());
+			reg.setCuit(entidadEnum.getCuit());
 			lst.add(reg); 
 		}
 		return lst;

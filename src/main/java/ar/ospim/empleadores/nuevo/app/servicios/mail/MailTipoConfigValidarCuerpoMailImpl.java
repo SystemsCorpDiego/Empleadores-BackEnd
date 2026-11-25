@@ -9,26 +9,30 @@ public class MailTipoConfigValidarCuerpoMailImpl implements MailTipoConfigValida
 
 	
 	@Override
-	public boolean run(Integer mailTipo, String cuerpo) {
-		
-		if ( MailEnum.DDJJ_PENDIENTE.getId().equals(mailTipo)) {			
-			if ( cuerpo.indexOf("{{cuit}}") == -1 || 
-				 cuerpo.indexOf("{{razon_social}}") == -1 ||
-				 cuerpo.indexOf("{{periodo}}") == -1 ) {
+	public boolean run(Integer mailTipo, String asunto, String cuerpo) {
+
+		if ( MailEnum.DDJJ_PENDIENTE.getId().equals(mailTipo)) {
+			if ( !contiene(asunto, cuerpo, "{{cuit}}") ||
+				 !contiene(asunto, cuerpo, "{{razon_social}}") ||
+				 !contiene(asunto, cuerpo, "{{periodo}}") ) {
 				return false;
-			}		
+			}
 		}
-		
+
 		if ( MailEnum.AVISO_DEUDA.getId().equals(mailTipo)) {
-			if ( cuerpo.indexOf("{{cuit}}") == -1 || 
-				 cuerpo.indexOf("{{razon_social}}") == -1 ||
-				 cuerpo.indexOf("{{capital}}") == -1 || 
-				 cuerpo.indexOf("{{interes}}") == -1 ) {
+			if ( !contiene(asunto, cuerpo, "{{cuit}}") ||
+				 !contiene(asunto, cuerpo, "{{razon_social}}") ||
+				 !contiene(asunto, cuerpo, "{{capital}}") ||
+				 !contiene(asunto, cuerpo, "{{interes}}") ) {
 				return false;
-			}					
+			}
 		}
-		
-		return true;		
+
+		return true;
+	}
+
+	private boolean contiene(String asunto, String cuerpo, String variable) {
+		return asunto.indexOf(variable) != -1 || cuerpo.indexOf(variable) != -1;
 	}
 	
 	@Override

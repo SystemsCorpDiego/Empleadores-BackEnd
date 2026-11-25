@@ -254,7 +254,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			return mailTipoConfigBO;
 		}
 		
-		if( !mailTipoConfigValidarCuerpoMail.run(mailId, mailTipoConfigBO.get().getCuerpoMail()) ) {
+		if( !mailTipoConfigValidarCuerpoMail.run(mailId, mailTipoConfigBO.get().getAsuntoMail(), mailTipoConfigBO.get().getCuerpoMail()) ) {
 			log.debug("Scheduler - " +MailEnum.map(mailId).getDescripcion()+ " - SIN PROCESAR - Plantilla de Cuerpo de Mail con variables mal configuradas. Se debe incluir: " + mailTipoConfigValidarCuerpoMail.getVariables(mailId) );			
 		}
 		

@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import ar.ospim.empleadores.auth.dfa.infra.output.CypherStorageImpl;
 import ar.ospim.empleadores.comun.exception.BusinessException;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoCalcularVtoService;
 import ar.ospim.empleadores.nuevo.app.servicios.boleta.BoletaPagoEnumException;
@@ -20,7 +21,9 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.AporteVencimientoRe
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AfipVencimiento;
 import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.AporteVencimiento;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class BoletaPagoCalcularVtoServiceImpl implements BoletaPagoCalcularVtoService {
@@ -33,6 +36,7 @@ public class BoletaPagoCalcularVtoServiceImpl implements BoletaPagoCalcularVtoSe
 	@Override
 	public LocalDate run(String aporte, String cuit, LocalDate periodo) {
 		List<FeriadoBO> feriados = feriadoService.getFeriadosDesde(periodo);
+		log.error( "feriados: " + feriados.toString() );
 		
 		LocalDate fechaVtoOri = getVtoOriginal(aporte, cuit, periodo, feriados);
 		 		
