@@ -186,6 +186,10 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 		}
 				
 		for (MailTipoDdjjPendienteBO reg : lst) {
+			String asuntoMail = mailTipoConfigBO.get().getAsuntoMail().replace("{{periodo}}", reg.getPeriodo() );
+			asuntoMail = asuntoMail.replace("{{cuit}}", reg.getCuit() );
+			asuntoMail = asuntoMail.replace("{{razon_social}}", reg.getRazonSocial() );
+			
 			String cuerpoMail = mailTipoConfigBO.get().getCuerpoMail().replace("{{periodo}}", reg.getPeriodo() );
 			cuerpoMail = cuerpoMail.replace("{{cuit}}", reg.getCuit() );
 			cuerpoMail = cuerpoMail.replace("{{razon_social}}", reg.getRazonSocial() );
@@ -200,7 +204,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//genero Mail
 			MailTipoEnvio mailLog = new MailTipoEnvio();
 			try {
-				mailService.runMailDeudaNotif(reg.getEmail(), mailTipoConfigBO.get().getAsuntoMail(), cuerpoMail);
+				mailService.runMailDeudaNotif(reg.getEmail(), asuntoMail, cuerpoMail);
 				mailLog.setEstado("OK");
 			} catch ( Exception e) {
 				mailLog.setEstado("ERROR: " + e.toString() );

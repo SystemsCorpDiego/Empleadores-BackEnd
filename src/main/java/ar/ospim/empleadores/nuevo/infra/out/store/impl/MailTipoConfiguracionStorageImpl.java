@@ -44,9 +44,10 @@ public class MailTipoConfiguracionStorageImpl implements MailTipoConfiguracionSt
 	
 	@Override
 	public Optional<MailTipoConfiguracionBO> findVigente(Integer mailId) {
+		
 		Optional<MailTipoConfiguracion> cons = repository.findVigente(mailId);
 		if (cons.isEmpty())
-			return Optional.ofNullable( new MailTipoConfiguracionBO() );
+			return Optional.empty();
 		
 		return Optional.ofNullable(mapper.map(cons.get()));
 	}

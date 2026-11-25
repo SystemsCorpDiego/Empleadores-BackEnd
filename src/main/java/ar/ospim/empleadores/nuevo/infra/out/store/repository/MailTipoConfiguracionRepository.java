@@ -14,8 +14,8 @@ import ar.ospim.empleadores.nuevo.infra.out.store.repository.entity.MailTipoConf
 public interface MailTipoConfiguracionRepository extends JpaRepository<MailTipoConfiguracion, Integer> {
 
 
-	@Query("select c from MailTipoConfiguracion c where c.mailId = :mailId and c.id = "
-			+ "(select max(c2.id) from MailTipoConfiguracion c2 where c2.mailId = c.mailId )")
+	@Query("select c from MailTipoConfiguracion c where c.mailId = :mailId and c.habilitado = true and c.id = "
+			+ "(select max(c2.id) from MailTipoConfiguracion c2 where c2.mailId = c.mailId and c2.habilitado = true )")
 	public Optional<MailTipoConfiguracion> findVigente(@Param("mailId") Integer mailId);
 
 	
