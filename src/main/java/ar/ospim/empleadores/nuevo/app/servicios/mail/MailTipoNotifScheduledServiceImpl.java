@@ -152,8 +152,8 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//genero Mail
 			MailTipoEnvio mailLog = new MailTipoEnvio();
 			try {
-				mailService.runMailDdjjPendienteNotif(empresaDeuda.getEmail(), mailTipoConfigBO.get().getAsuntoMail(), cuerpoMail);
 				mailLog.setEstado("OK");
+				mailService.runMailDeudaNotif(empresaDeuda.getEmail(), mailTipoConfigBO.get().getAsuntoMail(), cuerpoMail);
 			} catch ( Exception e) {
 				mailLog.setEstado("ERROR: " + e.toString() );
 			}
@@ -204,7 +204,7 @@ public class MailTipoNotifScheduledServiceImpl implements MailTipoNotifScheduled
 			//genero Mail
 			MailTipoEnvio mailLog = new MailTipoEnvio();
 			try {
-				mailService.runMailDeudaNotif(reg.getEmail(), asuntoMail, cuerpoMail);
+				mailService.runMailDdjjPendienteNotif(reg.getEmail(), asuntoMail, cuerpoMail);
 				mailLog.setEstado("OK");
 			} catch ( Exception e) {
 				mailLog.setEstado("ERROR: " + e.toString() );
